@@ -10,8 +10,10 @@ use yii\widgets\ActiveForm;
 
 <div class="user-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
+    <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
+    
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'auth_key')->textInput(['maxlength' => 32]) ?>

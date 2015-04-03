@@ -31,6 +31,12 @@ class User extends ActiveRecord implements IdentityInterface
     const ROLE_USER = 3;
 
     /**
+     * @var UploadedFile|Null file attribute
+     */
+    public $image;
+
+
+    /**
      * @param bool $with_key
      * @return array
      */
@@ -92,6 +98,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [
+                'image',
+                'file',
+                'extensions' => 'gif, jpg, png',
+                'mimeTypes' => 'image/jpeg, image/png',
+                'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+            ],
             ['username', 'filter', 'filter' => 'trim'], 
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
@@ -103,7 +117,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => self::getStatusAsArray(false)],
             ['role', 'default', 'value' => self::ROLE_USER],
-            ['status', 'in', 'range' => self::getRoleAsArray(false)],
+            ['role', 'in', 'range' => self::getRoleAsArray(false)],
         ];
     }
 

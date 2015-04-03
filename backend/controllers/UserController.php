@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * UserController implements the CRUD actions for User model.
@@ -91,13 +92,33 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            // read image file param
+            $file = UploadedFile::getInstance($model, 'image');
+
+            // image processing
+            if ($file) {
+                $folder = 'img/user/' . $model->id . '/';
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0777, true);
+                } else {
+                    // delete current images
+                    $_folder = Yii::$app->getBasePath() . '/../backend/web/' . $folder;
+                    if (file_exists($_folder)) {
+                        array_map('unlink', glob($_folder . '*{jpeg}', GLOB_BRACE));
+                    }
+                }
+                $original = $folder . $file->baseName . '.' . $file->extension;
+                $file->saveAs($original);
+            }
+            if ($model->save()){
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
