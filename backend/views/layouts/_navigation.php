@@ -36,17 +36,7 @@ switch (Yii::$app->user->identity->role) {
         $items = [
             [
                 'label' => '<i class="fa fa-gear fa-fw"></i>',
-                'items' => [
-                    [
-                        'label' => 'Site Setting',
-                        'url' => ['/vendor/index']
-                    ],
-                    '<li class="divider"></li>',
-                    [
-                        'label' => 'General Setting',
-                        'url' => ['/inbox/index']
-                    ]
-                ]
+                'url' => ['/setting/index']
             ],
             [
                 'label' => '<i class="fa fa-envelope fa-fw"></i>',
@@ -62,12 +52,12 @@ switch (Yii::$app->user->identity->role) {
                 'label' => '<i class="fa fa-user fa-fw"></i>',
                 'items' => [
                     [
-                        'label' => 'User Profile',
+                        'label' => Yii::$app->user->identity->username,
                         'url' => ['/user/view?id='.Yii::$app->user->getId()],
-                        'linkOptions' => ['data-method' => 'post']
                     ],
+                    '<li class="divider"></li>',    
                     [
-                        'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                        'label' => 'Logout',
                         'url' => ['/site/logout'],
                         'linkOptions' => ['data-method' => 'post']
                     ]

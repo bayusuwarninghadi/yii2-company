@@ -2,11 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use common\models\User;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
 
-$this->title = $model->id;
+$this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -25,19 +26,25 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
+    <?php
+    $status = User::getStatusAsArray();
+    $role = User::getRoleAsArray();
+
+    echo DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'id',
             'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
             'email:email',
-            'status',
-            'role',
-            'created_at',
-            'updated_at',
+            [
+                'label' => 'Status',
+                'value' => $status[$model->status]
+            ],
+            [
+                'label' => 'role',
+                'value' => $role[$model->role]
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

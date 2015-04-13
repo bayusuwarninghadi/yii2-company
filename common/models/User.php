@@ -44,14 +44,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $return = ($with_key == true)
             ? [
-                self::ROLE_USER => 'User',
-                self::ROLE_ADMIN => 'Admin',
-                self::ROLE_SUPER_ADMIN => 'Super Admin',
+                static::ROLE_USER => 'User',
+                static::ROLE_ADMIN => 'Admin',
+                static::ROLE_SUPER_ADMIN => 'Super Admin',
             ]
             : [
-                self::ROLE_USER,
-                self::ROLE_ADMIN,
-                self::ROLE_SUPER_ADMIN,
+                static::ROLE_USER,
+                static::ROLE_ADMIN,
+                static::ROLE_SUPER_ADMIN,
             ];
         return $return;
     }
@@ -64,12 +64,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $return = ($with_key == true)
             ? [
-                self::STATUS_INACTIVE => 'Inactive',
-                self::STATUS_ACTIVE => 'Active',
+                static::STATUS_INACTIVE => 'Inactive',
+                static::STATUS_ACTIVE => 'Active',
             ]
             : [
-                self::STATUS_INACTIVE,
-                self::STATUS_ACTIVE,
+                static::STATUS_INACTIVE,
+                static::STATUS_ACTIVE,
             ];
         return $return;
     }
@@ -114,10 +114,10 @@ class User extends ActiveRecord implements IdentityInterface
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => self::getStatusAsArray(false)],
-            ['role', 'default', 'value' => self::ROLE_USER],
-            ['role', 'in', 'range' => self::getRoleAsArray(false)],
+            ['status', 'default', 'value' => static::STATUS_ACTIVE],
+            ['status', 'in', 'range' => static::getStatusAsArray(false)],
+            ['role', 'default', 'value' => static::ROLE_USER],
+            ['role', 'in', 'range' => static::getRoleAsArray(false)],
         ];
     }
 
@@ -126,7 +126,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['id' => $id, 'status' => static::STATUS_ACTIVE]);
     }
 
     /**
@@ -145,7 +145,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['username' => $username, 'status' => static::STATUS_ACTIVE]);
     }
 
     /**
@@ -162,7 +162,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'password_reset_token' => $token,
-            'status' => self::STATUS_ACTIVE,
+            'status' => static::STATUS_ACTIVE,
         ]);
     }
 

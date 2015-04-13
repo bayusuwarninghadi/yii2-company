@@ -34,12 +34,12 @@ class Article extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                self::STATUS_INACTIVE => 'Inactive',
-                self::STATUS_ACTIVE => 'Active',
+                static::STATUS_INACTIVE => 'Inactive',
+                static::STATUS_ACTIVE => 'Active',
             ]
             : [
-                self::STATUS_INACTIVE,
-                self::STATUS_ACTIVE,
+                static::STATUS_INACTIVE,
+                static::STATUS_ACTIVE,
             ];
         return $return;
     }

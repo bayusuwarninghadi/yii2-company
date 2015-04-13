@@ -73,13 +73,30 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()){
+                $file = UploadedFile::getInstance($model, 'image');
+                // image processing
+                if ($file) {
+                    $folder = 'img/user/' . $model->id . '/';
+                    if (!file_exists($folder)) {
+                        mkdir($folder, 0777, true);
+                    } else {
+                        // delete current images
+                        $_folder = Yii::$app->getBasePath() . '/../backend/web/' . $folder;
+                        if (file_exists($_folder)) {
+                            array_map('unlink', glob($_folder . '*', GLOB_BRACE));
+                        }
+                    }
+                    $original = $folder . $file->baseName . '.' . $file->extension;
+                    $file->saveAs($original);
+                }
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -105,7 +122,7 @@ class UserController extends Controller
                     // delete current images
                     $_folder = Yii::$app->getBasePath() . '/../backend/web/' . $folder;
                     if (file_exists($_folder)) {
-                        array_map('unlink', glob($_folder . '*{jpeg}', GLOB_BRACE));
+                        array_map('unlink', glob($_folder . '*', GLOB_BRACE));
                     }
                 }
                 $original = $folder . $file->baseName . '.' . $file->extension;

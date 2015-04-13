@@ -6,6 +6,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use common\models\LoginForm;
 use yii\filters\VerbFilter;
+use common\models\Request;
 
 /**
  * Site controller
@@ -55,7 +56,13 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+        $chart = Request::chartOptions();
+        // echo "<pre>";
+        // print_r(Request::chartOptions());
+        // die();
+        return $this->render('index',[
+            'chart' => $chart
+        ]);
     }
 
     public function actionLogin()
