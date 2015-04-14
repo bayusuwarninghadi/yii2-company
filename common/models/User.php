@@ -46,12 +46,10 @@ class User extends ActiveRecord implements IdentityInterface
             ? [
                 static::ROLE_USER => 'User',
                 static::ROLE_ADMIN => 'Admin',
-                static::ROLE_SUPER_ADMIN => 'Super Admin',
             ]
             : [
                 static::ROLE_USER,
                 static::ROLE_ADMIN,
-                static::ROLE_SUPER_ADMIN,
             ];
         return $return;
     }
@@ -64,12 +62,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $return = ($with_key == true)
             ? [
-                static::STATUS_INACTIVE => 'Inactive',
                 static::STATUS_ACTIVE => 'Active',
+                static::STATUS_INACTIVE => 'Inactive',
             ]
             : [
-                static::STATUS_INACTIVE,
                 static::STATUS_ACTIVE,
+                static::STATUS_INACTIVE,
             ];
         return $return;
     }
@@ -110,7 +108,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'unique', 'message' => 'This username has already been taken.'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
             ['email','email'],
-            [['username', 'auth_key', 'password_hash', 'email', 'created_at', 'updated_at'], 'required'],
+            [['username', 'email'], 'required'],
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],

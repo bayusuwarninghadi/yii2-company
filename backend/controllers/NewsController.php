@@ -76,7 +76,7 @@ class NewsController extends Controller
         $model = new Article();
         $model->type_id = Article::TYPE_NEWS;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['/article/view', 'id' => $model->id]);
+            return $this->redirect(['/news/view', 'id' => $model->id]);
         } else {
             return $this->render('/article/create', [
                 'model' => $model,
@@ -98,7 +98,7 @@ class NewsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_NEWS;
             if ($model->save()) {
-                return $this->redirect(['/article/view', 'id' => $model->id]);                
+                return $this->redirect(['/news/view', 'id' => $model->id]);                
             }
         }
         return $this->render('/article/update', [

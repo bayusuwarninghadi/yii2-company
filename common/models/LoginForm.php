@@ -50,16 +50,22 @@ class LoginForm extends Model
 
     /**
      * Logs in a user using the provided username and password.
-     *
+     * If role as user && cms, return false
+     * 
      * @return boolean whether the user is logged in successfully
      */
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-        } else {
-            return false;
+            $_user = $this->getUser();
+
+            if (Yii::$app->id == 'app-backend' && $_user->role == User::ROLE_USER){
+                return false;
+            }
+            
+            return Yii::$app->user->login($_user, $this->rememberMe ? 3600 * 24 * 30 : 0);
         }
+        return false;
     }
 
     /**
@@ -70,7 +76,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsername($this->username);;
         }
 
         return $this->_user;

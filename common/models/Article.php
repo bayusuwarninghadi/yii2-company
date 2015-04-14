@@ -68,9 +68,12 @@ class Article extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'type_id', 'created_at', 'updated_at'], 'required'],
+            [['title', 'description', 'type_id'], 'required'],
             [['description'], 'string'],
             [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
+            [['order'], 'default', 'value' => 0],
+            ['status', 'default', 'value' => static::STATUS_ACTIVE],
+            ['status', 'in', 'range' => static::getStatusAsArray(false)],
             [['title'], 'string', 'max' => 255]
         ];
     }

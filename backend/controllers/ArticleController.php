@@ -75,14 +75,15 @@ class ArticleController extends Controller
     {
         $model = new Article();
         $model->type_id = Article::TYPE_ARTICLE;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['/article/view', 'id' => $model->id]);
-        } else {
-            return $this->render('/article/create', [
-                'model' => $model,
-                'type' => 'Article'
-            ]);
         }
+
+        return $this->render('/article/create', [
+            'model' => $model,
+            'type' => 'Article'
+        ]);
     }
 
     /**

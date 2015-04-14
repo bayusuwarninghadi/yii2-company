@@ -22,12 +22,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'panelBefore' => Html::a('Create New', ['create'], ['class' => 'btn btn-success']),
         'columns' => [
-            'id',
             'title',
-            'status',
-            'order',
-            'created_at:date',
-
+            [
+                'attribute' => 'order',
+                'options' => [
+                    'style' => 'width:70px;'
+                ]
+            ],
+            [
+                'attribute' => 'created_at',
+                'options' => [
+                    'style' => 'width:110px;'
+                ],
+                'format' => 'date'
+            ],
             ['class' => 'backend\widget\ActionColumn'],
         ],
     ]); 

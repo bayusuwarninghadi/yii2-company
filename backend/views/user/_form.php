@@ -17,6 +17,8 @@ use common\models\User;
     
     <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
 
+    <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
+
     <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
 
     <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>

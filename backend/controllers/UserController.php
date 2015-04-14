@@ -74,6 +74,8 @@ class UserController extends Controller
         $model = new User();
 
         if ($model->load(Yii::$app->request->post())) {
+            $model->setPassword($this->password);
+            $model->generateAuthKey();
             if ($model->save()){
                 $file = UploadedFile::getInstance($model, 'image');
                 // image processing

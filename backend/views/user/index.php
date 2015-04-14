@@ -25,12 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'panelBefore' => Html::a('Create New', ['create'], ['class' => 'btn btn-success']),
         'columns' => [
-            'id',
             'username',
             'email:email',
             [
                 'attribute' => 'status',
                 'filter' => User::getStatusAsArray(),
+                'options' => [
+                    'style' => 'width:100px;'
+                ],
                 'value' => function($data){
                     $types = User::getStatusAsArray();
                     return $types[$data->status];
@@ -39,12 +41,21 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'role',
                 'filter' => User::getRoleAsArray(),
+                'options' => [
+                    'style' => 'width:100px;'
+                ],
                 'value' => function($data){
                     $types = User::getRoleAsArray();
                     return $types[$data->role];
                 }
             ],
-            'created_at:date',
+            [
+                'attribute' => 'created_at',
+                'options' => [
+                    'style' => 'width:110px;'
+                ],
+                'format' => 'date'
+            ],
 
             ['class' => 'backend\widget\ActionColumn'],
         ],

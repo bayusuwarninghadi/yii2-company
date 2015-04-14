@@ -69,6 +69,8 @@ class UserSearch extends User
             ->andFilterWhere(['like', 'password_reset_token', $this->password_reset_token])
             ->andFilterWhere(['like', 'email', $this->email]);
 
+        $query->andWhere('role <> :role', [':role' => User::ROLE_SUPER_ADMIN]);
+
         return $dataProvider;
     }
 }
