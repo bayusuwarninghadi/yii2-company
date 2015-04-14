@@ -10,7 +10,7 @@ NavBar::begin([
     'brandUrl' => Yii::$app->homeUrl,
     'renderInnerContainer' => false,
     'options' => [
-        'class' => 'navbar-default navbar-static-top navbar',
+        'class' => 'navbar-inverse navbar-static-top navbar',
     ],
 ]);
 

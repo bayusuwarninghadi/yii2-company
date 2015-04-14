@@ -15,7 +15,7 @@ return [
         'tiny-mce' => [
             'options' => [
                 'class' => 'form-control tinymce',
-                'readonly' => 'readonly'
+                'readonly' => 'readonly',
             ],
             'configs' => [
                 'plugins' => 'link fullscreen image pagebreak paste',

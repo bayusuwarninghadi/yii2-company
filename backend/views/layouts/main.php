@@ -27,10 +27,12 @@ AppAsset::register($this);
         }
         ?>
         <div id="page-wrapper">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= $content ?>
+            <?= Breadcrumbs::widget([
+                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            ]) ?>
+            <div class="main-container">
+                <?= $content ?>
+            </div>
         </div>
     </div>
     <?php $this->endBody() ?>

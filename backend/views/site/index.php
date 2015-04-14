@@ -7,12 +7,13 @@ use backend\widget\chart\Morris;
 
 $this->title = 'Dashboard';
 ?>
-<h1 class="page-header"><?= Html::encode($this->title) ?></h1>
+<h1><?= Html::encode($this->title) ?></h1>
+<?=$this->render('_dashboardTop',[])?>
 <div class="panel panel-primary">
-      <div class="panel-heading">
-            <h3 class="panel-title">Api Request</h3>
-      </div>
-      <div class="panel-body">
-            <?= Morris::widget($chart)?>
-      </div>
+	<div class="panel-heading">
+		<h3 class="panel-title">Api Request</h3>
+	</div>
+	<div class="panel-body">
+	    <?= Morris::widget($chart)?>
+	</div>
 </div>

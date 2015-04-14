@@ -33,6 +33,10 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
+                    'label' => '<i class="fa fa-money fa-fw"></i> Transaction', 
+                    'url' => '/transaction/index'
+                ],
+                [
                     'label' => '<i class="fa fa-truck fa-fw"></i> Product',
                     'items' => [
                         ['label' => 'Manage Product', 'url' => ['/product']],
