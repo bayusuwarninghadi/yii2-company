@@ -26,26 +26,30 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?php
-    $status = User::getStatusAsArray();
-    $role = User::getRoleAsArray();
+    <div class="panel panel-green">
+        <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Detail</div>
+        <?php
+        $status = User::getStatusAsArray();
+        $role = User::getRoleAsArray();
 
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'username',
-            'email:email',
-            [
-                'label' => 'Status',
-                'value' => $status[$model->status]
+        echo DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'username',
+                'email:email',
+                [
+                    'label' => 'Status',
+                    'value' => $status[$model->status]
+                ],
+                [
+                    'label' => 'role',
+                    'value' => $role[$model->role]
+                ],
+                'created_at:datetime',
+                'updated_at:datetime',
             ],
-            [
-                'label' => 'role',
-                'value' => $role[$model->role]
-            ],
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]) ?>
+        ]) ?>
+    </div>
+
 
 </div>

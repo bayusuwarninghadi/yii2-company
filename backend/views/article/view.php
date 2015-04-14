@@ -25,16 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
-
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'title',
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]) ?>
-    <div class="form-group">
-        <?= Html::decode($model->description)?>
+    <div class="panel panel-green">
+        <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Detail</div>
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'title',
+                'created_at:datetime',
+                'updated_at:datetime',
+            ],
+        ]) ?>
+        <div class="panel-body">
+            <?= Html::decode($model->description)?>
+        </div>
     </div>
 </div>

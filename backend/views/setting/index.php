@@ -12,6 +12,8 @@ $this->title = 'Settings';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="setting-index">
+    <h1><?= Html::encode($this->title) ?></h1>
+
     <?php
     $form = ActiveForm::begin([
         'layout' => 'horizontal',
@@ -25,16 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hint' => '',
             ],
         ],
-    ]);
-
-    foreach ($model as $m) {
-        if ($m->readonly == Setting::READONLY_NOT) {
-           echo $form->field($m, "[$m->id]value")->textarea()->label(Inflector::camel2words($m->key, true));
-        }
-    }
-    ?>
-    <div class="form-group">
-        <div class="col-sm-push-3 col-sm-9">
+    ]);?>
+    <div class="panel panel-yellow">
+        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> Update</div>
+        <?php foreach ($model as $m) {
+            if ($m->readonly == Setting::READONLY_NOT) {
+               echo $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']])->textarea()->label(Inflector::camel2words($m->key, true));
+            }
+        }?>
+        <div class="panel-footer">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>

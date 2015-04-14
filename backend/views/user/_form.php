@@ -10,23 +10,19 @@ use common\models\User;
 ?>
 
 <div class="user-form">
-
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-
-    <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
-    
-    <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>
-
-    <?= $form->field($model, 'role')->dropDownList(User::getRoleAsArray()) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="panel panel-yellow">
+        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
+        <div class="panel-body">
+            <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
+            <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>
+            <?= $form->field($model, 'role')->dropDownList(User::getRoleAsArray()) ?>
+        </div>
+        <div class="panel-footer">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

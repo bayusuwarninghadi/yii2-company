@@ -13,22 +13,27 @@ use backend\widget\tinymce\TinyMce;
 <div class="product-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-    <div class="row">
-        <div class="col-lg-9 col-md-8">
-            <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>            
+    <div class="panel panel-yellow">
+        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
+        <div class="panel-body">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+            <div class="row">
+                <div class="col-lg-9 col-md-8">
+                    <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>            
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <?= $form->field($model, 'price')->input('number') ?>
+                    <?= $form->field($model, 'discount')->input('number') ?>
+                    <?= $form->field($model, 'stock')->input('number') ?>
+                    <?= $form->field($model, 'status')->dropDownList(Product::getStatusAsArray()) ?>
+                    <?= $form->field($model, 'visible')->dropDownList(Product::getVisibleAsArray()) ?>
+                    <?= $form->field($model, 'order')->input('number') ?>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-3 col-md-4">
-            <?= $form->field($model, 'price')->input('number') ?>
-            <?= $form->field($model, 'discount')->input('number') ?>
-            <?= $form->field($model, 'stock')->input('number') ?>
-            <?= $form->field($model, 'status')->dropDownList(Product::getStatusAsArray()) ?>
-            <?= $form->field($model, 'visible')->dropDownList(Product::getVisibleAsArray()) ?>
-            <?= $form->field($model, 'order')->input('number') ?>
+        <div class="panel-footer">
+            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-    </div>            
     <?php ActiveForm::end(); ?>
 </div>

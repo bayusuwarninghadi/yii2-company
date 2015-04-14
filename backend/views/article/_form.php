@@ -10,19 +10,17 @@ use backend\widget\tinymce\TinyMce;
 ?>
 
 <div class="article-form">
-
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce'])?>
-
-    <?= $form->field($model, 'order')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <div class="panel panel-yellow">
+        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
+        <div class="panel-body">
+		    <?= $form->field($model, 'title')->textInput(['maxlength' => 255]) ?>
+		    <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce'])?>
+		    <?= $form->field($model, 'order')->textInput() ?>
+        </div>
+        <div class="panel-footer">
+	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        </div>
     </div>
-
     <?php ActiveForm::end(); ?>
-
 </div>

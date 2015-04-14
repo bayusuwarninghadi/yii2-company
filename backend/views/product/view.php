@@ -25,34 +25,39 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+    <div class="panel panel-green">
+        <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Detail</div>
+        <?php
+        $status = Product::getStatusAsArray();
+        $visible = Product::getVisibleAsArray();
 
-    <?php
-    $status = Product::getStatusAsArray();
-    $visible = Product::getVisibleAsArray();
+        echo DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'name',
+                'price:currency',
+                [
+                    'attribute' => 'discount',
+                    'value' => $model->discount / 100,
+                    'format' => 'percent'
+                ],
+                'stock',
+                [
+                    'label' => 'Status',
+                    'value' => $status[$model->status]
+                ],
+                [
+                    'label' => 'Visible',
+                    'value' => $visible[$model->visible]
+                ],
+                'order',
+                'created_at:datetime',
+                'updated_at:datetime',
+            ],
+        ]) ?>
+        <div class="panel-body">
+            <?=Html::decode($model->description)?>
+        </div>
+    </div>
 
-    echo DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'name',
-            'price:currency',
-            [
-                'attribute' => 'discount',
-                'value' => $model->discount / 100,
-                'format' => 'percent'
-            ],
-            'stock',
-            [
-                'label' => 'Status',
-                'value' => $status[$model->status]
-            ],
-            [
-                'label' => 'Visible',
-                'value' => $visible[$model->visible]
-            ],
-            'order',
-            'created_at:datetime',
-            'updated_at:datetime',
-        ],
-    ]) ?>
-    <p><?=Html::decode($model->description)?></p>
 </div>

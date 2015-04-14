@@ -52,6 +52,8 @@ class Setting extends ActiveRecord
     {
         return [
             [['key'], 'required'],
+            ['key', 'filter', 'filter' => 'trim'], 
+            ['key', 'unique', 'message' => 'This key already exist.'],
             [['value'], 'string'],
             [['readonly'], 'integer'],
             ['readonly', 'default', 'value' => static::READONLY_NOT],

@@ -17,21 +17,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
 	<div class="setting-form">
-
 	    <?php $form = ActiveForm::begin(); ?>
-
-	    <?= $form->field($model, 'key')->textInput(['maxlength' => 255]) ?>
-
-	    <?= $form->field($model, 'value')->textarea(['rows' => 6]) ?>
-
-	    <?= $form->field($model, 'value')->dropDownList(Setting::getReadonlyAsArray()) ?>
-
-	    <div class="form-group">
-	        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	    <div class="panel panel-yellow">
+	        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> Create</div>
+	        <div class="panel-body">
+			    <?= $form->field($model, 'key')->textInput(['maxlength' => 255]) ?>
+			    <?= $form->field($model, 'value')->textarea(['rows' => 6]) ?>
+			    <?= $form->field($model, 'readonly')->dropDownList(Setting::getReadonlyAsArray()) ?>
+	        </div>
+	        <div class="panel-footer">
+		        <?= Html::submitButton('Create', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+	        </div>
 	    </div>
-
 	    <?php ActiveForm::end(); ?>
-
 	</div>
 
 </div>
