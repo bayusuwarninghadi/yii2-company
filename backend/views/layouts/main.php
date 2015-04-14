@@ -28,7 +28,12 @@ AppAsset::register($this);
         ?>
         <div id="page-wrapper">
             <?= Breadcrumbs::widget([
+                'encodeLabels' => false,
                 'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                'homeLink' => [
+                    'label' => '<i class="fa fa-home fa-fw"></i> Home',
+                    'url' => Yii::$app->homeUrl
+                ]
             ]) ?>
             <div class="main-container">
                 <?= $content ?>

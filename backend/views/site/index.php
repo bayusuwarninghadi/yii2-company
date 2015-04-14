@@ -6,6 +6,7 @@ use backend\widget\chart\Morris;
 /* @var $chart array */
 
 $this->title = 'Dashboard';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
 <?=$this->render('_dashboardTop',[])?>

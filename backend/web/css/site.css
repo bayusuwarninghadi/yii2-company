@@ -27,6 +27,9 @@ body {
     background: #282A36;
     border-radius: 0;
 }
+.breadcrumb>li+li:before {
+    color: #777;
+}
 @media(max-width:768px) {
     .site-login {
         left: 0;
@@ -38,9 +41,10 @@ body {
     #page-wrapper {
         padding: 0;
         margin: 0 0 0 200px;
+        border-left: 0;
     }
     .sidebar {
-        width: 201px;
+        width: 200px;
     }
 }
 
