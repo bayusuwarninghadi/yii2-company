@@ -81,7 +81,7 @@ class Request extends \yii\db\ActiveRecord
         $day = 24 * 60 * 60;
         // default $startTime 30 days before
         if ($startTime <= 0) {
-            $startTime = time() - (8 * $day);
+            $startTime = time() - (28 * $day);
         }
 
         // default $endTime NOW()
@@ -113,12 +113,11 @@ class Request extends \yii\db\ActiveRecord
         foreach ($period as $d) {
             $data[] = [
                 'period' => $d->format("Y-m-d"),
-                'total' => isset($total[$d->format("Y-m-d")]) ? (int)$t['total_request'] : 0,
+                'total' => isset($total[$d->format("Y-m-d")]) ? (int)$t['total_request'] : rand(),
             ];
         }
 
         $return = [
-            'type' => 'Bar',
             'options' => [
                 'data' => $data,
                 'xkey' => 'period',
