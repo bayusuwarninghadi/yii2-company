@@ -20,26 +20,27 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <div id="wrapper">
-        <?php 
-        if (!Yii::$app->user->isGuest){
-            echo $this->render('_navigation');
-        }
-        ?>
-        <div id="page-wrapper">
-            <?= Breadcrumbs::widget([
-                'encodeLabels' => false,
-                'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                'homeLink' => [
-                    'label' => '<i class="fa fa-home fa-fw"></i> Home',
-                    'url' => Yii::$app->homeUrl
-                ]
-            ]) ?>
-            <div class="main-container">
-                <?= $content ?>
+    <?php if (Yii::$app->user->isGuest) : ?>
+        <?= $content ?>
+    <?php else : ?>    
+        <div id="wrapper">
+            <?= $this->render('_navigation'); ?>
+            <div id="page-wrapper">
+                <?= Breadcrumbs::widget([
+                    'encodeLabels' => false,
+                    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                    'homeLink' => [
+                        'label' => '<i class="fa fa-home fa-fw"></i> Home',
+                        'url' => Yii::$app->homeUrl
+                    ]
+                ]) ?>
+                <div class="main-container">
+                    <?= $content ?>
+                </div>
             </div>
         </div>
-    </div>
+        <div class="footer">&copy; Copyright <?=Html::a('bay_oz', 'http://twitter.com/bay_oz')?> <?=Date('Y')?></div>      
+    <?php endif ?>
     <?php $this->endBody() ?>
 </body>
 </html>
