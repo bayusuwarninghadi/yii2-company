@@ -94,3 +94,12 @@ h1,h2,h3 {
     color: #fff;
     outline: none;
 }
+.categories-tree li .btn-group {
+    padding-left: 5px;
+    position: absolute;
+    margin-top: 40px;
+    z-index: 2;
+}
+.categories-tree li:hover > .btn-group {
+    display: inline-block !important;
+}
