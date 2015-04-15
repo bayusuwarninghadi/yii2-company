@@ -3,6 +3,12 @@ html,body {
 }
 body {
     background-color: #222;
+    font-weight: 200;
+    letter-spacing: .03em;
+}
+h1,h2,h3 {
+    font-weight: lighter;
+    letter-spacing: .04em;
 }
 .table-container {
     overflow: auto;
@@ -86,4 +92,5 @@ body {
 {
     background-color: #282A36;
     color: #fff;
+    outline: none;
 }

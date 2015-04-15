@@ -6,20 +6,18 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \common\models\LoginForm */
 
-$this->title = 'Login';
+$this->title = 'ADMIN LOGIN';
 ?>
 <div class="site-login">
-    <div class="panel panel-red">
+    <div class="text-center text-danger" style="font-size: 30px; margin: 0 0 10px"><?= Html::encode($this->title) ?></div>
+    <div class="panel panel-danger">
         <div class="panel-heading">
-            <div class="panel-header"><h4><?= Html::encode($this->title) ?></h4></div>
-        </div>
-        <div class="panel-body">
             <div class="row">
                 <div class="col-sm-4 text-center">
                     <div class="form-group">
-                        <i class="fa fa-lock fa-4x text-danger"></i>
+                        <i class="fa fa-lock fa-5x text-danger"></i>
                     </div>
-                    <p class="text-muted">Please fill out the following fields to login:</p>
+                    <p>Please fill out the following fields to login:</p>
                 </div>
                 <div class="col-sm-8">
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
