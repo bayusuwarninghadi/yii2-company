@@ -20,6 +20,7 @@
         "yiisoft/yii2-swiftmailer": "*",
         "FortAwesome/Font-Awesome": "*",
         "tinymce/tinymce": "*",
+        "creocoder/yii2-nested-sets": "*",
         "yiisoft/yii2-imagine": "*"
     },
     "require-dev": {

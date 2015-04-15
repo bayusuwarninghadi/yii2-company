@@ -21,14 +21,14 @@ use backend\widget\Sidebar;
                 [
                     'label' => '<i class="fa fa-table fa-fw"></i> Article',
                     'items' => [
-                        ['label' => 'Manage Article', 'url' => ['/article']],
+                        ['label' => 'Manage Article', 'url' => ['/article/index']],
                         ['label' => 'Create New', 'url' => ['/article/create']]
                     ]
                 ],
                 [
                     'label' => '<i class="fa fa-edit fa-fw"></i> News',
                     'items' => [
-                        ['label' => 'Manage News', 'url' => ['/news']],
+                        ['label' => 'Manage News', 'url' => ['/news/index']],
                         ['label' => 'Create New', 'url' => ['/news/create']]
                     ]
                 ],
@@ -37,16 +37,23 @@ use backend\widget\Sidebar;
                     'url' => '/transaction/index'
                 ],
                 [
+                    'label' => '<i class="fa fa-list fa-fw"></i> Category',
+                    'items' => [
+                        ['label' => 'Manage Category', 'url' => ['/category/index']],
+                        ['label' => 'Create Category', 'url' => ['/category/create']]
+                    ]
+                ],
+                [
                     'label' => '<i class="fa fa-truck fa-fw"></i> Product',
                     'items' => [
-                        ['label' => 'Manage Product', 'url' => ['/product']],
+                        ['label' => 'Manage Product', 'url' => ['/product/index']],
                         ['label' => 'Create Product', 'url' => ['/product/create']]
                     ]
                 ],
                 [
                     'label' => '<i class="fa fa-group fa-fw"></i> User',
                     'items' => [
-                        ['label' => 'Manage User', 'url' => ['/user']],
+                        ['label' => 'Manage User', 'url' => ['/user/index']],
                         ['label' => 'Create New', 'url' => ['/user/create']]
                     ]
                 ],

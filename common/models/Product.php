@@ -22,7 +22,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property ProductAttribute[] $productAttribute
+ * @property ProductAttribute $productAttribute
+ * @property Category $category
+ * @property Cart[] $carts
  */
 class Product extends ActiveRecord
 {
@@ -131,4 +133,21 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(ProductAttribute::className(), ['product_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCarts()
+    {
+        return $this->hasMany(Cart::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'cat_id']);
+    }
+
 }

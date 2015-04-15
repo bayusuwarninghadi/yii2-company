@@ -79,16 +79,16 @@ h1,h2,h3 {
     background-color: #222;
     border-bottom: none;
 }
-.sidebar ul li a:hover, 
-.sidebar ul li a:focus, 
-.sidebar ul li a:active, 
-.sidebar ul li a.active,
-.nav>li>a:hover,
-.nav>li>a:active,
-.nav>li>a:focus,
-.nav .open>a,
-.nav .open>a:focus, 
-.nav .open>a:hover
+.navbar .sidebar ul li a:hover, 
+.navbar .sidebar ul li a:focus, 
+.navbar .sidebar ul li a:active, 
+.navbar .sidebar ul li a.active,
+.navbar .nav>li>a:hover,
+.navbar .nav>li>a:active,
+.navbar .nav>li>a:focus,
+.navbar .nav .open>a,
+.navbar .nav .open>a:focus, 
+.navbar .nav .open>a:hover
 {
     background-color: #282A36;
     color: #fff;
