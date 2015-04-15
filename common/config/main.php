@@ -2,6 +2,14 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
+        'formatter' => [
+            'locale' => 'id-ID',
+            'timeZone' => 'Asia/Jakarta',
+            'dateFormat' => 'yyyy-MM-d',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => '.',
+            'currencyCode' => 'Rp ',
+        ],
         'urlManager' => [
             // here is your normal backend url manager config
             'enablePrettyUrl' => true,
