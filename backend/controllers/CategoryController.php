@@ -75,7 +75,7 @@ class CategoryController extends Controller
             } else {
                 $model->makeRoot();
             }
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['index']);
         }
         return $this->render('create', [
             'model' => $model,

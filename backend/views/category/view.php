@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attributes' => [
                 'name',
                 [
-                    'label' => 'parent',
+                    'label' => 'Parent',
                     'value' => ($parent) ? $parent->name : ''
                 ]
             ],

@@ -12,13 +12,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Category Tree</div>
+        <div class="panel-body list-group-item">
+            <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+        </div>
         <div class="category-index-tree">
-            <?=$this->render('_list',[ 'model' => $model ])?>
+            <?php if ($model) :?>
+                <?=$this->render('_list',[ 'model' => $model, 'level' => 1 ])?>
+            <?php else : ?>
+                <div class="panel-body">Category not found, <?= Html::a('Create', ['create']) ?></div>
+            <?php endif ?>
         </div>
     </div>
 </div>
