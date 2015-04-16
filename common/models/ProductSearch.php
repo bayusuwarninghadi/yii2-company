@@ -12,6 +12,8 @@ use common\models\Product;
  */
 class ProductSearch extends Product
 {
+    public $category_name;
+
     /**
      * @inheritdoc
      */
@@ -19,7 +21,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'price', 'discount', 'stock', 'status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'description'], 'safe'],
+            [['name', 'description', 'category_name'], 'safe'],
         ];
     }
 
@@ -41,7 +43,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find();
+        $query = Product::find()->joinWith(['category']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -49,11 +51,11 @@ class ProductSearch extends Product
 
         $this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+        // categories name
+        $dataProvider->sort->attributes['category_name'] = [
+            'asc' => ['category.name' => SORT_ASC],
+            'desc' => ['category.name' => SORT_DESC],
+        ];
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -68,7 +70,8 @@ class ProductSearch extends Product
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'category.name', $this->category_name]);
 
         return $dataProvider;
     }

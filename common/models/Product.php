@@ -14,6 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * @property string $name
  * @property string $description
  * @property integer $price
+ * @property integer $cat_id
  * @property integer $discount
  * @property integer $stock
  * @property integer $status
@@ -96,7 +97,7 @@ class Product extends ActiveRecord
         return [
             [['name', 'description'], 'required'],
             [['description'], 'string'],
-            [['price', 'discount', 'stock', 'status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['price', 'discount', 'stock', 'status', 'visible', 'order', 'cat_id', 'created_at', 'updated_at'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
@@ -116,6 +117,7 @@ class Product extends ActiveRecord
             'name' => 'Name',
             'description' => 'Description',
             'price' => 'Price',
+            'cat_id' => 'Category Id',
             'discount' => 'Discount',
             'stock' => 'Stock',
             'status' => 'Status',

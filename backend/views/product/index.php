@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'panelBefore' => Html::a('Create New', ['create'], ['class' => 'btn btn-success']),
         'columns' => [
             'name',
+            'category_name',
             'price:currency',
             [
                 'attribute' => 'discount',
@@ -39,17 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'stock',
                 'options' => [
                     'style' => 'width:50px'
-                ]
-            ],
-            [
-                'attribute' => 'visible',
-                'filter' => Product::getVisibleAsArray(),
-                'value' => function($data){
-                    $visible = Product::getVisibleAsArray();
-                    return $visible[$data->visible];
-                },
-                'options' => [
-                    'style' => 'width:80px'
                 ]
             ],
             [
