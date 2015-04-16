@@ -33,21 +33,14 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-money fa-fw"></i> Transaction', 
+                    'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Transaction', 
                     'url' => '/transaction/index'
                 ],
                 [
-                    'label' => '<i class="fa fa-list fa-fw"></i> Category',
+                    'label' => '<i class="fa fa-list fa-fw"></i> Product', 
                     'items' => [
-                        ['label' => 'Manage Category', 'url' => ['/category/index']],
-                        ['label' => 'Create Category', 'url' => ['/category/create']]
-                    ]
-                ],
-                [
-                    'label' => '<i class="fa fa-truck fa-fw"></i> Product',
-                    'items' => [
+                        ['label' => 'Manage Category', 'url' => ['/product/manage-category']],
                         ['label' => 'Manage Product', 'url' => ['/product/index']],
-                        ['label' => 'Create Product', 'url' => ['/product/create']]
                     ]
                 ],
                 [

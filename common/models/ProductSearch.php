@@ -5,14 +5,20 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Product;
 
 /**
  * ProductSearch represents the model behind the search form about `common\models\Product`.
  */
 class ProductSearch extends Product
 {
+
     public $category_name;
+    public $price_from;
+    public $price_to;
+    public $discount_from;
+    public $discount_to;
+    public $stock_from;
+    public $stock_to;
 
     /**
      * @inheritdoc
@@ -20,7 +26,7 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'price', 'discount', 'stock', 'status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'price', 'discount', 'stock', 'price_from', 'price_to', 'stock_from', 'stock_to','discount_from', 'discount_to','status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description', 'category_name'], 'safe'],
         ];
     }
@@ -32,6 +38,21 @@ class ProductSearch extends Product
     {
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
+    }
+    /**
+     * getCatId as Array
+     * @param integer $model
+     * @return array
+     */
+    protected function getCategoryChildIds($category){
+        $return = [];
+        $return[] = $category->id;
+        if ($category->children()->all()){
+            foreach ($category as $cat) {
+                array_merge($return, $this->getCategoryChildIds($cat));
+            }
+        }
+        return $return;
     }
 
     /**
@@ -59,9 +80,6 @@ class ProductSearch extends Product
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'price' => $this->price,
-            'discount' => $this->discount,
-            'stock' => $this->stock,
             'status' => $this->status,
             'visible' => $this->visible,
             'order' => $this->order,
@@ -69,9 +87,21 @@ class ProductSearch extends Product
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['like', 'category.name', $this->category_name]);
+        $query->andFilterWhere(['like', 'product.name', $this->name])
+            ->andFilterWhere(['like', 'price', $this->price])
+            ->andFilterWhere(['like', 'discount', $this->price])
+            ->andFilterWhere(['like', 'stock', $this->stock])
+            ->andFilterWhere(['>=', 'price', $this->price_from])
+            ->andFilterWhere(['<=', 'price', $this->price_to])
+            ->andFilterWhere(['>=', 'discount', $this->discount_from])
+            ->andFilterWhere(['<=', 'discount', $this->discount_to])
+            ->andFilterWhere(['>=', 'stock', $this->stock_from])
+            ->andFilterWhere(['<=', 'stock', $this->stock_to])
+            ->andFilterWhere(['like', 'product.description', $this->description]);
+
+        if ($this->cat_id && $cat_ids = Category::findOne($this->cat_id)){
+            $query->andFilterWhere(['in', 'cat_id', $cat_ids]);    
+        }
 
         return $dataProvider;
     }

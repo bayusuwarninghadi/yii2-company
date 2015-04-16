@@ -6,7 +6,7 @@ use common\models\User;
 /* @var $this \yii\web\View */
 
 NavBar::begin([
-    'brandLabel' => '<i class="fa fa-lock fa-fw text-info"></i> Administrator</span>',
+    'brandLabel' => '<i class="fa fa-lock fa-fw text-danger"></i> Administrator</span>',
     'brandUrl' => Yii::$app->homeUrl,
     'renderInnerContainer' => false,
     'options' => [

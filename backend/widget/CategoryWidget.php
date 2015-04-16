@@ -7,22 +7,38 @@ use yii\helpers\Html;
 
 class CategoryWidget extends InputWidget{
 
+	public $withPanel = true;
 
 	public function run(){
+		if ($this->withPanel){
+	        echo Html::beginTag('div', ['class' => 'panel panel-primary']);
+	        echo Html::tag('div', '<b>Select Category</b>', ['class' => 'panel-heading']);
+	        $this->runElement();			
+			echo Html::endTag('div');
+		} else {
+			$this->runElement();			
+		}
+        
+	}
+	protected function runElement(){
 		$id = $this->getId();
-        echo Html::beginTag('div', ['class' => 'category-tree-container','id' => $id]);
+
+		echo Html::beginTag('div', ['class' => 'category-tree-container','id' => $id]);
 		echo $this->renderCategory(Category::find()->roots()->all());
         echo Html::activeHiddenInput($this->model, $this->attribute);
 		echo Html::endTag('div');
+
 		$view = $this->getView();
-		$view->registerCss(".category-tree-container { border:1px solid #ccc; border-top: none } .category-tree-container a { border-top:1px solid #ccc }");
+		$view->registerCss(".category-tree-container a { border-top:1px solid #ccc }");
 		$view->registerJs("jQuery('#$id>ul').metisMenu();");
+
 		$input_id = Html::getInputId($this->model, $this->attribute);
 		$view->registerJs("
 			jQuery('.category-tree-container a').click(function(){
 				jQuery('#$input_id').val($(this).data('id'))
 			});");
 	}
+
 	protected function renderCategory($categories, $level = 1){
 		echo Html::beginTag('ul', ['class' => 'nav categories-tree','role' => 'navigation']);
 		foreach ($categories as $category) {

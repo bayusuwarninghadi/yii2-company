@@ -34,7 +34,6 @@ class Product extends ActiveRecord
     const VISIBLE_INVISIBLE = 0;
     const VISIBLE_VISIBLE = 1;
 
-
     /**
      * @param bool $with_key
      * @return array
@@ -123,6 +122,7 @@ class Product extends ActiveRecord
             'status' => 'Status',
             'visible' => 'Visible',
             'order' => 'Order',
+            'category.name' => 'Category',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
