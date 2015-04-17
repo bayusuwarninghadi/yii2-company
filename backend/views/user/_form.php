@@ -17,6 +17,7 @@ use common\models\User;
             <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
             <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>
             <?= $form->field($model, 'role')->dropDownList(User::getRoleAsArray()) ?>
         </div>
