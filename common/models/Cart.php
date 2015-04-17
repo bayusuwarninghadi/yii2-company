@@ -33,9 +33,30 @@ class Cart extends ActiveRecord
     {
         return [
             [['user_id', 'product_id', 'qty'], 'required'],
-            [['user_id', 'product_id', 'qty'], 'integer']
+            ['qty','integer','min' => 1],
+            ['qty','validateMaxQty'],
+            [['user_id', 'product_id'], 'integer']
         ];
     }
+
+    /**
+     * Get max quantity of product for order.
+     * @param string $attribute the attribute currently being validated
+     * @return int
+     */
+    public function validateMaxQty($attribute)
+    {
+        if (!$this->hasErrors()) {
+            if ($this->qty > $count = Product::findOne($this->product_id)->stock) {
+                $this->addError($attribute, 'Quantity must be less than '.$count);
+            }
+        }
+
+        if ($this->product_id) {
+            return ;
+        }
+    }
+
 
     /**
      * @inheritdoc
@@ -46,7 +67,8 @@ class Cart extends ActiveRecord
             'id' => 'ID',
             'user_id' => 'User ID',
             'product_id' => 'Product ID',
-            'qty' => 'Qty',
+            'qty' => 'Quantity',
+            'product.name' => 'Product',
         ];
     }
 

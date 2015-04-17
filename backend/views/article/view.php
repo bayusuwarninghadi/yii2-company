@@ -2,10 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\HtmlPurifier;
 
 /* @var string $this */
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
+/* @var string $type */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
@@ -36,7 +38,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <div class="panel-body">
-            <?= Html::decode($model->description)?>
+            <?= HtmlPurifier::process($model->description) ?>
         </div>
     </div>
+
 </div>

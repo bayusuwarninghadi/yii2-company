@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Category;
+use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
 use yii\web\Controller;
@@ -123,10 +123,12 @@ class ProductController extends Controller
     {
         $searchModel = new ProductSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $categoryModel = $searchModel->cat_id ? Category::findOne($searchModel->cat_id)->children()->all() : Category::find()->roots()->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'categoryModel' => $categoryModel
         ]);
     }
 }

@@ -1,7 +1,6 @@
 <?php
 use yii\bootstrap\Nav;
 use backend\widget\NavBar;
-use common\models\User;
 
 /* @var $this \yii\web\View */
 
@@ -29,10 +28,10 @@ echo Nav::widget([
             'label' => '<i class="fa fa-user fa-fw"></i>',
             'items' => [
                 [
-                    'label' => '<i class="fa fa-user fa-fw"></i> ' . Yii::$app->user->identity->username,
+                    'label' => '<i class="fa fa-user fa-fw"></i> Profile',
                     'url' => ['/user/view', 'id' => Yii::$app->user->getId()],
                 ],
-                '<li class="divider"></li>',    
+                '<li class="divider"></li>',
                 [
                     'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',
                     'url' => ['/site/logout'],

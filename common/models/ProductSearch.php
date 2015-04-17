@@ -19,6 +19,8 @@ class ProductSearch extends Product
     public $discount_to;
     public $stock_from;
     public $stock_to;
+    public $sort;
+
 
     /**
      * @inheritdoc
@@ -27,7 +29,7 @@ class ProductSearch extends Product
     {
         return [
             [['id', 'price', 'discount', 'stock', 'price_from', 'price_to', 'stock_from', 'stock_to','discount_from', 'discount_to','status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'description', 'category_name'], 'safe'],
+            [['name', 'sort', 'description', 'category_name'], 'safe'],
         ];
     }
 
@@ -41,14 +43,14 @@ class ProductSearch extends Product
     }
     /**
      * getCatId as Array
-     * @param integer $model
+     * @param Category $category
      * @return array
      */
     protected function getCategoryChildIds($category){
         $return = [];
         $return[] = $category->id;
-        if ($category->children()->all()){
-            foreach ($category as $cat) {
+        if ($child = $category->children()->all()){
+            foreach ($child as $cat) {
                 array_merge($return, $this->getCategoryChildIds($cat));
             }
         }

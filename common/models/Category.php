@@ -22,6 +22,9 @@ use creocoder\nestedsets\NestedSetsBehavior;
 class Category extends ActiveRecord
 {
 
+    /**
+     * @return array
+     */
     public function behaviors() {
         return [
             'tree' => [
@@ -34,6 +37,9 @@ class Category extends ActiveRecord
         ];
     }
 
+    /**
+     * @return array
+     */
     public function transactions()
     {
         return [
@@ -41,6 +47,9 @@ class Category extends ActiveRecord
         ];
     }
 
+    /**
+     * @return CategoryQuery
+     */
     public static function find()
     {
         return new CategoryQuery(get_called_class());
