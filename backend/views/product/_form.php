@@ -4,7 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\Product;
 use backend\widget\tinymce\TinyMce;
-use backend\widget\CategoryWidget;
+use backend\widget\category\CategoryWidget;
+
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
@@ -14,12 +15,12 @@ use backend\widget\CategoryWidget;
 <div class="product-form">
 
     <?php $form = ActiveForm::begin(); ?>
-    <div class="panel panel-yellow">
+    <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
         <div class="list-group-item">
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-            <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>            
             <?= $form->field($model, 'cat_id',['template' => "{input}\n{hint}\n{error}"])->widget(CategoryWidget::className())?>
+            <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>
             <?= $form->field($model, 'price')->input('number') ?>
             <?= $form->field($model, 'discount')->input('number') ?>
             <?= $form->field($model, 'stock')->input('number') ?>

@@ -39,7 +39,7 @@ use backend\widget\Sidebar;
                 [
                     'label' => '<i class="fa fa-list fa-fw"></i> Product', 
                     'items' => [
-                        ['label' => 'Manage Category', 'url' => ['/product/manage-category']],
+                        ['label' => 'Manage Category', 'url' => ['/category/index']],
                         ['label' => 'Manage Product', 'url' => ['/product/index']],
                     ]
                 ],

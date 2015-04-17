@@ -1,7 +1,6 @@
 <?php
 
 use yii\helpers\Html;
-use common\models\Product;
 use backend\widget\GridView;
 use yii\widgets\Pjax;
 
@@ -13,10 +12,7 @@ $this->title = 'Product';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
-    <div class="btn-group pull-right">
-        <?=Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default'])?>
-        <?=Html::a('<i class="fa fa-plus fa-fw"></i> Category', ['create-category'], ['class' => 'btn btn-default'])?>
-    </div>
+    <?=Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default pull-right'])?>
     <h1><?= Html::encode($this->title) ?></h1>
     
     <div class="row">

@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
-use backend\widget\CategoryWidget;
+use backend\widget\category\CategoryWidget;
 use common\models\Product;
 
 /* @var $this yii\web\View */
