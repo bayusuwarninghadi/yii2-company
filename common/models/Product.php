@@ -152,4 +152,11 @@ class Product extends ActiveRecord
         return $this->hasOne(Category::className(), ['id' => 'cat_id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactionAttributes()
+    {
+        return $this->hasMany(TransactionAttribute::className(), ['product_id' => 'id']);
+    }
 }

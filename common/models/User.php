@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 /**
  * User model
@@ -26,16 +27,40 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    /**
+     * STATUS_INACTIVE
+     */
     const STATUS_INACTIVE = 0;
+
+    /**
+     * STATUS_ACTIVE
+     */
     const STATUS_ACTIVE = 10;
+
+    /**
+     * ROLE_SUPER_ADMIN
+     */
     const ROLE_SUPER_ADMIN = 1;
+
+    /**
+     * ROLE_ADMIN
+     */
     const ROLE_ADMIN = 2;
+
+    /**
+     * ROLE_USER
+     */
     const ROLE_USER = 3;
 
     /**
      * @var UploadedFile|Null file attribute
      */
     public $image;
+
+    /**
+     * @var string $password
+     */
+    public $password;
 
 
     /**
@@ -106,18 +131,27 @@ class User extends ActiveRecord implements IdentityInterface
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
                 'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
             ],
-            ['username', 'filter', 'filter' => 'trim'], 
+
+            ['username', 'filter', 'filter' => 'trim'],
+            ['username', 'required'],
             ['username', 'unique', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['email', 'filter', 'filter' => 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
-            ['email','email'],
-            [['username', 'email'], 'required'],
+
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['username', 'password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['role', 'default', 'value' => static::ROLE_USER],
             ['role', 'in', 'range' => static::getRoleAsArray(false)],
+
+            ['password', $this->isNewRecord ? 'required' : 'string'],
+            ['password', 'string', 'min' => 6],
         ];
     }
 
@@ -258,6 +292,22 @@ class User extends ActiveRecord implements IdentityInterface
     public function getCarts()
     {
         return $this->hasMany(Cart::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippings()
+    {
+        return $this->hasMany(Shipping::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['user_id' => 'id']);
     }
 
 }
