@@ -13,7 +13,7 @@ class CategoryWidgetAssets extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@backend/widget/category';
+    public $sourcePath = '@backend/widget/category/assets';
     /**
      * @var array
      */
