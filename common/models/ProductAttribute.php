@@ -32,7 +32,7 @@ class ProductAttribute extends ActiveRecord
     {
         return [
             [['product_id'], 'integer'],
-            [['key', 'value'], 'required'],
+            [['key'], 'required'],
             [['value'], 'string'],
             [['key'], 'string', 'max' => 255]
         ];

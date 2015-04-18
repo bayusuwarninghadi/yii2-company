@@ -16,32 +16,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $columns = [
     [
-        'label' => 'Product',
-        'visible' => Yii::$app->request->isAjax,
-        'value' => function ($cart) {
-            $return = Html::a(Html::img('http://placehold.it/320x150', ['style' => 'width:200px;']), ['/product/view', 'id' => $cart->product_id]);
-            $return .= Html::tag('p', Html::decode($cart->product->name));
-            return $return;
-        },
-        'format' => 'raw',
-        'options' => [
-            'style' => 'width:100px;'
-        ]
-    ],
-    [
         'label' => 'Image',
-        'visible' => !Yii::$app->request->isAjax,
         'value' => function ($cart) {
-            return Html::a(Html::img('http://placehold.it/320x150', ['style' => 'width:200px;']), ['/product/view', 'id' => $cart->product_id]);
+            return Html::a(Html::img($cart->product->image_url, ['style' => 'height:80px;']), ['/product/view', 'id' => $cart->product_id]);
         },
         'format' => 'raw',
         'options' => [
-            'style' => 'width:100px;'
+            'style' => 'width:80px;'
         ]
     ],
     [
         'label' => 'Product',
-        'visible' => !Yii::$app->request->isAjax,
         'value' => function ($cart) {
             $return = Html::tag('p', Html::decode($cart->product->name));
             $return .= Html::a('<i class="fa fa-pencil"></i>', ['/product/view', 'id' => $cart->product_id], [
@@ -57,14 +42,12 @@ $columns = [
             return $return;
         },
         'format' => 'raw',
-        'options' => [
-            'style' => 'width:200px;'
-        ]
     ],
     [
         'attribute' => 'qty',
+        'visible' => !Yii::$app->request->isAjax,
         'options' => [
-            'style' => 'width:50px;'
+            'style' => 'width:10px;'
         ]
     ],
     [
@@ -73,10 +56,10 @@ $columns = [
             $return = Html::beginTag('div', ['class' => 'text-right']);
             if ($cart->product->discount) {
                 $return .= Html::tag('div', '@ ' . Yii::$app->formatter->asCurrency($cart->product->price), ['style' => 'text-decoration:line-through']);
-                $return .= Html::tag('div', 'Discount: ' . Yii::$app->formatter->asPercent($cart->product->discount / 100), ['class' => 'text-success']);
-                $return .= Html::tag('h4', Yii::$app->formatter->asCurrency($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty));
+                $return .= Html::tag('span', Yii::$app->formatter->asPercent($cart->product->discount / 100), ['class' => 'label label-success']);
+                $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty));
             } else {
-                $return .= Html::tag('h4', Yii::$app->formatter->asCurrency($cart->product->price));
+                $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price));
             }
             $return .= Html::endTag('div');
             return $return;
@@ -89,7 +72,7 @@ $columns = [
 ];
 
 if (Yii::$app->request->isAjax) {
-    $layout = "{items}{panelAfter}{panelFooter}";
+    $layout = "{items}";
 } else {
     $layout = "
         <div class='panel panel-primary'>
@@ -110,8 +93,8 @@ echo GridView::widget([
         ? Html::a('<i class="fa fa-shopping-cart"></i> Checkout', ['index'], ['class' => 'btn btn-success'])
         : Html::a('<i class="fa fa-search"></i> Go Shopping', ['/product/index'], ['class' => 'btn btn-primary']),
     'panelAfter' => "
-        <div class='pull-right text-right'>
-            <h3><small>Grand Total </small><br/>" . Yii::$app->formatter->asCurrency($grandTotal) . "</h3>
+        <div class='text-right'>
+            <h4><small>Grand Total </small><br/>" . Yii::$app->formatter->asCurrency($grandTotal) . "</h4>
         </div>
     ",
     'dataProvider' => $dataProvider,

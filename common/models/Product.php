@@ -22,10 +22,11 @@ use yii\db\ActiveRecord;
  * @property integer $visible
  * @property integer $order
  * @property string $rating
+ * @property string $image_url
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property ProductAttribute $productAttribute
+ * @property ProductAttribute[] $productAttribute
  * @property Category $category
  * @property Cart[] $carts
  * @property UserComment[] $userComments
@@ -36,6 +37,8 @@ class Product extends ActiveRecord
     const STATUS_ACTIVE = 1;
     const VISIBLE_INVISIBLE = 0;
     const VISIBLE_VISIBLE = 1;
+
+    public $images;
 
     /**
      * @param bool $with_key
@@ -97,10 +100,19 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description'], 'required'],
+            [
+                'images',
+                'file',
+                'maxFiles' => 6,
+                'extensions' => 'gif, jpg, png',
+                'mimeTypes' => 'image/jpeg, image/png',
+                'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+            ],
+            [['name', 'description', 'image_url'], 'required'],
             [['description'], 'string'],
             [['price', 'discount', 'stock', 'status', 'visible', 'order', 'cat_id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'subtitle', 'rating'], 'string', 'max' => 255],
+            [['name', 'subtitle', 'rating', 'image_url'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['visible', 'default', 'value' => static::VISIBLE_VISIBLE],
@@ -117,7 +129,7 @@ class Product extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'subtitle' => 'subtitle',
+            'subtitle' => 'Subtitle',
             'description' => 'Description',
             'price' => 'Price',
             'cat_id' => 'Category Id',
@@ -126,7 +138,8 @@ class Product extends ActiveRecord
             'status' => 'Status',
             'visible' => 'Visible',
             'order' => 'Order',
-            'rating' => 'rating',
+            'rating' => 'Rating',
+            'image_url' => 'Image URL',
             'category.name' => 'Category',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -136,9 +149,9 @@ class Product extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProductAttribute()
+    public function getProductAttributes()
     {
-        return $this->hasOne(ProductAttribute::className(), ['product_id' => 'id']);
+        return $this->hasMany(ProductAttribute::className(), ['product_id' => 'id']);
     }
 
     /**

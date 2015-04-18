@@ -1,8 +1,6 @@
 html,
 body {
     height: 100%;
-    font-weight: 200;
-    letter-spacing: .03em;
 }
 
 .wrap {
@@ -10,11 +8,6 @@ body {
     height: auto;
     margin: 0 auto -60px;
     padding: 0 0 60px;
-}
-
-h1,h2,h3,h4 {
-    font-weight: lighter;
-    letter-spacing: .04em;
 }
 
 .wrap > .container {
@@ -29,16 +22,18 @@ h1,h2,h3,h4 {
 }
 
 .cart-pop{
-    font-size: 80% !important;
+    font-size: 90%;
 }
 .cart-pop .btn {
     padding: 3px 8px;
-    font-size: 80%;
+    font-size: 90%;
 }
 .slide-image {
     width: 100%;
 }
-
+.carousel img {
+    width: 100%;
+}
 .carousel-holder {
     margin-bottom: 30px;
 }
@@ -48,31 +43,41 @@ h1,h2,h3,h4 {
     border-radius: 4px;
 }
 
-.caption {
-    height: 130px;
+.thumbnail {
+    padding: 0;
+    overflow: hidden;
+}
+.thumbnail .image {
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    height: 150px;
+}
+.thumbnail .caption {
+    height: 140px;
     overflow: hidden;
 }
 
-.caption h4 {
+.thumbnail .caption h4 {
     white-space: nowrap;
+    overflow: hidden;
 }
 
-.thumbnail img {
-    width: 100%;
-}
-
-.ratings {
+.thumbnail .ratings {
     padding-right: 10px;
     padding-left: 10px;
     color: #d17581;
 }
 
-.thumbnail {
-    padding: 0;
+.line-through{
+    text-decoration: line-through;
 }
-
-.thumbnail .caption-full {
-    padding: 9px;
-    color: #333;
+.nav-tabs{
+    z-index: 1;
+    position: relative;
+    bottom: -1px;
 }
-
+.tab-content {
+    border: 1px solid #ddd;
+    padding: 15px;
+}

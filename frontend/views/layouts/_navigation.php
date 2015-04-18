@@ -35,9 +35,16 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
 } else {
     $menuItems[] = [
+        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart',
+        'url' => ['/checkout/cart'],
+        'linkOptions' => [
+            'class' => 'visible-xs'
+        ],
+    ];
+    $menuItems[] = [
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i>',
         'linkOptions' => [
-            'class' => 'show-cart'
+            'class' => 'show-cart visible-sm visible-md visible-lg'
         ],
         'items' => [
             '<li class="cart-pop">'.$this->render('_loading').'</li>',

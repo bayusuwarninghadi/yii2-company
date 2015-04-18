@@ -14,11 +14,13 @@ use backend\widget\category\CategoryWidget;
 
 <div class="product-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
         <div class="list-group-item">
+            <?= $form->field($model, 'images[]')->fileInput(['multiple' => '','class' => 'form-control btn btn-default', 'accept' => 'image/*']) ?>
             <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'subtitle')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'cat_id',['template' => "{input}\n{hint}\n{error}"])->widget(CategoryWidget::className())?>
             <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>
             <?= $form->field($model, 'price')->input('number') ?>

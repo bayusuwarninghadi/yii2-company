@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Cart;
+use common\models\ProductAttribute;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
@@ -45,9 +46,12 @@ class ProductController extends BaseController
             return $this->redirect(['checkout/cart']);
         }
 
+        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
+
         return $this->render('view', [
             'model' => $model,
-            'cartModel' => $cartModel
+            'cartModel' => $cartModel,
+            'gallery' => $gallery
         ]);
     }
 

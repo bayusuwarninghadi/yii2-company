@@ -3,13 +3,17 @@
 namespace backend\controllers;
 
 use common\models\Category;
-use Yii;
 use common\models\Product;
+use common\models\ProductAttribute;
 use common\models\ProductSearch;
+use common\modules\UploadHelper;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -58,13 +62,24 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            $_images = UploadedFile::getInstances($model, 'images');
+            if ($model->save()) {
+                foreach ($_images as $image) {
+                    $_model = new ProductAttribute();
+                    $_model->key = 'images';
+                    $_model->product_id = $model->id;
+                    if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)){
+                        $_model->value = Json::encode($upload);
+                        $_model->save();
+                        $model->image_url = $upload['medium'];
+                    }
+                }
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -77,13 +92,27 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $_images = UploadedFile::getInstances($model, 'images');
+            foreach ($_images as $image) {
+                $_model = new ProductAttribute();
+                $_model->key = 'images';
+                $_model->product_id = $model->id;
+                if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)){
+                    $_model->value = Json::encode($upload);
+                    $_model->save();
+                    $model->image_url = $upload['medium'];
+                }
+            }
+
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -95,7 +124,6 @@ class ProductController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-
         return $this->redirect(['index']);
     }
 

@@ -34,7 +34,7 @@ class UploadHelper extends BaseArrayHelper
         if (!$file) {
             return false;
         }
-        
+
         // define path
         $path = 'upload/' . $path;
 
@@ -53,7 +53,7 @@ class UploadHelper extends BaseArrayHelper
      *
      * @param $image
      * @param string $path
-     * @return bool
+     * @return bool|array
      */
     public static function saveImage($image, $path = '')
     {
@@ -63,29 +63,31 @@ class UploadHelper extends BaseArrayHelper
         }
 
         // define path
-        $path = 'images/upload/' . $path . '/';
+        $destination = Yii::$app->getBasePath() . '/../frontend/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory else remove all asset images
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
+        if (!file_exists($destination)) {
+            mkdir($destination, 0777, true);
         } else {
-            array_map('unlink', glob(Yii::$app->getBasePath() . '/../backend/web/' . $path . '*{jpg,png,gif,jpeg}', GLOB_BRACE));
+            array_map('unlink', glob($destination . '*', GLOB_BRACE));
         }
-
 
         $imagine = new Imagine();
         $imagine = $imagine->open($image->tempName);
 
-        // keep original
-        $imagine->save($path . '/original.' . $image->extension);
-
         // create thumbnails
-        $imagine->resize($imagine->getSize()->widen(600))->save($path . '/large.' . $image->extension);
-        $imagine->resize($imagine->getSize()->widen(400))->save($path . '/medium.' . $image->extension);
-        $imagine->resize($imagine->getSize()->widen(128))->save($path . '/small.' . $image->extension);
-        $imagine->resize($imagine->getSize()->widen(64))->save($path . '/icon.' . $image->extension);
+        $sizes = [
+            'large' => 600,
+            'medium' => 400,
+            'small' => 200,
+        ];
+        $return = [];
+        foreach ($sizes as $size => $width) {
+            $imagine->resize($imagine->getSize()->widen($width))->save($destination . $size . '.jpeg', ['format' => 'jpeg']);
+            $return[$size] = '/images/' . $path . '/' . $size . '.jpeg';
+        }
 
-        return true;
+        return $return;
     }
 
     /**
@@ -130,7 +132,7 @@ class UploadHelper extends BaseArrayHelper
             $images[$path_info['filename']] = $image_url;
         }
 
-        $size = array_key_exists($size,$images) ? $size : 'medium';
+        $size = array_key_exists($size, $images) ? $size : 'medium';
 
         return isset($images[$size]) ? $images[$size] : ($not_found ? Yii::$app->components['backendSiteUrl'] . '/images/404.png' : false);
     }

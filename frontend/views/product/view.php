@@ -5,9 +5,12 @@ use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\widgets\ActiveForm;
 use yii\web\JqueryAsset;
+use yii\bootstrap\Carousel;
+use yii\helpers\Json;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
+/* @var $gallery common\models\ProductAttribute[] */
 /* @var $cartModel common\models\Cart */
 
 $this->title = $model->name;
@@ -19,41 +22,72 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="form-group">
         <div class="row">
             <div class="col-md-4">
-                <?php // echo Html::img('http://placehold.it/320x150') ?>
+                <?php
+                $images = [];
+                foreach ($gallery as $image){
+                    $_arr = Json::decode($image->value);
+                    $images[] = Html::img($_arr['large']);
+                }
+                if (!$images) $images[] = Html::img($model->image_url);
+                echo Carousel::widget([
+                    'items' => $images,
+                    'controls' => [
+                        '<span class="glyphicon glyphicon-chevron-left"></span>',
+                        '<span class="glyphicon glyphicon-chevron-right"></span>',
+                    ]
+                ]);
+                ?>
             </div>
             <div class="col-md-8">
-                <h4>
-                    <?php if ($model->discount) : ?>
-                        <?= Yii::$app->formatter->asCurrency($model->price) ?>
-                        <small
-                            class="label label-success"><?= Yii::$app->formatter->asPercent($model->discount / 100) ?></small>
-                    <?php else : ?>
-                        <?= Yii::$app->formatter->asCurrency($model->price) ?>
-                    <?php endif ?>
-                </h4>
-                <div class="form-group">
-                    <div>Stock: <?= $model->stock ?></div>
+                <div class="form-group"><?= Html::decode($model->subtitle) ?></div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?php if ($model->discount) : ?>
+                            <h5>
+                                <span class="line-through"><?= Yii::$app->formatter->asCurrency($model->price) ?></span>
+                                <span class="label label-success">
+                                    <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
+                                </span>
+                            </h5>
+                            <?= Html::tag('h1',Yii::$app->formatter->asCurrency($model->price * (100 - $model->discount) / 100)) ?>
+                        <?php else : ?>
+                            <?= Html::tag('h1',Yii::$app->formatter->asCurrency($model->price)) ?>
+                        <?php endif ?>
+                    </div>
+                    <div class="col-sm-6">
+                        <?php if ($model->stock) :?>
+                            <h5>Stock <span class="label-success label"><?= $model->stock ?></span></h5>
+                            <?php
+                            echo Html::tag('h5', 'Add To Cart');
+                            $form = ActiveForm::begin();
+                            echo $form->field($cartModel, 'qty', [
+                                'template' => "
+                                    <div class='input-group input-group-sm' style='width: 140px'>
+                                        {input}
+                                        <div class='input-group-btn'>
+                                            <button type='submit' class='btn btn-primary'>
+                                                <i class='fa fa-shopping-cart'></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    \n{error}
+                                ",
+                            ])->input('number',[
+                                'placeholder' => 'Quantity'
+                            ]);
+                            echo Html::activeHiddenInput($cartModel,'product_id',['value' => $model->id]);
+                            $form->end();
+                            ?>
+                        <?php else :?>
+                            <h5>Stock <span class="label-danger label">Unavailable</span></h5>
+                        <?php endif ?>
+                        <div class="form-group">
+                            <h5>Share with your friend</h5>
+                            <?=Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>','#')?>
+                            <?=Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>','#')?>
+                        </div>
+                    </div>
                 </div>
-                <?php if ($model->stock) :?>
-                    <?php $form = ActiveForm::begin(); ?>
-                    <?= $form->field($cartModel, 'qty', [
-                        'options' => ['class' => ''],
-                        'template' => "
-                            <div class='input-group' style='width: 200px'>
-                                {input}
-                                <div class='input-group-btn'>
-                                    <button type='submit' class='btn btn-primary'>
-                                        <i class='fa fa-shopping-cart'></i>
-                                    </button>
-                                </div>
-                            </div>
-                            \n{error}
-                        ",
-                    ])->input('number',[
-                        'placeholder' => 'Quantity'
-                    ]) ?>
-                    <?=Html::activeHiddenInput($cartModel,'product_id',['value' => $model->id])?>
-                <?php endif ?>
             </div>
         </div>
     </div>
@@ -65,12 +99,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'items' => [
                 [
                     'label' => 'Description',
-                    'content' => Html::tag('div', HtmlPurifier::process($model->description), ['class' => 'panel-body']),
+                    'content' => HtmlPurifier::process($model->description),
                 ],
                 [
                     'label' => $arr[1] . ' Reviews',
                     'content' => Html::tag('div', $this->render('/layouts/_loading'), [
-                        'class' => 'panel-body comment-container',
+                        'class' => 'comment-container',
                         'data-id' => $model->id
                     ]),
                 ],

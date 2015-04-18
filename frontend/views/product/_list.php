@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -11,23 +12,23 @@ use yii\helpers\Html;
  */
 ?>
 <div class="thumbnail">
+    <?=Html::a('<div class="image" style="background-image:url('.Url::to($model->image_url,true).')"></div>', ['view','id' => $model->id])?>
 
-    <?php // Html::a(Html::img('http://placehold.it/320x150'), ['view','id' => $model->id])?>
     <div class="caption">
         <h4>
             <?=Html::a(Html::decode($model->name), ['view','id' => $model->id])?>
             <small><?=$model->category->name?></small>
         </h4>
-        <div class="text-muted"><?=$model->subtitle?></div>
         <h4>
             <?php if ($model->discount) :?>
                 <?=Yii::$app->formatter->asCurrency($model->price)?>
-                <small class="label label-success"><?=Yii::$app->formatter->asPercent($model->discount/100)?></small>
+                <small class="pull-right label label-success"><?=Yii::$app->formatter->asPercent($model->discount/100)?></small>
             <?php else :?>
                 <?=Yii::$app->formatter->asCurrency($model->price)?>
             <?php endif ?>
+            <div class="clearfix"></div>
         </h4>
-        <div><i class="fa fa-truck fa-fw"></i> <?=$model->price ? 'Stock Available' : 'Stock Not Available'?></div>
+        <div class="text-muted"><?=$model->subtitle?></div>
     </div>
     <div class="ratings">
         <?php
@@ -43,12 +44,10 @@ use yii\helpers\Html;
 
         ?>
         <div>
-            <p class="pull-right"><?=$rating?> reviews</p>
-            <p>
-                <?php for ($i = 1; $i <= $rating; $i++) :?>
-                    <span class="glyphicon glyphicon-star"></span>
-                <?php endfor ?>
-            </p>
+            <p class="pull-right"><?=$totalUser?> reviews</p>
+            <?php for ($i = 1; $i <= $rating; $i++) :?>
+                <span class="glyphicon glyphicon-star"></span>
+            <?php endfor ?>
             <div class="clearfix"></div>
         </div>
     </div>
