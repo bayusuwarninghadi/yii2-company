@@ -57,9 +57,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $chart = Request::chartOptions();
-        // echo "<pre>";
-        // print_r(Request::chartOptions());
-        // die();
         return $this->render('index',[
             'chart' => $chart
         ]);

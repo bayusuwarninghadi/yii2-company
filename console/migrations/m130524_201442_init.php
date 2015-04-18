@@ -22,6 +22,7 @@ class m130524_201442_init extends Migration
             'email' => Schema::TYPE_STRING . ' NOT NULL',
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
             'role' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 3',
+            'image_url' => Schema::TYPE_STRING . " NOT NULL DEFAULT '/images/320x150.gif'",
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',
         ], $tableOptions);

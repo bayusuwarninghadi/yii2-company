@@ -64,7 +64,7 @@ if (Yii::$app->user->isGuest) {
         'items' => [
             [
                 'label' => '<i class="fa fa-user fa-fw"></i> Profile',
-                'url' => ['/site/profile'],
+                'url' => ['/user/index'],
             ],
             [
                 'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',

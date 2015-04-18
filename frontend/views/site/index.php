@@ -10,7 +10,6 @@ use yii\helpers\Html;
  */
 
 echo Carousel::widget([
-
     'items' => [
         Html::img('http://placehold.it/1200x400'),
         ['content' => Html::img('http://placehold.it/1200x400')],

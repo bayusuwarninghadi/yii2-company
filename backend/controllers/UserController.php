@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\modules\UploadHelper;
 use Yii;
 use common\models\User;
 use backend\models\UserSearch;
@@ -77,21 +78,10 @@ class UserController extends Controller
             $model->setPassword($model->password);
             $model->generateAuthKey();
             if ($model->save()){
-                $file = UploadedFile::getInstance($model, 'image');
-                // image processing
-                if ($file) {
-                    $folder = 'img/user/' . $model->id . '/';
-                    if (!file_exists($folder)) {
-                        mkdir($folder, 0777, true);
-                    } else {
-                        // delete current images
-                        $_folder = Yii::$app->getBasePath() . '/../backend/web/' . $folder;
-                        if (file_exists($_folder)) {
-                            array_map('unlink', glob($_folder . '*', GLOB_BRACE));
-                        }
-                    }
-                    $original = $folder . $file->baseName . '.' . $file->extension;
-                    $file->saveAs($original);
+                $image = UploadedFile::getInstances($model, 'image');
+                if ($upload = UploadHelper::saveImage($image, 'user/' . $model->id)){
+                    $model->image_url = $upload['medium'];
+                    $model->save();
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -112,23 +102,9 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            // read image file param
-            $file = UploadedFile::getInstance($model, 'image');
-
-            // image processing
-            if ($file) {
-                $folder = 'img/user/' . $model->id . '/';
-                if (!file_exists($folder)) {
-                    mkdir($folder, 0777, true);
-                } else {
-                    // delete current images
-                    $_folder = Yii::$app->getBasePath() . '/../backend/web/' . $folder;
-                    if (file_exists($_folder)) {
-                        array_map('unlink', glob($_folder . '*', GLOB_BRACE));
-                    }
-                }
-                $original = $folder . $file->baseName . '.' . $file->extension;
-                $file->saveAs($original);
+            $image = UploadedFile::getInstances($model, 'image');
+            if ($upload = UploadHelper::saveImage($image, 'user/' . $model->id)){
+                $model->image_url = $upload['medium'];
             }
             if ($model->save()){
                 return $this->redirect(['view', 'id' => $model->id]);
