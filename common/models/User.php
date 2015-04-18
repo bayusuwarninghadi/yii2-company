@@ -24,6 +24,9 @@ use yii\web\UploadedFile;
  * @property string $password write-only password
  * 
  * @property Cart[] $carts
+ * @property Shipping[] $shippings
+ * @property Transaction[] $transactions
+ * @property UserComment[] $userComments
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -310,4 +313,11 @@ class User extends ActiveRecord implements IdentityInterface
         return $this->hasMany(Transaction::className(), ['user_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserComments()
+    {
+        return $this->hasMany(UserComment::className(), ['user_id' => 'id']);
+    }
 }

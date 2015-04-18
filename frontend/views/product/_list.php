@@ -23,18 +23,32 @@ use yii\helpers\Html;
                 <?=Yii::$app->formatter->asCurrency($model->price)?>
             <?php endif ?>
         </h4>
-        <div>Stock: <?=$model->stock?></div>
-        <div>Category: <?=$model->category->name?></div>
+        <div class="text-muted"><?=$model->subtitle?></div>
+        <div><i class="fa fa-list fa-fw"></i> <?=$model->price ? 'Available' : 'Not Available'?></div>
+        <div><i class="fa fa-list fa-fw"></i>  <?=$model->category->name?></div>
     </div>
     <div class="ratings">
-        <p class="pull-right">15 reviews</p>
-        <p>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-            <span class="glyphicon glyphicon-star"></span>
-        </p>
+        <?php
+        $totalRating = 0;
+        $totalUser = 0;
+        $rating = 0;
+        if ($model->rating) {
+            $arr = explode('/', $model->rating);
+            $totalRating = intval($arr[0]);
+            $totalUser = intval($arr[1]);
+            $rating = $totalUser ? round($totalRating / $totalUser, 0) : $rating;
+        }
+
+        ?>
+        <div>
+            <p class="pull-right"><?=$rating?> reviews</p>
+            <p>
+                <?php for ($i = 1; $i <= $rating; $i++) :?>
+                    <span class="glyphicon glyphicon-star"></span>
+                <?php endfor ?>
+            </p>
+            <div class="clearfix"></div>
+        </div>
     </div>
 </div>
 

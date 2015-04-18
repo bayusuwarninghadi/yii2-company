@@ -3,8 +3,8 @@
 namespace common\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 
 /**
@@ -12,6 +12,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property string $subtitle
  * @property string $description
  * @property integer $price
  * @property integer $cat_id
@@ -20,12 +21,14 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $status
  * @property integer $visible
  * @property integer $order
+ * @property string $rating
  * @property integer $created_at
  * @property integer $updated_at
  *
  * @property ProductAttribute $productAttribute
  * @property Category $category
  * @property Cart[] $carts
+ * @property UserComment[] $userComments
  */
 class Product extends ActiveRecord
 {
@@ -97,7 +100,7 @@ class Product extends ActiveRecord
             [['name', 'description'], 'required'],
             [['description'], 'string'],
             [['price', 'discount', 'stock', 'status', 'visible', 'order', 'cat_id', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'subtitle', 'rating'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['visible', 'default', 'value' => static::VISIBLE_VISIBLE],
@@ -114,6 +117,7 @@ class Product extends ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'subtitle' => 'subtitle',
             'description' => 'Description',
             'price' => 'Price',
             'cat_id' => 'Category Id',
@@ -122,6 +126,7 @@ class Product extends ActiveRecord
             'status' => 'Status',
             'visible' => 'Visible',
             'order' => 'Order',
+            'rating' => 'rating',
             'category.name' => 'Category',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -158,5 +163,25 @@ class Product extends ActiveRecord
     public function getTransactionAttributes()
     {
         return $this->hasMany(TransactionAttribute::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserComments()
+    {
+        return $this->hasMany(UserComment::className(), ['table_id' => 'id'])->andWhere(['table_key' => static::tableName()]);
+    }
+
+    public function countRating()
+    {
+        if ($this->rating) {
+            $rating = explode(',', $this->rating);
+            $totalRating = intval($rating[0]);
+            $totalUser = intval($rating[1]);
+            return $totalUser > 0 ? round($totalRating / $totalUser, 0) : false;
+        } else {
+            return false;
+        }
     }
 }

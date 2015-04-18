@@ -7,14 +7,13 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 
 /**
  * Class TransactionController
  * @package frontend\controllers
  */
-class CheckoutController extends Controller
+class CheckoutController extends BaseController
 {
     /**
      * @return array

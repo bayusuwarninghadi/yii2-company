@@ -11,6 +11,7 @@ class m150414_163850_create_product_table extends Migration
             'id' => 'pk',
             'cat_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'name' => Schema::TYPE_STRING . ' NOT NULL',
+            'subtitle' => Schema::TYPE_STRING,
             'description' => Schema::TYPE_TEXT . ' NOT NULL',
             'price' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
             'discount' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
@@ -18,6 +19,7 @@ class m150414_163850_create_product_table extends Migration
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1',
             'visible' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1',
             'order' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
+            'rating' => Schema::TYPE_STRING . ' NOT NULL DEFAULT "0/0"',
             'created_at' => Schema::TYPE_INTEGER,
             'updated_at' => Schema::TYPE_INTEGER,
         ]);

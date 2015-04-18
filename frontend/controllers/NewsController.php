@@ -5,14 +5,13 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class NewsController extends Controller
+class NewsController extends BaseController
 {
     public function behaviors()
     {

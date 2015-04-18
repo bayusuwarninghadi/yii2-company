@@ -8,6 +8,8 @@ use DateInterval;
 use DateTime;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 
 /**
@@ -26,7 +28,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Request extends \yii\db\ActiveRecord
+class Request extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -34,6 +36,16 @@ class Request extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'request';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
     }
 
     /**
@@ -72,7 +84,6 @@ class Request extends \yii\db\ActiveRecord
      * get Chart Options
      * @param int $startTime
      * @param int $endTime
-     * @param int $user_id
      * @return array
      */
     public static function chartOptions($startTime = 0, $endTime = 0)
@@ -94,7 +105,6 @@ class Request extends \yii\db\ActiveRecord
 
         $interval = DateInterval::createFromDateString('1 day');
         $period = new DatePeriod($begin, $interval, $end);
-        $pointInterval = $interval->d * $day;
 
         /**
          * loop per device
@@ -113,7 +123,7 @@ class Request extends \yii\db\ActiveRecord
         foreach ($period as $d) {
             $data[] = [
                 'period' => $d->format("Y-m-d"),
-                'total' => isset($total[$d->format("Y-m-d")]) ? (int)$t['total_request'] : rand(),
+                'total' => isset($total[$d->format("Y-m-d")]) ? intval($total[$d->format("Y-m-d")]) : 0,
             ];
         }
 
