@@ -12,7 +12,7 @@ body {
     padding: 0 0 60px;
 }
 
-h1,h2,h3 {
+h1,h2,h3,h4 {
     font-weight: lighter;
     letter-spacing: .04em;
 }
@@ -28,6 +28,13 @@ h1,h2,h3 {
     padding-top: 20px;
 }
 
+.cart-pop{
+    font-size: 80% !important;
+}
+.cart-pop .btn {
+    padding: 3px 8px;
+    font-size: 80%;
+}
 .slide-image {
     width: 100%;
 }

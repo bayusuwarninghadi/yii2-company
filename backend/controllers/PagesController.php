@@ -1,21 +1,32 @@
 <?php
 
-namespace frontend\controllers;
+namespace backend\controllers;
 
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
+use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class NewsController extends BaseController
+class PagesController extends Controller
 {
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -32,28 +43,39 @@ class NewsController extends BaseController
     public function actionIndex()
     {
         $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_NEWS;
+        $searchModel->type_id = Article::TYPE_PAGES;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('/article/index', [
+        return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'News'
+            'type' => 'Pages'
         ]);
     }
 
+
     /**
-     * Displays a single Article model.
+     * Updates an existing Article model.
+     * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionUpdate($id)
     {
-        return $this->render('/article/view', [
-            'model' => $this->findModel($id),
-            'type' => 'News'
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->type_id = Article::TYPE_PAGES;
+            if ($model->save()) {
+                return $this->redirect(['index']);
+            }
+        }
+        return $this->render('update', [
+            'model' => $model,
+            'type' => 'Pages'
         ]);
     }
+
 
     /**
      * Finds the Article model based on its primary key value.
@@ -64,7 +86,7 @@ class NewsController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_ARTICLE])) !== null) {
+        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_PAGES])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $model common\models\Article */
 
 $this->title = 'Create ' . $type;
-$this->params['breadcrumbs'][] = ['label' => 'Articles', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="article-create">

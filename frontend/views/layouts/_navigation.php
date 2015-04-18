@@ -21,8 +21,14 @@ NavBar::begin([
 ]);
 $menuItems = [
     ['label' => '<i class="fa fa-list fa-fw"></i> Product', 'url' => ['/product/index']],
-    ['label' => '<i class="fa fa-table fa-fw"></i> Article', 'url' => ['/article/index']],
-    ['label' => '<i class="fa fa-edit fa-fw"></i> News', 'url' => ['/news/index']],
+    [
+        'label' => '<i class="fa fa-file fa-fw"></i> Press',
+        'items' => [
+            ['label' => '<i class="fa fa-table fa-fw"></i> Article', 'url' => ['/article/index']],
+            '<li class="divider"></li>',
+            ['label' => '<i class="fa fa-edit fa-fw"></i> News', 'url' => ['/news/index']],
+        ]
+    ]
 ];
 if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
@@ -30,7 +36,20 @@ if (Yii::$app->user->isGuest) {
 } else {
     $menuItems[] = [
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i>',
-        'url' => ['/checkout/cart']
+        'linkOptions' => [
+            'class' => 'show-cart'
+        ],
+        'items' => [
+            '<li class="cart-pop">'.$this->render('_loading').'</li>',
+            '<li class="divider"></li>',
+            [
+                'label' => 'See All <i class="fa fa-angle-right"></i>',
+                'linkOptions' => [
+                    'class' => 'text-center'
+                ],
+                'url' => ['/checkout/cart'],
+            ],
+        ]
     ];
 
     $menuItems[] = [
@@ -40,7 +59,6 @@ if (Yii::$app->user->isGuest) {
                 'label' => '<i class="fa fa-user fa-fw"></i> Profile',
                 'url' => ['/site/profile'],
             ],
-            '<li class="divider"></li>',
             [
                 'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',
                 'url' => ['/site/logout'],

@@ -15,8 +15,12 @@ use backend\widget\Sidebar;
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => '<i class="fa fa-dashboard fa-fw"></i> Dashboard', 
+                    'label' => '<i class="fa fa-dashboard fa-fw"></i> Dashboard',
                     'url' => '/site/index'
+                ],
+                [
+                    'label' => '<i class="fa fa-file fa-fw"></i> Manage Pages',
+                    'url' => '/pages/index'
                 ],
                 [
                     'label' => '<i class="fa fa-table fa-fw"></i> Article',

@@ -22,6 +22,7 @@ class Article extends ActiveRecord
 {
     const TYPE_ARTICLE = '1';
     const TYPE_NEWS = '2';
+    const TYPE_PAGES = '3';
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 10;
 
@@ -73,6 +74,7 @@ class Article extends ActiveRecord
             [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
             [['order'], 'default', 'value' => 0],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
+            ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES]],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             [['title'], 'string', 'max' => 255]
         ];

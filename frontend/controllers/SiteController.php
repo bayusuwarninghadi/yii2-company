@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Article;
 use common\models\User;
 use Yii;
 use common\models\LoginForm;
@@ -112,7 +113,9 @@ class SiteController extends BaseController
 
     public function actionAbout()
     {
-        return $this->render('about');
+        return $this->render('/layouts/page',[
+            'model' => Article::findOne(['title' => 'about', 'type_id' => Article::TYPE_PAGES])
+        ]);
     }
 
     public function actionSignup()

@@ -97,11 +97,11 @@ class CheckoutController extends BaseController
             $_price = $cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty;
             $grandTotal += $_price;
         }
-
-        return $this->render('cart', [
+        $params = [
             'dataProvider' => $dataProvider,
             'grandTotal' => $grandTotal
-        ]);
+        ];
+        return Yii::$app->request->isAjax ? $this->renderPartial('cart',$params) : $this->render('cart', $params);
 
     }
 
