@@ -4,6 +4,7 @@ use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\widgets\ActiveForm;
+use yii\web\JqueryAsset;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="form-group">
         <div class="row">
             <div class="col-md-4">
-                <?= Html::img('http://placehold.it/320x150') ?>
+                <?php // echo Html::img('http://placehold.it/320x150') ?>
             </div>
             <div class="col-md-8">
                 <h4>
@@ -57,18 +58,25 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="form-group">
-        <?= Tabs::widget([
+        <?php
+        $arr = explode('/', $model->rating);
+
+        echo Tabs::widget([
             'items' => [
                 [
                     'label' => 'Description',
                     'content' => Html::tag('div', HtmlPurifier::process($model->description), ['class' => 'panel-body']),
                 ],
                 [
-                    'label' => 'Reviews',
-                    'content' => Html::tag('div', $this->render('_comment',['model' => $model]), ['class' => 'panel-body']),
+                    'label' => $arr[1] . ' Reviews',
+                    'content' => Html::tag('div', $this->render('/layouts/_loading'), [
+                        'class' => 'panel-body comment-container',
+                        'data-id' => $model->id
+                    ]),
                 ],
             ],
 
         ]) ?>
     </div>
 </div>
+<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>

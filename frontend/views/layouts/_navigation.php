@@ -1,6 +1,6 @@
 <?php
 
-use backend\widget\NavBar;
+use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
 
 /**

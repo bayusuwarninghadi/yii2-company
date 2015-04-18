@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "user_comment".
@@ -11,13 +13,50 @@ use Yii;
  * @property string $table_key
  * @property integer $table_id
  * @property integer $user_id
+ * @property string $title
  * @property string $comment
  * @property integer $rating
+ * @property integer $created_at
+ * @property integer $updated_at
  *
  * @property User $user
  */
-class UserComment extends \yii\db\ActiveRecord
+class UserComment extends ActiveRecord
 {
+    const KEY_PRODUCT = 'product';
+    const KEY_ARTICLE = 'article';
+    const KEY_NEWS = 'news';
+
+    /**
+     * @param bool $with_key
+     * @return array
+     */
+    public static function getKeyAsArray($with_key = true)
+    {
+        $return = ($with_key == true)
+            ? [
+                static::KEY_PRODUCT => 'Product',
+                static::KEY_ARTICLE => 'Article',
+                static::KEY_NEWS => 'News',
+            ]
+            : [
+                static::KEY_PRODUCT,
+                static::KEY_ARTICLE,
+                static::KEY_NEWS,
+            ];
+        return $return;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */
@@ -33,9 +72,10 @@ class UserComment extends \yii\db\ActiveRecord
     {
         return [
             [['table_id', 'user_id', 'rating'], 'integer'],
-            [['user_id'], 'required'],
+            [['title','user_id'], 'required'],
             [['comment'], 'string'],
-            [['table_key'], 'string', 'max' => 255]
+            [['title','table_key'], 'string', 'max' => 255],
+            ['table_key', 'in', 'range' => static::getKeyAsArray(false)],
         ];
     }
 
@@ -49,8 +89,11 @@ class UserComment extends \yii\db\ActiveRecord
             'table_key' => 'Table Key',
             'table_id' => 'Table ID',
             'user_id' => 'User ID',
+            'title' => 'Title',
             'comment' => 'Comment',
             'rating' => 'Rating',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
         ];
     }
 

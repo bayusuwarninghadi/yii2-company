@@ -12,9 +12,13 @@ use yii\helpers\Html;
 ?>
 <div class="thumbnail">
 
-    <?=Html::a(Html::img('http://placehold.it/320x150'), ['view','id' => $model->id])?>
+    <?php // Html::a(Html::img('http://placehold.it/320x150'), ['view','id' => $model->id])?>
     <div class="caption">
-        <h5><a href="#"><?=Html::decode($model->name)?></a></h5>
+        <h4>
+            <?=Html::a(Html::decode($model->name), ['view','id' => $model->id])?>
+            <small><?=$model->category->name?></small>
+        </h4>
+        <div class="text-muted"><?=$model->subtitle?></div>
         <h4>
             <?php if ($model->discount) :?>
                 <?=Yii::$app->formatter->asCurrency($model->price)?>
@@ -23,9 +27,7 @@ use yii\helpers\Html;
                 <?=Yii::$app->formatter->asCurrency($model->price)?>
             <?php endif ?>
         </h4>
-        <div class="text-muted"><?=$model->subtitle?></div>
-        <div><i class="fa fa-list fa-fw"></i> <?=$model->price ? 'Available' : 'Not Available'?></div>
-        <div><i class="fa fa-list fa-fw"></i>  <?=$model->category->name?></div>
+        <div><i class="fa fa-truck fa-fw"></i> <?=$model->price ? 'Stock Available' : 'Stock Not Available'?></div>
     </div>
     <div class="ratings">
         <?php
