@@ -6,20 +6,29 @@ body {
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+    margin: 0 auto -150px;
+    padding: 0 0 150px;
+    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
 }
 .wrap > .container {
     padding: 70px 15px 20px;
 }
 
 .footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
+    background: #333;
+    color: #fff;
+    height: 150px;
     padding-top: 20px;
 }
-
+.footer .social {
+    margin-bottom: 20px;
+}
+.footer .social .btn{
+    margin: 0 5px;
+}
+.footer a{
+    color: #d9534f;
+}
 .cart-pop{
     font-size: 90%;
 }
@@ -56,11 +65,19 @@ body {
     padding: 0;
     overflow: hidden;
 }
+.thumbnail:hover {
+    box-shadow: 0 0 15px #ccc;
+}
 .thumbnail .image {
     background: no-repeat center center;
     background-size: cover;
     height: 150px;
+    opacity: 1;
 }
+.thumbnail:hover .image{
+    opacity: .6;
+}
+
 .thumbnail .stock {
     position: absolute;
     margin-top: -15px;
@@ -97,4 +114,47 @@ body {
 .modal-full {
     width: 100%;
     padding: 0 20px;
+}
+.transition {
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    transition: 0.5s;
+}
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    padding: 14px;
+    border-radius: 25px;
+    font-size: 20px;
+    line-height: 20px;
+}
+.btn-transparent {
+    border-color:#fff;
+    color:#fff;
+}
+.btn-transparent:hover {
+    border-color:#ddd;
+    color:#ddd;
+}
+section {
+    padding: 50px 0;
+}
+.navbar-inverse{
+    border: none;
+}
+.navbar-inverse .navbar-nav>li>a{
+    color:#f5f5f5;
+}
+.bg-red {
+    background: #d9534f;
 }

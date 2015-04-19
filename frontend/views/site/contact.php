@@ -20,8 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
+                <?php if (Yii::$app->user->isGuest) :?>
                 <?= $form->field($model, 'name') ?>
                 <?= $form->field($model, 'email') ?>
+                <?php endif ?>
                 <?= $form->field($model, 'subject') ?>
                 <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [

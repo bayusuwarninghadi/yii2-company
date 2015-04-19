@@ -43,9 +43,6 @@ $columns = [
             return $return;
         },
         'format' => 'raw',
-        'options' => [
-            'style' => 'min-width:300px;'
-        ]
     ],
     [
         'attribute' => 'product.name',

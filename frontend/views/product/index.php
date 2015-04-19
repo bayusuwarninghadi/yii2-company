@@ -25,5 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'col-sm-6 col-lg-4 col-md-4 col-xs-6'
                 ]
             ]); ?>
+        </div>
     </div>
 </div>

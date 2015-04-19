@@ -10,12 +10,12 @@ use yii\helpers\Html;
  * @var \common\models\Product $model
  */
 ?>
-<div class="thumbnail">
-    <?=Html::a('<div class="image" style="background-image:url('.$model->image_url.')"></div>', ['/product/view','id' => $model->id])?>
+<div class="thumbnail transition">
+    <?=Html::a('<div class="image transition" style="background-image:url('.$model->image_url.')"></div>', ['/product/view','id' => $model->id])?>
     <?php if ($model->stock > 0) :?>
-    <div class="stock label label-success" data-toggle="popover" title="Stock" data-content="Available">
-        <i class="fa fa-truck fa-2x"></i>
-    </div>
+        <div class="stock label label-success" data-toggle="popover" title="Stock" data-content="Available">
+            <i class="fa fa-truck fa-2x"></i>
+        </div>
     <?php else :?>
         <div class="stock label label-danger" data-toggle="popover" title="Stock" data-content="Stock Unavailable">
             <i class="fa fa-truck fa-2x"></i>
@@ -28,7 +28,7 @@ use yii\helpers\Html;
         </h4>
         <h4>
             <?php if ($model->discount) :?>
-                <?=Yii::$app->formatter->asCurrency($model->price)?>
+                <span class="line-through"><?=Yii::$app->formatter->asCurrency($model->price)?></span>
                 <small class="pull-right label label-success"><?=Yii::$app->formatter->asPercent($model->discount/100)?></small>
             <?php else :?>
                 <?=Yii::$app->formatter->asCurrency($model->price)?>

@@ -3,6 +3,8 @@
 namespace common\models;
 
 use Yii;
+use yii\db\ActiveRecord;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "inbox".
@@ -15,8 +17,18 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  */
-class Inbox extends \yii\db\ActiveRecord
+class Inbox extends ActiveRecord
 {
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * @inheritdoc
      */

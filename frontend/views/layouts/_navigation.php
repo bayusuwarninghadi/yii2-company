@@ -20,7 +20,10 @@ NavBar::begin([
     ],
 ]);
 $menuItems = [
-    ['label' => 'Our Product', 'url' => ['/product/index']],
+    [
+        'label' => 'Our Product',
+        'url' => ['/product/index']
+    ],
     [
         'label' => 'Press',
         'items' => [

@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Inbox;
 use common\models\LoginForm;
 use common\models\Product;
 use common\models\User;
@@ -73,6 +74,7 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
+        $this->layout='main-index';
         $slider = [];
         /**
          * @var $_article Article
@@ -127,8 +129,19 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $model = new ContactForm();
+        if (!Yii::$app->user->isGuest){
+            $model->name = Yii::$app->user->identity->username;
+            $model->email = Yii::$app->user->identity->email;
+        }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
+                $inbox = new Inbox();
+                $inbox->name = $model->name;
+                $inbox->email = $model->email;
+                $inbox->subject = $model->subject;
+                $inbox->message = $model->body;
+                $inbox->save();
+
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending email.');

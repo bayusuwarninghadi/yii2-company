@@ -7,14 +7,18 @@ use yii\helpers\Html;
  * Time: 17:10
  */
 ?>
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">
-            &copy; My Company <?= date('Y') ?>
-        </p>
-        <p class="pull-right">
-            <?=Html::a('About',['/site/about'])?>
-            <?=Html::a('Contact',['/site/contact'])?>
+<section class="footer">
+    <div class="container text-center">
+        <div class="social">
+            <?=Html::a('<i class="fa fa-facebook"></i>','#',['class'=>'btn btn-lg btn-circle btn-transparent'])?>
+            <?=Html::a('<i class="fa fa-twitter"></i>','#',['class'=>'btn btn-lg btn-circle btn-transparent'])?>
+        </div>
+        &copy; My Company <?= date('Y') ?>
+        <p>
+            <small>
+                <?=Html::a('About',['/site/about'])?>
+                <?=Html::a('Contact',['/site/contact'])?>
+            </small>
         </p>
     </div>
-</footer>
+</section>

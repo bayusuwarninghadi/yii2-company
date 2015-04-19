@@ -4,7 +4,7 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model \frontend\models\SignupForm */
+/* @var $model common\models\User */
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'password')->passwordInput() ?>
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    Have Account? <?= Html::a('Login', ['site/login']) ?>.
                 </div>
             <?php ActiveForm::end(); ?>
         </div>
