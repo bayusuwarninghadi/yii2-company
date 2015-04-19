@@ -110,6 +110,7 @@ body {
 .tab-content {
     border: 1px solid #ddd;
     padding: 15px;
+    background: #fff;
 }
 .modal-full {
     width: 100%;
@@ -147,7 +148,7 @@ body {
     color:#ddd;
 }
 section {
-    padding: 50px 0;
+    padding: 100px 0;
 }
 .navbar-inverse{
     border: none;
@@ -157,4 +158,7 @@ section {
 }
 .bg-red {
     background: #d9534f;
+}
+.bg-white {
+    background: #fff;
 }

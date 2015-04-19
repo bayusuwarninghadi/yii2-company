@@ -17,6 +17,30 @@ class m150415_155749_create_category_table extends Migration
             'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
         $this->addForeignKey('product_to_category', 'product', 'cat_id', 'category', 'id', 'CASCADE', 'CASCADE');
+        $this->insert('category',[
+            'name' => 'Category',
+            'description' => 'Category',
+            'tree' => 1,
+            'lft' => 1,
+            'rgt' => 1,
+            'depth' => 0,
+        ]);
+        $this->insert('product', [
+            'cat_id' => 1,
+            'name' => 'Product',
+            'description' => 'Product Description',
+        ]);
+        $this->insert('product', [
+            'cat_id' => 1,
+            'name' => 'Product 2',
+            'description' => 'Product Description',
+        ]);
+        $this->insert('product', [
+            'cat_id' => 1,
+            'name' => 'Product 3',
+            'description' => 'Product Description',
+        ]);
+
     }
 
     public function safeDown()

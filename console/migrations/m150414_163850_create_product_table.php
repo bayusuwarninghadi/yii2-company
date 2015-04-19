@@ -1,13 +1,13 @@
 <?php
 
-use yii\db\Schema;
 use yii\db\Migration;
+use yii\db\Schema;
 
 class m150414_163850_create_product_table extends Migration
 {
     public function safeUp()
     {
-        $this->createTable('product',[
+        $this->createTable('product', [
             'id' => 'pk',
             'cat_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'name' => Schema::TYPE_STRING . ' NOT NULL',
@@ -21,8 +21,8 @@ class m150414_163850_create_product_table extends Migration
             'order' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'image_url' => Schema::TYPE_STRING . " NOT NULL DEFAULT '/images/320x150.gif'",
             'rating' => Schema::TYPE_STRING . ' NOT NULL DEFAULT "0/0"',
-            'created_at' => Schema::TYPE_INTEGER,
-            'updated_at' => Schema::TYPE_INTEGER,
+            'created_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
         ]);
     }
 
@@ -30,5 +30,5 @@ class m150414_163850_create_product_table extends Migration
     {
         $this->dropTable('product');
     }
-    
+
 }

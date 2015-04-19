@@ -134,14 +134,13 @@ class SiteController extends BaseController
             $model->email = Yii::$app->user->identity->email;
         }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            $inbox = new Inbox();
+            $inbox->name = $model->name;
+            $inbox->email = $model->email;
+            $inbox->subject = $model->subject;
+            $inbox->message = $model->body;
+            $inbox->save();
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                $inbox = new Inbox();
-                $inbox->name = $model->name;
-                $inbox->email = $model->email;
-                $inbox->subject = $model->subject;
-                $inbox->message = $model->body;
-                $inbox->save();
-
                 Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
                 Yii::$app->session->setFlash('error', 'There was an error sending email.');

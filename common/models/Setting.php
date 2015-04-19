@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $key
  * @property string $value
+ * @property integer $type
  * @property integer $readonly
  */
 class Setting extends ActiveRecord
@@ -18,6 +19,8 @@ class Setting extends ActiveRecord
 
     const READONLY = 1;
     const READONLY_NOT = 0;
+    const TYPE_TEXT = 1;
+    const TYPE_TEXT_AREA = 2;
 
     /**
      * @param bool $with_key
@@ -51,8 +54,9 @@ class Setting extends ActiveRecord
     public function rules()
     {
         return [
+            ['type', 'default', 'value' => static::TYPE_TEXT],
             [['key'], 'required'],
-            ['key', 'filter', 'filter' => 'trim'], 
+            ['key', 'filter', 'filter' => 'trim'],
             ['key', 'unique', 'message' => 'This key already exist.'],
             [['value'], 'string'],
             [['readonly'], 'integer'],

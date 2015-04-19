@@ -1,12 +1,13 @@
 <?php
 
-use yii\helpers\Html;
 use common\models\Setting;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 use yii\helpers\Inflector;
+use backend\widget\tinymce\TinyMce;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Setting */
+/* @var $model common\models\Setting[] */
 
 $this->title = 'Settings';
 $this->params['breadcrumbs'][] = $this->title;
@@ -27,14 +28,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'hint' => '',
             ],
         ],
-    ]);?>
+    ]); ?>
     <div class="panel panel-yellow">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> Update</div>
         <?php foreach ($model as $m) {
             if ($m->readonly == Setting::READONLY_NOT) {
-               echo $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']])->textarea()->label(Inflector::camel2words($m->key, true));
+                $formGroup = $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']]);
+                switch ($m->type){
+                    case Setting::TYPE_TEXT_AREA;
+                        $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
+                        break;
+                }
+                echo $formGroup->label(Inflector::camel2words($m->key, true));
             }
-        }?>
+        } ?>
         <div class="panel-footer">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
         </div>

@@ -29,7 +29,7 @@ echo Carousel::widget([
     ]
 ]);
 ?>
-<section class="bg-primary">
+<section class="bg-white">
     <div class="container">
         <?= HtmlPurifier::process($page->description) ?>
     </div>
