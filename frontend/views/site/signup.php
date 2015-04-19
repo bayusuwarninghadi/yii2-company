@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'username') ?>
                 <?= $form->field($model, 'email') ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
+                <?= $form->field($model, 'disclaimer')->checkbox()->label('I agree to the our '.Html::a('Terms And Condition', '/site/terms')) ?>
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                     Have Account? <?= Html::a('Login', ['site/login']) ?>.

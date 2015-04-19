@@ -163,6 +163,33 @@ class SiteController extends BaseController
             'model' => Article::findOne(['title' => 'about', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
+    /**
+     * @return string
+     */
+    public function actionFaq()
+    {
+        return $this->render('/layouts/page', [
+            'model' => Article::findOne(['title' => 'faq', 'type_id' => Article::TYPE_PAGES])
+        ]);
+    }
+    /**
+     * @return string
+     */
+    public function actionTerms()
+    {
+        return $this->render('/layouts/page', [
+            'model' => Article::findOne(['title' => 'terms', 'type_id' => Article::TYPE_PAGES])
+        ]);
+    }
+    /**
+     * @return string
+     */
+    public function actionPrivacy()
+    {
+        return $this->render('/layouts/page', [
+            'model' => Article::findOne(['title' => 'privacy', 'type_id' => Article::TYPE_PAGES])
+        ]);
+    }
 
     /**
      * @return string|\yii\web\Response

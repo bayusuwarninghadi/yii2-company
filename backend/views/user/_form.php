@@ -24,6 +24,7 @@ use common\modules\UploadHelper;
             <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>
             <?= $form->field($model, 'role')->dropDownList(User::getRoleAsArray()) ?>
+            <?= Html::activeHiddenInput($model,'disclaimer',['value'=>1])?>
         </div>
         <div class="panel-footer">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

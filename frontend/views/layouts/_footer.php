@@ -16,6 +16,8 @@ use yii\helpers\Html;
         &copy; My Company <?= date('Y') ?>
         <p>
             <small>
+                <?=Html::a('Privacy',['/site/privacy'])?>
+                <?=Html::a('FAQ',['/site/faq'])?>
                 <?=Html::a('About',['/site/about'])?>
                 <?=Html::a('Contact',['/site/contact'])?>
             </small>

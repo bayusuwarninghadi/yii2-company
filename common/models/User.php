@@ -65,6 +65,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public $password;
 
+    public $disclaimer = 0;
 
     /**
      * @param bool $with_key
@@ -157,6 +158,13 @@ class User extends ActiveRecord implements IdentityInterface
 
             ['password', $this->isNewRecord ? 'required' : 'string'],
             ['password', 'string', 'min' => 6],
+            [
+                'disclaimer',
+                'required',
+                'requiredValue' => 1,
+                'message' => 'You must agree to our disclaimer'
+            ]
+
         ];
     }
 
