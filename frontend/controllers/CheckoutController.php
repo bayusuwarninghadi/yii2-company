@@ -2,11 +2,16 @@
 
 namespace frontend\controllers;
 
+use common\models\Article;
 use common\models\Cart;
+use common\models\Transaction;
+use common\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
+use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 
 /**
@@ -40,10 +45,32 @@ class CheckoutController extends BaseController
     }
 
     /**
-     *
+     * Checkout
      */
     public function actionIndex()
     {
+        $model = new Transaction();
+        $model->user_id = Yii::$app->user->getId();
+
+        $cartModel = $this->findCart();
+
+        /**
+         * @var integer $grandTotal
+         * @var $cartDataProvider ActiveDataProvider
+         */
+        $cartDataProvider = $cartModel['dataProvider'];
+        $grandTotal = $cartModel['grandTotal'];
+
+        if (!$cartDataProvider->getModels()){
+            throw new BadRequestHttpException("You don't have any product in your cart, ".Html::a('Start Shopping' ,['/product']));
+        }
+        $notes = Article::find()->where(['title' => 'checkout_note', 'type_id' => Article::TYPE_PAGES])->one();
+        return $this->render('index',[
+            'model' => $model,
+            'cartDataProvider' => $cartDataProvider,
+            'grandTotal' => $grandTotal,
+            'notes' => $notes
+        ]);
 
     }
 
@@ -80,7 +107,15 @@ class CheckoutController extends BaseController
      */
     public function actionCart()
     {
+        $params = $this->findCart();
+        return Yii::$app->request->isAjax ? $this->renderPartial('cart',$params) : $this->render('cart', $params);
 
+    }
+
+    /**
+     * @return array
+     */
+    protected function findCart(){
         $query = Cart::find()->where(['user_id' => Yii::$app->user->getId()]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -88,10 +123,8 @@ class CheckoutController extends BaseController
                 'pageSize' => 1000,
             ],
         ]);
-
         $grandTotal = 0;
-
-        $model = $query->all();
+        $model = $dataProvider->getModels();
         /** @var Cart $cart */
         foreach ($model as $cart){
             $_price = $cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty;
@@ -101,9 +134,8 @@ class CheckoutController extends BaseController
             'dataProvider' => $dataProvider,
             'grandTotal' => $grandTotal
         ];
-        return Yii::$app->request->isAjax ? $this->renderPartial('cart',$params) : $this->render('cart', $params);
+
+        return $params;
 
     }
-
-
 }

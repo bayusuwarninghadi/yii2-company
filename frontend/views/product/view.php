@@ -20,42 +20,42 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="form-group">
         <div class="row">
             <div class="col-md-5 product-slider">
-                <p>
+                <div class="panel">
                     <?=$this->render('_gallery',['images'=>$images])?>
-                </p>
-                <p class="text-center visible-md visible-lg">
-                    <a class="btn btn-primary toggle-preview"><i class="fa fa-arrows-alt"></i> Preview</a>
-                </p>
+                	<div class="text-center visible-md visible-lg panel-body">
+                        <a class="btn btn-primary toggle-preview"><i class="fa fa-arrows-alt"></i> Preview</a>
+                	</div>
+                </div>
 
             </div>
             <div class="col-md-7">
-                <div class="form-group"><?= Html::decode($model->subtitle) ?></div>
-                <div class="row">
-                    <div class="col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
                         <?php if ($model->discount) : ?>
-                            <h5>
-                                <span class="line-through"><?= Yii::$app->formatter->asCurrency($model->price) ?></span>
-                                <span class="label label-success">
-                                    <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
-                                </span>
-                            </h5>
-                            <?= Html::tag('h1',Yii::$app->formatter->asCurrency($model->price * (100 - $model->discount) / 100)) ?>
+                            <span class="line-through"><?= Yii::$app->formatter->asCurrency($model->price) ?></span>
+                            <span class="label label-success">
+                                <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
+                            </span>
+                            <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price * (100 - $model->discount) / 100),['class' => 'pull-right']) ?>
                         <?php else : ?>
-                            <?= Html::tag('h1',Yii::$app->formatter->asCurrency($model->price)) ?>
+                            <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price),['class' => 'pull-right']) ?>
                         <?php endif ?>
                     </div>
-                    <div class="col-sm-6">
+                	<div class="list-group-item">
+                        <?= Html::decode($model->subtitle) ?>
+                    </div>
+                	<div class="list-group-item">
                         <?php if ($model->stock) :?>
                             <h5>Stock <span class="label-success label"><?= $model->stock ?></span></h5>
                             <?php
-                            echo Html::tag('h5', 'Add To Cart');
                             $form = ActiveForm::begin();
                             echo $form->field($cartModel, 'qty', [
                                 'template' => "
-                                    <div class='input-group input-group-sm' style='width: 140px'>
+                                    <div class='input-group input-group-sm' style='width: 200px'>
+                                        <div class='input-group-addon'>Add To Cart</div>
                                         {input}
                                         <div class='input-group-btn'>
-                                            <button type='submit' class='btn btn-primary'>
+                                            <button type='submit' class='btn btn-danger'>
                                                 <i class='fa fa-shopping-cart'></i>
                                             </button>
                                         </div>
@@ -71,37 +71,34 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php else :?>
                             <h5>Stock <span class="label-danger label">Unavailable</span></h5>
                         <?php endif ?>
-                        <div class="form-group">
-                            <h5>Share with your friend</h5>
-                            <?=Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>','#')?>
-                            <?=Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>','#')?>
-                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        Share with your friend
+                        <?=Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>','#')?>
+                        <?=Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>','#')?>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="form-group">
-        <?php
-        $arr = explode('/', $model->rating);
-
-        echo Tabs::widget([
-            'items' => [
-                [
-                    'label' => 'Description',
-                    'content' => HtmlPurifier::process($model->description),
-                ],
-                [
-                    'label' => $arr[1] . ' Reviews',
-                    'content' => Html::tag('div', $this->render('/layouts/_loading'), [
-                        'class' => 'comment-container',
-                        'data-id' => $model->id
-                    ]),
-                ],
+    <?php
+    $arr = explode('/', $model->rating);
+    echo Tabs::widget([
+        'items' => [
+            [
+                'label' => 'Description',
+                'content' => HtmlPurifier::process($model->description),
             ],
+            [
+                'label' => $arr[1] . ' Reviews',
+                'content' => Html::tag('div', $this->render('/layouts/_loading'), [
+                    'class' => 'comment-container',
+                    'data-id' => $model->id
+                ]),
+            ],
+        ],
 
-        ]) ?>
-    </div>
+    ]) ?>
     <h3>Related Product</h3>
     <div class="well related-product" data-id="<?=$model->id?>">
         <div class="row">

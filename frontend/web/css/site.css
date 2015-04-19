@@ -6,8 +6,8 @@ body {
 .wrap {
     min-height: 100%;
     height: auto;
-    margin: 0 auto -150px;
-    padding: 0 0 150px;
+    margin: 0 auto -250px;
+    padding: 0 0 250px;
     background: url('../images/rough_diagonal.png') repeat #e6e6e6;
 }
 .wrap > .container {
@@ -17,17 +17,15 @@ body {
 .footer {
     background: #333;
     color: #fff;
-    height: 150px;
-    padding-top: 20px;
+    height: 250px;
+    padding-top: 80px;
 }
 .footer .social {
     margin-bottom: 20px;
 }
-.footer .social .btn{
-    margin: 0 5px;
-}
 .footer a{
-    color: #d9534f;
+    color: #ddd;
+    margin: 0 5px;
 }
 .cart-pop{
     font-size: 90%;
@@ -161,4 +159,7 @@ section {
 }
 .bg-white {
     background: #fff;
+}
+.radio-form label {
+    display: block;
 }

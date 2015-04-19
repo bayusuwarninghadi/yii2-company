@@ -23,6 +23,10 @@ class m150413_174741_create_setting_table extends Migration
             'value' => 'admin@email.com',
         ]);
         $this->insert('setting',[
+            'key' => 'bank_transfer',
+            'value' => 'BCA 0123456789 AN:John Doe',
+        ]);
+        $this->insert('setting',[
             'key' => 'facebook_url',
             'value' => 'http://facebook.com',
         ]);

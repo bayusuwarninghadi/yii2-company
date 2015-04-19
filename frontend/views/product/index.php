@@ -11,7 +11,6 @@ $this->title = 'Product';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
-    <h1><?= Html::encode($this->title) ?></h1>
     <div class="row">
         <div class="col-md-3 col-sm-4">
             <?= $this->render('_search', ['model' => $searchModel]); ?>

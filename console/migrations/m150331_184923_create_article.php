@@ -38,12 +38,18 @@ class m150331_184923_create_article extends Migration
             'description' => 'Terms and Condition',
         ]);
         $this->insert('article',[
-            'title' => 'slider',
-            'description' => 'about page',
+            'title' => 'terms',
+            'description' => 'Terms and Condition',
         ]);
         $this->insert('article',[
             'title' => 'slider',
             'description' => 'about page',
+            'type_id' => 4,
+        ]);
+        $this->insert('article',[
+            'title' => 'slider',
+            'description' => 'about page',
+            'type_id' => 4,
         ]);
         $this->insert('article',[
             'title' => 'Article',
