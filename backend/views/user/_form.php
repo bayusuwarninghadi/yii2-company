@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use common\models\User;
+use common\modules\UploadHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
@@ -14,7 +15,10 @@ use common\models\User;
     <div class="panel panel-yellow">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
         <div class="panel-body">
-            <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
+            <?= $form->field($model, 'image',[
+                'template' => Html::tag('div', UploadHelper::getHtml('user/' . $model->id, 'small')) .
+                "{label}\n{input}\n{hint}\n{error}"
+            ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
             <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'password')->passwordInput() ?>

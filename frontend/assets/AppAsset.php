@@ -27,5 +27,6 @@ class AppAsset extends AssetBundle
     ];
     public $depends = [
         'common\assets\CommonAsset',
+        'yii\bootstrap\BootstrapThemeAsset',
     ];
 }

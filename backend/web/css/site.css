@@ -94,3 +94,25 @@ h1,h2,h3 {
     color: #fff;
     outline: none;
 }
+.carousel img {
+    width: 100%;
+}
+.product-gallery .gallery-container {
+    border: 1px solid #ddd;
+    padding: 5px;
+    display: block;
+    margin-bottom: 15px;
+    background: #fff;
+}
+.product-gallery .gallery-container.active{
+    border: 1px solid #004a70;
+}
+.product-gallery .gallery {
+    height: 130px;
+    background: no-repeat center center;
+    background-size: cover;
+    opacity: .4;
+}
+.product-gallery .gallery:hover, .product-gallery .gallery-container.active .gallery {
+    opacity: 1;
+}

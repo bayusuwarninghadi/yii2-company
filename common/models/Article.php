@@ -23,10 +23,11 @@ class Article extends ActiveRecord
     const TYPE_ARTICLE = '1';
     const TYPE_NEWS = '2';
     const TYPE_PAGES = '3';
+    const TYPE_SLIDER = '4';
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 10;
 
-
+    public $image;
     /**
      * @param bool $with_key
      * @return array
@@ -69,12 +70,21 @@ class Article extends ActiveRecord
     public function rules()
     {
         return [
+            [
+                'image',
+                'file',
+                'extensions' => 'gif, jpg, png',
+                'mimeTypes' => 'image/jpeg, image/png',
+                'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+            ],
+
             [['title', 'description', 'type_id'], 'required'],
             [['description'], 'string'],
             [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
             [['order'], 'default', 'value' => 0],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
-            ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES]],
+            ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES, static::TYPE_SLIDER]],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             [['title'], 'string', 'max' => 255]
         ];

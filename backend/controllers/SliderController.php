@@ -4,8 +4,8 @@ namespace backend\controllers;
 
 use common\modules\UploadHelper;
 use Yii;
-use common\models\User;
-use backend\models\UserSearch;
+use common\models\Article;
+use common\models\ArticleSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,9 +13,9 @@ use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * ArticleController implements the CRUD actions for Article model.
  */
-class UserController extends Controller
+class SliderController extends Controller
 {
     public function behaviors()
     {
@@ -39,58 +39,49 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all Article models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new ArticleSearch();
+        $searchModel->type_id = Article::TYPE_SLIDER;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'type' => 'Slider'
         ]);
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
+     * Creates a new Article model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new User();
-
+        $model = new Article();
+        $model->type_id = Article::TYPE_SLIDER;
+        $model->title = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password);
-            $model->generateAuthKey();
-            if ($model->save()){
-                if ($image = UploadedFile::getInstance($model, 'image')){
-                    UploadHelper::saveImage($image, 'user/' . $model->id);
-                }
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                $image = UploadedFile::getInstance($model, 'image');
+                UploadHelper::saveImage($image, 'slider/' . $model->id);
+                return $this->redirect(['index']);
             }
+            return $this->redirect(['index']);
         }
+
         return $this->render('create', [
             'model' => $model,
+            'type' => 'Slider'
         ]);
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing Article model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -98,23 +89,23 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $model->title = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
-            if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'user/' . $model->id);
-            }
-            if ($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
+            $model->type_id = Article::TYPE_SLIDER;
+            if ($model->save()) {
+                $image = UploadedFile::getInstance($model, 'image');
+                UploadHelper::saveImage($image, 'slider/' . $model->id);
+                return $this->redirect(['index']);
             }
         }
         return $this->render('update', [
             'model' => $model,
+            'type' => 'Slider'
         ]);
-
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing Article model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -127,15 +118,15 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the Article model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return Article the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_SLIDER])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

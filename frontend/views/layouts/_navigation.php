@@ -13,16 +13,16 @@ use yii\bootstrap\Nav;
  */
 
 NavBar::begin([
-    'brandLabel' => 'My Company',
+    'brandLabel' => '<i class="fa fa-home fa-fw"></i>',
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
 $menuItems = [
-    ['label' => '<i class="fa fa-list fa-fw"></i> Product', 'url' => ['/product/index']],
+    ['label' => 'Our Product', 'url' => ['/product/index']],
     [
-        'label' => '<i class="fa fa-file fa-fw"></i> Press',
+        'label' => 'Press',
         'items' => [
             ['label' => '<i class="fa fa-table fa-fw"></i> Article', 'url' => ['/article/index']],
             '<li class="divider"></li>',
@@ -31,11 +31,10 @@ $menuItems = [
     ]
 ];
 if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-    $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i>', 'url' => ['/site/login']];
 } else {
     $menuItems[] = [
-        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart',
+        'label' => 'Shopping Cart',
         'url' => ['/checkout/cart'],
         'linkOptions' => [
             'class' => 'visible-xs'

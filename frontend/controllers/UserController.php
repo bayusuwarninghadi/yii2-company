@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use common\modules\UploadHelper;
 use Yii;
 use common\models\User;
-use backend\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -47,9 +46,8 @@ class UserController extends Controller
         $model = $this->findModel(Yii::$app->user->getId());
 
         if ($model->load(Yii::$app->request->post())) {
-            $image = UploadedFile::getInstances($model, 'image');
-            if ($upload = UploadHelper::saveImage($image, 'user/' . $model->id)){
-                $model->image_url = $upload['medium'];
+            if ($image = UploadedFile::getInstance($model, 'image')){
+                UploadHelper::saveImage($image, 'user/' . $model->id);
             }
             $model->save();
         }

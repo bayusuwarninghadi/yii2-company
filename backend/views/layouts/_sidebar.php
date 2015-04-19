@@ -19,8 +19,15 @@ use backend\widget\Sidebar;
                     'url' => '/site/index'
                 ],
                 [
-                    'label' => '<i class="fa fa-file fa-fw"></i> Manage Pages',
-                    'url' => '/pages/index'
+                    'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Transaction', 
+                    'url' => '/transaction/index'
+                ],
+                [
+                    'label' => '<i class="fa fa-list fa-fw"></i> Product', 
+                    'items' => [
+                        ['label' => 'Manage Category', 'url' => ['/category/index']],
+                        ['label' => 'Manage Product', 'url' => ['/product/index']],
+                    ]
                 ],
                 [
                     'label' => '<i class="fa fa-table fa-fw"></i> Article',
@@ -37,14 +44,10 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Transaction', 
-                    'url' => '/transaction/index'
-                ],
-                [
-                    'label' => '<i class="fa fa-list fa-fw"></i> Product', 
+                    'label' => '<i class="fa fa-file fa-fw"></i> Manage Pages',
                     'items' => [
-                        ['label' => 'Manage Category', 'url' => ['/category/index']],
-                        ['label' => 'Manage Product', 'url' => ['/product/index']],
+                        ['label' => 'Static Pages', 'url' => ['/pages/index']],
+                        ['label' => 'Slider', 'url' => ['/slider/index']]
                     ]
                 ],
                 [

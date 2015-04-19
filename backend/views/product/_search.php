@@ -51,9 +51,8 @@ use common\models\Product;
             <?= $form->field($model, 'status')->dropDownList(Product::getStatusAsArray(),['prompt' => 'Select Status']) ?>
             <?= $form->field($model, 'visible')->dropDownList(Product::getVisibleAsArray(),['prompt' => 'Select Visibility']) ?>
         </div>
-        <div class="panel-footer text">
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary pull-right']) ?>
+        <div class="panel-footer text-right">
+            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
 

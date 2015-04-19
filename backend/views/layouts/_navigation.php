@@ -45,4 +45,3 @@ echo Nav::widget([
 
 echo $this->render('_sidebar');
 NavBar::end();
-?>

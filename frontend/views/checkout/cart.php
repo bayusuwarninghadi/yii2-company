@@ -27,6 +27,7 @@ $columns = [
     ],
     [
         'label' => 'Product',
+        'visible' => !Yii::$app->request->isAjax,
         'value' => function ($cart) {
             $return = Html::tag('p', Html::decode($cart->product->name));
             $return .= Html::a('<i class="fa fa-pencil"></i>', ['/product/view', 'id' => $cart->product_id], [
@@ -42,6 +43,13 @@ $columns = [
             return $return;
         },
         'format' => 'raw',
+        'options' => [
+            'style' => 'min-width:300px;'
+        ]
+    ],
+    [
+        'attribute' => 'product.name',
+        'visible' => Yii::$app->request->isAjax,
     ],
     [
         'attribute' => 'qty',

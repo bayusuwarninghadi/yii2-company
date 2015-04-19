@@ -10,6 +10,7 @@ use common\modules\UploadHelper;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -48,8 +49,19 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
+
+        $images = [];
+        foreach ($gallery as $image) {
+            $_arr = Json::decode($image->value);
+            $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
+        }
+        if (!$images) $images[] = Html::img(Yii::$app->components['frontendSiteUrl'].$model->image_url);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'images' => $images
         ]);
     }
 
@@ -63,22 +75,26 @@ class ProductController extends Controller
         $model = new Product();
 
         if ($model->load(Yii::$app->request->post())) {
-            $_images = UploadedFile::getInstances($model, 'images');
             if ($model->save()) {
-                foreach ($_images as $image) {
-                    $_model = new ProductAttribute();
-                    $_model->key = 'images';
-                    $_model->product_id = $model->id;
-                    if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)){
-                        $_model->value = Json::encode($upload);
-                        $_model->save();
-                        $model->image_url = $upload['medium'];
+                if ($_images = UploadedFile::getInstances($model, 'images')){
+                    foreach ($_images as $image) {
+                        $_model = new ProductAttribute();
+                        $_model->key = 'images';
+                        $_model->product_id = $model->id;
+                        if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)) {
+                            $_model->value = Json::encode($upload);
+                            $_model->save();
+                            $model->image_url = $upload['medium'];
+                        }
                     }
+                    $model->save();
                 }
+                return $this->redirect(['view', 'id' => $model->id]);
             }
         }
         return $this->render('create', [
             'model' => $model,
+            'gallery' => null
         ]);
     }
 
@@ -92,14 +108,15 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
 
+        if ($model->load(Yii::$app->request->post())) {
             $_images = UploadedFile::getInstances($model, 'images');
             foreach ($_images as $image) {
                 $_model = new ProductAttribute();
                 $_model->key = 'images';
                 $_model->product_id = $model->id;
-                if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)){
+                if ($_model->save() && $upload = UploadHelper::saveImage($image, 'product/' . $model->id . '/' . $_model->id)) {
                     $_model->value = Json::encode($upload);
                     $_model->save();
                     $model->image_url = $upload['medium'];
@@ -110,9 +127,24 @@ class ProductController extends Controller
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
-        return $this->render('create', [
+        return $this->render('update', [
             'model' => $model,
+            'gallery' => $gallery,
         ]);
+    }
+
+    /**
+     * Updates Cover Product model.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionSetCover($id)
+    {
+        if ($image_url = Yii::$app->request->post('imageUrl')){
+            Product::updateAll(['image_url' => $image_url], ['id' => $id]);
+            echo 'ok';
+        }
     }
 
     /**

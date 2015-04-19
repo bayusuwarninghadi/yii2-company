@@ -2,16 +2,19 @@
 namespace frontend\controllers;
 
 use common\models\Article;
-use common\models\User;
-use Yii;
 use common\models\LoginForm;
+use common\models\Product;
+use common\models\User;
+use common\modules\UploadHelper;
+use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\ContactForm;
+use Yii;
 use yii\base\InvalidParamException;
-use yii\web\BadRequestHttpException;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\HtmlPurifier;
+use yii\web\BadRequestHttpException;
 
 /**
  * Site controller
@@ -65,11 +68,33 @@ class SiteController extends BaseController
         ];
     }
 
+    /**
+     * @return string
+     */
     public function actionIndex()
     {
-            return $this->render('index');
+        $slider = [];
+        /**
+         * @var $_article Article
+         */
+        foreach ($sliderModel = Article::find()->where(['type_id' => Article::TYPE_SLIDER])->orderBy('order ASC')->all() as $_article) {
+            $slider[] = [
+                'content' => UploadHelper::getHtml('slider/' . $_article->id, 'large', [], true),
+                'caption' => HtmlPurifier::process($_article->description),
+            ];
+        }
+
+        $products = Product::find()->where(['status' => Product::STATUS_ACTIVE, 'visible' => Product::VISIBLE_VISIBLE])->orderBy('created_at DESC')->limit(4)->all();;
+        return $this->render('index', [
+            'slider' => $slider,
+            'page' => Article::findOne(['type_id' => Article::TYPE_PAGES, 'title' => 'index']),
+            'products' => $products
+        ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionLogin()
     {
         if (!\Yii::$app->user->isGuest) {
@@ -86,6 +111,9 @@ class SiteController extends BaseController
         }
     }
 
+    /**
+     * @return \yii\web\Response
+     */
     public function actionLogout()
     {
         Yii::$app->user->logout();
@@ -93,6 +121,9 @@ class SiteController extends BaseController
         return $this->goHome();
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -111,13 +142,19 @@ class SiteController extends BaseController
         }
     }
 
+    /**
+     * @return string
+     */
     public function actionAbout()
     {
-        return $this->render('/layouts/page',[
+        return $this->render('/layouts/page', [
             'model' => Article::findOne(['title' => 'about', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionSignup()
     {
         $model = new User();
@@ -138,6 +175,9 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -156,6 +196,11 @@ class SiteController extends BaseController
         ]);
     }
 
+    /**
+     * @param $token
+     * @return string|\yii\web\Response
+     * @throws BadRequestHttpException
+     */
     public function actionResetPassword($token)
     {
         try {

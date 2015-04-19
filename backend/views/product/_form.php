@@ -23,8 +23,26 @@ use backend\widget\category\CategoryWidget;
             <?= $form->field($model, 'subtitle')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'cat_id',['template' => "{input}\n{hint}\n{error}"])->widget(CategoryWidget::className())?>
             <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>
-            <?= $form->field($model, 'price')->input('number') ?>
-            <?= $form->field($model, 'discount')->input('number') ?>
+            <?= $form->field($model, 'price',[
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>Rp</span>
+                        {input}
+                    </div>
+                    \n{error}"
+
+            ])->input('number') ?>
+            <?= $form->field($model, 'discount',[
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        {input}
+                        <span class='input-group-addon'>%</span>
+                    </div>
+                    \n{error}"
+
+            ])->input('number') ?>
             <?= $form->field($model, 'stock')->input('number') ?>
             <?= $form->field($model, 'status')->dropDownList(Product::getStatusAsArray()) ?>
             <?= $form->field($model, 'visible')->dropDownList(Product::getVisibleAsArray()) ?>

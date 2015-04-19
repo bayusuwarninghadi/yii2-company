@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use common\models\User;
+use common\modules\UploadHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
@@ -31,10 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php
         $status = User::getStatusAsArray();
         $role = User::getRoleAsArray();
-
         echo DetailView::widget([
             'model' => $model,
             'attributes' => [
+                [
+                    'label' => 'Avatar',
+                    'value' => UploadHelper::getImageUrl('user/' . $model->id, 'small',[],true),
+                    'format' => 'image'
+                ],
                 'username',
                 'email:email',
                 [
@@ -42,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'value' => $status[$model->status]
                 ],
                 [
-                    'label' => 'role',
+                    'label' => 'Role',
                     'value' => $role[$model->role]
                 ],
                 'created_at:datetime',

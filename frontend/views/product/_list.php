@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -12,11 +11,19 @@ use yii\helpers\Url;
  */
 ?>
 <div class="thumbnail">
-    <?=Html::a('<div class="image" style="background-image:url('.Url::to($model->image_url,true).')"></div>', ['view','id' => $model->id])?>
-
+    <?=Html::a('<div class="image" style="background-image:url('.$model->image_url.')"></div>', ['/product/view','id' => $model->id])?>
+    <?php if ($model->stock > 0) :?>
+    <div class="stock label label-success" data-toggle="popover" title="Stock" data-content="Available">
+        <i class="fa fa-truck fa-2x"></i>
+    </div>
+    <?php else :?>
+        <div class="stock label label-danger" data-toggle="popover" title="Stock" data-content="Stock Unavailable">
+            <i class="fa fa-truck fa-2x"></i>
+        </div>
+    <?php endif ?>
     <div class="caption">
         <h4>
-            <?=Html::a(Html::decode($model->name), ['view','id' => $model->id])?>
+            <?=Html::a(Html::decode($model->name), ['/product/view','id' => $model->id])?>
             <small><?=$model->category->name?></small>
         </h4>
         <h4>

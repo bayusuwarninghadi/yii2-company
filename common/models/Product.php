@@ -109,15 +109,18 @@ class Product extends ActiveRecord
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
                 'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
             ],
-            [['name', 'description', 'image_url'], 'required'],
+            [['name', 'description','cat_id'], 'required'],
             [['description'], 'string'],
-            [['price', 'discount', 'stock', 'status', 'visible', 'order', 'cat_id', 'created_at', 'updated_at'], 'integer'],
+            [['stock', 'status', 'visible', 'cat_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'subtitle', 'rating', 'image_url'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['visible', 'default', 'value' => static::VISIBLE_VISIBLE],
             ['visible', 'in', 'range' => static::getVisibleAsArray(false)],
-            ['order', 'default', 'value' => 0],
+            [['order', 'discount', 'price', 'stock'], 'default', 'value' => 0 ],
+            [['order', 'discount', 'price', 'stock'], 'integer', 'min' => 0 ],
+            ['discount', 'integer', 'max' => 100 ],
+            ['image_url', 'default', 'value' => '/images/320x150.gif'],
         ];
     }
 

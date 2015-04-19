@@ -19,7 +19,6 @@ use yii\web\UploadedFile;
  * @property string $auth_key
  * @property integer $status
  * @property integer $role
- * @property string $image_url
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
@@ -147,7 +146,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['email', 'unique', 'message' => 'This email address has already been taken.'],
 
             [['status', 'created_at', 'updated_at'], 'integer'],
-            [['password_hash', 'image_url', 'password_reset_token', 'email'], 'string', 'max' => 255],
+            [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
             [['auth_key'], 'string', 'max' => 32],
 
             ['status', 'default', 'value' => static::STATUS_ACTIVE],

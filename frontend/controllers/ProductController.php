@@ -7,6 +7,8 @@ use common\models\ProductAttribute;
 use Yii;
 use common\models\Product;
 use common\models\ProductSearch;
+use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -31,7 +33,6 @@ class ProductController extends BaseController
      * Displays a single Product model.
      * @param integer $id
      * @return mixed
-     * @var Cart $cartModel
      */
     public function actionView($id)
     {
@@ -48,11 +49,62 @@ class ProductController extends BaseController
 
         $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
 
+        $images = [];
+        foreach ($gallery as $image){
+            $_arr = Json::decode($image->value);
+            $images[] = Html::img($_arr['medium']);
+        }
+        if (!$images) $images[] = Html::img($model->image_url);
+
         return $this->render('view', [
             'model' => $model,
             'cartModel' => $cartModel,
-            'gallery' => $gallery
+            'images' => $images
         ]);
+    }
+
+    /**
+     * Displays a single Product Gallery.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionGallery($id)
+    {
+        $model = $this->findModel($id);
+
+        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
+
+        $images = [];
+        foreach ($gallery as $image){
+            $_arr = Json::decode($image->value);
+            $images[] = Html::img($_arr['large']);
+        }
+        if (!$images) $images[] = Html::img($model->image_url);
+
+        $params = ['images' => $images];
+        return Yii::$app->request->isAjax ? $this->renderPartial('_gallery', $params) : $this->render('_gallery', $params);
+    }
+
+    /**
+     * Displays Related Product.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionRelated($id)
+    {
+        $model = $this->findModel($id);
+        /*
+         * Prepare for keyword
+         */
+        $keys = explode(' ', Html::decode($model->name));
+
+        $models = Product::find()->limit(4)->all();
+        $params = [
+            'model' => $model,
+            'models' => $models
+        ];
+        return Yii::$app->request->isAjax ? $this->renderPartial('related', $params) : $this->render('related', $params);
+
     }
 
     /**

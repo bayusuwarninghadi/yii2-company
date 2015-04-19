@@ -36,7 +36,7 @@ class UploadHelper extends BaseArrayHelper
         }
 
         // define path
-        $path = 'upload/' . $path;
+        $path = Yii::$app->getBasePath() . '/../frontend/web/files/' . $path . '/';
 
         // check if path doesn't exist then create directory
         if (!file_exists($path)) {
@@ -101,7 +101,7 @@ class UploadHelper extends BaseArrayHelper
      */
     public static function getHtml($path, $size = 'medium', $option = [], $not_found = false)
     {
-        $image_url = self::getImageUrl($path, $size, $not_found);
+        $image_url = static::getImageUrl($path, $size, $not_found);
         return ($image_url) ? Html::img($image_url, $option) : false;
     }
 
@@ -116,10 +116,10 @@ class UploadHelper extends BaseArrayHelper
     public static function getImageUrl($path, $size = 'medium', $not_found = false)
     {
 
-        $real_path = Yii::$app->getBasePath() . '/../backend/web/images/upload/' . $path . '/';
+        $real_path = Yii::$app->getBasePath() . '/../frontend/web/images/' . $path . '/';
 
         if (!file_exists($real_path)) {
-            return $not_found ? Yii::$app->components['backendSiteUrl'] . '/images/404.png' : false;
+            return $not_found ? Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false;
         }
 
         $_images = glob($real_path . '*{jpg,png,gif,jpeg}', GLOB_BRACE);
@@ -128,22 +128,12 @@ class UploadHelper extends BaseArrayHelper
 
         foreach ($_images as $image) {
             $path_info = pathinfo($image);
-            $image_url = Yii::$app->components['backendSiteUrl'] . '/images/upload/' . $path . '/' . $path_info['basename'];
+            $image_url = Yii::$app->components['frontendSiteUrl'] . '/images/' . $path . '/' . $path_info['basename'];
             $images[$path_info['filename']] = $image_url;
         }
 
         $size = array_key_exists($size, $images) ? $size : 'medium';
 
-        return isset($images[$size]) ? $images[$size] : ($not_found ? Yii::$app->components['backendSiteUrl'] . '/images/404.png' : false);
-    }
-
-    /**
-     * @param $path
-     * @param string $size
-     * @return bool
-     */
-    public static function getUrl($path, $size = 'medium')
-    {
-        return self::getImageUrl($path, $size);
+        return isset($images[$size]) ? $images[$size] : ($not_found ? Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false);
     }
 }
