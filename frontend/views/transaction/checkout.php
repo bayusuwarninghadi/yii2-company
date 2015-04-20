@@ -12,18 +12,18 @@ use yii\widgets\ActiveForm;
  * Date: 4/19/15
  * Time: 22:59
  *
- * @var $cartDataProvider \yii\data\ActiveDataProvider
  * @var $model \common\models\Transaction
  * @var $notes \common\models\Article
  * @var $this \yii\web\View
  * @var $form ActiveForm
+ * @var $cartDataProvider \yii\data\ActiveDataProvider
  * @var $grandTotal integer
  */
 
 $this->title = 'Checkout';
 $this->params['breadcrumbs'][] = $this->title;
 
-$form = ActiveForm::begin();
+$form = ActiveForm::begin(['id' => 'checkout-form']);
 echo Collapse::widget([
     'encodeLabels' => false,
     'items' => [
@@ -36,6 +36,9 @@ echo Collapse::widget([
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'
+            ],
+            'options' => [
+                'class' => 'panel-success'
             ]
         ],
         [
@@ -51,7 +54,10 @@ echo Collapse::widget([
             'contentOptions' => [
                 'id' => 'shipping-form',
                 'class' => 'in'
-            ]
+            ],
+            'options' => [
+                'class' => 'panel-info'
+            ],
         ],
         [
             'label' => '<i class="fa fa-expand fa-fw"></i> Payment Method',
@@ -59,6 +65,9 @@ echo Collapse::widget([
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'
+            ],
+            'options' => [
+                'class' => 'panel-warning'
             ]
         ],
         [
@@ -66,10 +75,14 @@ echo Collapse::widget([
             'content' =>
                 HtmlPurifier::process($notes->description) .
                 $form->field($model, 'note')->textarea(['rows' => 3]) .
+                $form->field($model, 'disclaimer')->checkbox(['label' => 'I agree to the our '.Html::a('Terms And Condition', '/site/terms')]) .
                 Html::submitButton('Process Checkout', ['class' => 'btn btn-primary']),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'
+            ],
+            'options' => [
+                'class' => 'panel-danger'
             ]
         ],
 

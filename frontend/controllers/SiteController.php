@@ -64,7 +64,7 @@ class SiteController extends BaseController
             ],
             'captcha' => [
                 'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
+                'fixedVerifyCode' => YII_ENV_TEST ? 'tester' : null,
             ],
         ];
     }
@@ -74,7 +74,7 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        $this->layout='main-index';
+        $this->layout='mainIndex';
         $slider = [];
         /**
          * @var $_article Article

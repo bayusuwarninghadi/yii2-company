@@ -14,6 +14,6 @@ $this->title = 'Create Shipping';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=Html::decode($this->title)?></h1>
-<?=$this->render('_form-shipping',[
+<?=$this->render('_formShipping',[
     'model' => $model
 ])?>

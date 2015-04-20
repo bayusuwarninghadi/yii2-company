@@ -107,12 +107,11 @@ class Request extends ActiveRecord
         $period = new DatePeriod($begin, $interval, $end);
 
         /**
-         * loop per device
          * @var \DateTimeInterface $d
         */
         $total = (new Query())
             ->select('count(*) as total_request, DATE(FROM_UNIXTIME(`created_at`)) AS created_at')
-            ->from(self::tableName())
+            ->from(static::tableName())
             ->where('created_at >= :start_time', [':start_time' => (int)$startTime])
             ->andWhere('created_at <= :end_time', [':end_time' => (int)$endTime])
             ->groupBy('DATE(FROM_UNIXTIME(`created_at`))')

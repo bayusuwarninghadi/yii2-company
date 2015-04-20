@@ -19,7 +19,7 @@ use yii\web\AssetBundle;
 class MorrisAsset extends AssetBundle
 {
 
-    public $sourcePath = '@backend/widget/chart';
+    public $sourcePath = '@backend/widget/chart/asset';
     public $depends = ['yii\web\JqueryAsset'];
 
     /**

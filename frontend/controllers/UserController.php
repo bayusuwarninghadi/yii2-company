@@ -72,7 +72,7 @@ class UserController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect('index');
         }
-        return $this->render('create-shipping', [
+        return $this->render('createShipping', [
             'model' => $model,
         ]);
     }
@@ -102,7 +102,7 @@ class UserController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect('index');
         }
-        return $this->render('create-shipping', [
+        return $this->render('updateShipping', [
             'model' => $model,
         ]);
     }

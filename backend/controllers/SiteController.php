@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Transaction;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -56,9 +57,9 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $chart = Request::chartOptions();
         return $this->render('index',[
-            'chart' => $chart
+            'requestChart' => Request::chartOptions(),
+            'transactionChart' => Transaction::chartOptions(),
         ]);
     }
 

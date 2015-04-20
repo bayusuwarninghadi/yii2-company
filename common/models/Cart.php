@@ -9,12 +9,14 @@ use yii\db\ActiveRecord;
  * This is the model class for table "cart".
  *
  * @property integer $id
+ * @property integer $transaction_id
  * @property integer $user_id
  * @property integer $product_id
  * @property integer $qty
  *
  * @property Product $product
  * @property User $user
+ * @property Transaction $transaction
  */
 class Cart extends ActiveRecord
 {
@@ -35,7 +37,7 @@ class Cart extends ActiveRecord
             [['user_id', 'product_id', 'qty'], 'required'],
             ['qty','integer','min' => 1],
             ['qty','validateMaxQty'],
-            [['user_id', 'product_id'], 'integer']
+            [['user_id', 'product_id', 'transaction_id'], 'integer']
         ];
     }
 
@@ -87,4 +89,13 @@ class Cart extends ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransaction()
+    {
+        return $this->hasOne(Transaction::className(), ['id' => 'transaction_id']);
+    }
+
 }

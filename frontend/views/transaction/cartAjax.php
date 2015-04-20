@@ -13,6 +13,7 @@ use yii\widgets\ListView;
 
 echo ListView::widget([
     'dataProvider' => $dataProvider,
+    'emptyTextOptions' => ['class' => 'list-group-item'],
     'itemView' => '_list',
     'layout' => '{items}' . Html::tag('div', 'Grand Total ' . Yii::$app->formatter->asCurrency($grandTotal), ['class' => 'list-group-item text-right strong']),
     'itemOptions' => [

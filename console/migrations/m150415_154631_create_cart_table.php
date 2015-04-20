@@ -10,6 +10,7 @@ class m150415_154631_create_cart_table extends Migration
         $this->createTable('cart',[
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'transaction_id' => Schema::TYPE_INTEGER,
             'product_id' => Schema::TYPE_INTEGER . ' NOT NULL',
             'qty' => Schema::TYPE_SMALLINT . ' NOT NULL',
         ]);

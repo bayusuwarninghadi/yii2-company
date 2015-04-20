@@ -55,7 +55,7 @@ if (Yii::$app->user->isGuest) {
                 'linkOptions' => [
                     'class' => 'text-center'
                 ],
-                'url' => ['/checkout/cart'],
+                'url' => ['/transaction/cart'],
             ],
         ]
     ];

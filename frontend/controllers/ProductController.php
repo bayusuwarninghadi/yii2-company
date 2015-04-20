@@ -44,7 +44,7 @@ class ProductController extends BaseController
         $cartModel->user_id = Yii::$app->user->getId();
 
         if ($cartModel->load(Yii::$app->request->post()) && $cartModel->save()) {
-            return $this->redirect(['checkout/cart']);
+            return $this->redirect(['/transaction/cart']);
         }
 
         $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);

@@ -33,7 +33,7 @@ $columns = [
                 'title' => Yii::t('yii', 'Edit Quantity'),
                 'class' => 'btn btn-default',
             ]);
-            $return .= Html::a('<i class="fa fa-trash"></i>', ['/checkout/delete', 'id' => $cart->id], [
+            $return .= Html::a('<i class="fa fa-trash"></i>', ['/transaction/delete', 'id' => $cart->id], [
                 'title' => Yii::t('yii', 'Remove this product form cart'),
                 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                 'data-method' => 'post',
@@ -84,7 +84,7 @@ echo GridView::widget([
         </div>
     ",
     'panelFooter' => $dataProvider->getModels()
-        ? Html::a('<i class="fa fa-shopping-cart"></i> Checkout', ['index'], ['class' => 'btn btn-success'])
+        ? Html::a('<i class="fa fa-shopping-cart"></i> Checkout', ['checkout'], ['class' => 'btn btn-success'])
         : Html::a('<i class="fa fa-search"></i> Go Shopping', ['/product/index'], ['class' => 'btn btn-primary']),
     'panelAfter' => "
         <div class='text-right'>
