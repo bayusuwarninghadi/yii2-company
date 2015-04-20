@@ -48,7 +48,12 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'user/' . $model->id);
+                UploadHelper::saveImage($image, 'user/' . $model->id,[
+                    'small' => [
+                        'width' => 200,
+                        'format' => 'jpeg'
+                    ],
+                ]);
             }
             $model->save();
         }

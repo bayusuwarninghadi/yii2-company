@@ -34,6 +34,10 @@ class m150413_174741_create_setting_table extends Migration
             'key' => 'twitter_url',
             'value' => 'http://twitter.com',
         ]);
+        $this->insert('setting',[
+            'key' => 'site_icon',
+            'value' => 'http://twitter.com',
+        ]);
     }
 
     public function safeDown()

@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\modules\RemoveAssetHelper;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -28,6 +29,43 @@ class Article extends ActiveRecord
     const STATUS_ACTIVE = 10;
 
     public $image;
+
+    /**
+     * beforeDelete
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            /*
+             * remove image asset before deleting
+             */
+            switch($this->type_id){
+                case (int)static::TYPE_ARTICLE:
+                    $folder = 'article';
+                    break;
+                case (int)static::TYPE_NEWS:
+                    $folder = 'news';
+                    break;
+                case (int)static::TYPE_PAGES:
+                    $folder = 'slider';
+                    break;
+                case (int)static::TYPE_SLIDER:
+                    $folder = 'slider';
+                    break;
+                default:
+                    $folder = false;
+                    break;
+            }
+            if ($folder){
+                RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/'.$folder.'/' . $this->id . '/');
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @param bool $with_key
      * @return array

@@ -21,6 +21,7 @@ class Setting extends ActiveRecord
     const READONLY_NOT = 0;
     const TYPE_TEXT = 1;
     const TYPE_TEXT_AREA = 2;
+    const TYPE_FILE_INPUT = 3;
 
     /**
      * @param bool $with_key
@@ -54,7 +55,6 @@ class Setting extends ActiveRecord
     public function rules()
     {
         return [
-            ['type', 'default', 'value' => static::TYPE_TEXT],
             [['key'], 'required'],
             ['key', 'filter', 'filter' => 'trim'],
             ['key', 'unique', 'message' => 'This key already exist.'],
@@ -62,6 +62,8 @@ class Setting extends ActiveRecord
             [['readonly'], 'integer'],
             ['readonly', 'default', 'value' => static::READONLY_NOT],
             ['readonly', 'in', 'range' => static::getReadonlyAsArray(false)],
+            ['type', 'default', 'value' => static::TYPE_TEXT],
+            ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_FILE_INPUT]],
             [['key'], 'string', 'max' => 255]
         ];
     }

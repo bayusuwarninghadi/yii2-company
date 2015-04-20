@@ -148,6 +148,19 @@ class ProductController extends Controller
     }
 
     /**
+     * Delete Product Attribute.
+     * If update is successful, the browser will be redirected to the 'view' page.
+     * @param integer $id
+     * @return mixed
+     */
+    public function actionDeleteProductAttribute($id)
+    {
+        if (($model = ProductAttribute::find()->where($id)->one()) !== null){
+            $model->delete();
+        }
+    }
+
+    /**
      * Deletes an existing Product model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id

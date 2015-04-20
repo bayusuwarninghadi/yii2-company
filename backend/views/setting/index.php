@@ -38,6 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     case Setting::TYPE_TEXT_AREA;
                         $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
                         break;
+                    case Setting::TYPE_FILE_INPUT;
+                        $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control']);
+                        break;
                 }
                 echo $formGroup->label(Inflector::camel2words($m->key, true));
             }

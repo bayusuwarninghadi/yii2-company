@@ -101,7 +101,7 @@ h1,h2,h3 {
     border: 1px solid #ddd;
     padding: 5px;
     display: block;
-    margin-bottom: 15px;
+    margin: 15px 0 5px;
     background: #fff;
 }
 .product-gallery .gallery-container.active{

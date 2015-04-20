@@ -2,11 +2,13 @@
 
 namespace backend\controllers;
 
+use common\modules\UploadHelper;
 use Yii;
 use common\models\Setting;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * SettingController implements the CRUD actions for Setting model.
@@ -31,24 +33,45 @@ class SettingController extends Controller
      */
     public function actionIndex()
     {
-        $model = Setting::find()->all();
-        
         $param = Yii::$app->request->post();
 
         if ($param) {
             foreach ($param['Setting'] as $_key => $_param) {
                 /** @var Setting $_model */
                 $_model = Setting::findOne($_key);
+
+                if (isset($_FILES['Setting']['name'][$_key])){
+                    if (!empty($_FILES['Setting']['name'][$_key]['value'])) {
+                        // get file
+                        $_file = UploadedFile::getInstance($_model, '[' . $_key . ']value');
+
+                        $_path = 'setting/' . $_key;
+                        if (getimagesize($_file->tempName)) {
+                            UploadHelper::saveImage($_file, $_path, []);
+                            $_param['value'] = $_FILES['Setting']['name'][$_key]['value'];
+                        }
+
+                        // Save File
+                        if ($_file) {
+                            $_param['value'] = UploadHelper::saveFile($_file, $_path);
+                        }
+                    } else {
+                        // set value = current, if upload file is empty
+                        $_param['value'] = $_model->value;
+                    }
+                }
+
                 $_model->value = empty($_param['value']) ? $_model->value : $_param['value'];
                 $_model->save();
             }
             Yii::$app->getSession()->setFlash('success', 'Your setting has been saved.');
-            return $this->redirect(['index']);
-        } else {
-            return $this->render('index', [
-                'model' => $model,
-            ]);
         }
+
+
+        $model = Setting::find()->all();
+        return $this->render('index', [
+            'model' => $model,
+        ]);
 
     }
 

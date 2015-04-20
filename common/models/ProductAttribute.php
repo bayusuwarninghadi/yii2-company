@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\modules\RemoveAssetHelper;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -17,6 +18,23 @@ use yii\db\ActiveRecord;
  */
 class ProductAttribute extends ActiveRecord
 {
+    /**
+     * beforeDelete
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+        if (parent::beforeDelete()) {
+            /*
+             * remove image asset before deleting
+             */
+            RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->product_id . '/' . $this->id . '/');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     /**
      * @inheritdoc
      */

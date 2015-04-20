@@ -68,7 +68,16 @@ class SliderController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
-                UploadHelper::saveImage($image, 'slider/' . $model->id);
+                UploadHelper::saveImage($image, 'slider/' . $model->id,[
+                    'large' => [
+                        'width' => 1000,
+                        'format' => 'jpeg'
+                    ],
+                    'small' => [
+                        'width' => 50,
+                        'format' => 'jpeg'
+                    ],
+                ]);
                 return $this->redirect(['index']);
             }
             return $this->redirect(['index']);
@@ -94,7 +103,16 @@ class SliderController extends Controller
             $model->type_id = Article::TYPE_SLIDER;
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
-                UploadHelper::saveImage($image, 'slider/' . $model->id);
+                UploadHelper::saveImage($image, 'slider/' . $model->id,[
+                    'large' => [
+                        'width' => 1000,
+                        'format' => 'jpeg'
+                    ],
+                    'small' => [
+                        'width' => 50,
+                        'format' => 'jpeg'
+                    ],
+                ]);
                 return $this->redirect(['index']);
             }
         }

@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use common\modules\RemoveAssetHelper;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -101,6 +102,24 @@ class User extends ActiveRecord implements IdentityInterface
                 static::STATUS_INACTIVE,
             ];
         return $return;
+    }
+
+    /**
+     * beforeDelete
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+
+        if (parent::beforeDelete()) {
+            /*
+             * remove image asset before deleting
+             */
+            RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/user/' . $this->id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

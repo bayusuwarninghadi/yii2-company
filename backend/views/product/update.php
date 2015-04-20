@@ -24,12 +24,18 @@ $this->params['breadcrumbs'][] = 'Update';
             <div class="row product-gallery text-center">
                 <?php foreach ($gallery as $image) : ?>
                     <?php $availableImages = Json::decode($image->value) ?>
-                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2">
-                        <a href="" data-url="<?=$availableImages['medium']?>" data-product="<?=$model->id?>" class="gallery-container <?=($availableImages['medium'] == $model->image_url) ? 'active' : ''?>" title="Set As Product Cover">
+                    <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"
+                         data-url="<?=$availableImages['medium']?>"
+                         data-product="<?=$model->id?>"
+                         data-id="<?=$image->id?>">
+                        <a href=""
+                           class="gallery-container <?=($availableImages['medium'] == $model->image_url) ? 'active' : ''?>"
+                           title="Set As Product Cover">
                             <div class="gallery"
                                  style="background-image: url(<?= UploadHelper::getImageUrl('product/' . $model->id . '/' . $image->id,'small') ?>)">
                             </div>
                         </a>
+                        <a href="" class="btn btn-danger btn-sm" data-dismiss="gallery-grid-container" aria-hidden="true"><i class="fa fa-trash-o"></i> Delete</a>
                     </div>
                 <?php endforeach ?>
             </div>

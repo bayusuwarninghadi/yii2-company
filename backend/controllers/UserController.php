@@ -79,7 +79,12 @@ class UserController extends Controller
             $model->generateAuthKey();
             if ($model->save()){
                 if ($image = UploadedFile::getInstance($model, 'image')){
-                    UploadHelper::saveImage($image, 'user/' . $model->id);
+                    UploadHelper::saveImage($image, 'user/' . $model->id,[
+                        'small' => [
+                            'width' => 200,
+                            'format' => 'jpeg'
+                        ],
+                    ]);
                 }
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -101,7 +106,12 @@ class UserController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'user/' . $model->id);
+                UploadHelper::saveImage($image, 'user/' . $model->id,[
+                    'small' => [
+                        'width' => 200,
+                        'format' => 'jpeg'
+                    ],
+                ]);
             }
             if ($model->save()){
                 return $this->redirect(['view', 'id' => $model->id]);

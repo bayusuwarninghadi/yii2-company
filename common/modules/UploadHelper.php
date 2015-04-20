@@ -53,9 +53,10 @@ class UploadHelper extends BaseArrayHelper
      *
      * @param $image
      * @param string $path
+     * @param array $sizes
      * @return bool|array
      */
-    public static function saveImage($image, $path = '')
+    public static function saveImage($image, $path = '', $sizes = [])
     {
 
         if (!$image) {
@@ -76,16 +77,33 @@ class UploadHelper extends BaseArrayHelper
         $imagine = $imagine->open($image->tempName);
 
         // create thumbnails
-        $sizes = [
-            'large' => 600,
-            'medium' => 400,
-            'small' => 200,
-        ];
-        $return = [];
-        foreach ($sizes as $size => $width) {
-            $imagine->resize($imagine->getSize()->widen($width))->save($destination . $size . '.jpeg', ['format' => 'jpeg']);
-            $return[$size] = '/images/' . $path . '/' . $size . '.jpeg';
+
+        if ($sizes){
+            $availableSizes = $sizes;
+        } else {
+            $availableSizes = [
+                'large' => [
+                    'width' => 600,
+                    'format' => 'jpeg'
+                ],
+                'medium' => [
+                    'width' => 400,
+                    'format' => 'jpeg'
+                ],
+                'small' => [
+                    'width' => 50,
+                    'format' => 'jpeg'
+                ],
+            ];
         }
+
+        $return = [];
+
+        foreach ($availableSizes as $size => $value) {
+            $imagine->resize($imagine->getSize()->widen($value['width']))->save($destination . $size . '.' . $value['format'], ['format' =>  $value['format']]);
+            $return[$size] = '/images/' . $path . '/' . $size . '.' . $value['format'];
+        }
+
 
         return $return;
     }

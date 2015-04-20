@@ -1,6 +1,7 @@
 <?php
 namespace console\controllers;
 
+use common\modules\RemoveAssetHelper;
 use yii\console\Controller;
 use Yii;
 
@@ -36,32 +37,11 @@ class AssetCompilerController extends Controller
             glob('frontend/web/assets/*', GLOB_ONLYDIR)
         );
 
-        if ($this->removeDirectoryRecursive($folder)) {
+        if (RemoveAssetHelper::removeDirectory($folder)) {
             echo "Remove Success \n";
         } else {
             echo "Remove Failed \n";
         }
-    }
-
-    /**
-     * Remove Recursively Directory
-     * @param string|array $folder
-     * @return bool
-     */
-    protected function removeDirectoryRecursive($folder)
-    {
-        $folder = is_array($folder) ? $folder : [$folder];
-
-        foreach ($folder as $f) {
-            if (is_dir($f)) {
-                $_folder = glob($f . '/*', GLOB_BRACE);
-                $this->removeDirectoryRecursive($_folder);
-                rmdir($f);
-            } else {
-                unlink($f);
-            }
-        }
-        return true;
     }
 
 }

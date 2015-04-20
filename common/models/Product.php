@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use common\modules\RemoveAssetHelper;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -39,6 +40,24 @@ class Product extends ActiveRecord
     const VISIBLE_VISIBLE = 1;
 
     public $images;
+
+    /**
+     * beforeDelete
+     * @return bool
+     */
+    public function beforeDelete()
+    {
+
+        if (parent::beforeDelete()) {
+            /*
+             * remove image asset before deleting
+             */
+            RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->id);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /**
      * @param bool $with_key
@@ -109,7 +128,7 @@ class Product extends ActiveRecord
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
                 'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
             ],
-            [['name', 'description','cat_id'], 'required'],
+            [['name', 'description', 'cat_id'], 'required'],
             [['description'], 'string'],
             [['stock', 'status', 'visible', 'cat_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'subtitle', 'rating', 'image_url'], 'string', 'max' => 255],
@@ -117,9 +136,9 @@ class Product extends ActiveRecord
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['visible', 'default', 'value' => static::VISIBLE_VISIBLE],
             ['visible', 'in', 'range' => static::getVisibleAsArray(false)],
-            [['order', 'discount', 'price', 'stock'], 'default', 'value' => 0 ],
-            [['order', 'discount', 'price', 'stock'], 'integer', 'min' => 0 ],
-            ['discount', 'integer', 'max' => 100 ],
+            [['order', 'discount', 'price', 'stock'], 'default', 'value' => 0],
+            [['order', 'discount', 'price', 'stock'], 'integer', 'min' => 0],
+            ['discount', 'integer', 'max' => 100],
             ['image_url', 'default', 'value' => '/images/320x150.gif'],
         ];
     }
