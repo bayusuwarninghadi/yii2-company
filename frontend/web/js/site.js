@@ -6,5 +6,5 @@ $(document).ready(function(){
     $('[data-toggle="popover"]').popover({trigger: "hover"});
     $('.show-cart').click(function(){
         $('.cart-pop').load('/checkout/cart');
-    })
+    });
 });

@@ -7,13 +7,12 @@ use common\models\UserComment;
 use common\models\UserCommentSearch;
 use Yii;
 use yii\filters\VerbFilter;
-use yii\web\Controller;
 use yii\web\ForbiddenHttpException;
 
 /**
  * UserCommentController implements the CRUD actions for UserComment model.
  */
-class UserCommentController extends Controller
+class UserCommentController extends BaseController
 {
     public function behaviors()
     {

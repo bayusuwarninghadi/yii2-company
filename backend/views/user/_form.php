@@ -21,6 +21,15 @@ use common\modules\UploadHelper;
             ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']); ?>
             <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+            <?= $form->field($model, 'phone',[
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>+62</span>
+                        {input}
+                    </div>
+                    \n{error}"
+            ])->textInput(['maxlength' => 32]) ?>
             <?= $form->field($model, 'password')->passwordInput() ?>
             <?= $form->field($model, 'status')->dropDownList(User::getStatusAsArray()) ?>
             <?= $form->field($model, 'role')->dropDownList(User::getRoleAsArray()) ?>

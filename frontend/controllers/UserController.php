@@ -6,7 +6,6 @@ use common\models\Shipping;
 use common\modules\UploadHelper;
 use Yii;
 use common\models\User;
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -15,7 +14,7 @@ use yii\web\UploadedFile;
 /**
  * UserController implements the CRUD actions for User model.
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     public function behaviors()
     {

@@ -11,8 +11,8 @@ use yii\widgets\ActiveForm;
 $this->title = $model->username;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<h1><?= Html::encode($this->title) ?></h1>
 <div class="user-update row">
-    <h1><?= Html::encode($this->title) ?></h1>
     <div class="col-sm-6">
         <div class="panel">
             <div class="panel-heading">Update Profile</div>
@@ -24,6 +24,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']); ?>
                 <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
+                <?= $form->field($model, 'phone',[
+                    'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>+62</span>
+                        {input}
+                    </div>
+                    \n{error}"
+                ])->textInput(['maxlength' => 32]) ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
                 <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
                 <?php ActiveForm::end(); ?>

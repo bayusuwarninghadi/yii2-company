@@ -25,10 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin();
 echo Collapse::widget([
+    'encodeLabels' => false,
     'items' => [
         [
-            'label' => 'Review Your Cart',
-            'content' => $this->render('form/_cart', [
+            'label' => '<i class="fa fa-expand fa-fw"></i> Review Your Cart',
+            'content' => $this->render('cartAjax', [
                 'dataProvider' => $cartDataProvider,
                 'grandTotal' => $grandTotal
             ]),
@@ -38,7 +39,7 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => 'Shipping Address',
+            'label' => '<i class="fa fa-expand fa-fw"></i> Shipping Address',
             'content' =>
                 $form->field($model, 'shipping_id')->radioList(
                     ArrayHelper::map(Shipping::findAll(['user_id' => Yii::$app->user->getId()]), 'id', 'address'), [
@@ -53,7 +54,7 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => 'Payment Method',
+            'label' => '<i class="fa fa-expand fa-fw"></i> Payment Method',
             'content' => HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer']),
             'contentOptions' => [
                 'id' => 'cart-form',
@@ -61,7 +62,7 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => 'Submit',
+            'label' => '<i class="fa fa-expand fa-fw"></i> Submit',
             'content' =>
                 HtmlPurifier::process($notes->description) .
                 $form->field($model, 'note')->textarea(['rows' => 3]) .

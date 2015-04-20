@@ -50,7 +50,6 @@ if (Yii::$app->user->isGuest) {
         ],
         'items' => [
             '<li class="cart-pop">'.$this->render('_loading').'</li>',
-            '<li class="divider"></li>',
             [
                 'label' => 'See All <i class="fa fa-angle-right"></i>',
                 'linkOptions' => [

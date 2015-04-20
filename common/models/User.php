@@ -17,13 +17,14 @@ use yii\web\UploadedFile;
  * @property string $password_hash
  * @property string $password_reset_token
  * @property string $email
+ * @property string $phone
  * @property string $auth_key
  * @property integer $status
  * @property integer $role
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
- * 
+ *
  * @property Cart[] $carts
  * @property Shipping[] $shippings
  * @property Transaction[] $transactions
@@ -167,7 +168,7 @@ class User extends ActiveRecord implements IdentityInterface
 
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
-            [['auth_key'], 'string', 'max' => 32],
+            [['auth_key', 'phone'], 'string', 'max' => 32],
 
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
@@ -245,7 +246,7 @@ class User extends ActiveRecord implements IdentityInterface
         }
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
-        $timestamp = (int) end($parts);
+        $timestamp = (int)end($parts);
         return $timestamp + $expire >= time();
     }
 

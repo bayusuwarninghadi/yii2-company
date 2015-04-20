@@ -13,12 +13,12 @@ use yii\helpers\Html;
 
 $this->title = 'Shopping Cart';
 $this->params['breadcrumbs'][] = $this->title;
-
+echo Html::tag('h1',$this->title);
 $columns = [
     [
         'label' => 'Image',
         'value' => function ($cart) {
-            return Html::a(Html::img($cart->product->image_url, ['style' => 'height:80px;']), ['/product/view', 'id' => $cart->product_id]);
+            return Html::a(Html::img($cart->product->image_url, ['style' => 'width:100px;']), ['/product/view', 'id' => $cart->product_id]);
         },
         'format' => 'raw',
         'options' => [
@@ -27,7 +27,6 @@ $columns = [
     ],
     [
         'label' => 'Product',
-        'visible' => !Yii::$app->request->isAjax,
         'value' => function ($cart) {
             $return = Html::tag('p', Html::decode($cart->product->name));
             $return .= Html::a('<i class="fa fa-pencil"></i>', ['/product/view', 'id' => $cart->product_id], [
@@ -45,12 +44,7 @@ $columns = [
         'format' => 'raw',
     ],
     [
-        'attribute' => 'product.name',
-        'visible' => Yii::$app->request->isAjax,
-    ],
-    [
         'attribute' => 'qty',
-        'visible' => !Yii::$app->request->isAjax,
         'options' => [
             'style' => 'width:10px;'
         ]
@@ -76,10 +70,8 @@ $columns = [
     ],
 ];
 
-if (Yii::$app->request->isAjax) {
-    $layout = "{items}";
-} else {
-    $layout = "
+echo GridView::widget([
+    'layout' => "
         <div class='panel panel-primary'>
             <div class='panel-heading'>
                 {panelHeading}
@@ -90,10 +82,7 @@ if (Yii::$app->request->isAjax) {
             {panelAfter}
             {panelFooter}
         </div>
-    ";
-}
-echo GridView::widget([
-    'layout' => $layout,
+    ",
     'panelFooter' => $dataProvider->getModels()
         ? Html::a('<i class="fa fa-shopping-cart"></i> Checkout', ['index'], ['class' => 'btn btn-success'])
         : Html::a('<i class="fa fa-search"></i> Go Shopping', ['/product/index'], ['class' => 'btn btn-primary']),

@@ -28,11 +28,15 @@ body {
     margin: 0 5px;
 }
 .cart-pop{
+    width: 300px;
     font-size: 90%;
 }
-.cart-pop .btn {
-    padding: 3px 8px;
-    font-size: 90%;
+.cart-pop img {
+    width: 90px;
+}
+.cart-list img {
+    max-height: 100px;
+    max-width: 100px;
 }
 #index-slider .item{
     max-height: 500px;
@@ -162,4 +166,7 @@ section {
 }
 .radio-form label {
     display: block;
+}
+.strong {
+    font-weight: bold;
 }
