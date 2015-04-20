@@ -12,9 +12,6 @@ use yii\helpers\Html;
  * @var integer $grandTotal
  */
 
-$this->title = 'Shopping Cart';
-$this->params['breadcrumbs'][] = $this->title;
-
 $columns = [
     [
         'label' => 'Image',
