@@ -1,63 +1,86 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use common\models\Shipping;
 use common\models\Transaction;
 use yii\helpers\ArrayHelper;
-use common\models\Shipping;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\web\JqueryAsset;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Transaction */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Update Transaction: ' . ' ' . $model->id;
+$this->title = 'Update Transaction: ' . ' ' . $model->user->username;
 $this->params['breadcrumbs'][] = ['label' => 'Transactions', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $model->user->username;
+$arrayStatus = Transaction::getStatusAsArray();
 ?>
 <div class="transaction-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="transaction-form">
-
-        <?php $form = ActiveForm::begin(); ?>
-        <div class="panel panel-yellow">
-            <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?='Update'?></div>
-            <div class="panel-body">
-                <h3 class="page-header"><?=$model->user->username ?> <small><?=$model->user->email?> </small> </h3>
-                <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]),'id','city')) ?>
-                <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
-                <?= $form->field($model, 'status')->dropDownList(Transaction::getStatusAsArray()) ?>
-                <?= $form->field($model, 'sub_total',[
-                    'template' => "
-                    {label}
-                    <div class='input-group'>
-                        <span class='input-group-addon'>Rp</span>
-                        {input}
-                    </div>
-                    \n{error}"
-
-                ])->input('number') ?>
-
-                <?= $form->field($model, 'grand_total',[
-                    'template' => "
-                    {label}
-                    <div class='input-group'>
-                        <span class='input-group-addon'>Rp</span>
-                        {input}
-                    </div>
-                    \n{error}"
-
-                ])->input('number') ?>
-            </div>
-            <div class="panel-footer">
-                <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+    <?php $form = ActiveForm::begin([
+        'options' => [
+            'id' => 'transaction-form',
+        ]
+    ]); ?>
+    <div class="panel panel-yellow">
+        <div class="panel-heading">
+            <i class="fa fa-pencil fa-fw"></i> <?= 'Update' ?>
+            <div class="pull-right">
+                Status
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                        <?=$arrayStatus[$model->status]?>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu pull-right" role="menu">
+                        <?php foreach ($arrayStatus as $val => $status) : ?>
+                            <li class="<?php if ($val == $model->status) echo 'active' ?>">
+                                <a class="change-status" href="#" data-id="<?=$model->id?>" data-status="<?=$val?>"><?=$status?></a>
+                            </li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="panel-body">
+            <h3 class="page-header"><?= $model->user->username ?>
+                <small><?= $model->user->email ?> </small>
+            </h3>
+            <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'city')) ?>
+            <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
+            <?= $form->field($model, 'sub_total', [
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>Rp</span>
+                        {input}
+                    </div>
+                    \n{error}"
+            ])->input('number') ?>
 
-        <?php ActiveForm::end(); ?>
-
+            <?= $form->field($model, 'grand_total', [
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>Rp</span>
+                        {input}
+                    </div>
+                    \n{error}"
+            ])->input('number') ?>
+        </div>
+        <div class="panel-footer">
+            <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+        </div>
     </div>
 
+    <?php ActiveForm::end(); ?>
+
+    <?= $this->render('_cart', [
+        'carts' => $model->getCarts()
+    ]) ?>
 </div>
+<?php $this->registerJsFile('/js/transaction.js', ['depends' => JqueryAsset::className()]); ?>
+

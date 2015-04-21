@@ -2,13 +2,16 @@
 
 namespace frontend\controllers;
 
+use common\models\Product;
 use common\models\Shipping;
+use common\models\User;
+use common\models\UserFavorite;
 use common\modules\UploadHelper;
 use Yii;
-use common\models\User;
-use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
 /**
@@ -16,6 +19,9 @@ use yii\web\UploadedFile;
  */
 class UserController extends BaseController
 {
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -46,8 +52,8 @@ class UserController extends BaseController
         $model = $this->findModel(Yii::$app->user->getId());
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'user/' . $model->id,[
+            if ($image = UploadedFile::getInstance($model, 'image')) {
+                UploadHelper::saveImage($image, 'user/' . $model->id, [
                     'small' => [
                         'width' => 200,
                         'format' => 'jpeg'
@@ -58,6 +64,50 @@ class UserController extends BaseController
         }
         return $this->render('index', [
             'model' => $model,
+        ]);
+    }
+
+    /**
+     * actionToggleFavorite
+     *
+     * @param $id
+     * @return \yii\web\Response
+     * @throws \Exception
+     */
+    public function actionToggleFavorite($id)
+    {
+        /**
+         * @var $favorite UserFavorite
+         */
+        if (($favorite = UserFavorite::find()->where(['product_id' => $id])->one()) === null) {
+            $favorite = new UserFavorite(['product_id' => $id, 'user_id' => Yii::$app->user->getId()]);
+            $favorite->save();
+        } else {
+            $favorite->delete();
+        }
+        if (Yii::$app->request->isAjax) {
+            echo 'ok';
+        } else {
+            return $this->redirect(['favorite']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function actionFavorite()
+    {
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->filterWhere(['IN', 'id', $this->favorites]),
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ]
+        ]);
+        return $this->render('favorite', [
+            'dataProvider' => $dataProvider
         ]);
     }
 

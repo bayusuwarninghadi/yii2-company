@@ -31,6 +31,7 @@ use yii\db\ActiveRecord;
  * @property Category $category
  * @property Cart[] $carts
  * @property UserComment[] $userComments
+ * @property UserFavorite[] $userFavorites
  */
 class Product extends ActiveRecord
 {
@@ -210,5 +211,12 @@ class Product extends ActiveRecord
         } else {
             return false;
         }
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserFavorites()
+    {
+        return $this->hasMany(UserFavorite::className(), ['product_id' => 'id']);
     }
 }

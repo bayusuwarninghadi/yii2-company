@@ -29,6 +29,7 @@ use yii\web\UploadedFile;
  * @property Shipping[] $shippings
  * @property Transaction[] $transactions
  * @property UserComment[] $userComments
+ * @property UserFavorite[] $userFavorites
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -349,5 +350,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function getUserComments()
     {
         return $this->hasMany(UserComment::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserFavorites()
+    {
+        return $this->hasMany(UserFavorite::className(), ['user_id' => 'id']);
     }
 }

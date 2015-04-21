@@ -47,6 +47,7 @@ use backend\widget\Sidebar;
                     'label' => '<i class="fa fa-file fa-fw"></i> Manage Pages',
                     'items' => [
                         ['label' => 'Static Pages', 'url' => ['/pages/index']],
+                        ['label' => 'Email Template', 'url' => ['/email-template/index']],
                         ['label' => 'Slider', 'url' => ['/slider/index']]
                     ]
                 ],

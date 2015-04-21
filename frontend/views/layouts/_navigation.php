@@ -68,6 +68,11 @@ if (Yii::$app->user->isGuest) {
                 'url' => ['/user/index'],
             ],
             [
+                'label' => '<i class="fa fa-heart fa-fw"></i> Favorites',
+                'url' => ['/user/favorite', 'id' => Yii::$app->user->getId()],
+            ],
+            '<li class="divider"></li>',
+            [
                 'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']

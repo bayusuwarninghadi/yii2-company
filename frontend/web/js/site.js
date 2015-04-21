@@ -7,4 +7,18 @@ $(document).ready(function(){
     $('.show-cart').click(function(){
         $('.cart-pop').load('/transaction/cart');
     });
+    $('.thumbnail .favorite').click(function(ev){
+        var this_ = $(ev.currentTarget);
+        this_.toggleClass('btn-success btn-default').find('.fa').toggleClass('fa-truck fa-spin fa-spinner fa-pulse');
+        $.ajax({
+            url: this_.attr('href'),
+            success: function(){
+                this_.find('.fa').toggleClass('fa-truck fa-spin fa-spinner fa-pulse');
+            },
+            error: function(){
+                this_.find('.fa').toggleClass('fa-truck fa-spin fa-spinner fa-pulse');
+            }
+        });
+        return false;
+    })
 });

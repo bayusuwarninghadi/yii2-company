@@ -10,6 +10,7 @@ namespace frontend\controllers;
 
 
 use common\models\Setting;
+use common\models\UserFavorite;
 use Yii;
 use common\models\Request;
 use yii\helpers\Json;
@@ -27,17 +28,23 @@ class BaseController extends Controller{
     public $settings = [];
 
     /**
-     *
+     * @var array
+     */
+    public $favorites = [];
+
+    /**
+     * @inheritdoc
      */
     public function init()
     {
         parent::init();
 
         $this->loadSettings();
+        $this->loadFavorites();
     }
 
     /**
-     *
+     * Load Setting
      */
     protected function loadSettings()
     {
@@ -46,6 +53,21 @@ class BaseController extends Controller{
         /** @var Setting $s */
         foreach ($settings as $s) {
             $this->settings[$s->key] = $s->value;
+        }
+    }
+
+    /**
+     * Load Favorites
+     */
+    protected function loadFavorites()
+    {
+        if (Yii::$app->user->isGuest) return false;
+
+        $userFavorites = UserFavorite::find()->all();
+
+        /** @var UserFavorite $f */
+        foreach ($userFavorites as $f) {
+            $this->favorites[] = $f->product_id;
         }
     }
     /**

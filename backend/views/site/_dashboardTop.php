@@ -1,3 +1,14 @@
+<?php
+use backend\widget\chart\Morris;
+
+/* @var $this yii\web\View */
+/* @var $requestChart array */
+?>
+<div class="form-group">
+    <h1 class="text-center">Last Activity</h1>
+    <?= Morris::widget($requestChart) ?>
+</div>
+
 <div class="row">
     <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="panel panel-primary">

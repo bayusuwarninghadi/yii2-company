@@ -66,6 +66,7 @@ body {
 .thumbnail {
     padding: 0;
     overflow: hidden;
+    position: relative;
 }
 .thumbnail:hover {
     box-shadow: 0 0 15px #ccc;
@@ -84,6 +85,11 @@ body {
     position: absolute;
     margin-top: -15px;
     margin-left: 10px;
+}
+.thumbnail .favorite {
+    position: absolute;
+    left: 10px;
+    top: 10px;
 }
 .thumbnail .caption {
     height: 140px;

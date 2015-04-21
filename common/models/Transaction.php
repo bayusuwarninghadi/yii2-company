@@ -93,7 +93,7 @@ class Transaction extends ActiveRecord
             [
                 'disclaimer',
                 'required',
-                'requiredValue' => 1,
+                'requiredValue' => Yii::$app->id == "app-backend" ? 0 : 1,
                 'message' => 'You must agree to our disclaimer'
             ],
             ['status', 'default', 'value' => static::STATUS_WAITING_APPROVAL],
@@ -146,22 +146,17 @@ class Transaction extends ActiveRecord
     /**
      * get Chart Options
      * @param int $startTime
-     * @param int $endTime
      * @return array
      */
-    public static function chartOptions($startTime = 0, $endTime = 0)
+    public static function chartOptions($startTime = 0)
     {
 
         $day = 24 * 60 * 60;
         // default $startTime 30 days before
-        if ($startTime <= 0) {
-            $startTime = time() - (28 * $day);
-        }
+        $startTime = ($startTime <= 0) ? (time() - (28 * $day)) : (time() - (($startTime + 2) * $day));
 
         // default $endTime NOW()
-        if ($endTime <= 0) {
-            $endTime = time() + $day;
-        }
+        $endTime = time() + $day;
 
         $begin = new DateTime(date('Y-m-d', $startTime - $day));
         $end = new DateTime(date('Y-m-d', $endTime));

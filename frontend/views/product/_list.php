@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-
+use yii\helpers\Url;
 /**
  * Created by PhpStorm.
  * User: bay_oz
@@ -21,6 +21,9 @@ use yii\helpers\Html;
             <i class="fa fa-truck fa-2x"></i>
         </div>
     <?php endif ?>
+    <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="favorite btn <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-success' : 'btn-default'?> btn-sm" data-toggle="popover" data-content="Toggle User Favorite">
+        <i class="fa fa-star fa-2x"></i>
+    </a>
     <div class="caption">
         <h4>
             <?=Html::a(Html::decode($model->name), ['/product/view','id' => $model->id])?>
