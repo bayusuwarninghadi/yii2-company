@@ -10,6 +10,7 @@ class m150414_163850_create_product_table extends Migration
         $this->createTable('product', [
             'id' => 'pk',
             'cat_id' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'brand_id' => Schema::TYPE_INTEGER,
             'name' => Schema::TYPE_STRING . ' NOT NULL',
             'subtitle' => Schema::TYPE_STRING,
             'description' => Schema::TYPE_TEXT . ' NOT NULL',

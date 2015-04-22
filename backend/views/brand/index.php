@@ -1,21 +1,22 @@
 <?php
 
-use backend\widget\GridView;
-use common\modules\UploadHelper;
 use yii\helpers\Html;
+use backend\widget\GridView;
 use yii\widgets\Pjax;
+use common\modules\UploadHelper;
 
 /* @var $this yii\web\View */
-/* @var string $type */
-/* @var $searchModel common\models\ArticleSearch */
+/* @var $searchModel common\models\BrandSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $type;
+$this->title = 'Brands';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index">
-    <?=Html::a('<i class="fa fa-plus fa-fw"></i> Slider', ['create'], ['class' => 'btn btn-default pull-right'])?>
+<div class="brand-index">
+
+    <?= Html::a('<i class="fa fa-plus fa-fw"></i> Brand', ['create'], ['class' => 'btn btn-default pull-right']) ?>
     <h1><?= Html::encode($this->title) ?></h1>
+
     <?php
     Pjax::begin();
     echo GridView::widget([
@@ -25,16 +26,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Image',
                 'value' => function ($data) {
-                    return UploadHelper::getHtml('slider/' . $data->id, 'small', [], true);
+                    return UploadHelper::getHtml('brand/' . $data->id, 'medium', ['style' => 'height:50px;'], true);
                 },
                 'format' => 'html'
             ],
-            [
-                'attribute' => 'order',
-                'options' => [
-                    'style' => 'width:70px;'
-                ]
-            ],
+            'brand',
             [
                 'class' => 'backend\widget\ActionColumn',
                 'template' => '<div class="text-center"><div class="btn-group" role="group">{update} {delete}</div></div>'

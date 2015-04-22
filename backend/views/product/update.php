@@ -3,10 +3,10 @@
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
-use yii\web\JqueryAsset;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
+/* @var $attributes array */
 /* @var $gallery \common\models\ProductAttribute[] */
 
 $this->title = 'Update Product: ' . ' ' . $model->name;
@@ -44,8 +44,8 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'attributes' => $attributes
     ]) ?>
 
 </div>
-<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>
 

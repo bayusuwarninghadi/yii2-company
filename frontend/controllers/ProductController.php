@@ -59,7 +59,8 @@ class ProductController extends BaseController
         return $this->render('view', [
             'model' => $model,
             'cartModel' => $cartModel,
-            'images' => $images
+            'images' => $images,
+            'attributes' => $model->getProductAttributeDetailValue()
         ]);
     }
 

@@ -2,20 +2,20 @@
 
 namespace backend\controllers;
 
-use common\modules\UploadHelper;
 use Yii;
-use common\models\User;
-use backend\models\UserSearch;
+use common\models\Brand;
+use common\models\BrandSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use common\modules\UploadHelper;
 use yii\web\UploadedFile;
 
 /**
- * UserController implements the CRUD actions for User model.
+ * BrandController implements the CRUD actions for Brand model.
  */
-class UserController extends Controller
+class BrandController extends Controller
 {
     public function behaviors()
     {
@@ -39,64 +39,49 @@ class UserController extends Controller
     }
 
     /**
-     * Lists all User models.
+     * Lists all Brand models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new UserSearch();
+        $searchModel = new BrandSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'userChart' => User::chartOptions(),
         ]);
     }
 
     /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
+     * Creates a new Brand model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new User();
+        $model = new Brand();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password);
-            $model->generateAuthKey();
-            if ($model->save()){
-                if ($image = UploadedFile::getInstance($model, 'image')){
-                    UploadHelper::saveImage($image, 'user/' . $model->id,[
-                        'small' => [
-                            'width' => 200,
-                            'format' => 'jpeg'
-                        ],
-                    ]);
-                }
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->save()) {
+                $image = UploadedFile::getInstance($model, 'image');
+                UploadHelper::saveImage($image, 'brand/' . $model->id, [
+                    'medium' => [
+                        'width' => 300,
+                        'format' => 'jpeg'
+                    ],
+                ]);
+                return $this->redirect(['index']);
             }
         }
+
         return $this->render('create', [
             'model' => $model,
         ]);
     }
 
     /**
-     * Updates an existing User model.
+     * Updates an existing Brand model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -106,26 +91,22 @@ class UserController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'user/' . $model->id,[
-                    'small' => [
-                        'width' => 200,
-                        'format' => 'jpeg'
-                    ],
-                ]);
-            }
-            if ($model->save()){
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+            $image = UploadedFile::getInstance($model, 'image');
+            UploadHelper::saveImage($image, 'brand/' . $model->id, [
+                'medium' => [
+                    'width' => 300,
+                    'format' => 'jpeg'
+                ],
+            ]);
+            return $this->redirect(['index']);
         }
         return $this->render('update', [
             'model' => $model,
         ]);
-
     }
 
     /**
-     * Deletes an existing User model.
+     * Deletes an existing Brand model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -138,15 +119,15 @@ class UserController extends Controller
     }
 
     /**
-     * Finds the User model based on its primary key value.
+     * Finds the Brand model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return User the loaded model
+     * @return Brand the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = User::findOne($id)) !== null) {
+        if (($model = Brand::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

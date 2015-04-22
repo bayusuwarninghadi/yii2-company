@@ -42,5 +42,29 @@ $(document).ready(function(){
             })
         });
         return false;
-    })
+    });
+    $('.add-detail').click(function(){
+        var detail = prompt("Enter Detail Attribute\nSize, Ram size, Resolution etc");
+
+        if (detail == null) {
+            return false;
+        }
+
+        $('.custom-detail').append('' +
+        '<div class="form-group field-product-productattributedetailvalue-' + detail+ '">' +
+            '<div class="input-group">' +
+                '<span class="input-group-addon">' +
+                    '<label class="control-label" for="product-productattributedetailvalue-' + detail +'">' + detail +'</label>' +
+                '</span>' +
+                '<input type="text" id="product-productattributedetailvalue-' + detail + '" class="form-control" name="Product[productAttributeDetailValue][' + detail + ']">' +
+                '<span class="input-group-btn">' +
+                    '<a class="btn btn-danger btn-remove-detail"><i class="fa fa-trash-o"></i></a>' +
+                '</span>' +
+            '</div>' +
+        '</div>');
+    });
+    $('.custom-detail').on('click','.btn-remove-detail', function(){
+        $(this).closest('.form-group').remove();
+        return false
+    });
 });

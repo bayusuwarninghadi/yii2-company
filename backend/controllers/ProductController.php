@@ -74,8 +74,16 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        if ($model->load(Yii::$app->request->post())) {
+        $param = Yii::$app->request->post();
+        $attributes = (isset($param['Product']['productAttributeDetailValue'])) ? $param['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+
+        if ($model->load($param)) {
+
             if ($model->save()) {
+                $attr = $model->getProductAttributeDetail();
+                $attr->value = Json::encode($attributes);
+                $attr->save();
+
                 if ($_images = UploadedFile::getInstances($model, 'images')){
                     foreach ($_images as $image) {
                         $_model = new ProductAttribute();
@@ -94,7 +102,8 @@ class ProductController extends Controller
         }
         return $this->render('create', [
             'model' => $model,
-            'gallery' => null
+            'gallery' => null,
+            'attributes' => $attributes
         ]);
     }
 
@@ -110,7 +119,11 @@ class ProductController extends Controller
 
         $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
 
-        if ($model->load(Yii::$app->request->post())) {
+        $param = Yii::$app->request->post();
+        $attributes = (isset($param['Product']['productAttributeDetailValue'])) ? $param['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+
+        if ($model->load($param)) {
+
             $_images = UploadedFile::getInstances($model, 'images');
             foreach ($_images as $image) {
                 $_model = new ProductAttribute();
@@ -122,14 +135,19 @@ class ProductController extends Controller
                     $model->image_url = $upload['medium'];
                 }
             }
-
             if ($model->save()) {
+                $attr = $model->getProductAttributeDetail();
+                $attr->value = Json::encode($attributes);
+                $attr->save();
+
                 return $this->redirect(['view', 'id' => $model->id]);
             }
+
         }
         return $this->render('update', [
             'model' => $model,
             'gallery' => $gallery,
+            'attributes' => $attributes
         ]);
     }
 

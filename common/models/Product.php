@@ -6,6 +6,7 @@ use common\modules\RemoveAssetHelper;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Json;
 
 
 /**
@@ -16,6 +17,7 @@ use yii\db\ActiveRecord;
  * @property string $subtitle
  * @property string $description
  * @property integer $price
+ * @property integer $brand_id
  * @property integer $cat_id
  * @property integer $discount
  * @property integer $stock
@@ -27,7 +29,8 @@ use yii\db\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property ProductAttribute[] $productAttribute
+ * @property Brand $brand
+ * @property ProductAttribute[] $productAttributes
  * @property Category $category
  * @property Cart[] $carts
  * @property UserComment[] $userComments
@@ -35,12 +38,37 @@ use yii\db\ActiveRecord;
  */
 class Product extends ActiveRecord
 {
+    /**
+     *
+     */
     const STATUS_INACTIVE = 0;
+    /**
+     *
+     */
     const STATUS_ACTIVE = 1;
+    /**
+     *
+     */
     const VISIBLE_INVISIBLE = 0;
+    /**
+     *
+     */
     const VISIBLE_VISIBLE = 1;
 
+    /**
+     * @var
+     */
     public $images;
+
+    /**
+     * @var $productAttributeDetail ProductAttribute
+     */
+    public $productAttributeDetail = false;
+
+    /**
+     * @var array
+     */
+    public $productAttributeDetailValue = [];
 
     /**
      * beforeDelete
@@ -48,12 +76,35 @@ class Product extends ActiveRecord
      */
     public function beforeDelete()
     {
-
         if (parent::beforeDelete()) {
             /*
              * remove image asset before deleting
              */
             RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->id);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * afterSave
+     * @param boolean $insert whether this method called while inserting a record.
+     * @param array $changedAttributes The old values of attributes that had changed and were saved.
+     * @return bool
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (parent::afterSave($insert, $changedAttributes)) {
+            if ($this->isNewRecord){
+                $attr = new ProductAttribute();
+                $attr->product_id = $this->id;
+                $attr->key = 'detail';
+            } else {
+                $attr = $this->getProductAttributeDetail();
+            }
+            $attr->value = Json::encode($this->productAttributeDetailValue);
+            $attr->save();
             return true;
         } else {
             return false;
@@ -131,7 +182,7 @@ class Product extends ActiveRecord
             ],
             [['name', 'description', 'cat_id'], 'required'],
             [['description'], 'string'],
-            [['stock', 'status', 'visible', 'cat_id', 'created_at', 'updated_at'], 'integer'],
+            [['stock', 'status', 'visible', 'cat_id', 'brand_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'subtitle', 'rating', 'image_url'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
@@ -166,6 +217,7 @@ class Product extends ActiveRecord
             'category.name' => 'Category',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'brand_id' => 'Brand',
         ];
     }
 
@@ -201,6 +253,9 @@ class Product extends ActiveRecord
         return $this->hasMany(UserComment::className(), ['table_id' => 'id'])->andWhere(['table_key' => static::tableName()]);
     }
 
+    /**
+     * @return bool|float
+     */
     public function countRating()
     {
         if ($this->rating) {
@@ -212,11 +267,52 @@ class Product extends ActiveRecord
             return false;
         }
     }
+
     /**
      * @return \yii\db\ActiveQuery
      */
     public function getUserFavorites()
     {
         return $this->hasMany(UserFavorite::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * Get Product Attribute
+     * @return null|ProductAttribute|ActiveRecord
+     */
+    public function getProductAttributeDetail()
+    {
+        if (!$this->productAttributeDetail){
+            $this->productAttributeDetail = ProductAttribute::findOne(['product_id' => $this->id, 'key' => 'details']);
+            if ($this->productAttributeDetail == null){
+                $attr = new ProductAttribute();
+                $attr->product_id = $this->id;
+                $attr->key = 'details';
+                // add default value
+                $attr->value = Json::encode([]);
+                $this->productAttributeDetail = $attr;
+            }
+        }
+        return $this->productAttributeDetail;
+    }
+
+    /**
+     * Get Product Attribute Value
+     * @return string|Json
+     */
+    public function getProductAttributeDetailValue()
+    {
+        if (!$this->productAttributeDetailValue && $detail = $this->getProductAttributeDetail()){
+            $this->productAttributeDetailValue = Json::decode($detail->value);
+        }
+        return $this->productAttributeDetailValue;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getBrand()
+    {
+        return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
 }

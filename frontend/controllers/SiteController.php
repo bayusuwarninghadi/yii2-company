@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Article;
+use common\models\Brand;
 use common\models\Inbox;
 use common\models\LoginForm;
 use common\models\Product;
@@ -86,11 +87,13 @@ class SiteController extends BaseController
             ];
         }
 
-        $products = Product::find()->where(['status' => Product::STATUS_ACTIVE, 'visible' => Product::VISIBLE_VISIBLE])->orderBy('created_at DESC')->limit(4)->all();;
-        return $this->render('index', [
+        $products = Product::find()->where(['status' => Product::STATUS_ACTIVE, 'visible' => Product::VISIBLE_VISIBLE])->orderBy('created_at DESC')->limit(8)->all();;
+        $brands = Brand::find()->all();;
+        return $this->render('/index/index', [
             'slider' => $slider,
             'page' => Article::findOne(['type_id' => Article::TYPE_PAGES, 'title' => 'index']),
-            'products' => $products
+            'products' => $products,
+            'brands' => $brands,
         ]);
     }
 

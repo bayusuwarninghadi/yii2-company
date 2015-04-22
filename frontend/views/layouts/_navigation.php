@@ -13,19 +13,21 @@ use yii\bootstrap\Nav;
  */
 
 NavBar::begin([
-    'brandLabel' => '<i class="fa fa-home fa-fw"></i>',
+    'brandLabel' => '<i class="fa fa-home fa-fw"></i> '.Yii::$app->controller->settings['site_name'],
     'brandUrl' => Yii::$app->homeUrl,
+    'renderInnerContainer' => false,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
+
 $menuItems = [
     [
-        'label' => 'Our Product',
+        'label' => '<i class="fa fa-truck fa-fw"></i> Our Product',
         'url' => ['/product/index']
     ],
     [
-        'label' => 'Press',
+        'label' => '<i class="fa fa-files-o fa-fw"></i> Article',
         'items' => [
             ['label' => '<i class="fa fa-table fa-fw"></i> Article', 'url' => ['/article/index']],
             '<li class="divider"></li>',
@@ -34,7 +36,7 @@ $menuItems = [
     ]
 ];
 if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i>', 'url' => ['/site/login']];
+    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i> Login', 'url' => ['/site/login']];
 } else {
     $menuItems[] = [
         'label' => 'Shopping Cart',
@@ -46,7 +48,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = [
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i>',
         'linkOptions' => [
-            'class' => 'show-cart visible-sm visible-md visible-lg'
+            'class' => 'hidden-xs show-cart'
         ],
         'items' => [
             '<li class="cart-pop">'.$this->render('_loading').'</li>',
@@ -64,7 +66,7 @@ if (Yii::$app->user->isGuest) {
         'label' => '<i class="fa fa-user fa-fw"></i>',
         'items' => [
             [
-                'label' => '<i class="fa fa-user fa-fw"></i> Profile',
+                'label' => '<i class="fa fa-user fa-fw"></i> Manage Profile',
                 'url' => ['/user/index'],
             ],
             [
@@ -73,7 +75,7 @@ if (Yii::$app->user->isGuest) {
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',
+                'label' => '<i class="fa fa-sign-out fa-fw"></i> Logout',
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ],
@@ -86,4 +88,12 @@ echo Nav::widget([
     'items' => $menuItems,
     'encodeLabels' => false
 ]);
+echo Nav::widget([
+    'options' => ['class' => 'navbar-form navbar-right'],
+    'items' => [
+        $this->render('_searchNav')
+    ],
+    'encodeLabels' => false
+]);
+
 NavBar::end();

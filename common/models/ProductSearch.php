@@ -28,7 +28,7 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'price', 'discount', 'stock', 'price_from', 'price_to', 'stock_from', 'stock_to','discount_from', 'discount_to','status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'price', 'discount', 'stock', 'brand_id', 'price_from', 'price_to', 'stock_from', 'stock_to','discount_from', 'discount_to','status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
             [['name', 'sort', 'description', 'category_name'], 'safe'],
         ];
     }
@@ -88,6 +88,7 @@ class ProductSearch extends Product
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
+            'brand_id' => $this->brand_id,
             'visible' => $this->visible,
             'order' => $this->order,
             'created_at' => $this->created_at,

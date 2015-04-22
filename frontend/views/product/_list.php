@@ -13,16 +13,16 @@ use yii\helpers\Url;
 <div class="thumbnail transition">
     <?=Html::a('<div class="image transition" style="background-image:url('.$model->image_url.')"></div>', ['/product/view','id' => $model->id])?>
     <?php if ($model->stock > 0) :?>
-        <div class="stock label label-success" data-toggle="popover" title="Stock" data-content="Available">
+        <div class="stock label label-success" data-toggle="popover" data-content="Available">
             <i class="fa fa-truck fa-2x"></i>
         </div>
     <?php else :?>
-        <div class="stock label label-danger" data-toggle="popover" title="Stock" data-content="Stock Unavailable">
+        <div class="stock label label-danger" data-toggle="popover" data-content="Stock Unavailable">
             <i class="fa fa-truck fa-2x"></i>
         </div>
     <?php endif ?>
-    <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="favorite btn <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-success' : 'btn-default'?> btn-sm" data-toggle="popover" data-content="Toggle User Favorite">
-        <i class="fa fa-star fa-2x"></i>
+    <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="favorite btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-success' : 'btn-default'?>" data-toggle="popover" data-content="Toggle User Favorite">
+        <i class="fa fa-star"></i>
     </a>
     <div class="caption">
         <h4>

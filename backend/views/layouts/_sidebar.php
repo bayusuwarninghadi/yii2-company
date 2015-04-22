@@ -4,7 +4,7 @@ use backend\widget\Sidebar;
 /* @var $this \yii\web\View */
 
 ?>
-<div class="navbar-default sidebar" role="navigation">
+<div class="sidebar" role="navigation">
     <div class="sidebar-nav navbar-collapse collapse">
         <?= Sidebar::widget([
             'options' => [
@@ -26,6 +26,7 @@ use backend\widget\Sidebar;
                     'label' => '<i class="fa fa-list fa-fw"></i> Product', 
                     'items' => [
                         ['label' => 'Manage Category', 'url' => ['/category/index']],
+                        ['label' => 'Manage Brand', 'url' => ['/brand/index']],
                         ['label' => 'Manage Product', 'url' => ['/product/index']],
                     ]
                 ],

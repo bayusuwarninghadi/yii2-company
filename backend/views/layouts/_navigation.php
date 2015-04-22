@@ -42,6 +42,5 @@ echo Nav::widget([
     ],
     'encodeLabels' => false
 ]);
-
 echo $this->render('_sidebar');
 NavBar::end();

@@ -78,7 +78,6 @@ class SliderController extends Controller
                         'format' => 'jpeg'
                     ],
                 ]);
-                return $this->redirect(['index']);
             }
             return $this->redirect(['index']);
         }

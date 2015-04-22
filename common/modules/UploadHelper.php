@@ -77,7 +77,6 @@ class UploadHelper extends BaseArrayHelper
         $imagine = $imagine->open($image->tempName);
 
         // create thumbnails
-
         if ($sizes){
             $availableSizes = $sizes;
         } else {
@@ -103,8 +102,6 @@ class UploadHelper extends BaseArrayHelper
             $imagine->resize($imagine->getSize()->widen($value['width']))->save($destination . $size . '.' . $value['format'], ['format' =>  $value['format']]);
             $return[$size] = '/images/' . $path . '/' . $size . '.' . $value['format'];
         }
-
-
         return $return;
     }
 

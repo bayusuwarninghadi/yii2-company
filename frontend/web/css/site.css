@@ -3,6 +3,14 @@ body {
     height: 100%;
 }
 
+.navbar-form .form-control{
+    background-color: #666;
+    border-color: #666;
+    color: #f5f5f5;
+}
+.navbar-nav.navbar-right:first-child {
+    margin-right: 0;
+}
 .wrap {
     min-height: 100%;
     height: auto;
