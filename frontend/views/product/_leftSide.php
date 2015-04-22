@@ -2,6 +2,7 @@
 use yii\widgets\ActiveForm;
 use yii\helpers\Inflector;
 use yii\helpers\Html;
+use common\modules\UploadHelper;
 
 /**
  * Created by PhpStorm.
@@ -29,6 +30,7 @@ use yii\helpers\Html;
         <div class="clearfix"></div>
     </div>
     <div class="list-group-item">
+        <?php echo UploadHelper::getHtml('brand/'.$model->brand_id)?>
         <div>
             <?= Html::decode($model->subtitle) ?>
         </div>

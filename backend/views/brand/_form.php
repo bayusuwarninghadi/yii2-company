@@ -16,7 +16,7 @@ use common\modules\UploadHelper;
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
         <div class="panel-body">
             <?= $form->field($model, 'image',[
-                'template' => Html::tag('div', UploadHelper::getHtml('slider/' . $model->id, 'medium',[],true)) .
+                'template' => Html::tag('div', UploadHelper::getHtml('brand/' . $model->id, 'medium',[],true)) .
                     "{label}\n{input}\n{hint}\n{error}"
             ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
             <?= $form->field($model, 'brand')->textInput(['maxlength' => 255]) ?>

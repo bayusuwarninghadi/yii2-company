@@ -67,7 +67,7 @@ class BrandController extends Controller
                 $image = UploadedFile::getInstance($model, 'image');
                 UploadHelper::saveImage($image, 'brand/' . $model->id, [
                     'medium' => [
-                        'width' => 300,
+                        'width' => 200,
                         'format' => 'jpeg'
                     ],
                 ]);
@@ -94,7 +94,7 @@ class BrandController extends Controller
             $image = UploadedFile::getInstance($model, 'image');
             UploadHelper::saveImage($image, 'brand/' . $model->id, [
                 'medium' => [
-                    'width' => 300,
+                    'width' => 200,
                     'format' => 'jpeg'
                 ],
             ]);
