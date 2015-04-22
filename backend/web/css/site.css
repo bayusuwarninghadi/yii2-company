@@ -116,3 +116,6 @@ h1,h2,h3,h4 {
 .product-gallery .gallery:hover, .product-gallery .gallery-container.active .gallery {
     opacity: 1;
 }
+.strong {
+    font-weight: bold;
+}

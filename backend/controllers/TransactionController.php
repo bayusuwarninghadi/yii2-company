@@ -38,6 +38,7 @@ class TransactionController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'transactionChart' => Transaction::chartOptions(),
         ]);
     }
 

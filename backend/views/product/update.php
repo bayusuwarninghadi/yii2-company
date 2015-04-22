@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = 'Update';
                            class="gallery-container <?=($availableImages['medium'] == $model->image_url) ? 'active' : ''?>"
                            title="Set As Product Cover">
                             <div class="gallery"
-                                 style="background-image: url(<?= UploadHelper::getImageUrl('product/' . $model->id . '/' . $image->id,'small') ?>)">
+                                 style="background-image: url(<?= UploadHelper::getImageUrl('product/' . $model->id . '/' . $image->id,'medium') ?>)">
                             </div>
                         </a>
                         <a href="" class="btn btn-danger btn-sm" data-dismiss="gallery-grid-container" aria-hidden="true"><i class="fa fa-trash-o"></i> Delete</a>
