@@ -6,8 +6,10 @@ use common\models\Category;
 use common\models\Product;
 use common\models\ProductAttribute;
 use common\models\ProductSearch;
+use common\models\UserComment;
 use common\modules\UploadHelper;
 use Yii;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
@@ -59,9 +61,16 @@ class ProductController extends Controller
         }
         if (!$images) $images[] = Html::img(Yii::$app->components['frontendSiteUrl'].$model->image_url);
 
+
+        $userCommentDataProvider = new ActiveDataProvider([
+            'query' => UserComment::find()->where(['table_key' => 'product', 'table_id' => $model->id]),
+        ]);
+
         return $this->render('view', [
             'model' => $model,
-            'images' => $images
+            'images' => $images,
+            'attributes' => $model->getProductAttributeDetailValue(),
+            'userCommentDataProvider' => $userCommentDataProvider
         ]);
     }
 

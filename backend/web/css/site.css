@@ -119,3 +119,13 @@ h1,h2,h3,h4 {
 .strong {
     font-weight: bold;
 }
+.nav-tabs{
+    z-index: 1;
+    position: relative;
+    bottom: -1px;
+}
+.tab-content {
+    border: 1px solid #ddd;
+    padding: 15px;
+    background: #fff;
+}

@@ -5,10 +5,16 @@ use yii\bootstrap\Carousel;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Inflector;
+use common\modules\UploadHelper;
+use yii\bootstrap\Tabs;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 /* @var $images array */
+/* @var $attributes array */
+/* @var $userCommentDataProvider \yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['index']];
@@ -29,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
     <div class="row">
-        <div class="col-sm-4">
-            <div class="panel panel-green">
+        <div class="col-sm-6 col-md-7">
+            <div class="panel panel-primary">
                 <div class="panel-heading"><i class="fa fa-picture-o fa-fw"></i> Gallery</div>
                 <?=Carousel::widget([
                     'items' => $images,
@@ -39,9 +45,30 @@ $this->params['breadcrumbs'][] = $this->title;
                         '<span class="glyphicon glyphicon-chevron-right"></span>',
                     ]
                 ])?>
+                <div class="panel-body">
+                    <?php
+                    $arr = explode('/', $model->rating);
+                    echo Tabs::widget([
+                        'items' => [
+                            [
+                                'label' => 'Description',
+                                'content' => HtmlPurifier::process($model->description),
+                            ],
+                            [
+                                'label' => $arr[1] . ' Reviews',
+                                'content' => ListView::widget([
+                                    'dataProvider' => $userCommentDataProvider,
+                                    'itemView' => '/user-comment/_list',
+                                    'separator' => '<hr/>',
+                                ]),
+                            ],
+                        ],
+
+                    ]) ?>
+                </div>
             </div>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-6 col-md-5">
             <div class="panel panel-green">
                 <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Detail</div>
                 <?php
@@ -51,8 +78,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo DetailView::widget([
                     'model' => $model,
                     'attributes' => [
+                        [
+                            'label' => 'Brand',
+                            'value' => UploadHelper::getHtml('brand/'.$model->brand_id),
+                            'format' => 'html'
+                        ],
                         'name',
-                        'subtitle',
+                        'subtitle:ntext',
+                        'category.name',
                         'price:currency',
                         [
                             'attribute' => 'discount',
@@ -71,8 +104,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         'updated_at:datetime',
                     ],
                 ]) ?>
+                <div class="list-group-item">
+                    <h3> Custom Detail</h3>
+                </div>
+                <table class="table table-striped table-bordered ">
+                    <?php foreach ($attributes as $name => $detail) :?>
+                        <tr>
+                            <th><?=Inflector::camel2words($name)?></th>
+                            <td><?=Html::decode($detail)?></td>
+                        </tr>
+                    <?php endforeach ?>
+                </table>
             </div>
         </div>
     </div>
-    <?=HtmlPurifier::process($model->description)?>
 </div>
