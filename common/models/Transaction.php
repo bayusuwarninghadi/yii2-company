@@ -18,6 +18,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $user_id
  * @property integer $shipping_id
  * @property string $note
+ * @property string $payment_method
  * @property integer $status
  * @property integer $sub_total
  * @property integer $grand_total
@@ -25,6 +26,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  *
  * @property Shipping $shipping
+ * @property Confirmation[] $confirmations
  * @property User $user
  * @property Cart[] $transactionAttributes
  */
@@ -89,7 +91,7 @@ class Transaction extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'shipping_id', 'sub_total', 'grand_total'], 'required'],
+            [['user_id', 'shipping_id', 'sub_total', 'grand_total', 'payment_method'], 'required'],
             [
                 'disclaimer',
                 'required',
@@ -197,5 +199,13 @@ class Transaction extends ActiveRecord
             ],
         ];
         return $return;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConfirmations()
+    {
+        return $this->hasMany(Confirmation::className(), ['transaction_id' => 'id']);
     }
 }

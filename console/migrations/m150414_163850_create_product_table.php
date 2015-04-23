@@ -24,6 +24,7 @@ class m150414_163850_create_product_table extends Migration
             'rating' => Schema::TYPE_STRING . ' NOT NULL DEFAULT "0/0"',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'FULLTEXT KEY `name` (`name`,`subtitle`,`description`)'
         ]);
     }
 

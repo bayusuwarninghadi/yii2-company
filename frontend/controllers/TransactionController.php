@@ -76,10 +76,12 @@ class TransactionController extends BaseController
                 $product->transaction_id = $model->id;
                 $product->save();
             }
+            Yii::$app->session->setFlash('success', 'Check your email for next instruction');
             return $this->redirect(['success', 'id' => $model->id]);
         }
 
         $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
+
         return $this->render('checkout', [
             'model' => $model,
             'cartDataProvider' => $cartDataProvider,
@@ -89,6 +91,13 @@ class TransactionController extends BaseController
 
     }
 
+    /**
+     * Action Success after checkout
+     *
+     * @param $id
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionSuccess($id)
     {
         $model = $this->findModel($id);

@@ -44,6 +44,7 @@ class ProductController extends BaseController
         $cartModel->user_id = Yii::$app->user->getId();
 
         if ($cartModel->load(Yii::$app->request->post()) && $cartModel->save()) {
+            Yii::$app->session->setFlash('success', 'Success, the product has been added to your cart');
             return $this->redirect(['/transaction/cart']);
         }
 
@@ -94,12 +95,12 @@ class ProductController extends BaseController
     public function actionRelated($id)
     {
         $model = $this->findModel($id);
-        /*
-         * Prepare for keyword
-         */
-        $keys = explode(' ', Html::decode($model->name));
 
-        $models = Product::find()->limit(4)->all();
+        $models = Product::find()->where(
+            "MATCH (name,subtitle,description) AGAINST (:string IN BOOLEAN MODE)",[
+                ':string' => Html::encode($model->name.$model->subtitle)
+            ]
+        )->andFilterWhere(['<>','id',$model->id])->orderBy('created_at DESC')->limit(4)->all();
         $params = [
             'model' => $model,
             'models' => $models

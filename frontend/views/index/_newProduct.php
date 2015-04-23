@@ -32,7 +32,7 @@ use yii\helpers\Html;
 
         foreach ($products as $_item) {
             $items[] =
-                Html::beginTag('div',['class' => 'col-sm-6 col-md-3']) .
+                Html::beginTag('div',['class' => 'col-md-3']) .
                 $this->render('/product/_list', [ 'model' => $_item]) .
                 Html::endTag('div')
             ;

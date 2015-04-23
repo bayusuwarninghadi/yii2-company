@@ -36,6 +36,7 @@ use yii\helpers\ArrayHelper;
  * @property Transaction[] $transactions
  * @property UserComment[] $userComments
  * @property UserFavorite[] $userFavorites
+ * @property Confirmation[] $confirmations
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -420,5 +421,13 @@ class User extends ActiveRecord implements IdentityInterface
             ],
         ];
         return $return;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getConfirmations()
+    {
+        return $this->hasMany(Confirmation::className(), ['user_id' => 'id']);
     }
 }

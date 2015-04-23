@@ -75,6 +75,11 @@ if (Yii::$app->user->isGuest) {
             ],
             '<li class="divider"></li>',
             [
+                'label' => '<i class="fa fa-check fa-fw"></i> Confirmation',
+                'url' => ['/user/confirmation', 'id' => Yii::$app->user->getId()],
+            ],
+            '<li class="divider"></li>',
+            [
                 'label' => '<i class="fa fa-sign-out fa-fw"></i> Logout',
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']

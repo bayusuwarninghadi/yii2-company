@@ -184,3 +184,11 @@ section {
 .strong {
     font-weight: bold;
 }
+.top-notification {
+    min-width: 200px;
+    position: fixed;
+    bottom: 10px;
+    max-width: 400px;
+    right: 10px;
+    z-index: 1001;
+}

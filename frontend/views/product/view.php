@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
             <div class="col-md-5">
-                <?=$this->render('_leftSide',[
+                <?=$this->render('_rightSide',[
                     'model' => $model,
                     'attributes' => $attributes,
                     'cartModel' => $cartModel

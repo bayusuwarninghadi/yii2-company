@@ -7,6 +7,13 @@ $(document).ready(function () {
     $('.show-cart').click(function () {
         $('.cart-pop').load('/transaction/cart');
     });
+    function hide_notifications(){
+        $('.top-notification .alert').each(function(){
+            $(this).delay(5000).slideUp();
+        });
+    }
+
+    hide_notifications();
 });
 
 $(document).on('click', '.thumbnail .favorite', function (ev) {

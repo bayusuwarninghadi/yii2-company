@@ -61,7 +61,12 @@ echo Collapse::widget([
         ],
         [
             'label' => '<i class="fa fa-expand fa-fw"></i> Payment Method',
-            'content' => HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer']),
+            'content' =>
+                $form->field($model, 'shipping_id')->radioList(
+                    [
+                        HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer']) => HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer'])
+                    ]
+                ),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'

@@ -54,9 +54,10 @@ class UploadHelper extends BaseArrayHelper
      * @param $image
      * @param string $path
      * @param array $sizes
+     * @param bool $saveToFrontEnd
      * @return bool|array
      */
-    public static function saveImage($image, $path = '', $sizes = [])
+    public static function saveImage($image, $path = '', $sizes = [], $saveToFrontEnd = true)
     {
 
         if (!$image) {
@@ -64,7 +65,8 @@ class UploadHelper extends BaseArrayHelper
         }
 
         // define path
-        $destination = Yii::$app->getBasePath() . '/../frontend/web/images/' . $path . '/';
+        $app = $saveToFrontEnd ? 'frontend' : 'backend';
+        $destination = Yii::$app->getBasePath() . '/../'.$app.'/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory else remove all asset images
         if (!file_exists($destination)) {

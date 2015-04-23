@@ -9,7 +9,7 @@ class m150413_174741_create_setting_table extends Migration
     {
         $this->createTable('setting',[
             'id' => Schema::TYPE_PK,
-            'key' => Schema::TYPE_STRING . ' NOT NULL',
+            'key' => Schema::TYPE_STRING . '(32) NOT NULL',
             'value' => Schema::TYPE_TEXT,
             'type' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 1',
             'readonly' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',

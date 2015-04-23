@@ -42,10 +42,6 @@ class m150331_184923_create_article extends Migration
             'description' => 'Terms and Condition',
         ]);
         $this->insert('article', [
-            'title' => 'terms',
-            'description' => 'Terms and Condition',
-        ]);
-        $this->insert('article', [
             'title' => 'checkout',
             'description' => 'This is note for checkout process',
         ]);

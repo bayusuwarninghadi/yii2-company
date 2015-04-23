@@ -20,7 +20,7 @@ use yii\widgets\ListView;
             'dataProvider' => $dataProvider,
             'itemView' => '_list',
             'separator' => '<hr/>',
-            'layout' => '<div class="panel panel-primary"><div class="panel-heading">{summary}</div><div class="panel-body">{items}</div>{pager}</div>',
+            'layout' => '<div class="panel panel-default"><div class="panel-heading">{summary}</div><div class="panel-body">{items}</div>{pager}</div>',
         ]);
         ?>
     </div>

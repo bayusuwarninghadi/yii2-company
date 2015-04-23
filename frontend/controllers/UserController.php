@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Confirmation;
 use common\models\Product;
 use common\models\Shipping;
 use common\models\User;
@@ -60,7 +61,9 @@ class UserController extends BaseController
                     ],
                 ]);
             }
-            $model->save();
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'Profile Updated');
+            }
         }
         return $this->render('index', [
             'model' => $model,
@@ -86,7 +89,7 @@ class UserController extends BaseController
             $favorite->delete();
         }
         if (Yii::$app->request->isAjax) {
-            echo 'ok';
+            return 'ok';
         } else {
             return $this->redirect(['favorite']);
         }
@@ -189,4 +192,29 @@ class UserController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionConfirmation(){
+        $model = new Confirmation();
+        $model->user_id = Yii::$app->user->getId();
+        if ($model->load(Yii::$app->request->post())){
+            if ($model->save()){
+                if ($image = UploadedFile::getInstance($model, 'image')) {
+                    UploadHelper::saveImage($image, 'user/' . $model->id, [
+                        'medium' => [
+                            'width' => 600,
+                            'format' => 'jpeg'
+                        ],
+                    ], false);
+                }
+                Yii::$app->session->setFlash('success', 'Payment Confirmation was successfully added into our system, be patient, we will send you an email after transaction approve');
+                return $this->goHome();
+            }
+        }
+
+        return $this->render('confirmation',[
+            'model' => $model
+        ]);
+
+    }
+
 }

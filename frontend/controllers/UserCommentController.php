@@ -70,8 +70,10 @@ class UserCommentController extends BaseController
             $model->table_key = $key;
             $model->table_id = $id;
             $model->user_id = Yii::$app->user->getId();
-            $model->save();
-            return $this->redirect([$redirect, 'id' => $id]);
+            if ($model->save()){
+                Yii::$app->session->setFlash('success', 'Comment added, Thanks');
+                return $this->redirect([$redirect, 'id' => $id]);
+            }
         }
 
         $params = [
