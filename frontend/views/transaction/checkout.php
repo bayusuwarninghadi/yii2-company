@@ -18,6 +18,7 @@ use yii\widgets\ActiveForm;
  * @var $form ActiveForm
  * @var $cartDataProvider \yii\data\ActiveDataProvider
  * @var $grandTotal integer
+ * @var $paymentMethod array
  */
 
 $this->title = 'Checkout';
@@ -62,11 +63,7 @@ echo Collapse::widget([
         [
             'label' => '<i class="fa fa-expand fa-fw"></i> Payment Method',
             'content' =>
-                $form->field($model, 'shipping_id')->radioList(
-                    [
-                        HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer']) => HtmlPurifier::process(Yii::$app->controller->settings['bank_transfer'])
-                    ]
-                ),
+                $form->field($model, 'payment_method')->radioList($paymentMethod),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'

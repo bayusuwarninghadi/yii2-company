@@ -31,7 +31,7 @@ echo Carousel::widget([
 ?>
 <section class="bg-white" id="about-page">
     <div class="container">
-        <div class="col-sm-4 col-md-3">
+        <div class="col-sm-4 col-md-3 hidden-xs">
             <?=$this->render('_brand',[
                 'brands' => $brands
             ])?>

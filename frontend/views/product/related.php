@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php foreach ($models as $model) :?>
-    <div class="col-sm-6 col-md-3">
+    <div class="col-md-3 col-xs-6">
         <?=$this->render('/product/_list',[
             'model' => $model
         ])?>

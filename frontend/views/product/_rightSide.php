@@ -16,13 +16,13 @@ use common\modules\UploadHelper;
 /* @var $attributes array */
 
 ?>
-<div class="panel panel-primary">
+<div class="panel panel-default">
     <div class="panel-heading">
         <?php if ($model->discount) : ?>
             <span class="line-through"><?= Yii::$app->formatter->asCurrency($model->price) ?></span>
             <span class="label label-success">
-                                <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
-                            </span>
+                <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
+            </span>
             <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price * (100 - $model->discount) / 100),['class' => 'pull-right']) ?>
         <?php else : ?>
             <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price),['class' => 'pull-right']) ?>

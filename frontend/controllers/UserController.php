@@ -211,8 +211,13 @@ class UserController extends BaseController
             }
         }
 
+        $paymentMethod = [
+            $this->settings['bank_transfer'] => $this->settings['bank_transfer']
+        ];
+
         return $this->render('confirmation',[
-            'model' => $model
+            'model' => $model,
+            'paymentMethod' => $paymentMethod
         ]);
 
     }

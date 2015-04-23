@@ -18,7 +18,7 @@ use common\models\Brand;
         'method' => 'get',
     ]); ?>
 
-    <div class="panel panel-primary">
+    <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-search"></i> Advance Search
         </div>

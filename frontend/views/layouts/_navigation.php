@@ -23,7 +23,7 @@ NavBar::begin([
 
 $menuItems = [
     [
-        'label' => '<i class="fa fa-truck fa-fw"></i> Our Product',
+        'label' => '<i class="fa fa-truck fa-fw"></i> Product',
         'url' => ['/product/index']
     ],
     [
@@ -39,7 +39,7 @@ if (Yii::$app->user->isGuest) {
     $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i> Login', 'url' => ['/site/login']];
 } else {
     $menuItems[] = [
-        'label' => 'Shopping Cart',
+        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Shopping Cart',
         'url' => ['/checkout/cart'],
         'linkOptions' => [
             'class' => 'visible-xs'

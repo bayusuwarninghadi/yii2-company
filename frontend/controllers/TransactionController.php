@@ -82,7 +82,12 @@ class TransactionController extends BaseController
 
         $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
 
+        $paymentMethod = [
+            $this->settings['bank_transfer'] => $this->settings['bank_transfer']
+        ];
+
         return $this->render('checkout', [
+            'paymentMethod' => $paymentMethod,
             'model' => $model,
             'cartDataProvider' => $cartDataProvider,
             'grandTotal' => $grandTotal,

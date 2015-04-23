@@ -27,11 +27,10 @@ $arrayStatus = Transaction::getStatusAsArray();
     ]); ?>
     <div class="panel panel-yellow">
         <div class="panel-heading">
-            <i class="fa fa-pencil fa-fw"></i> <?= 'Update' ?>
             <div class="pull-right">
                 Status
                 <div class="btn-group">
-                    <button class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
                         <?=$arrayStatus[$model->status]?>
                         <span class="caret"></span>
                     </button>
@@ -44,12 +43,16 @@ $arrayStatus = Transaction::getStatusAsArray();
                     </ul>
                 </div>
             </div>
+            <h5>
+                <i class="fa fa-pencil fa-fw"></i> <?= 'Update' ?>
+            </h5>
+            <div class="clearfix"></div>
         </div>
         <div class="panel-body">
             <h3 class="page-header"><?= $model->user->username ?>
                 <small><?= $model->user->email ?> </small>
             </h3>
-            <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'city')) ?>
+            <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'city'))->hint('depends on user shipping address') ?>
             <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
             <?= $form->field($model, 'sub_total', [
                 'template' => "
@@ -71,7 +74,7 @@ $arrayStatus = Transaction::getStatusAsArray();
                     \n{error}"
             ])->input('number') ?>
         </div>
-        <div class="panel-footer">
+        <div class="panel-footer text-right">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
         </div>
     </div>
