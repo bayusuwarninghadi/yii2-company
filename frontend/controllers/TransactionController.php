@@ -82,9 +82,10 @@ class TransactionController extends BaseController
 
         $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
 
-        $paymentMethod = [
-            $this->settings['bank_transfer'] => $this->settings['bank_transfer']
-        ];
+        $paymentMethod = [];
+        if ($this->settings['bank_transfer']){
+            $paymentMethod[] = ['Bank Transfer' => 'Bank Transfer'];
+        }
 
         return $this->render('checkout', [
             'paymentMethod' => $paymentMethod,
@@ -228,7 +229,7 @@ class TransactionController extends BaseController
         $model = $dataProvider->getModels();
         /** @var Cart $cart */
         foreach ($model as $cart) {
-            $_price = $cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty;
+            $_price = round($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty, 0, PHP_ROUND_HALF_UP);
             $grandTotal += $_price;
         }
         $params = [

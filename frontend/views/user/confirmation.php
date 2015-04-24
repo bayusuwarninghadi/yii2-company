@@ -10,6 +10,7 @@ use yii\helpers\Html;
  * @var $model \common\models\Confirmation
  * @var $this \yii\web\View
  * @var $paymentMethod array
+ * @var $transactionIds array
  */
 
 $this->title = 'Payment Confirmation';
@@ -22,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel-heading">Fill Your Transfer Detail Bellow</div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                <?= $form->field($model, 'transaction_id')->textInput(['maxlength' => 10]) ?>
+                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds) ?>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'payment_method')->radioList($paymentMethod)?>
                 <?= $form->field($model, 'amount',[

@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Confirmation;
 use common\models\Product;
 use common\models\Shipping;
+use common\models\Transaction;
 use common\models\User;
 use common\models\UserFavorite;
 use common\modules\UploadHelper;
@@ -12,6 +13,7 @@ use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -215,9 +217,12 @@ class UserController extends BaseController
             $this->settings['bank_transfer'] => $this->settings['bank_transfer']
         ];
 
+        $transactionIds = ArrayHelper::map(Transaction::find()->where(['user_id' => Yii::$app->user->getId()])->all(),'id','id');
+
         return $this->render('confirmation',[
             'model' => $model,
-            'paymentMethod' => $paymentMethod
+            'paymentMethod' => $paymentMethod,
+            'transactionIds' => $transactionIds,
         ]);
 
     }

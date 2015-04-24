@@ -37,7 +37,13 @@ class ProductController extends BaseController
     public function actionView($id)
     {
         $model = $this->findModel($id);
-        if (($cartModel = Cart::findOne(['user_id' => Yii::$app->user->getId(),'product_id' => $model->id])) === null){
+        $cartModel = Cart::find()->where(
+            'user_id = :user_id AND product_id = :product_id AND transaction_id IS NULL',
+            [
+                'user_id' => Yii::$app->user->getId(),
+                'product_id' => $model->id
+            ])->one();
+        if ($cartModel === null){
             $cartModel = new Cart();
         }
 

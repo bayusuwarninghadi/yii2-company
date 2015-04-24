@@ -76,7 +76,7 @@ if (Yii::$app->user->isGuest) {
             '<li class="divider"></li>',
             [
                 'label' => '<i class="fa fa-check fa-fw"></i> Confirmation',
-                'url' => ['/user/confirmation', 'id' => Yii::$app->user->getId()],
+                'url' => ['/user/confirmation'],
             ],
             '<li class="divider"></li>',
             [

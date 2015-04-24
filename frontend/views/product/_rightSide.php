@@ -1,8 +1,8 @@
 <?php
-use yii\widgets\ActiveForm;
-use yii\helpers\Inflector;
-use yii\helpers\Html;
 use common\modules\UploadHelper;
+use yii\helpers\Html;
+use yii\helpers\Inflector;
+use yii\widgets\ActiveForm;
 
 /**
  * Created by PhpStorm.
@@ -23,14 +23,14 @@ use common\modules\UploadHelper;
             <span class="label label-success">
                 <?= Yii::$app->formatter->asPercent($model->discount / 100) ?>
             </span>
-            <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price * (100 - $model->discount) / 100),['class' => 'pull-right']) ?>
+            <?= Html::tag('b', Yii::$app->formatter->asCurrency(round($model->price * (100 - $model->discount) / 100, 0, PHP_ROUND_HALF_UP)), ['class' => 'pull-right']) ?>
         <?php else : ?>
-            <?= Html::tag('b',Yii::$app->formatter->asCurrency($model->price),['class' => 'pull-right']) ?>
+            <?= Html::tag('b', Yii::$app->formatter->asCurrency($model->price), ['class' => 'pull-right']) ?>
         <?php endif ?>
         <div class="clearfix"></div>
     </div>
     <div class="list-group-item">
-        <?php echo UploadHelper::getHtml('brand/'.$model->brand_id)?>
+        <?php echo UploadHelper::getHtml('brand/' . $model->brand_id) ?>
         <div>
             <?= Html::decode($model->subtitle) ?>
         </div>
@@ -39,7 +39,7 @@ use common\modules\UploadHelper;
         </div>
     </div>
     <div class="list-group-item">
-        <?php if ($model->stock) :?>
+        <?php if ($model->stock) : ?>
             <h5>Stock <span class="label-success label"><?= $model->stock ?></span></h5>
             <?php
             $form = ActiveForm::begin();
@@ -56,27 +56,28 @@ use common\modules\UploadHelper;
                     </div>
                     \n{error}
                                 ",
-            ])->input('number',[
+            ])->input('number', [
                 'placeholder' => 'Quantity'
             ]);
-            echo Html::activeHiddenInput($cartModel,'product_id',['value' => $model->id]);
+            echo Html::activeHiddenInput($cartModel, 'product_id', ['value' => $model->id]);
             $form->end();
             ?>
-        <?php else :?>
+        <?php else : ?>
             <h5>Stock <span class="label-danger label">Unavailable</span></h5>
         <?php endif ?>
     </div>
     <table class="table">
-        <?php foreach ($attributes as $name => $detail) :?>
+        <?php foreach ($attributes as $name => $detail) : ?>
             <tr>
-                <th><?=Inflector::camel2words($name)?></th>
-                <td><?=Html::decode($detail)?></td>
+                <th><?= Inflector::camel2words($name) ?></th>
+                <td><?= Html::decode($detail) ?></td>
             </tr>
         <?php endforeach ?>
     </table>
     <div class="panel-footer text-right">
-        <?=Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>','#',['class' => 'btn btn-primary btn-circle'])?>
-        <?=Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>','#',['class' => 'btn btn-info btn-circle'])?>
-        <?=Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>','#',['class' => 'btn btn-danger btn-circle'])?>
+        <?= Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>', 'http://www.facebook.com/sharer.php?u=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-primary btn-circle']) ?>
+        <?= Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>', 'http://twitter.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-info btn-circle']) ?>
+        <?= Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>', 'https://plus.google.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
+        <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->name).'&body=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
     </div>
 </div>

@@ -29,16 +29,20 @@ $columns = [
         'label' => 'Product',
         'value' => function ($cart) {
             $return = Html::tag('p', Html::decode($cart->product->name));
+            $return .= Html::beginTag('div',['class' => 'btn-group']);
             $return .= Html::a('<i class="fa fa-pencil"></i>', ['/product/view', 'id' => $cart->product_id], [
-                'title' => Yii::t('yii', 'Edit Quantity'),
-                'class' => 'btn btn-default',
+                'data-content' => Yii::t('yii', 'Edit Quantity'),
+                'class' => 'btn btn-danger',
+                'data-toggle' => 'popover',
             ]);
             $return .= Html::a('<i class="fa fa-trash"></i>', ['/transaction/delete', 'id' => $cart->id], [
-                'title' => Yii::t('yii', 'Remove this product form cart'),
+                'data-content' => Yii::t('yii', 'Remove this product form cart'),
+                'data-toggle' => 'popover',
                 'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                 'data-method' => 'post',
                 'class' => 'btn btn-danger'
             ]);
+            $return .= Html::endTag('div');
             return $return;
         },
         'format' => 'raw',
@@ -56,7 +60,7 @@ $columns = [
             if ($cart->product->discount) {
                 $return .= Html::tag('div', '@ ' . Yii::$app->formatter->asCurrency($cart->product->price), ['style' => 'text-decoration:line-through']);
                 $return .= Html::tag('span', Yii::$app->formatter->asPercent($cart->product->discount / 100), ['class' => 'label label-success']);
-                $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty));
+                $return .= Html::tag('h5', Yii::$app->formatter->asCurrency(round($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty, 0, PHP_ROUND_HALF_UP)));
             } else {
                 $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price));
             }

@@ -18,7 +18,8 @@ use yii\helpers\HtmlPurifier;
 
 $this->title = 'Welcome';
 
-echo Carousel::widget([
+?>
+<?= Carousel::widget([
     'items' => $slider,
     'options' => [
         'id' => 'index-slider',
@@ -29,18 +30,20 @@ echo Carousel::widget([
     ]
 ]);
 ?>
-<section class="bg-white" id="about-page">
-    <div class="container">
-        <div class="col-sm-4 col-md-3 hidden-xs">
-            <?=$this->render('_brand',[
-                'brands' => $brands
-            ])?>
+<div data-spy="scroll" data-target="#indexScrollspy">
+    <section class="bg-white" id="about-page">
+        <div class="container">
+            <div class="col-sm-4 col-md-3 hidden-xs">
+                <?=$this->render('_brand',[
+                    'brands' => $brands
+                ])?>
+            </div>
+            <div class="col-sm-8 col-md-9">
+                <?= HtmlPurifier::process($page->description) ?>
+            </div>
         </div>
-        <div class="col-sm-8 col-md-9">
-            <?= HtmlPurifier::process($page->description) ?>
-        </div>
-    </div>
-</section>
-<?=$this->render('_newProduct',[
-    'products' => $products
-])?>
+    </section>
+    <?=$this->render('_newProduct',[
+        'products' => $products
+    ])?>
+</div>
