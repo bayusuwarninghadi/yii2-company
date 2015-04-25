@@ -84,7 +84,7 @@ class TransactionController extends BaseController
 
         $paymentMethod = [];
         if ($this->settings['bank_transfer']){
-            $paymentMethod[] = ['Bank Transfer' => 'Bank Transfer'];
+            $paymentMethod['Bank Transfer'] = 'Bank Transfer';
         }
 
         return $this->render('checkout', [

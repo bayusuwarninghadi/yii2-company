@@ -213,9 +213,11 @@ class UserController extends BaseController
             }
         }
 
-        $paymentMethod = [
-            $this->settings['bank_transfer'] => $this->settings['bank_transfer']
-        ];
+        $paymentMethod = [];
+        $bank_transfers = explode(',',$this->settings['bank_transfer']);
+        foreach ($bank_transfers as $bank_transfer){
+            $paymentMethod[$bank_transfer] = $bank_transfer;
+        }
 
         $transactionIds = ArrayHelper::map(Transaction::find()->where(['user_id' => Yii::$app->user->getId()])->all(),'id','id');
 

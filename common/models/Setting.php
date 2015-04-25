@@ -21,7 +21,8 @@ class Setting extends ActiveRecord
     const READONLY_NOT = 0;
     const TYPE_TEXT = 1;
     const TYPE_TEXT_AREA = 2;
-    const TYPE_FILE_INPUT = 3;
+    const TYPE_TINIMCE = 3;
+    const TYPE_FILE_INPUT = 4;
 
     /**
      * @param bool $with_key

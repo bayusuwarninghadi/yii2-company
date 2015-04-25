@@ -24,7 +24,7 @@ class m150413_174741_create_setting_table extends Migration
         ]);
         $this->insert('setting',[
             'key' => 'bank_transfer',
-            'value' => 'BCA 0123456789 AN:John Doe',
+            'value' => 'BCA 0123456789 AN:John Doe, MANDIRI 0123456789 AN:John ',
         ]);
         $this->insert('setting',[
             'key' => 'facebook_url',

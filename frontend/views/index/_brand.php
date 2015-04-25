@@ -32,7 +32,7 @@ use yii\bootstrap\Carousel;
     ]);
     ?>
 </div>
-<div class="well form-group">
+<div class="list-group-item form-group">
     <div class="controls pull-right btn-group btn-group-xs">
         <a class="left fa fa-chevron-left btn btn-default" href="#brand-slider" data-slide="prev"></a>
         <a class="right fa fa-chevron-right btn btn-default" href="#brand-slider" data-slide="next"></a>

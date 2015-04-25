@@ -36,6 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 $formGroup = $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']]);
                 switch ($m->type){
                     case Setting::TYPE_TEXT_AREA;
+                        $formGroup = $formGroup->textarea(['rows' => 4]);
+                        break;
+                    case Setting::TYPE_TINIMCE;
                         $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
                         break;
                     case Setting::TYPE_FILE_INPUT;
