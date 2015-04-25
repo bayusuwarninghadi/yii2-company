@@ -2,17 +2,6 @@ html,
 body {
     height: 100%;
 }
-
-.navbar-form .btn {
-    background: #222;
-    border-color: #222;
-    color: #f5f5f5;
-}
-.navbar-form .form-control{
-    background-color: #666;
-    border-color: #222;
-    color: #f5f5f5;
-}
 .navbar-form .form-control:focus{
     width: 200px;
 }
@@ -24,23 +13,19 @@ body {
     height: auto;
     margin: 0 auto -250px;
     padding: 0 0 250px;
-    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
 }
 .wrap > .container {
     padding: 70px 15px 20px;
 }
 
 .footer {
-    background: #333;
-    color: #fff;
-    height: 250px;
+    background: #e1e1e1;
     padding-top: 80px;
 }
 .footer .social {
     margin-bottom: 20px;
 }
 .footer a{
-    color: #ddd;
     margin: 0 5px;
 }
 .cart-pop{
@@ -84,17 +69,10 @@ body {
     overflow: hidden;
     position: relative;
 }
-.thumbnail:hover {
-    box-shadow: 0 0 15px #ccc;
-}
 .thumbnail .image {
     background: no-repeat center center;
     background-size: cover;
     height: 150px;
-    opacity: 1;
-}
-.thumbnail:hover .image{
-    opacity: .6;
 }
 
 .thumbnail .stock {
@@ -189,9 +167,6 @@ section {
 .radio-form label {
     display: block;
 }
-.strong {
-    font-weight: bold;
-}
 .top-notification {
     min-width: 200px;
     position: fixed;
@@ -199,4 +174,8 @@ section {
     max-width: 400px;
     right: 10px;
     z-index: 1001;
+}
+.panel > .list-group-item {
+    border-left: none;
+    border-right: none;
 }

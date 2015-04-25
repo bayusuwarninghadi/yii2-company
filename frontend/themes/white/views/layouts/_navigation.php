@@ -51,7 +51,7 @@ if (Yii::$app->user->isGuest) {
             'class' => 'hidden-xs show-cart'
         ],
         'items' => [
-            '<li class="cart-pop" style="padding: 0 10px;">'.$this->render('_loading').'</li>',
+            '<li class="cart-pop" style="padding: 0 10px;">'.$this->render('/layouts/_loading').'</li>',
             [
                 'label' => 'See All <i class="fa fa-angle-right"></i>',
                 'linkOptions' => [

@@ -63,13 +63,12 @@ class BaseController extends Controller
      */
     protected function loadThemes()
     {
-        if (isset($this->settings['themes'])) {
+        if (isset($this->settings['theme'])) {
             $this->getView()->theme = Yii::createObject([
                 'class' => '\yii\base\Theme',
                 'pathMap' => [
-                    '@app/views' => '@app/themes/' . $this->settings['themes']
+                    '@app/views' => '@app/themes/' . $this->settings['theme'] . '/views',
                 ],
-                'baseUrl' => '@app/themes/' . $this->settings['themes']
             ]);
         }
     }

@@ -1,0 +1,16 @@
+.wrap {
+    background: #f9f9f9;
+}
+.thumbnail:hover {
+    box-shadow: 0 0 5px #eee;
+}
+.thumbnail .image {
+    background: no-repeat center center;
+    background-size: cover;
+    height: 150px;
+    opacity: 1;
+}
+.thumbnail:hover .image{
+    opacity: .6;
+}
+

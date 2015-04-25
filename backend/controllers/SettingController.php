@@ -2,12 +2,15 @@
 
 namespace backend\controllers;
 
+use common\models\Setting;
 use common\modules\UploadHelper;
 use Yii;
-use common\models\Setting;
+use yii\filters\VerbFilter;
+use yii\helpers\Html;
+use yii\helpers\Inflector;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 
 /**
@@ -28,6 +31,64 @@ class SettingController extends Controller
     }
 
     /**
+     * Action Theme
+     * @param $select string
+     * @return mixed
+     */
+    public function actionTheme($select = '')
+    {
+        /**
+         * @var $model Setting
+         */
+        $model = Setting::findOne(['key' => 'theme']);
+        $themeFolders = glob(Yii::$app->getBasePath() . '/../frontend/themes/*', GLOB_ONLYDIR);
+
+        $themes = [];
+        $carouselTheme = [];
+        foreach ($themeFolders as $_theme) {
+            $_path = pathinfo($_theme);
+            $themes[] = $_path['filename'];
+            $carouselTheme[] = [
+                'content' => Html::img(Url::to(['/setting/theme-preview', 'theme' => $_path['filename']])),
+                'caption' =>
+                    Html::tag('h1',Inflector::camel2words($_path['filename'])).
+                    Html::a('Activate', ['/setting/theme', 'select' => $_path['filename']], ['class' => 'btn btn-primary']),
+            ];
+        }
+        if ($select != ''){
+            $model->value = $select;
+            $model->save();
+        }
+
+        return $this->render('theme', [
+            'model' => $model,
+            'carouselTheme' => $carouselTheme
+        ]);
+    }
+
+
+    /**
+     * Generate Thumbnail Brochure
+     * @param string $theme
+     * @return string
+     */
+    public function actionThemePreview($theme)
+    {
+
+        Header("Content-type: image/jpeg");
+
+        $themeDirectory = Yii::$app->getBasePath() . '/../frontend/themes/' . $theme;
+        $path = Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif';
+        if (file_exists($themeDirectory)) {
+            if ($_images = glob($themeDirectory . '/*{jpg,png,gif,jpeg}', GLOB_BRACE)){
+                $path = $_images[0];
+            }
+        }
+
+        return readfile($path);
+    }
+
+    /**
      * Lists all Setting models.
      * @return mixed
      */
@@ -40,7 +101,7 @@ class SettingController extends Controller
                 /** @var Setting $_model */
                 $_model = Setting::findOne($_key);
 
-                if (isset($_FILES['Setting']['name'][$_key])){
+                if (isset($_FILES['Setting']['name'][$_key])) {
                     if (!empty($_FILES['Setting']['name'][$_key]['value'])) {
                         // get file
                         $_file = UploadedFile::getInstance($_model, '[' . $_key . ']value');

@@ -11,7 +11,7 @@ namespace common\assets;
 use yii\web\AssetBundle;
 
 class CommonAsset extends AssetBundle{
-    public $sourcePath = '@common/assets';
+    public $sourcePath = '@common/assets/web';
     public $css = [
         'css/common.css',
     ];
@@ -24,5 +24,4 @@ class CommonAsset extends AssetBundle{
         'yii\bootstrap\BootstrapPluginAsset',
         'common\assets\FontAwesomeAsset',
     ];
-
 }

@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace frontend\assets;
+namespace frontend\themes\white\assets;
 
 use yii\web\AssetBundle;
 
@@ -15,17 +15,15 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $basePath = '@webroot';
-    public $baseUrl = '@web';
+    public $sourcePath = '@frontend/themes/white/web';
     public $css = [
-        'css/metisMenu.css',
-        'css/site.css',
+        'css/white.css',
     ];
     public $js = [
-        'js/metisMenu.js',
-        'js/site.js',
+        'js/white.js',
     ];
     public $depends = [
-        'common\assets\CommonAsset',
+        'frontend\assets\AppAsset',
+        'yii\bootstrap\BootstrapThemeAsset',
     ];
 }

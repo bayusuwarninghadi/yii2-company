@@ -17,7 +17,7 @@ NavBar::begin([
     'brandUrl' => Yii::$app->homeUrl,
     'renderInnerContainer' => false,
     'options' => [
-        'class' => 'navbar-default navbar-fixed-top',
+        'class' => 'navbar-inverse navbar-fixed-top',
     ],
 ]);
 
@@ -51,7 +51,7 @@ if (Yii::$app->user->isGuest) {
             'class' => 'hidden-xs show-cart'
         ],
         'items' => [
-            '<li class="cart-pop" style="padding: 0 10px;">'.$this->render('_loading').'</li>',
+            '<li class="cart-pop" style="padding: 0 10px;">'.$this->render('/layouts/_loading').'</li>',
             [
                 'label' => 'See All <i class="fa fa-angle-right"></i>',
                 'linkOptions' => [

@@ -1,0 +1,33 @@
+.navbar-form .btn {
+    background: #222;
+    border-color: #222;
+    color: #f5f5f5;
+}
+.navbar-form .form-control{
+    background-color: #666;
+    border-color: #222;
+    color: #f5f5f5;
+}
+.wrap {
+    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
+}
+.footer {
+    background: #333;
+    color: #fff;
+}
+.footer a{
+    color: #ddd;
+}
+.thumbnail:hover {
+    box-shadow: 0 0 15px #ccc;
+}
+
+.thumbnail .image {
+    background: no-repeat center center;
+    background-size: cover;
+    height: 150px;
+    opacity: 1;
+}
+.thumbnail:hover .image{
+    opacity: .6;
+}

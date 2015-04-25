@@ -17,8 +17,19 @@ echo Nav::widget([
     'options' => ['class' => 'nav navbar-top-links navbar-right'],
     'items' => [
         [
-            'label' => '<i class="fa fa-gear fa-fw"></i>',
-            'url' => ['/setting/index']
+            'label' => '<i class="fa fa-gears fa-fw"></i>',
+            'url' => ['/setting/index'],
+            'items' => [
+                [
+                    'label' => '<i class="fa fa-gear fa-fw"></i> Setting',
+                    'url' => ['/setting/index']
+                ],
+                '<li class="divider"></li>',
+                [
+                    'label' => '<i class="fa fa-file-picture-o fa-fw"></i> Theme',
+                    'url' => ['/setting/theme']
+                ],
+            ]
         ],
         [
             'label' => '<i class="fa fa-envelope fa-fw"></i>',
