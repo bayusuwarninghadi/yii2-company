@@ -32,3 +32,6 @@ phpunit.phar
 
 # linux env
 /.phpintel
+
+# Yii guide
+guide

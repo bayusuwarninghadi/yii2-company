@@ -9,10 +9,10 @@
 namespace frontend\controllers;
 
 
+use common\models\Request;
 use common\models\Setting;
 use common\models\UserAttribute;
 use Yii;
-use common\models\Request;
 use yii\helpers\Json;
 use yii\web\Controller;
 
@@ -20,7 +20,8 @@ use yii\web\Controller;
  * Class BaseController
  * @package frontend\controllers
  */
-class BaseController extends Controller{
+class BaseController extends Controller
+{
 
     /**
      * @var array
@@ -41,6 +42,7 @@ class BaseController extends Controller{
 
         $this->loadSettings();
         $this->loadFavorites();
+        $this->loadThemes();
     }
 
     /**
@@ -57,6 +59,22 @@ class BaseController extends Controller{
     }
 
     /**
+     * Load Themes
+     */
+    protected function loadThemes()
+    {
+        if (isset($this->settings['themes'])) {
+            $this->getView()->theme = Yii::createObject([
+                'class' => '\yii\base\Theme',
+                'pathMap' => [
+                    '@app/views' => '@app/themes/' . $this->settings['themes']
+                ],
+                'baseUrl' => '@app/themes/' . $this->settings['themes']
+            ]);
+        }
+    }
+
+    /**
      * Load Favorites
      */
     protected function loadFavorites()
@@ -66,12 +84,13 @@ class BaseController extends Controller{
         /**
          * @var $model UserAttribute
          */
-        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null){
+        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null) {
             return false;
         }
         $this->favorites = Json::decode($model->value);
 
     }
+
     /**
      * @param \yii\base\Action $action
      * @param mixed $result

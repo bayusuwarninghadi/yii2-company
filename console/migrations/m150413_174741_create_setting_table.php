@@ -2,6 +2,7 @@
 
 use yii\db\Schema;
 use yii\db\Migration;
+use common\models\Setting;
 
 class m150413_174741_create_setting_table extends Migration
 {
@@ -15,8 +16,12 @@ class m150413_174741_create_setting_table extends Migration
             'readonly' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
         ]);
         $this->insert('setting',[
+            'key' => 'themes',
+            'readonly' => Setting::READONLY
+        ]);
+        $this->insert('setting',[
             'key' => 'site_image',
-            'type' => 4
+            'type' => Setting::TYPE_IMAGE_INPUT
         ]);
         $this->insert('setting',[
             'key' => 'site_name',
@@ -33,7 +38,7 @@ class m150413_174741_create_setting_table extends Migration
         $this->insert('setting',[
             'key' => 'bank_transfer',
             'value' => 'BCA 0123456789 AN:John Doe, MANDIRI 0123456789 AN:John ',
-            'type' => 2
+            'type' => Setting::TYPE_TEXT_AREA
         ]);
         $this->insert('setting',[
             'key' => 'facebook_url',

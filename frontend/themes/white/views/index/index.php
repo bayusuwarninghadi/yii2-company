@@ -5,3 +5,5 @@
  * Date: 4/24/15
  * Time: 13:38
  */
+?>
+Sample theme
