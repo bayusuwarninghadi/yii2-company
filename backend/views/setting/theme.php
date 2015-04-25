@@ -19,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 <div class="row">
-    <div class="col-sm-8">
+    <div class="col-sm-10 col-lg-8">
         <h1>
             <div class="controls pull-right btn-group">
                 <a class="left fa fa-chevron-left btn btn-default" href="#theme-slider" data-slide="prev"></a>
