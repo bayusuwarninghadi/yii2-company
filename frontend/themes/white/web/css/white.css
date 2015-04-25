@@ -1,5 +1,5 @@
 .wrap {
-    background: #f9f9f9;
+    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
 }
 .thumbnail:hover {
     box-shadow: 0 0 5px #eee;

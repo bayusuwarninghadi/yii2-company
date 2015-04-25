@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
-    <h1 class="page-header"><?= Html::decode($model->name) ?> <small><?= $model->category->name ?></small></h1>
+    <h1><?= Html::decode($model->name) ?> <small><?= $model->category->name ?></small></h1>
         <div class="row">
             <div class="col-md-7">
                 <div class="form-group">

@@ -15,20 +15,23 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="article-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php
-    Pjax::begin();  
-    echo GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
-        'columns' => [
-            'title',
-            [
-                'class' => 'yii\grid\ActionColumn',
-                'template' => '{update}'
-            ],
-        ],
-    ]);
-    Pjax::end();
-    ?>
-
+    <div class="row">
+        <div class="col-sm-8">
+            <?php
+            Pjax::begin();
+            echo GridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $searchModel,
+                'columns' => [
+                    'title',
+                    [
+                        'class' => 'yii\grid\ActionColumn',
+                        'template' => '{update}'
+                    ],
+                ],
+            ]);
+            Pjax::end();
+            ?>
+        </div>
+    </div>
 </div>

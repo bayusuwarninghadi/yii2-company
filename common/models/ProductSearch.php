@@ -28,7 +28,7 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'price', 'discount', 'stock', 'brand_id', 'price_from', 'price_to', 'stock_from', 'stock_to','discount_from', 'discount_to','status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'price', 'discount', 'stock', 'brand_id', 'price_from', 'price_to', 'stock_from', 'stock_to', 'discount_from', 'discount_to', 'status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
             [['name', 'sort', 'description', 'category_name'], 'safe'],
         ];
     }
@@ -41,15 +41,17 @@ class ProductSearch extends Product
         // bypass scenarios() implementation in the parent class
         return Model::scenarios();
     }
+
     /**
      * getCatId as Array
      * @param Category $category
      * @return array
      */
-    protected function getCategoryChildIds($category){
+    protected function getCategoryChildIds($category)
+    {
         $return = [];
         $return[] = $category->id;
-        if ($child = $category->children()->all()){
+        if ($child = $category->children()->all()) {
             foreach ($child as $cat) {
                 array_merge($return, $this->getCategoryChildIds($cat));
             }
@@ -70,6 +72,9 @@ class ProductSearch extends Product
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'updated_at' => SORT_DESC,
@@ -107,8 +112,8 @@ class ProductSearch extends Product
             ->andFilterWhere(['<=', 'stock', $this->stock_to])
             ->andFilterWhere(['like', 'product.description', $this->description]);
 
-        if ($this->cat_id && $cat_ids = Category::findOne($this->cat_id)){
-            $query->andFilterWhere(['in', 'cat_id', $cat_ids]);    
+        if ($this->cat_id && $cat_ids = Category::findOne($this->cat_id)) {
+            $query->andFilterWhere(['in', 'cat_id', $cat_ids]);
         }
 
         return $dataProvider;

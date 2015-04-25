@@ -13,6 +13,11 @@ use yii\bootstrap\Carousel;
 $this->title = 'Select Theme';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<style type="text/css">
+    .carousel-caption {
+        background: rgba(0,0,0,0.8);
+    }
+</style>
 <div class="row">
     <div class="col-sm-8">
         <h1>
