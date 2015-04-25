@@ -95,7 +95,8 @@ class UserController extends BaseController
         }
 
         $favorites = Json::decode($model->value);
-        if ($_id = array_search($id, $favorites)){
+
+        if ($_id = array_search($product->id, $favorites)){
             unset($favorites[$_id]);
         } else {
             $favorites[] = $id;
