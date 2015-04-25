@@ -26,9 +26,10 @@ class UploadHelper extends BaseArrayHelper
      *
      * @param UploadedFile $file
      * @param string $path
+     * @param bool $saveToFrontEnd
      * @return bool|string
      */
-    public static function saveFIle($file, $path = '')
+    public static function saveFile($file, $path = '', $saveToFrontEnd = true)
     {
 
         if (!$file) {
@@ -36,16 +37,17 @@ class UploadHelper extends BaseArrayHelper
         }
 
         // define path
-        $path = Yii::$app->getBasePath() . '/../frontend/web/files/' . $path . '/';
+        $app = $saveToFrontEnd ? 'frontend' : 'backend';
+        $destination = Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory
-        if (!file_exists($path)) {
-            mkdir($path, 0777, true);
+        if (!file_exists($destination)) {
+            mkdir($destination, 0777, true);
         }
 
-        $file->saveAs($path . $file->baseName . '.' . $file->extension);
+        $file->saveAs($destination . $file->baseName . '.' . $file->extension);
 
-        return $path . $file->baseName . '.' . $file->extension;
+        return $destination . $file->baseName . '.' . $file->extension;
     }
 
     /**
@@ -66,7 +68,7 @@ class UploadHelper extends BaseArrayHelper
 
         // define path
         $app = $saveToFrontEnd ? 'frontend' : 'backend';
-        $destination = Yii::$app->getBasePath() . '/../'.$app.'/web/images/' . $path . '/';
+        $destination = Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory else remove all asset images
         if (!file_exists($destination)) {
@@ -79,7 +81,7 @@ class UploadHelper extends BaseArrayHelper
         $imagine = $imagine->open($image->tempName);
 
         // create thumbnails
-        if ($sizes){
+        if ($sizes) {
             $availableSizes = $sizes;
         } else {
             $availableSizes = [
@@ -101,7 +103,7 @@ class UploadHelper extends BaseArrayHelper
         $return = [];
 
         foreach ($availableSizes as $size => $value) {
-            $imagine->resize($imagine->getSize()->widen($value['width']))->save($destination . $size . '.' . $value['format'], ['format' =>  $value['format']]);
+            $imagine->resize($imagine->getSize()->widen($value['width']))->save($destination . $size . '.' . $value['format'], ['format' => $value['format']]);
             $return[$size] = '/images/' . $path . '/' . $size . '.' . $value['format'];
         }
         return $return;

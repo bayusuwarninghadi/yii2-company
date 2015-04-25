@@ -47,12 +47,19 @@ class SettingController extends Controller
 
                         $_path = 'setting/' . $_key;
                         if (getimagesize($_file->tempName)) {
-                            UploadHelper::saveImage($_file, $_path, []);
+                            $sizes = [
+                                'large' => [
+                                    'width' => 600,
+                                    'format' => 'png'
+                                ],
+                                'small' => [
+                                    'width' => 50,
+                                    'format' => 'png'
+                                ],
+                            ];
+                            UploadHelper::saveImage($_file, $_path, $sizes);
                             $_param['value'] = $_FILES['Setting']['name'][$_key]['value'];
-                        }
-
-                        // Save File
-                        if ($_file) {
+                        } else {
                             $_param['value'] = UploadHelper::saveFile($_file, $_path);
                         }
                     } else {
@@ -61,7 +68,7 @@ class SettingController extends Controller
                     }
                 }
 
-                $_model->value = empty($_param['value']) ? $_model->value : $_param['value'];
+                $_model->value = $_param['value'];
                 $_model->save();
             }
             Yii::$app->getSession()->setFlash('success', 'Your setting has been saved.');

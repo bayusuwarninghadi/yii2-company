@@ -17,12 +17,34 @@ use yii\db\ActiveRecord;
 class Setting extends ActiveRecord
 {
 
+    /**
+     * READONLY
+     */
     const READONLY = 1;
+    /**
+     * READONLY_NOT
+     */
     const READONLY_NOT = 0;
+    /**
+     * TYPE_TEXT
+     */
     const TYPE_TEXT = 1;
+    /**
+     * TYPE_TEXT_AREA
+     */
     const TYPE_TEXT_AREA = 2;
-    const TYPE_TINIMCE = 3;
-    const TYPE_FILE_INPUT = 4;
+    /**
+     * TYPE_TINY_MCE
+     */
+    const TYPE_TINY_MCE = 3;
+    /**
+     * TYPE_IMAGE_INPUT
+     */
+    const TYPE_IMAGE_INPUT = 4;
+    /**
+     * TYPE_FILE_INPUT
+     */
+    const TYPE_FILE_INPUT = 5;
 
     /**
      * @param bool $with_key
@@ -64,7 +86,7 @@ class Setting extends ActiveRecord
             ['readonly', 'default', 'value' => static::READONLY_NOT],
             ['readonly', 'in', 'range' => static::getReadonlyAsArray(false)],
             ['type', 'default', 'value' => static::TYPE_TEXT],
-            ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_FILE_INPUT]],
+            ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_TINY_MCE, static::TYPE_IMAGE_INPUT, static::TYPE_FILE_INPUT]],
             [['key'], 'string', 'max' => 255]
         ];
     }

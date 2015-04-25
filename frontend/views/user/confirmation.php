@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
                 <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds) ?>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-                <?php if ($paymentMethod) echo $form->field($model, 'payment_method')->dropDownList($paymentMethod) ?>
+                <?php if (!empty($paymentMethod)) echo $form->field($model, 'payment_method')->dropDownList($paymentMethod) ?>
                 <?= $form->field($model, 'amount',[
                     'template' => "
                     {label}
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     \n{error}"
                 ])->textInput(['maxlength' => 32]) ?>
-                <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
+                <?= $form->field($model, 'note')->textarea(['rows' => 4]) ?>
                 <?= $form->field($model, 'created_at')->input('date') ?>
                 <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']); ?>
                 <?= Html::submitButton('Submit', ['class' => 'btn btn-danger']) ?>

@@ -1,10 +1,11 @@
 <?php
 
+use backend\widget\tinymce\TinyMce;
 use common\models\Setting;
+use common\modules\UploadHelper;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use backend\widget\tinymce\TinyMce;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Setting[] */
@@ -18,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     $form = ActiveForm::begin([
         'layout' => 'horizontal',
+        'options' => ['enctype' => 'multipart/form-data'],
         'fieldConfig' => [
             'template' => "{label}\n{beginWrapper}\n{input}\n{hint}\n{error}\n{endWrapper}",
             'horizontalCssClasses' => [
@@ -33,19 +35,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> Update</div>
         <?php foreach ($model as $m) {
             if ($m->readonly == Setting::READONLY_NOT) {
+                $hint = '';
                 $formGroup = $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']]);
-                switch ($m->type){
+                switch ($m->type) {
                     case Setting::TYPE_TEXT_AREA;
                         $formGroup = $formGroup->textarea(['rows' => 4]);
                         break;
-                    case Setting::TYPE_TINIMCE;
+                    case Setting::TYPE_TINY_MCE;
                         $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
                         break;
+                    case Setting::TYPE_IMAGE_INPUT;
+                        $hint = UploadHelper::getHtml('setting/' . $m->id, 'small');
+                        $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);
+                        break;
                     case Setting::TYPE_FILE_INPUT;
+                        $hint = 'Current: ' . $m->value;
                         $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control']);
                         break;
                 }
-                echo $formGroup->label(Inflector::camel2words($m->key, true));
+                echo $formGroup
+                    ->label(Inflector::camel2words($m->key, true))
+                    ->hint($hint);
             }
         } ?>
         <div class="panel-footer">
