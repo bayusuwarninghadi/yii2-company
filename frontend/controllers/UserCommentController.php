@@ -2,6 +2,7 @@
 
 namespace frontend\controllers;
 
+use common\models\Article;
 use common\models\Product;
 use common\models\UserComment;
 use common\models\UserCommentSearch;
@@ -58,10 +59,21 @@ class UserCommentController extends BaseController
                     $redirect = '/product/view';
                     break;
                 case UserComment::KEY_ARTICLE:
-                    $redirect = '/article/view';
-                    break;
-                case UserComment::KEY_NEWS:
-                    $redirect = '/news/view';
+                    /**
+                     * @var $article Article
+                     */
+                    $article = Article::findOne($id);
+                    switch($article->type_id){
+                        case (int) Article::TYPE_ARTICLE:
+                            $redirect = '/article/view';
+                            break;
+                        case (int) Article::TYPE_NEWS:
+                            $redirect = '/news/view';
+                            break;
+                        default;
+                            throw new ForbiddenHttpException('Unsupported key');
+                            break;
+                    }
                     break;
                 default;
                     throw new ForbiddenHttpException('Unsupported key');

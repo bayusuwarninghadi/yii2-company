@@ -64,7 +64,7 @@ class NewsController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_ARTICLE])) !== null) {
+        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_NEWS])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

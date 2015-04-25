@@ -32,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-bordered'],
         'rowOptions' => function($data){
             return ($data->confirmations) ? [ 'class' => 'danger' ] : [];
         },

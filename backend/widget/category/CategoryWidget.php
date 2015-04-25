@@ -51,6 +51,7 @@ class CategoryWidget extends InputWidget
     {
         $id = $this->getId();
 
+        echo Html::getAttributeValue($this->model, $this->attribute);
         echo Html::beginTag('div', ['class' => 'category-tree-container', 'id' => $id]);
         static::renderCategory(Category::find()->roots()->all());
         echo Html::activeHiddenInput($this->model, $this->attribute);
@@ -63,11 +64,14 @@ class CategoryWidget extends InputWidget
         $input_id = Html::getInputId($this->model, $this->attribute);
         $view->registerJs("
 			jQuery('.category-tree-container a').click(function(){
-				jQuery('#$input_id').val($(this).data('id'))
+				jQuery('#$input_id').val($(this).data('id'));
+				return false;
 			});");
     }
 
     /**
+     * Render Category Tree
+     *
      * @param Category[] $categories
      * @param int $level
      */
@@ -95,6 +99,7 @@ class CategoryWidget extends InputWidget
     }
 
     /**
+     * Render Options
      * @param $category
      */
     protected function renderOption($category)

@@ -17,7 +17,7 @@ use yii\helpers\HtmlPurifier;
         </div>
     </div>
     <div class="col-sm-9">
-        <div class="text-primary">
+        <div class="strong">
             <?php for ($i = 1; $i <= $model->rating; $i++) :?>
                 <i class="fa fa-star"></i>
             <?php endfor ?>
