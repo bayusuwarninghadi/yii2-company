@@ -1,16 +1,21 @@
 .wrap {
     background: url('../images/rough_diagonal.png') repeat #e6e6e6;
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -250px;
+    padding: 0 0 250px;
+}
+.footer {
+    background: #333;
+    color: #fff;
+    padding: 100px 0;
 }
 .thumbnail:hover {
     box-shadow: 0 0 5px #eee;
 }
 .thumbnail .image {
-    background: no-repeat center center;
-    background-size: cover;
-    height: 150px;
     opacity: 1;
 }
 .thumbnail:hover .image{
     opacity: .6;
 }
-

@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use frontend\themes\black\assets\AppAsset;
+use frontend\themes\dark\assets\AppAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */

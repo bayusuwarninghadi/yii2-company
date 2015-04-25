@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
-use frontend\themes\black\assets\AppAsset;
+use yii\widgets\Breadcrumbs;
+use frontend\themes\modern\assets\AppAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -18,14 +19,19 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
-    <div class="wrap">
-        <?=$this->render('/layouts/_navigation')?>
+<?php $this->beginBody() ?>
+<div class="wrap">
+    <?=$this->render('_navigation')?>
+    <div class="container">
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+        ]) ?>
         <?= $content ?>
     </div>
-    <?=$this->render('/layouts/_footer')?>
-
-    <?php $this->endBody() ?>
+</div>
+<?=$this->render('/layouts/_footer')?>
+<?php echo $this->render('/layouts/_flash', []) ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

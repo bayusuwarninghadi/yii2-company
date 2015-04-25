@@ -5,7 +5,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace frontend\themes\black\assets;
+namespace frontend\themes\modern\assets;
 
 use yii\web\AssetBundle;
 
@@ -15,12 +15,12 @@ use yii\web\AssetBundle;
  */
 class AppAsset extends AssetBundle
 {
-    public $sourcePath = '@frontend/themes/black/web';
+    public $sourcePath = '@frontend/themes/modern/web';
     public $css = [
-        'css/black.css',
+        'css/site.css',
     ];
     public $js = [
-        'js/black.js',
+        'js/site.js',
     ];
     public $depends = [
         'frontend\assets\AppAsset',

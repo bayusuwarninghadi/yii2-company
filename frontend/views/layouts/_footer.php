@@ -10,8 +10,8 @@ use yii\helpers\Html;
 <section class="footer">
     <div class="container text-center">
         <div class="social">
-            <?=Html::a('<i class="fa fa-facebook"></i>',Yii::$app->controller->settings['facebook_url'],['class'=>'btn btn-lg btn-circle btn-transparent'])?>
-            <?=Html::a('<i class="fa fa-twitter"></i>',Yii::$app->controller->settings['twitter_url'],['class'=>'btn btn-lg btn-circle btn-transparent'])?>
+            <?=Html::a('<i class="fa fa-facebook"></i>',Yii::$app->controller->settings['facebook_url'],['class'=>'btn btn-lg btn-circle btn-primary'])?>
+            <?=Html::a('<i class="fa fa-twitter"></i>',Yii::$app->controller->settings['twitter_url'],['class'=>'btn btn-lg btn-circle btn-info'])?>
         </div>
         &copy; My Company <?= date('Y') ?>
         <p>

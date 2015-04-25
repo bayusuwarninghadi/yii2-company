@@ -4,6 +4,19 @@
 .wrap {
     background: #3c3c3c;
     color: #fff;
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -250px;
+    padding: 0 0 250px;
+}
+.footer {
+    border-color: #222;
+    padding: 100px 0;
+    background: #333;
+    color: #fff;
+}
+.footer a{
+    color: #ddd;
 }
 .panel {
     border: 1px solid #222;
@@ -26,9 +39,6 @@
 }
 
 .thumbnail .image {
-    background: no-repeat center center;
-    background-size: cover;
-    height: 150px;
     opacity: 1;
 }
 .thumbnail:hover .image{
@@ -60,11 +70,4 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
     background-repeat: repeat-x;
-}
-.footer {
-    background: #000;
-    color: #fff;
-}
-.footer a{
-    color: #ddd;
 }
