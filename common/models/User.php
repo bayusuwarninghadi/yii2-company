@@ -35,7 +35,7 @@ use yii\helpers\ArrayHelper;
  * @property Shipping[] $shippings
  * @property Transaction[] $transactions
  * @property UserComment[] $userComments
- * @property UserFavorite[] $userFavorites
+ * @property UserAttribute[] $userAttributes
  * @property Confirmation[] $confirmations
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -362,9 +362,9 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUserFavorites()
+    public function getUserAttributes()
     {
-        return $this->hasMany(UserFavorite::className(), ['user_id' => 'id']);
+        return $this->hasMany(UserAttribute::className(), ['user_id' => 'id']);
     }
 
     /**

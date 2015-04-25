@@ -7,13 +7,14 @@ use common\models\Product;
 use common\models\Shipping;
 use common\models\Transaction;
 use common\models\User;
-use common\models\UserFavorite;
+use common\models\UserAttribute;
 use common\modules\UploadHelper;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 
@@ -77,19 +78,31 @@ class UserController extends BaseController
      *
      * @param $id
      * @return \yii\web\Response
+     * @throws NotFoundHttpException
      * @throws \Exception
      */
     public function actionToggleFavorite($id)
     {
-        /**
-         * @var $favorite UserFavorite
-         */
-        if (($favorite = UserFavorite::find()->where(['product_id' => $id])->one()) === null) {
-            $favorite = new UserFavorite(['product_id' => $id, 'user_id' => Yii::$app->user->getId()]);
-            $favorite->save();
-        } else {
-            $favorite->delete();
+        if (!($product = Product::findOne($id))){
+            throw new NotFoundHttpException('Product not found');
         }
+
+        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null){
+            $model = new UserAttribute();
+            $model->value = '[]';
+            $model->user_id = Yii::$app->user->getId();
+            $model->key = 'favorites';
+        }
+
+        $favorites = Json::decode($model->value);
+        if ($_id = array_search($id, $favorites)){
+            unset($favorites[$_id]);
+        } else {
+            $favorites[] = $id;
+        }
+        $model->value = Json::encode($favorites);
+        $model->save();
+
         if (Yii::$app->request->isAjax) {
             return 'ok';
         } else {
@@ -102,9 +115,8 @@ class UserController extends BaseController
      */
     public function actionFavorite()
     {
-
         $dataProvider = new ActiveDataProvider([
-            'query' => Product::find()->filterWhere(['IN', 'id', $this->favorites]),
+            'query' => Product::find()->where(['IN', 'id', $this->favorites]),
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC,

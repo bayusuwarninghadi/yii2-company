@@ -66,24 +66,36 @@ class TransactionController extends BaseController
             throw new BadRequestHttpException("You don't have any product in your cart.");
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save())
-        {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             /**
              * Save Transaction Attributes
              * @var $product Cart
              */
-            foreach($products = $cartDataProvider->getModels() as $product){
+            foreach ($cartDataProvider->getModels() as $product) {
                 $product->transaction_id = $model->id;
                 $product->save();
             }
             Yii::$app->session->setFlash('success', 'Check your email for next instruction');
+
+            Yii::$app->mailer
+                ->compose('checkout', [
+                    'user' => Yii::$app->user->identity,
+                    'transaction' => $model,
+                    'cartDataProvider' => $cartDataProvider,
+                    'grandTotal' => $grandTotal,
+                ])
+                ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+                ->setTo(Yii::$app->user->identity->email)
+                ->setSubject('Checkout Success #' . $model->id)
+                ->send();
+
             return $this->redirect(['success', 'id' => $model->id]);
         }
 
         $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
 
         $paymentMethod = [];
-        if ($this->settings['bank_transfer']){
+        if ($this->settings['bank_transfer']) {
             $paymentMethod['Bank Transfer'] = 'Bank Transfer';
         }
 

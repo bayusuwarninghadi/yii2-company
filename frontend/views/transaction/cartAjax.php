@@ -15,12 +15,12 @@ echo ListView::widget([
     'dataProvider' => $dataProvider,
     'emptyTextOptions' => ['class' => 'list-group-item'],
     'itemView' => '_list',
-    'layout' => '{items}' . Html::tag('div', 'Grand Total ' . Yii::$app->formatter->asCurrency($grandTotal), ['class' => 'list-group-item text-right strong']),
+    'layout' => '{items}' . Html::tag('div', 'Grand Total ' . Yii::$app->formatter->asCurrency($grandTotal), ['class' => 'list-group-item list-group-item-danger text-right strong']),
     'itemOptions' => [
         'class' => 'list-group-item'
     ],
     'options' => [
-        'class' => 'cart-list'
+        'class' => 'cart-list list-group'
     ],
 ]);
 

@@ -16,7 +16,7 @@ $(document).ready(function () {
     hide_notifications();
 });
 
-$(document).on('click', '.thumbnail .favorite', function (ev) {
+$(document).on('click', '.favorite', function (ev) {
     var this_ = $(ev.currentTarget);
     this_.toggleClass('btn-success btn-default').find('.fa').toggleClass('fa-truck fa-spin fa-spinner fa-pulse');
     $.ajax({

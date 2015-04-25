@@ -3,6 +3,7 @@ use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\widgets\ActiveForm;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -74,10 +75,15 @@ use yii\widgets\ActiveForm;
             </tr>
         <?php endforeach ?>
     </table>
-    <div class="panel-footer text-right">
-        <?= Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>', 'http://www.facebook.com/sharer.php?u=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-primary btn-circle']) ?>
-        <?= Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>', 'http://twitter.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-info btn-circle']) ?>
-        <?= Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>', 'https://plus.google.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
-        <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->name).'&body=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
+    <div class="panel-footer">
+        <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="favorite btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-success' : 'btn-default'?>" data-toggle="popover" data-content="Toggle User Favorite">
+            <i class="fa fa-star"></i>
+        </a>
+        <div class="pull-right">
+            <?= Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>', 'http://www.facebook.com/sharer.php?u=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-primary btn-circle']) ?>
+            <?= Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>', 'http://twitter.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-info btn-circle']) ?>
+            <?= Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>', 'https://plus.google.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
+            <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->name).'&body=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
+        </div>
     </div>
 </div>

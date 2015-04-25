@@ -10,7 +10,7 @@ namespace frontend\controllers;
 
 
 use common\models\Setting;
-use common\models\UserFavorite;
+use common\models\UserAttribute;
 use Yii;
 use common\models\Request;
 use yii\helpers\Json;
@@ -63,12 +63,14 @@ class BaseController extends Controller{
     {
         if (Yii::$app->user->isGuest) return false;
 
-        $userFavorites = UserFavorite::find()->all();
-
-        /** @var UserFavorite $f */
-        foreach ($userFavorites as $f) {
-            $this->favorites[] = $f->product_id;
+        /**
+         * @var $model UserAttribute
+         */
+        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null){
+            return false;
         }
+        $this->favorites = Json::decode($model->value);
+
     }
     /**
      * @param \yii\base\Action $action
