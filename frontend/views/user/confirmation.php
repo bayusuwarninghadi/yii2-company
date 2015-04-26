@@ -16,7 +16,7 @@ use yii\helpers\Html;
 $this->title = 'Payment Confirmation';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1 class="page-header"><?=$this->title?></h1>
+<h1><?=$this->title?></h1>
 <div class="row">
     <div class="col-lg-6 col-md-8">
         <div class="panel panel-warning">

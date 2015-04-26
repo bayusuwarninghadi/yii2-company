@@ -1,7 +1,8 @@
 <?php
 
-use yii\bootstrap\NavBar;
+use common\modules\UploadHelper;
 use yii\bootstrap\Nav;
+use yii\bootstrap\NavBar;
 
 /**
  * Created by PhpStorm.
@@ -13,9 +14,8 @@ use yii\bootstrap\Nav;
  */
 
 NavBar::begin([
-    'brandLabel' => '<i class="fa fa-home fa-fw"></i> '.Yii::$app->controller->settings['site_name'],
+    'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
     'brandUrl' => Yii::$app->homeUrl,
-    'renderInnerContainer' => false,
     'options' => [
         'class' => 'navbar-default navbar-fixed-top',
     ],
@@ -51,7 +51,7 @@ if (Yii::$app->user->isGuest) {
             'class' => 'hidden-xs show-cart'
         ],
         'items' => [
-            '<li class="cart-pop" style="padding: 0 10px;">'.$this->render('_loading').'</li>',
+            '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('_loading') . '</li>',
             [
                 'label' => 'See All <i class="fa fa-angle-right"></i>',
                 'linkOptions' => [
@@ -85,8 +85,7 @@ if (Yii::$app->user->isGuest) {
                 'linkOptions' => ['data-method' => 'post']
             ],
         ]
-    ]
-    ;
+    ];
 }
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],

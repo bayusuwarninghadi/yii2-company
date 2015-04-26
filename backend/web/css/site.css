@@ -1,19 +1,23 @@
-html,body {
+html, body {
     height: 100%;
 }
+
 body {
     background-color: #222;
     font-weight: 200;
     letter-spacing: .03em;
 }
-h1,h2,h3,h4 {
+
+h1, h2, h3, h4 {
     font-weight: lighter;
     letter-spacing: .04em;
 }
+
 .table-container {
     overflow: auto;
 }
-.site-login{
+
+.site-login {
     height: 300px;
     position: absolute;
     top: 0;
@@ -23,80 +27,90 @@ h1,h2,h3,h4 {
     max-width: 450px;
     margin: auto;
 }
+
 #page-wrapper {
     padding: 0;
     background: url('../img/rough_diagonal.png') repeat #e6e6e6;
     border-radius: 0 0 10px 10px;
 }
+
 .main-container {
     padding: 15px;
 }
+
 .footer {
     background: #222;
     padding: 10px 15px;
     text-align: center;
     font-size: .9em;
 }
-.footer, .footer a{
-    color: #ddd;    
+
+.footer, .footer a {
+    color: #ddd;
 }
+
 .navbar-static-top {
     margin-bottom: 0;
 }
+
 .breadcrumb {
     background: #282A36;
     border-radius: 0;
 }
-.breadcrumb>li+li:before {
+
+.breadcrumb > li + li:before {
     color: #777;
 }
 
-@media(min-width:768px) {
+@media (min-width: 768px) {
     #page-wrapper {
         padding: 0;
         margin: 0 0 0 200px;
         border-left: 0;
         border-radius: 0 0 0 10px;
     }
+
     .sidebar {
         width: 200px;
     }
+
     .footer {
         text-align: right;
     }
 }
 
-.form-horizontal .control-label{
+.form-horizontal .control-label {
     text-align: left;
 }
+
 .mce-fullscreen .mce-tinymce {
     z-index: 1000;
 }
+
 .navbar-inverse {
     border-color: #222;
 }
+
 .sidebar ul li {
     background-color: #222;
     border-bottom: none;
 }
-.navbar .sidebar ul li a:hover, 
-.navbar .sidebar ul li a:focus, 
-.navbar .sidebar ul li a:active, 
+
+.navbar .sidebar ul li a:hover,
+.navbar .sidebar ul li a:focus,
+.navbar .sidebar ul li a:active,
 .navbar .sidebar ul li a.active,
-.navbar .nav>li>a:hover,
-.navbar .nav>li>a:active,
-.navbar .nav>li>a:focus,
-.navbar .nav .open>a,
-.navbar .nav .open>a:focus, 
-.navbar .nav .open>a:hover
-{
+.navbar .nav > li > a:hover,
+.navbar .nav > li > a:active,
+.navbar .nav > li > a:focus,
+.navbar .nav .open > a,
+.navbar .nav .open > a:focus,
+.navbar .nav .open > a:hover {
     background-color: #282A36;
     color: #fff;
     outline: none;
 }
-.carousel img {
-    width: 100%;
-}
+
 .product-gallery .gallery-container {
     border: 1px solid #ddd;
     padding: 5px;
@@ -104,26 +118,28 @@ h1,h2,h3,h4 {
     margin: 15px 0 5px;
     background: #fff;
 }
-.product-gallery .gallery-container.active{
+
+.product-gallery .gallery-container.active {
     border: 1px solid #004a70;
 }
+
 .product-gallery .gallery {
     height: 130px;
     background: no-repeat center center;
     background-size: cover;
     opacity: .4;
 }
+
 .product-gallery .gallery:hover, .product-gallery .gallery-container.active .gallery {
     opacity: 1;
 }
-.strong {
-    font-weight: bold;
-}
-.nav-tabs{
+
+.nav-tabs {
     z-index: 1;
     position: relative;
     bottom: -1px;
 }
+
 .tab-content {
     border: 1px solid #ddd;
     padding: 15px;

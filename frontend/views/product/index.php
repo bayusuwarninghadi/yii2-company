@@ -1,7 +1,8 @@
 <?php
 
-use yii\helpers\Html;
 use yii\widgets\ListView;
+use yii\web\JqueryAsset;
+use yii\bootstrap\BootstrapAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductSearch */
@@ -19,11 +20,33 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemView' => '_list',
-                'layout' => '<p>{summary}</p><div class="row">{items}</div>{pager}',
+                'layout' => '
+                    <div class="form-group">
+                        <div class="pull-right" style="margin-top: -5px">
+                            <div class="dropdown">
+                                <button class="btn btn-default btn-sm dropdown-toggle dropdown-menu-left" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                    View
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a class="toggle-view list"><i class="fa fa-list"></i> List</a></li>
+                                    <li><a class="toggle-view grid"><i class="fa fa-th-large"></i> Grid</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        {summary}
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="row product-container">{items}</div>
+                    {pager}',
                 'itemOptions' => [
-                    'class' => 'col-sm-6 col-lg-4 col-md-4 col-xs-6'
+                    'class' => 'col-sm-6 col-lg-4 col-md-4 col-xs-6 product-list'
                 ]
             ]); ?>
         </div>
     </div>
 </div>
+<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>
+<?php $this->registerCssFile('/css/product.css', ['depends' => BootstrapAsset::className()]); ?>
+
+

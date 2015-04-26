@@ -2,6 +2,7 @@
 
 use yii\bootstrap\NavBar;
 use yii\bootstrap\Nav;
+use common\modules\UploadHelper;
 
 /**
  * Created by PhpStorm.
@@ -13,9 +14,8 @@ use yii\bootstrap\Nav;
  */
 
 NavBar::begin([
-    'brandLabel' => '<i class="fa fa-home fa-fw"></i> '.Yii::$app->controller->settings['site_name'],
+    'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
     'brandUrl' => Yii::$app->homeUrl,
-    'renderInnerContainer' => false,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
     ],

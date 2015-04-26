@@ -1,38 +1,54 @@
+body {
+    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
+}
+
 .breadcrumb {
     background: #333;
 }
+
+.navbar {
+    box-shadow: 0 0 15px #222;
+}
+
 .wrap {
-    background: #c1c1c1;
+    background: rgba(0, 0, 0, .3);
     min-height: 100%;
     height: auto;
     margin: 0 auto -250px;
     padding: 0 0 250px;
 }
+
 .footer {
     border-color: #222;
     padding: 100px 0;
     background: #333;
     color: #fff;
 }
-.footer a{
+
+.footer a {
     color: #ddd;
 }
+
 .panel {
-    border: 1px solid #bbb;
+    border: 1px solid #999;
 }
+
 .navbar-form .btn {
     background: #222;
     border-color: #222;
     color: #f5f5f5;
 }
-.navbar-form .form-control{
+
+.navbar-form .form-control {
     background-color: #666;
     border-color: #222;
     color: #f5f5f5;
 }
-.thumbnail{
-    border: 1px solid #bbb;
+
+.thumbnail {
+    border: 1px solid #999;
 }
+
 .thumbnail:hover {
     box-shadow: 0 0 15px #222;
 }
@@ -40,30 +56,35 @@
 .thumbnail .image {
     opacity: 1;
 }
-.thumbnail:hover .image{
+
+.thumbnail:hover .image {
     opacity: .6;
 }
 
 .panel-default > .panel-heading {
     color: #fff;
-    border-color: #666;
+    border-color: #999;
 }
+
 .panel-default > .panel-heading + .panel-collapse > .panel-body {
-    border-top-color: #666;
+    border-top-color: #999;
 }
+
 .panel-default > .panel-heading .badge {
     color: #fff;
-    background-color: #666;
+    background-color: #999;
 }
+
 .panel-default > .panel-footer + .panel-collapse > .panel-body {
-    border-bottom-color: #666;
+    border-bottom-color: #999;
 }
+
 .panel-default > .panel-heading {
     background-image: -webkit-linear-gradient(top, #3c3c3c 0%, #222 100%);
-    background-image:      -o-linear-gradient(top, #3c3c3c 0%, #222 100%);
+    background-image: -o-linear-gradient(top, #3c3c3c 0%, #222 100%);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#3c3c3c), to(#222));
-    background-image:         linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
+    background-image: linear-gradient(to bottom, #3c3c3c 0%, #222 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
-    filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
 }

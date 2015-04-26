@@ -2,6 +2,10 @@
  * Created by bay_oz on 4/18/15.
  */
 $(document).ready(function(){
+    $('.toggle-view').click(function(ev){
+        var this_ = $(ev.currentTarget);
+        $('.product-container').toggleClass('list', this_.hasClass('list'))
+    });
     var comment_container = $(".comment-container");
     comment_container.load('/user-comment/index?key=product&id=' + comment_container.data('id'));
     $('.toggle-preview').click(function(){

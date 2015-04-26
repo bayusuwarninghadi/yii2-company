@@ -16,6 +16,7 @@ use common\models\Brand;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'id' => 'product-search'
     ]); ?>
 
     <div class="panel panel-default">

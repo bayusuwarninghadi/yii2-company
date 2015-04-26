@@ -1,0 +1,29 @@
+.product-container.list .product-list {
+    display: block;
+    width: 100%;
+}
+
+.product-container.list .product-list .thumbnail {
+    height: 150px;
+    margin-bottom: 5px;
+}
+
+.product-container.list .product-list .thumbnail .caption {
+    height: 120px;
+}
+
+.product-container.list .product-list .stock {
+    left: 0;
+    bottom: 20px;
+}
+
+.product-container.list .product-list .image {
+    float: left;
+    display: inline-block;
+    height: 100%;
+    width: 200px;
+}
+
+.product-container.list .product-list .product-detail {
+    padding-left: 115px;
+}
