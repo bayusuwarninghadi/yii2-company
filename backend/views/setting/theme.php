@@ -1,5 +1,9 @@
 <?php
 use yii\bootstrap\Carousel;
+use yii\helpers\Inflector;
+use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * Created by PhpStorm.
  * User: bay_oz
@@ -18,16 +22,15 @@ $this->params['breadcrumbs'][] = $this->title;
         background: rgba(0,0,0,0.8);
     }
 </style>
+<h1><?=$this->title?></h1>
 <div class="row">
-    <div class="col-sm-10 col-lg-8">
-        <h1>
-            <div class="controls pull-right btn-group">
-                <a class="left fa fa-chevron-left btn btn-default" href="#theme-slider" data-slide="prev"></a>
-                <a class="right fa fa-chevron-right btn btn-default" href="#theme-slider" data-slide="next"></a>
-            </div>
-            <?=$this->title?>
-            <div class="clearfix"></div>
-        </h1>
+    <div class="col-sm-3 col-lg-4">
+        <div class="thumbnail">
+            <?=Html::img(Url::to(['/setting/theme-preview', 'theme' => $model->value]))?>
+            <div class="text-center">Currently <small><?=Inflector::camel2words($model->value)?></small></div>
+        </div>
+    </div>
+    <div class="col-sm-9 col-lg-8">
         <div class="panel panel-default">
             <div class="panel-body">
                 <?= Carousel::widget([
@@ -37,7 +40,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'slide'
                     ],
                     'showIndicators' => false,
-                    'controls' => false
+                    'controls' => [
+                        '<span class="glyphicon glyphicon-chevron-left"></span>',
+                        '<span class="glyphicon glyphicon-chevron-right"></span>',
+                    ]
                 ])?>
             </div>
         </div>

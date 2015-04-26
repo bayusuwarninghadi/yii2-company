@@ -66,9 +66,8 @@ class BaseController extends Controller
         if (isset($this->settings['theme'])) {
             $this->getView()->theme = Yii::createObject([
                 'class' => '\yii\base\Theme',
-                'pathMap' => [
-                    '@app/views' => '@app/themes/' . $this->settings['theme'] . '/views',
-                ],
+                'pathMap' => ['@app/views' => '@app/themes/' . $this->settings['theme'] . '/views'],
+                'baseUrl' => '@app/themes/' . $this->settings['theme'] . '/web',
             ]);
         }
     }

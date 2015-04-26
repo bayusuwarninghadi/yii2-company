@@ -30,20 +30,18 @@ $this->title = 'Welcome';
     ]
 ]);
 ?>
-<div data-spy="scroll" data-target="#indexScrollspy">
-    <section class="bg-white" id="about-page">
-        <div class="container">
-            <div class="col-sm-4 col-md-3 hidden-xs">
-                <?=$this->render('/index/_brand',[
-                    'brands' => $brands
-                ])?>
-            </div>
-            <div class="col-sm-8 col-md-9">
-                <?= HtmlPurifier::process($page->description) ?>
-            </div>
-        </div>
-    </section>
+<div class="container main-container" data-spy="scroll" data-target="#indexScrollspy" style="padding-top: 0; padding-bottom: 0;">
     <?=$this->render('/index/_newProduct',[
         'products' => $products
     ])?>
+    <section id="about-page" class="bg-white row">
+        <div class="col-sm-4 col-md-3 hidden-xs">
+            <?=$this->render('/index/_brand',[
+                'brands' => $brands
+            ])?>
+        </div>
+        <div class="col-sm-8 col-md-9">
+            <?= HtmlPurifier::process($page->description) ?>
+        </div>
+    </section>
 </div>

@@ -1,5 +1,10 @@
 body {
-    background: url('../images/rough_diagonal.png') repeat #e6e6e6;
+    background: #666;
+}
+
+.wrap > .main-container {
+    background: #f2f2f2;
+    box-shadow: 0 0 15px #000;
 }
 
 .breadcrumb {
@@ -11,7 +16,6 @@ body {
 }
 
 .wrap {
-    background: rgba(0, 0, 0, .3);
     min-height: 100%;
     height: auto;
     margin: 0 auto -250px;
@@ -87,4 +91,17 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
     filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-repeat: repeat-x;
+}
+
+
+/*Index Page*/
+#new-product{
+    margin-top: -100px;
+    padding: 0 0 15px;
+}
+#index-slider .carousel-caption {
+    bottom: 100px;
+}
+#index-slider .carousel-indicators {
+    bottom: 100px;
 }

@@ -16,12 +16,13 @@ class m150413_174741_create_setting_table extends Migration
             'readonly' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
         ]);
         $this->insert('setting',[
-            'key' => 'themes',
-            'readonly' => Setting::READONLY
-        ]);
-        $this->insert('setting',[
             'key' => 'site_image',
             'type' => Setting::TYPE_IMAGE_INPUT
+        ]);
+        $this->insert('setting',[
+            'key' => 'themes',
+            'readonly' => Setting::READONLY,
+            'value' => 'default'
         ]);
         $this->insert('setting',[
             'key' => 'site_name',

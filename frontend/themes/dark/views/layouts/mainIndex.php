@@ -14,7 +14,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode(Yii::$app->controller->settings['site_name']) ?> | <?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body>
