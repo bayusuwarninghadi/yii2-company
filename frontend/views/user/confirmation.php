@@ -18,12 +18,12 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=$this->title?></h1>
 <div class="row">
-    <div class="col-lg-6 col-md-8">
+    <div class="col-sm-6">
         <div class="panel panel-warning">
             <div class="panel-heading">Fill Your Transfer Detail Bellow</div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds) ?>
+                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds,['prompt' => 'Select Transaction ID']) ?>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                 <?php if (!empty($paymentMethod)) echo $form->field($model, 'payment_method')->dropDownList($paymentMethod) ?>
                 <?= $form->field($model, 'amount',[
@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
-
     </div>
-
+    <div class="col-sm-6">
 </div>

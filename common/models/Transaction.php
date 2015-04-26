@@ -26,14 +26,15 @@ use yii\helpers\ArrayHelper;
  * @property integer $updated_at
  *
  * @property Shipping $shipping
+ * @property Cart $carts
  * @property Confirmation[] $confirmations
  * @property User $user
  * @property Cart[] $transactionAttributes
  */
 class Transaction extends ActiveRecord
 {
-    const STATUS_WAITING_APPROVAL = 0;
-    const STATUS_APPROVED = 1;
+    const STATUS_USER_UN_PAY = 0;
+    const STATUS_USER_PAY = 1;
     const STATUS_CONFIRM = 2;
     const STATUS_DELIVER = 3;
     const STATUS_DELIVERED = 4;
@@ -49,16 +50,16 @@ class Transaction extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                static::STATUS_WAITING_APPROVAL => 'Waiting Approval',
-                static::STATUS_APPROVED => 'Approved',
+                static::STATUS_USER_UN_PAY => 'User Un Pay',
+                static::STATUS_USER_PAY => 'User Has Pay',
                 static::STATUS_CONFIRM => 'Confirm',
                 static::STATUS_DELIVER => 'Deliver',
                 static::STATUS_DELIVERED => 'Delivered',
                 static::STATUS_REJECTED => 'Rejected',
             ]
             : [
-                static::STATUS_WAITING_APPROVAL,
-                static::STATUS_APPROVED,
+                static::STATUS_USER_UN_PAY,
+                static::STATUS_USER_PAY,
                 static::STATUS_CONFIRM,
                 static::STATUS_DELIVER,
                 static::STATUS_DELIVERED,
@@ -98,7 +99,7 @@ class Transaction extends ActiveRecord
                 'requiredValue' => Yii::$app->id == "app-backend" ? 0 : 1,
                 'message' => 'You must agree to our disclaimer'
             ],
-            ['status', 'default', 'value' => static::STATUS_WAITING_APPROVAL],
+            ['status', 'default', 'value' => static::STATUS_USER_UN_PAY],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             [['user_id', 'shipping_id', 'status', 'sub_total', 'grand_total'], 'integer'],
             [['note'], 'string', 'max' => 255]

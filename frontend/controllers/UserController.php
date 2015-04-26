@@ -6,6 +6,7 @@ use common\models\Confirmation;
 use common\models\Product;
 use common\models\Shipping;
 use common\models\Transaction;
+use common\models\TransactionSearch;
 use common\models\User;
 use common\models\UserAttribute;
 use common\modules\UploadHelper;
@@ -97,7 +98,7 @@ class UserController extends BaseController
         $favorites = Json::decode($model->value);
 
         $array_found = array_search($product->id, $favorites);
-        if ((string) $array_found != ''){
+        if ((string)$array_found != '') {
             unset($favorites[$array_found]);
         } else {
             $favorites[] = $id;
@@ -158,7 +159,7 @@ class UserController extends BaseController
         $comparison = Json::decode($model->value);
 
         $array_found = array_search($product->id, $comparison);
-        if ((string) $array_found != ''){
+        if ((string)$array_found != '') {
             unset($comparison[$array_found]);
         } else {
             $comparison[] = $id;
@@ -171,6 +172,24 @@ class UserController extends BaseController
         } else {
             return $this->redirect(['comparison']);
         }
+    }
+
+
+    /**
+     * History Transaction
+     * @return mixed
+     */
+    public function actionTransaction()
+    {
+        $searchModel = new TransactionSearch();
+        $searchModel->user_id = Yii::$app->user->getId();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('transaction', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
     }
 
     /**
@@ -277,18 +296,28 @@ class UserController extends BaseController
     {
         $model = new Confirmation();
         $model->user_id = Yii::$app->user->getId();
-        if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) {
-                    UploadHelper::saveImage($image, 'user/' . $model->id, [
-                        'medium' => [
-                            'width' => 600,
-                            'format' => 'jpeg'
-                        ],
-                    ], false);
+        $params = Yii::$app->request->post();
+        if ($model->load($params)) {
+            $image = UploadedFile::getInstance($model, 'image');
+            if (!$image) {
+                $model->addError('image', 'Image can not be empty.');
+            } else {
+                if ($model->save()) {
+                    if ($image) {
+                        UploadHelper::saveImage($image, 'transactions/' . $model->transaction_id . '/' . $model->id, [
+                            'medium' => [
+                                'width' => 600,
+                                'format' => 'jpeg'
+                            ],
+                        ], false);
+                    }
+                    // Set Status
+                    $model->transaction->status = Transaction::STATUS_USER_PAY;
+                    $model->transaction->disclaimer = 1;
+                    $model->transaction->save();
+                    Yii::$app->session->setFlash('success', 'Payment Confirmation was successfully added into our system, be patient, we will send you an email after transaction approve');
+                    return $this->goHome();
                 }
-                Yii::$app->session->setFlash('success', 'Payment Confirmation was successfully added into our system, be patient, we will send you an email after transaction approve');
-                return $this->goHome();
             }
         }
 
@@ -301,7 +330,14 @@ class UserController extends BaseController
             }
         }
 
-        $transactionIds = ArrayHelper::map(Transaction::find()->where(['user_id' => Yii::$app->user->getId()])->all(), 'id', 'id');
+        $transactionIds = ArrayHelper::map(
+            Transaction::find()
+                ->where(['user_id' => Yii::$app->user->getId()])
+                ->andWhere(['IN', 'status', [Transaction::STATUS_USER_UN_PAY, Transaction::STATUS_USER_PAY]])
+                ->all(),
+            'id',
+            'id'
+        );
 
         return $this->render('confirmation', [
             'model' => $model,

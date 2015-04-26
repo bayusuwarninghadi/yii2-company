@@ -39,7 +39,7 @@ class Confirmation extends ActiveRecord
     public function rules()
     {
         return [
-            [['transaction_id', 'user_id', 'name', 'amount', 'image', 'created_at'], 'required'],
+            [['transaction_id', 'user_id', 'name', 'amount', 'created_at'], 'required'],
             [
                 'image',
                 'file',
@@ -59,24 +59,19 @@ class Confirmation extends ActiveRecord
      * Check Transaction exist or not
      *
      * @param string $attribute the attribute currently being validated
-     * @param array $params the additional name-value pairs given in the rule
      * @return bool
      */
-    public function checkTransaction($attribute, $params)
+    public function checkTransaction($attribute)
     {
         if (!$this->hasErrors()) {
-            /**
-             * @var $transaction Transaction
-             */
-            $transaction = Transaction::findOne(['id' => $this->transaction_id, 'user_id' => Yii::$app->user->getId()]);
-            if ($transaction === null) {
+            if ($this->transaction === null) {
                 $this->addError($attribute, 'Transaction Id Not Found.');
             } else {
-                switch ($transaction->status) {
+                switch ($this->transaction->status) {
                     case (int)Transaction::STATUS_REJECTED:
                         $this->addError($attribute, 'Transaction Rejected.');
                         break;
-                    case (int)Transaction::STATUS_APPROVED:
+                    case (int)Transaction::STATUS_CONFIRM:
                         $this->addError($attribute, 'Transaction Was Approved.');
                         break;
                     case (int)Transaction::STATUS_DELIVER:

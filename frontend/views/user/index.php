@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?= Html::encode($this->title) ?></h1>
 <div class="user-update row">
     <div class="col-sm-6">
-        <div class="panel">
+        <div class="panel panel-default">
             <div class="panel-heading">Update Profile</div>
         	<div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>

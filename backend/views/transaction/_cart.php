@@ -1,5 +1,4 @@
 <?php
-use yii\data\ActiveDataProvider;
 use backend\widget\GridView;
 use yii\helpers\Html;
 
@@ -9,20 +8,16 @@ use yii\helpers\Html;
  * Date: 4/21/15
  * Time: 22:28
  *
- * @var $carts \common\models\Cart;
+ * @var $dataProvider \yii\data\ActiveDataProvider
  */
 
 echo GridView::widget([
-    'panelHeading' => '<span class="glyphicon glyphicon-truck"></span> Product',
-    'dataProvider' => new ActiveDataProvider([
-        'sort' => false,
-        'query' => $carts,
-    ]),
+    'dataProvider' => $dataProvider,
     'columns' => [
         [
             'label' => 'Image',
-            'value' => function ($cart) {
-                return Html::a(Html::img(Yii::$app->components['frontendSiteUrl'].$cart->product->image_url, ['style' => 'width:100px;']), ['/product/view', 'id' => $cart->product_id]);
+            'value' => function ($model) {
+                return Html::a(Html::img(Yii::$app->components['frontendSiteUrl'] . $model->product->image_url, ['style' => 'width:100px;']), ['/product/view', 'id' => $model->product_id]);
             },
             'format' => 'raw',
             'options' => [
@@ -31,9 +26,9 @@ echo GridView::widget([
         ],
         [
             'label' => 'Product',
-            'value' => function ($cart) {
-                $return = Html::tag('p', Html::decode($cart->product->name));
-                $return .= Html::tag('p', Html::decode($cart->product->subtitle));
+            'value' => function ($model) {
+                $return = Html::tag('p', Html::decode($model->product->name));
+                $return .= Html::tag('p', Html::decode($model->product->subtitle));
                 return $return;
             },
             'format' => 'raw',
@@ -46,14 +41,14 @@ echo GridView::widget([
         ],
         [
             'label' => 'Price',
-            'value' => function ($cart) {
+            'value' => function ($model) {
                 $return = Html::beginTag('div', ['class' => 'text-right']);
-                if ($cart->product->discount) {
-                    $return .= Html::tag('div', '@ ' . Yii::$app->formatter->asCurrency($cart->product->price), ['style' => 'text-decoration:line-through']);
-                    $return .= Html::tag('span', Yii::$app->formatter->asPercent($cart->product->discount / 100), ['class' => 'label label-success']);
-                    $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty));
+                if ($model->product->discount) {
+                    $return .= Html::tag('div', '@ ' . Yii::$app->formatter->asCurrency($model->product->price), ['style' => 'text-decoration:line-through']);
+                    $return .= Html::tag('span', Yii::$app->formatter->asPercent($model->product->discount / 100), ['class' => 'label label-success']);
+                    $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($model->product->price * (100 - ($model->product->discount)) / 100 * $model->qty));
                 } else {
-                    $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($cart->product->price));
+                    $return .= Html::tag('h5', Yii::$app->formatter->asCurrency($model->product->price));
                 }
                 $return .= Html::endTag('div');
                 return $return;

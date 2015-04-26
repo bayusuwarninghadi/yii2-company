@@ -33,8 +33,28 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'tableOptions' => ['class' => 'table table-bordered'],
-        'rowOptions' => function($data){
-            return ($data->confirmations) ? [ 'class' => 'danger' ] : [];
+        'rowOptions' => function($model){
+            switch ($model->status){
+                case (int) Transaction::STATUS_USER_PAY;
+                    $class = 'warning';
+                    break;
+                case (int) Transaction::STATUS_CONFIRM;
+                    $class = 'info';
+                    break;
+                case (int) Transaction::STATUS_DELIVER;
+                    $class = 'bg-primary';
+                    break;
+                case (int) Transaction::STATUS_DELIVERED;
+                    $class = 'success';
+                    break;
+                case (int) Transaction::STATUS_REJECTED;
+                    $class = 'danger';
+                    break;
+                default;
+                    $class = '';
+                    break;
+            }
+            return  [ 'class' => $class ];
         },
         'columns' => [
             [
@@ -64,11 +84,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $types[$data->status];
                 }
             ],
-            'sub_total:currency',
             'grand_total:currency',
             [
                 'class' => 'backend\widget\ActionColumn',
-                'template' => '<div class="text-center"><div class="btn-group" role="group">{view} {update}</div></div>'
+                'template' => '<div class="text-center"><div class="btn-group" role="group">{update}</div></div>'
             ],
         ],
     ]);

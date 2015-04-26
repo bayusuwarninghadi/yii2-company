@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>', 'http://www.facebook.com/sharer.php?u=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-primary btn-circle']) ?>
                 <?= Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>', 'http://twitter.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-info btn-circle']) ?>
                 <?= Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>', 'https://plus.google.com/share?url=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
-                <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->title).'&body=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
+                <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->title).'&body=' . Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-warning btn-circle']) ?>
                 <div class="clearfix"></div>
             </div>
 
@@ -45,4 +45,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ])?>
     </div>
 </div>
-<?=$this->registerJsFile('/js/article.js',['depends' => JqueryAsset::className()])?>
+<?php $this->registerJsFile('/js/article.js',['depends' => JqueryAsset::className()])?>

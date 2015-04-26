@@ -2,10 +2,11 @@
 
 use common\models\Shipping;
 use common\models\Transaction;
+use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use yii\web\JqueryAsset;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Transaction */
@@ -31,13 +32,14 @@ $arrayStatus = Transaction::getStatusAsArray();
                 Status
                 <div class="btn-group">
                     <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
-                        <?=$arrayStatus[$model->status]?>
+                        <?= $arrayStatus[$model->status] ?>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu pull-right" role="menu">
                         <?php foreach ($arrayStatus as $val => $status) : ?>
                             <li class="<?php if ($val == $model->status) echo 'active' ?>">
-                                <a class="change-status" href="#" data-id="<?=$model->id?>" data-status="<?=$val?>"><?=$status?></a>
+                                <a class="change-status" href="#" data-id="<?= $model->id ?>"
+                                   data-status="<?= $val ?>"><?= $status ?></a>
                             </li>
                         <?php endforeach ?>
                     </ul>
@@ -46,11 +48,12 @@ $arrayStatus = Transaction::getStatusAsArray();
             <h5>
                 <i class="fa fa-pencil fa-fw"></i> <?= 'Update' ?>
             </h5>
+
             <div class="clearfix"></div>
         </div>
         <div class="panel-body">
             <h3 class="page-header"><?= $model->user->username ?>
-                <small><?= $model->user->email ?> </small>
+                <small><?= Yii::$app->formatter->asEmail($model->user->email) ?> </small>
             </h3>
             <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'city'))->hint('depends on user shipping address') ?>
             <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
@@ -82,7 +85,16 @@ $arrayStatus = Transaction::getStatusAsArray();
     <?php ActiveForm::end(); ?>
 
     <?= $this->render('_cart', [
-        'carts' => $model->getCarts()
+        'dataProvider' => new ActiveDataProvider([
+            'sort' => false,
+            'query' => $model->getCarts(),
+        ])
+    ]) ?>
+    <?= $this->render('_confirmation', [
+        'dataProvider' => new ActiveDataProvider([
+            'sort' => false,
+            'query' => $model->getConfirmations(),
+        ])
     ]) ?>
 </div>
 <?php $this->registerJsFile('/js/transaction.js', ['depends' => JqueryAsset::className()]); ?>

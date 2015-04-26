@@ -5,7 +5,6 @@ namespace frontend\controllers;
 use common\models\Article;
 use common\models\Cart;
 use common\models\Transaction;
-use common\models\TransactionSearch;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -134,23 +133,6 @@ class TransactionController extends BaseController
             'note' => $note,
             'cartDataProvider' => $cartDataProvider,
             'grandTotal' => $grandTotal,
-        ]);
-
-    }
-
-    /**
-     * History Transaction
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new TransactionSearch();
-        $searchModel->user_id = Yii::$app->user->getId();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('history', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
         ]);
 
     }

@@ -60,7 +60,7 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $transactionDataProvider = new ActiveDataProvider([
-            'query' => Transaction::find()->where(['status' => Transaction::STATUS_WAITING_APPROVAL])->limit(5)->orderBy('created_at DESC'),
+            'query' => Transaction::find()->where(['status' => Transaction::STATUS_USER_UN_PAY])->limit(5)->orderBy('created_at DESC'),
             'sort' => false
         ]);
         $userDataProvider = new ActiveDataProvider([

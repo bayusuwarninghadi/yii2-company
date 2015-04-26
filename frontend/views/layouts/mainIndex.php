@@ -24,7 +24,7 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
     <?=$this->render('/layouts/_footer')?>
-
+    <?=$this->render('/layouts/_flash', []) ?>
     <?php $this->endBody() ?>
 </body>
 </html>

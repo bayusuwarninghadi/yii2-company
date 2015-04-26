@@ -82,6 +82,10 @@ if (Yii::$app->user->isGuest) {
                 'label' => '<i class="fa fa-check fa-fw"></i> Confirmation',
                 'url' => ['/user/confirmation'],
             ],
+            [
+                'label' => '<i class="fa fa-check-circle fa-fw"></i> View Transaction History',
+                'url' => ['/user/transaction'],
+            ],
             '<li class="divider"></li>',
             [
                 'label' => '<i class="fa fa-sign-out fa-fw"></i> Logout',
