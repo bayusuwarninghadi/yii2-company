@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'username',
                 'email:email',
+                'phone',
                 [
                     'label' => 'Status',
                     'value' => $status[$model->status]
