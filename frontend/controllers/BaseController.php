@@ -13,6 +13,7 @@ use common\models\Request;
 use common\models\Setting;
 use common\models\UserAttribute;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 
@@ -34,6 +35,11 @@ class BaseController extends Controller
     public $favorites = [];
 
     /**
+     * @var array
+     */
+    public $comparison = [];
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -41,7 +47,7 @@ class BaseController extends Controller
         parent::init();
 
         $this->loadSettings();
-        $this->loadFavorites();
+        $this->loadUserAttribute();
         $this->loadThemes();
     }
 
@@ -73,23 +79,36 @@ class BaseController extends Controller
     }
 
     /**
-     * Load Favorites
+     * Load User Attributes
+     * 1. Favorites
+     * 2. Comparison
      */
-    protected function loadFavorites()
+    protected function loadUserAttribute()
     {
         if (Yii::$app->user->isGuest) return false;
 
-        /**
-         * @var $model UserAttribute
-         */
-        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null) {
-            return false;
+        $models = ArrayHelper::map(
+            UserAttribute::find()
+                ->where(['user_id' => Yii::$app->user->getId()])
+                ->andWhere(['IN', 'key', ['favorites', 'comparison']])
+                ->groupBy('key')
+                ->all(),
+            'key',
+            'value'
+        );
+        if (isset($models['favorites'])) {
+            $this->favorites = Json::decode($models['favorites']);
         }
-        $this->favorites = Json::decode($model->value);
-
+        if (isset($models['comparison'])) {
+            $this->comparison = Json::decode($models['comparison']);
+        }
+        return true;
     }
 
     /**
+     * Run afterAction, after user request each page
+     * 1 Increase api request
+     *
      * @param \yii\base\Action $action
      * @param mixed $result
      * @return mixed

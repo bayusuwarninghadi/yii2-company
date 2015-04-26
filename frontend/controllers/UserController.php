@@ -83,11 +83,11 @@ class UserController extends BaseController
      */
     public function actionToggleFavorite($id)
     {
-        if (!($product = Product::findOne($id))){
+        if (!($product = Product::findOne($id))) {
             throw new NotFoundHttpException('Product not found');
         }
 
-        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null){
+        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'favorites'])) === null) {
             $model = new UserAttribute();
             $model->value = '[]';
             $model->user_id = Yii::$app->user->getId();
@@ -96,11 +96,13 @@ class UserController extends BaseController
 
         $favorites = Json::decode($model->value);
 
-        if ($_id = array_search($product->id, $favorites)){
-            unset($favorites[$_id]);
+        $array_found = array_search($product->id, $favorites);
+        if ((string) $array_found != ''){
+            unset($favorites[$array_found]);
         } else {
             $favorites[] = $id;
         }
+
         $model->value = Json::encode($favorites);
         $model->save();
 
@@ -118,6 +120,9 @@ class UserController extends BaseController
     {
         $dataProvider = new ActiveDataProvider([
             'query' => Product::find()->where(['IN', 'id', $this->favorites]),
+            'pagination' => [
+                'pageSize' => 0,
+            ],
             'sort' => [
                 'defaultOrder' => [
                     'id' => SORT_DESC,
@@ -125,6 +130,66 @@ class UserController extends BaseController
             ]
         ]);
         return $this->render('favorite', [
+            'dataProvider' => $dataProvider
+        ]);
+    }
+
+    /**
+     * actionToggleComparison
+     *
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     */
+    public function actionToggleComparison($id)
+    {
+        if (!($product = Product::findOne($id))) {
+            throw new NotFoundHttpException('Product not found');
+        }
+
+        if (($model = UserAttribute::findOne(['user_id' => Yii::$app->user->getId(), 'key' => 'comparison'])) === null) {
+            $model = new UserAttribute();
+            $model->value = '[]';
+            $model->user_id = Yii::$app->user->getId();
+            $model->key = 'comparison';
+        }
+
+        $comparison = Json::decode($model->value);
+
+        $array_found = array_search($product->id, $comparison);
+        if ((string) $array_found != ''){
+            unset($comparison[$array_found]);
+        } else {
+            $comparison[] = $id;
+        }
+        $model->value = Json::encode($comparison);
+        $model->save();
+
+        if (Yii::$app->request->isAjax) {
+            return 'ok';
+        } else {
+            return $this->redirect(['comparison']);
+        }
+    }
+
+    /**
+     * @return string
+     */
+    public function actionComparison()
+    {
+        $dataProvider = new ActiveDataProvider([
+            'query' => Product::find()->where(['IN', 'id', $this->comparison]),
+            'pagination' => [
+                'pageSize' => 0,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ]
+            ]
+        ]);
+        return $this->render('comparison', [
             'dataProvider' => $dataProvider
         ]);
     }
@@ -208,11 +273,12 @@ class UserController extends BaseController
         }
     }
 
-    public function actionConfirmation(){
+    public function actionConfirmation()
+    {
         $model = new Confirmation();
         $model->user_id = Yii::$app->user->getId();
-        if ($model->load(Yii::$app->request->post())){
-            if ($model->save()){
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
                 if ($image = UploadedFile::getInstance($model, 'image')) {
                     UploadHelper::saveImage($image, 'user/' . $model->id, [
                         'medium' => [
@@ -228,16 +294,16 @@ class UserController extends BaseController
 
         $paymentMethod = [];
 
-        if ($this->settings['bank_transfer'] != ''){
-            $bank_transfers = explode(',',$this->settings['bank_transfer']);
-            foreach ($bank_transfers as $bank){
+        if ($this->settings['bank_transfer'] != '') {
+            $bank_transfers = explode(',', $this->settings['bank_transfer']);
+            foreach ($bank_transfers as $bank) {
                 $paymentMethod[$bank] = $bank;
             }
         }
 
-        $transactionIds = ArrayHelper::map(Transaction::find()->where(['user_id' => Yii::$app->user->getId()])->all(),'id','id');
+        $transactionIds = ArrayHelper::map(Transaction::find()->where(['user_id' => Yii::$app->user->getId()])->all(), 'id', 'id');
 
-        return $this->render('confirmation',[
+        return $this->render('confirmation', [
             'model' => $model,
             'paymentMethod' => $paymentMethod,
             'transactionIds' => $transactionIds,

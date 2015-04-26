@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-md-7">
                 <div class="form-group">
-                    <div class="panel product-slider">
+                    <div class="panel panel-default product-slider">
                         <?=$this->render('_gallery',['images'=>$images])?>
                         <div class="text-center visible-md visible-lg panel-body">
                             <a class="btn btn-primary toggle-preview"><i class="fa fa-arrows-alt"></i> Preview</a>

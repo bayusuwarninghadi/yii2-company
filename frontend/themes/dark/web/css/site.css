@@ -34,7 +34,7 @@ body {
 }
 
 .panel {
-    border: 1px solid #999;
+    border: 1px solid #ddd;
 }
 
 .navbar-form .btn {
@@ -50,7 +50,7 @@ body {
 }
 
 .thumbnail {
-    border: 1px solid #999;
+    border: 1px solid #ddd;
 }
 
 .thumbnail:hover {
@@ -67,20 +67,11 @@ body {
 
 .panel-default > .panel-heading {
     color: #fff;
-    border-color: #999;
-}
-
-.panel-default > .panel-heading + .panel-collapse > .panel-body {
-    border-top-color: #999;
 }
 
 .panel-default > .panel-heading .badge {
     color: #fff;
     background-color: #999;
-}
-
-.panel-default > .panel-footer + .panel-collapse > .panel-body {
-    border-bottom-color: #999;
 }
 
 .panel-default > .panel-heading {

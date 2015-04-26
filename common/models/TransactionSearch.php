@@ -74,13 +74,13 @@ class TransactionSearch extends Transaction
             'id' => $this->id,
             'user_id' => $this->user_id,
             'shipping_id' => $this->shipping_id,
-            'status' => $this->status,
-            'sub_total' => $this->sub_total,
-            'grand_total' => $this->grand_total,
+            'transaction.status' => $this->status,
         ]);
 
         $query->andFilterWhere(['like', 'note', $this->note]);
         $query->andFilterWhere(['like', 'user.name', $this->user_name]);
+        $query->andFilterWhere(['like', 'grand_total', $this->grand_total]);
+        $query->andFilterWhere(['like', 'sub_total', $this->sub_total]);
         $query->andFilterWhere(['like', 'shipping.city', $this->shipping_city]);
 
         return $dataProvider;

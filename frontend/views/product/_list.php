@@ -22,9 +22,14 @@ use yii\helpers\Url;
         </div>
     <?php endif ?>
     <?php if (!Yii::$app->user->isGuest) :?>
-    <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="favorite btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-success' : 'btn-default'?>" data-toggle="popover" data-content="Toggle User Favorite">
-        <i class="fa fa-star"></i>
-    </a>
+        <div class="btn-group user-action">
+            <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-primary' : 'btn-default'?>" title="Toggle User Favorite">
+                <i class="fa fa-heart"></i>
+            </a>
+            <a href="<?=Url::to(['/user/toggle-comparison','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->comparison)) ? 'btn-primary' : 'btn-default'?>" title="Add/Remove To Product Compare">
+                <i class="fa fa-columns"></i>
+            </a>
+        </div>
     <?php endif ?>
     <div class="product-detail">
         <div class="caption">

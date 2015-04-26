@@ -71,7 +71,11 @@ if (Yii::$app->user->isGuest) {
             ],
             [
                 'label' => '<i class="fa fa-heart fa-fw"></i> Favorites',
-                'url' => ['/user/favorite', 'id' => Yii::$app->user->getId()],
+                'url' => ['/user/favorite'],
+            ],
+            [
+                'label' => '<i class="fa fa-columns fa-fw"></i> Product Compare',
+                'url' => ['/user/comparison'],
             ],
             '<li class="divider"></li>',
             [

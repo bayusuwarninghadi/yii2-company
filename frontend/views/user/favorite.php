@@ -7,7 +7,7 @@ use yii\widgets\ListView;
  * Date: 4/22/15
  * Time: 00:06
  * @var $dataProvider \yii\data\ActiveDataProvider
- * @var \yii\web\View
+ * @var $this \yii\web\View
  */
 $this->title = "Product Favorites";
 $this->params['breadcrumbs'][] = $this->title;
