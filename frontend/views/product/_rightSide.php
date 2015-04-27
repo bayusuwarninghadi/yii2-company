@@ -41,7 +41,7 @@ use yii\helpers\Url;
     </div>
     <div class="list-group-item">
         <?php if ($model->stock) : ?>
-            <h5>Stock <span class="label-success label"><?= $model->stock ?></span></h5>
+            <h5><?=Yii::t('app','Stock')?> <span class="label-success label"><?= $model->stock ?></span></h5>
             <?php
             $form = ActiveForm::begin();
             echo $form->field($cartModel, 'qty', [

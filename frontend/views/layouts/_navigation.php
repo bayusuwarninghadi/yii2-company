@@ -3,6 +3,7 @@
 use common\modules\UploadHelper;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Html;
 
 /**
  * Created by PhpStorm.
@@ -29,34 +30,37 @@ $menuItems = [
     [
         'label' => '<i class="fa fa-files-o fa-fw"></i> ' . Yii::t('app', 'Article'),
         'items' => [
-            ['label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('app', 'Article'), 'url' => ['/article/index']],
+            [
+                'label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('app', 'Article'),
+                'url' => ['/article/index']
+            ],
             '<li class="divider"></li>',
-            ['label' => '<i class="fa fa-edit fa-fw"></i> ' . Yii::t('app', 'News'), 'url' => ['/news/index']],
+            [
+                'label' => '<i class="fa fa-edit fa-fw"></i> ' . Yii::t('app', 'News'),
+                'url' => ['/news/index']
+            ],
         ]
     ]
 ];
 if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i> ' . Yii::t('app', 'Login'), 'url' => ['/site/login']];
+    $menuItems[] = [
+        'label' => '<i class="fa fa-sign-in fa-fw"></i> ' . Yii::t('app', 'Login'),
+        'url' => ['/site/login']
+    ];
 } else {
     $menuItems[] = [
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . Yii::t('app', 'Shopping Cart'),
         'url' => ['/checkout/cart'],
-        'linkOptions' => [
-            'class' => 'visible-xs'
-        ],
+        'linkOptions' => ['class' => 'visible-xs'],
     ];
     $menuItems[] = [
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i>',
-        'linkOptions' => [
-            'class' => 'hidden-xs show-cart'
-        ],
+        'linkOptions' => ['class' => 'hidden-xs show-cart'],
         'items' => [
             '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('_loading') . '</li>',
             [
                 'label' => Yii::t('app', 'See All') . ' <i class="fa fa-angle-right"></i>',
-                'linkOptions' => [
-                    'class' => 'text-center'
-                ],
+                'linkOptions' => ['class' => 'text-center'],
                 'url' => ['/transaction/cart'],
             ],
         ]
@@ -103,7 +107,26 @@ echo Nav::widget([
 echo Nav::widget([
     'options' => ['class' => 'navbar-form navbar-right'],
     'items' => [
-        $this->render('/layouts/_searchNav')
+        $this->render('/layouts/_searchNav'),
+    ],
+    'encodeLabels' => false
+]);
+echo Nav::widget([
+    'options' => ['class' => 'navbar-nav navbar-left'],
+    'items' => [
+        [
+            'label' => '<i class="fa fa-flag fa-fw"></i>',
+            'items' => [
+                [
+                    'label' => 'Bahasa',
+                    'url' => [Yii::$app->getHomeUrl(),'lang' => 'id-ID']
+                ],
+                [
+                    'label' => 'English',
+                    'url' => [Yii::$app->getHomeUrl(),'lang' => 'en-US']
+                ],
+            ]
+        ]
     ],
     'encodeLabels' => false
 ]);

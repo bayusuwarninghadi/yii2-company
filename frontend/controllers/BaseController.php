@@ -40,6 +40,11 @@ class BaseController extends Controller
     public $comparison = [];
 
     /**
+     * @var array
+     */
+    public $supportedLanguage = ['id-ID', 'en-US'];
+
+    /**
      * @inheritdoc
      */
     public function init()
@@ -80,13 +85,14 @@ class BaseController extends Controller
     }
 
     /**
-     * TODO create language module
-     * Load Lang
+     * Load Language
      */
     protected function loadLanguage()
     {
-        if (Yii::$app->request->get('lang')){
-            Yii::$app->session['lang'] = 'id-ID';
+        if ($lang = Yii::$app->request->get('lang')) {
+            if (in_array($lang, $this->supportedLanguage)){
+                Yii::$app->session['lang'] = $lang;
+            }
         }
         Yii::$app->language = Yii::$app->session['lang'];
     }

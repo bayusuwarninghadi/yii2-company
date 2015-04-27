@@ -30,6 +30,7 @@ $this->title = Yii::t('app','Welcome');
     ]
 ]);
 ?>
+
 <div data-spy="scroll" data-target="#indexScrollspy">
     <section class="bg-white" id="about-page">
         <div class="container">

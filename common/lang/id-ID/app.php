@@ -142,4 +142,5 @@ return [
     'Name' => 'Nama',
     'Sort' => 'Urutan',
     'Quantity' => 'Kuantitas',
+    'Verification Code' => 'Kode Verifikasi',
 ];
