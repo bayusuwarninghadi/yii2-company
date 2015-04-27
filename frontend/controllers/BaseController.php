@@ -94,6 +94,9 @@ class BaseController extends Controller
                 Yii::$app->session['lang'] = $lang;
             }
         }
+        if (!Yii::$app->session['lang']){
+            Yii::$app->session['lang'] = $this->settings['default_language'];
+        }
         Yii::$app->language = Yii::$app->session['lang'];
     }
 

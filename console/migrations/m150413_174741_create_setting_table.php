@@ -53,6 +53,10 @@ class m150413_174741_create_setting_table extends Migration
             'key' => 'site_icon',
             'value' => 'http://twitter.com',
         ]);
+        $this->insert('setting',[
+            'key' => 'default_language',
+            'value' => 'en-US',
+        ]);
     }
 
     public function safeDown()
