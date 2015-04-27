@@ -19,15 +19,12 @@ use backend\widget\Sidebar;
                     'url' => '/site/index'
                 ],
                 [
-                    'label' => '<i class="fa fa-shopping-cart fa-fw"></i> Transaction', 
-                    'url' => '/transaction/index'
-                ],
-                [
-                    'label' => '<i class="fa fa-list fa-fw"></i> Product', 
+                    'label' => '<i class="fa fa-list fa-fw"></i> E-Commerce',
                     'items' => [
-                        ['label' => 'Manage Category', 'url' => ['/category/index']],
-                        ['label' => 'Manage Brand', 'url' => ['/brand/index']],
-                        ['label' => 'Manage Product', 'url' => ['/product/index']],
+                        ['label' => '<i class="fa fa-shopping-cart fa-fw"></i> Transaction', 'url' => '/transaction/index'],
+                        ['label' => '<i class="fa fa-list-ol fa-fw"></i> Manage Category', 'url' => ['/category/index']],
+                        ['label' => '<i class="fa fa-list-alt fa-fw"></i> Manage Brand', 'url' => ['/brand/index']],
+                        ['label' => '<i class="fa fa-th-large fa-fw"></i> Manage Product', 'url' => ['/product/index']],
                     ]
                 ],
                 [

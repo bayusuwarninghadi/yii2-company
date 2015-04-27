@@ -30,6 +30,29 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php
     Pjax::begin();
     echo GridView::widget([
+        'panelBefore' => '
+<div class="small">
+    <div class="pull-left">
+        <span class="btn btn-sm btn-default"></span> Start Transaction&nbsp;
+    </div>
+    <div class="pull-left">
+        <span class="btn btn-sm btn-warning"></span> User Has Pay&nbsp;
+    </div>
+    <div class="pull-left">
+        <span class="btn btn-sm btn-info"></span> Confirm&nbsp;
+    </div>
+    <div class="pull-left">
+        <span class="btn btn-sm btn-primary"></span> Deliver&nbsp;
+    </div>
+    <div class="pull-left">
+        <span class="btn btn-sm btn-success"></span> Delivered&nbsp;
+    </div>
+    <div class="pull-left">
+        <span class="btn btn-sm btn-danger"></span> Rejected
+    </div>
+    <div class="clearfix"></div>
+</div>
+            ',
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'tableOptions' => ['class' => 'table table-bordered'],
