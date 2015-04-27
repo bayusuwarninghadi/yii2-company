@@ -9,7 +9,7 @@ use yii\widgets\ListView;
  * @var $dataProvider \yii\data\ActiveDataProvider
  * @var $this \yii\web\View
  */
-$this->title = Yii::t('yii', "Product Favorites");
+$this->title = Yii::t('app', "Product Favorites");
 $this->params['breadcrumbs'][] = $this->title;
 
 echo ListView::widget([

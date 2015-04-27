@@ -36,7 +36,7 @@ use yii\widgets\ListView;
         echo ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '_list',
-            'emptyText' => Yii::t('yii', 'No comment(s) found.'),
+            'emptyText' => Yii::t('app', 'No comment(s) found.'),
             'separator' => '<hr/>',
             'layout' => '<div class="panel panel-default"><div class="panel-heading">{summary}</div><div class="panel-body">{items}</div>{pager}</div>',
         ]);

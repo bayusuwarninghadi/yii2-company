@@ -11,12 +11,12 @@ use yii\helpers\Html;
  * @var integer $grandTotal
  */
 
-$this->title = Yii::t('yii', 'Shopping Cart');
+$this->title = Yii::t('app', 'Shopping Cart');
 $this->params['breadcrumbs'][] = $this->title;
 echo Html::tag('h1', $this->title);
 $columns = [
     [
-        'label' => Yii::t('yii', 'Image'),
+        'label' => Yii::t('app', 'Image'),
         'value' => function ($cart) {
             return Html::a(Html::img($cart->product->image_url, ['style' => 'width:100px;']), ['/product/view', 'id' => $cart->product_id]);
         },
@@ -26,19 +26,19 @@ $columns = [
         ]
     ],
     [
-        'label' => Yii::t('yii', 'Product'),
+        'label' => Yii::t('app', 'Product'),
         'value' => function ($cart) {
             $return = Html::tag('p', Html::decode($cart->product->name));
             $return .= Html::beginTag('div', ['class' => 'btn-group']);
             $return .= Html::a('<i class="fa fa-pencil"></i>', ['/product/view', 'id' => $cart->product_id], [
-                'data-content' => Yii::t('yii', 'Edit Quantity'),
+                'data-content' => Yii::t('app', 'Edit Quantity'),
                 'class' => 'btn btn-danger',
                 'data-toggle' => 'popover',
             ]);
             $return .= Html::a('<i class="fa fa-trash"></i>', ['/transaction/delete', 'id' => $cart->id], [
-                'data-content' => Yii::t('yii', 'Remove this product form cart'),
+                'data-content' => Yii::t('app', 'Remove this product form cart'),
                 'data-toggle' => 'popover',
-                'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                'data-confirm' => Yii::t('app', 'Are you sure you want to delete this item?'),
                 'data-method' => 'post',
                 'class' => 'btn btn-danger'
             ]);
@@ -54,7 +54,7 @@ $columns = [
         ]
     ],
     [
-        'label' => Yii::t('yii', 'Price'),
+        'label' => Yii::t('app', 'Price'),
         'value' => function ($cart) {
             $return = Html::beginTag('div', ['class' => 'text-right']);
             if ($cart->product->discount) {
@@ -88,11 +88,11 @@ echo GridView::widget([
         </div>
     ",
     'panelFooter' => $dataProvider->getModels()
-        ? Html::a('<i class="fa fa-shopping-cart"></i> ' . Yii::t('yii', 'Checkout'), ['checkout'], ['class' => 'btn btn-success'])
-        : Html::a('<i class="fa fa-search"></i> Go ' . Yii::t('yii', 'Go Shopping'), ['/product/index'], ['class' => 'btn btn-primary']),
+        ? Html::a('<i class="fa fa-shopping-cart"></i> ' . Yii::t('app', 'Checkout'), ['checkout'], ['class' => 'btn btn-success'])
+        : Html::a('<i class="fa fa-search"></i> Go ' . Yii::t('app', 'Go Shopping'), ['/product/index'], ['class' => 'btn btn-primary']),
     'panelAfter' => "
         <div class='text-right'>
-            <h4><small>" . Yii::t('yii', 'Grand Total') . " </small><br/>" . Yii::$app->formatter->asCurrency($grandTotal) . "</h4>
+            <h4><small>" . Yii::t('app', 'Grand Total') . " </small><br/>" . Yii::$app->formatter->asCurrency($grandTotal) . "</h4>
         </div>
     ",
     'dataProvider' => $dataProvider,

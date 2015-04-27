@@ -10,7 +10,7 @@
  * @var $model \common\models\Product
  */
 
-$this->title = Yii::t('yii', 'Related Product') . " " . $model->name;
+$this->title = Yii::t('app', 'Related Product') . " " . $model->name;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

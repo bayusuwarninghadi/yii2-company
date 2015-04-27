@@ -13,20 +13,20 @@ use yii\helpers\Url;
 <div class="thumbnail transition">
     <?=Html::a('<div class="image" style="background-image:url('.$model->image_url.')"></div>', ['/product/view','id' => $model->id],['class' => 'product-image'])?>
     <?php if ($model->stock > 0) :?>
-        <div class="stock label label-success" data-toggle="popover" data-content="<?=Yii::t('yii','Stock Available')?>">
+        <div class="stock label label-success" data-toggle="popover" data-content="<?=Yii::t('app','Stock Available')?>">
             <i class="fa fa-truck fa-2x"></i>
         </div>
     <?php else :?>
-        <div class="stock label label-danger" data-toggle="popover" data-content="<?=Yii::t('yii','Stock Unavailable')?>">
+        <div class="stock label label-danger" data-toggle="popover" data-content="<?=Yii::t('app','Stock Unavailable')?>">
             <i class="fa fa-truck fa-2x"></i>
         </div>
     <?php endif ?>
     <?php if (!Yii::$app->user->isGuest) :?>
         <div class="btn-group user-action">
-            <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('yii','Toggle User Favorite')?>">
+            <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('app','Toggle User Favorite')?>">
                 <i class="fa fa-heart"></i>
             </a>
-            <a href="<?=Url::to(['/user/toggle-comparison','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->comparison)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('yii','Add/Remove To Product Compare')?>">
+            <a href="<?=Url::to(['/user/toggle-comparison','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->comparison)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('app','Add/Remove Product From Comparison')?>">
                 <i class="fa fa-columns"></i>
             </a>
         </div>
@@ -62,7 +62,7 @@ use yii\helpers\Url;
 
             ?>
             <div>
-                <p class="pull-right"><?=$totalUser?> reviews</p>
+                <p class="pull-right"><?=$totalUser?> <?=Yii::t('app','Reviews')?></p>
                 <?php for ($i = 1; $i <= $rating; $i++) :?>
                     <span class="glyphicon glyphicon-star"></span>
                 <?php endfor ?>

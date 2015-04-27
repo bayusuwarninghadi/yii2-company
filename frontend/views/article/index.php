@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="article-search col-md-3 hidden-xs">
             <div class="panel panel-default" id="article-search" >
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?=Yii::t('yii','Search')?></h3>
+                    <h3 class="panel-title"><?=Yii::t('app','Search')?></h3>
                 </div>
                 <div class="panel-body">
                     <?php $form = ActiveForm::begin([

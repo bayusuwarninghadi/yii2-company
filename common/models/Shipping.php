@@ -45,11 +45,11 @@ class Shipping extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'user_id' => Yii::t('yii', 'User'),
-            'address' => Yii::t('yii', 'Address'),
-            'city' => Yii::t('yii', 'City'),
-            'postal_code' => Yii::t('yii', 'Postal Code'),
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User'),
+            'address' => Yii::t('app', 'Address'),
+            'city' => Yii::t('app', 'City'),
+            'postal_code' => Yii::t('app', 'Postal Code'),
         ];
     }
 

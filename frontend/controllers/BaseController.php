@@ -49,6 +49,7 @@ class BaseController extends Controller
         $this->loadSettings();
         $this->loadUserAttribute();
         $this->loadThemes();
+        $this->loadLanguage();
     }
 
     /**
@@ -85,8 +86,9 @@ class BaseController extends Controller
     protected function loadLanguage()
     {
         if (Yii::$app->request->get('lang')){
-            Yii::$app->language = 'en-US';
+            Yii::$app->session['lang'] = 'id-ID';
         }
+        Yii::$app->language = Yii::$app->session['lang'];
     }
 
     /**

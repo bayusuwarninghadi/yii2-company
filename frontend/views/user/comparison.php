@@ -10,7 +10,7 @@ use yii\helpers\Html;
  * @var $dataProvider \yii\data\ActiveDataProvider
  * @var $this \yii\web\View
  */
-$this->title = Yii::t('yii', "Product Comparison");
+$this->title = Yii::t('app', "Product Comparison");
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -18,14 +18,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="controls-box page-header">
     <!-- Controls -->
     <div class="pull-right">
-        <?=Yii::t('yii', 'Total Item Compare:')?> <strong><?=$dataProvider->getCount()?></strong>
+        <?=Yii::t('app', 'Total Item Compare:')?> <strong><?=$dataProvider->getCount()?></strong>
         <div class="controls btn-group">
             <a class="left fa fa-chevron-left btn btn-primary" href="#comparison-slider" data-slide="prev"></a>
             <a class="right fa fa-chevron-right btn btn-primary" href="#comparison-slider" data-slide="next"></a>
         </div>
     </div>
     <strong>
-        <?=Yii::t('yii', 'Click on products bellow to compare')?>
+        <?=Yii::t('app', 'Click on products bellow to compare')?>
     </strong>
 
     <div class="clearfix"></div>

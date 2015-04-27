@@ -8,7 +8,7 @@ use yii\bootstrap\BootstrapAsset;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('yii','Product');
+$this->title = Yii::t('app','Product');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
@@ -25,12 +25,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="pull-right" style="margin-top: -5px">
                             <div class="dropdown">
                                 <button class="btn btn-default btn-sm dropdown-toggle dropdown-menu-left" type="button" id="dropdownMenu1" data-toggle="dropdown">
-                                    '.Yii::t('yii','View').'
+                                    '.Yii::t('app','View').'
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu pull-right" role="menu">
-                                    <li><a class="toggle-view list"><i class="fa fa-list"></i> '.Yii::t('yii','List').'</a></li>
-                                    <li><a class="toggle-view grid"><i class="fa fa-th-large"></i> '.Yii::t('yii','Grid').'</a></li>
+                                    <li><a class="toggle-view list"><i class="fa fa-list"></i> '.Yii::t('app','List').'</a></li>
+                                    <li><a class="toggle-view grid"><i class="fa fa-th-large"></i> '.Yii::t('app','Grid').'</a></li>
                                 </ul>
                             </div>
                         </div>

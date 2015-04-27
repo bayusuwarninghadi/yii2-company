@@ -2,17 +2,17 @@
 namespace common\models;
 
 use common\modules\RemoveAssetHelper;
+use DateInterval;
+use DatePeriod;
+use DateTime;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
-use yii\web\IdentityInterface;
-use yii\web\UploadedFile;
-use DatePeriod;
-use DateInterval;
-use DateTime;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
+use yii\web\IdentityInterface;
+use yii\web\UploadedFile;
 
 
 /**
@@ -161,18 +161,18 @@ class User extends ActiveRecord implements IdentityInterface
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
 
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'message' => Yii::t('app', 'This username has already been taken')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'message' => Yii::t('app', 'This email address has already been taken')],
 
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
@@ -190,7 +190,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'disclaimer',
                 'required',
                 'requiredValue' => 1,
-                'message' => 'You must agree to our disclaimer'
+                'message' => Yii::t('app', 'You must agree to our disclaimer')
             ]
 
         ];
@@ -421,6 +421,26 @@ class User extends ActiveRecord implements IdentityInterface
             ],
         ];
         return $return;
+    }
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'username' => Yii::t('app', 'Username'),
+            'password_hash' => Yii::t('app', 'Password Hash'),
+            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
+            'email' => Yii::t('app', 'Email'),
+            'phone' => Yii::t('app', 'Phone'),
+            'auth_key' => Yii::t('app', 'Auth Key'),
+            'status' => Yii::t('app', 'Status'),
+            'role' => Yii::t('app', 'Role'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'password' => Yii::t('app', 'Password'),
+        ];
     }
 
     /**

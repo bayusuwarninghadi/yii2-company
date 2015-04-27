@@ -17,15 +17,15 @@ use yii\helpers\HtmlPurifier;
     <?=Html::a(Html::img($model->image_url), ['/product/view','id' => $model->id])?>
     <table class="table">
         <tr>
-            <th><?=Yii::t('yii', 'Price')?></th>
+            <th><?=Yii::t('app', 'Price')?></th>
             <td><?=Yii::$app->formatter->asCurrency($model->price)?></td>
         </tr>
         <tr>
-            <th><?=Yii::t('yii', 'Discount')?></th>
+            <th><?=Yii::t('app', 'Discount')?></th>
             <td><?=Yii::$app->formatter->asPercent($model->discount / 100)?></td>
         </tr>
         <tr>
-            <th><?=Yii::t('yii', 'Grand Total')?>/th>
+            <th><?=Yii::t('app', 'Grand Total')?>/th>
             <td><?=Yii::$app->formatter->asCurrency(round($model->price * (100 - $model->discount) / 100, 0, PHP_ROUND_HALF_UP))?></td>
         </tr>
         <?php foreach ($model->getProductAttributeDetailValue() as $name => $detail) : ?>

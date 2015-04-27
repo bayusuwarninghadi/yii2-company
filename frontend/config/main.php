@@ -36,6 +36,19 @@ return [
             // for the mailer to send real emails.
             'useFileTransport' => false,
         ],
+        'i18n' => [
+            'translations' => [
+                'app' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@common/lang',
+                    'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
+                ],
+            ],
+        ],
 
     ],
     'params' => $params,

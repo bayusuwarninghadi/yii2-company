@@ -80,7 +80,7 @@ class Setting extends ActiveRecord
         return [
             [['key'], 'required'],
             ['key', 'filter', 'filter' => 'trim'],
-            ['key', 'unique', 'message' => Yii::t('yii', 'This key already exist')],
+            ['key', 'unique', 'message' => Yii::t('app', 'This key already exist')],
             [['value'], 'string'],
             [['readonly'], 'integer'],
             ['readonly', 'default', 'value' => static::READONLY_NOT],
@@ -97,10 +97,10 @@ class Setting extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'key' => Yii::t('yii', 'Key'),
-            'value' => Yii::t('yii', 'Value'),
-            'readonly' => Yii::t('yii', 'Readonly'),
+            'id' => Yii::t('app', 'ID'),
+            'key' => Yii::t('app', 'Key'),
+            'value' => Yii::t('app', 'Value'),
+            'readonly' => Yii::t('app', 'Readonly'),
         ];
     }
 }

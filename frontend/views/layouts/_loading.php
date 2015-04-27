@@ -7,6 +7,6 @@
  */
 ?>
 <div class="text-center loading">
-    <h4><?=Yii::t('yii','LOADING')?></h4>
+    <h4><?=Yii::t('app','LOADING')?></h4>
     <i class="fa fa-spin fa-spinner fa-2x fa-pulse"></i>
 </div>

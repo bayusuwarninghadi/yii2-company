@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel panel-default product-slider">
                     <?= $this->render('_gallery', ['images' => $images]) ?>
                     <div class="text-center visible-md visible-lg panel-body">
-                        <a class="btn btn-primary toggle-preview"><i class="fa fa-arrows-alt"></i> <?=Yii::t('yii', 'Preview')?></a>
+                        <a class="btn btn-primary toggle-preview"><i class="fa fa-arrows-alt"></i> <?=Yii::t('app', 'Preview')?></a>
                     </div>
                 </div>
                 <?php
@@ -34,11 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo Tabs::widget([
                     'items' => [
                         [
-                            'label' => Yii::t('yii', 'Description'),
+                            'label' => Yii::t('app', 'Description'),
                             'content' => HtmlPurifier::process($model->description),
                         ],
                         [
-                            'label' => $arr[1] . ' ' . Yii::t('yii', 'Reviews'),
+                            'label' => $arr[1] . ' ' . Yii::t('app', 'Reviews'),
                             'content' => Html::tag('div', $this->render('/layouts/_loading'), [
                                 'class' => 'comment-container',
                                 'data-id' => $model->id
@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         </div>
     </div>
-    <h3><?=Yii::t('yii', 'Related Product')?></h3>
+    <h3><?=Yii::t('app', 'Related Product')?></h3>
 
     <div class="related-product" data-id="<?= $model->id ?>">
         <div class="row">

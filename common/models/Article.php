@@ -118,7 +118,7 @@ class Article extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
 
             [['title', 'description', 'type_id'], 'required'],
@@ -138,14 +138,14 @@ class Article extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'title' => Yii::t('yii', 'Title'),
-            'description' => Yii::t('yii', 'Description'),
-            'status' => Yii::t('yii', 'Status'),
-            'order' => Yii::t('yii', 'Order'),
-            'type_id' => Yii::t('yii', 'Type ID'),
-            'created_at' => Yii::t('yii', 'Created At'),
-            'updated_at' => Yii::t('yii', 'Updated At'),
+            'id' => Yii::t('app', 'ID'),
+            'title' => Yii::t('app', 'Title'),
+            'description' => Yii::t('app', 'Description'),
+            'status' => Yii::t('app', 'Status'),
+            'order' => Yii::t('app', 'Order'),
+            'type_id' => Yii::t('app', 'Type ID'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 }

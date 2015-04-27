@@ -21,6 +21,23 @@ class ProductSearch extends Product
     public $stock_to;
     public $sort;
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        $return = [
+            'price_from' => Yii::t('app','Price From'),
+            'price_to' => Yii::t('app','Price To'),
+            'discount_from' => Yii::t('app','Discount From'),
+            'discount_to' => Yii::t('app','Discount To'),
+            'stock_from' => Yii::t('app','Stock From'),
+            'stock_to' => Yii::t('app','Stock To'),
+            'sort' => Yii::t('app','Sort'),
+            'category_name' => Yii::t('app','Category'),
+        ];
+        return array_merge($return, parent::attributeLabels());
+    }
 
     /**
      * @inheritdoc

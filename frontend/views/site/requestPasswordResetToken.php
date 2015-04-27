@@ -6,13 +6,13 @@ use yii\bootstrap\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\PasswordResetRequestForm */
 
-$this->title = Yii::t('yii', 'Request password reset');
+$this->title = Yii::t('app', 'Request password reset');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-request-password-reset">
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p><?=Yii::t('yii', 'Please fill out your email. A link to reset password will be sent there')?></p>
+    <p><?=Yii::t('app', 'Please fill out your email. A link to reset password will be sent there')?></p>
 
     <div class="row">
         <div class="col-lg-5">

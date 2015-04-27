@@ -35,9 +35,9 @@ class UserComment extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                static::KEY_PRODUCT => Yii::t('yii', 'Product'),
-                static::KEY_ARTICLE => Yii::t('yii', 'Article'),
-                static::KEY_NEWS => Yii::t('yii', 'News'),
+                static::KEY_PRODUCT => Yii::t('app', 'Product'),
+                static::KEY_ARTICLE => Yii::t('app', 'Article'),
+                static::KEY_NEWS => Yii::t('app', 'News'),
             ]
             : [
                 static::KEY_PRODUCT,
@@ -85,15 +85,15 @@ class UserComment extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'table_key' => Yii::t('yii', 'Table Key'),
-            'table_id' => Yii::t('yii', 'Table ID'),
-            'user_id' => Yii::t('yii', 'User'),
-            'title' => Yii::t('yii', 'Title'),
-            'comment' => Yii::t('yii', 'Comment'),
-            'rating' => Yii::t('yii', 'Rating'),
-            'created_at' => Yii::t('yii', 'Created At'),
-            'updated_at' => Yii::t('yii', 'Updated At'),
+            'id' => Yii::t('app', 'ID'),
+            'table_key' => Yii::t('app', 'Table Key'),
+            'table_id' => Yii::t('app', 'Table ID'),
+            'user_id' => Yii::t('app', 'User'),
+            'title' => Yii::t('app', 'Title'),
+            'comment' => Yii::t('app', 'Comment'),
+            'rating' => Yii::t('app', 'Rating'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
         ];
     }
 

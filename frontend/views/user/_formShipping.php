@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
     <div class="panel">
         <div class="panel-heading">
             <i class="fa fa-pencil fa-fw"></i>
-            <?= $model->isNewRecord ? Yii::t('yii', 'Create') : Yii::t('yii', 'Update') ?>
+            <?= $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update') ?>
         </div>
         <div class="panel-body">
             <?= $form->field($model, 'address')->textarea(['row' => 3]) ?>
@@ -26,7 +26,7 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'postal_code')->textInput(['maxlength' => 5]) ?>
         </div>
         <div class="panel-footer">
-            <?= Html::submitButton($model->isNewRecord ? Yii::t('yii', 'Create') : Yii::t('yii', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

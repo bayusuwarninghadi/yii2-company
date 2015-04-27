@@ -16,10 +16,10 @@ use yii\helpers\Html;
         &copy; <?=Yii::$app->controller->settings['site_name']?> <?= date('Y') ?>
         <p>
             <small>
-                <?=Html::a(Yii::t('yii','Privacy'),['/site/privacy'])?>
-                <?=Html::a(Yii::t('yii','FAQ'),['/site/faq'])?>
-                <?=Html::a(Yii::t('yii','About'),['/site/about'])?>
-                <?=Html::a(Yii::t('yii','Contact'),['/site/contact'])?>
+                <?=Html::a(Yii::t('app','Privacy'),['/site/privacy'])?>
+                <?=Html::a(Yii::t('app','FAQ'),['/site/faq'])?>
+                <?=Html::a(Yii::t('app','About Us'),['/site/about'])?>
+                <?=Html::a(Yii::t('app','Contact Us'),['/site/contact'])?>
             </small>
         </p>
     </div>

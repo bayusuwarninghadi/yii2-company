@@ -177,7 +177,7 @@ class Product extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
             [['name', 'description', 'cat_id'], 'required'],
             [['description'], 'string'],
@@ -200,23 +200,23 @@ class Product extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'name' => Yii::t('yii', 'Name'),
-            'subtitle' => Yii::t('yii', 'Subtitle'),
-            'description' => Yii::t('yii', 'Description'),
-            'price' => Yii::t('yii', 'Price'),
-            'cat_id' => Yii::t('yii', 'Category'),
-            'discount' => Yii::t('yii', 'Discount'),
-            'stock' => Yii::t('yii', 'Stock'),
-            'status' => Yii::t('yii', 'Status'),
-            'visible' => Yii::t('yii', 'Visible'),
-            'order' => Yii::t('yii', 'Order'),
-            'rating' => Yii::t('yii', 'Rating'),
-            'image_url' => Yii::t('yii', 'Image URL'),
-            'category.name' => Yii::t('yii', 'Category'),
-            'created_at' => Yii::t('yii', 'Created At'),
-            'updated_at' => Yii::t('yii', 'Updated At'),
-            'brand_id' => Yii::t('yii', 'Brand'),
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'subtitle' => Yii::t('app', 'Subtitle'),
+            'description' => Yii::t('app', 'Description'),
+            'price' => Yii::t('app', 'Price'),
+            'cat_id' => Yii::t('app', 'Category'),
+            'discount' => Yii::t('app', 'Discount'),
+            'stock' => Yii::t('app', 'Stock'),
+            'status' => Yii::t('app', 'Status'),
+            'visible' => Yii::t('app', 'Visible'),
+            'order' => Yii::t('app', 'Order'),
+            'rating' => Yii::t('app', 'Rating'),
+            'image_url' => Yii::t('app', 'Image URL'),
+            'category.name' => Yii::t('app', 'Category'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'brand_id' => Yii::t('app', 'Brand'),
         ];
     }
 

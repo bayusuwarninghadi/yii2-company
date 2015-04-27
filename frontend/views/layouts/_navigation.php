@@ -23,23 +23,23 @@ NavBar::begin([
 
 $menuItems = [
     [
-        'label' => '<i class="fa fa-truck fa-fw"></i> ' . Yii::t('yii', 'Product'),
+        'label' => '<i class="fa fa-truck fa-fw"></i> ' . Yii::t('app', 'Product'),
         'url' => ['/product/index']
     ],
     [
-        'label' => '<i class="fa fa-files-o fa-fw"></i> ' . Yii::t('yii', 'Article'),
+        'label' => '<i class="fa fa-files-o fa-fw"></i> ' . Yii::t('app', 'Article'),
         'items' => [
-            ['label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('yii', 'Article'), 'url' => ['/article/index']],
+            ['label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('app', 'Article'), 'url' => ['/article/index']],
             '<li class="divider"></li>',
-            ['label' => '<i class="fa fa-edit fa-fw"></i> ' . Yii::t('yii', 'News'), 'url' => ['/news/index']],
+            ['label' => '<i class="fa fa-edit fa-fw"></i> ' . Yii::t('app', 'News'), 'url' => ['/news/index']],
         ]
     ]
 ];
 if (Yii::$app->user->isGuest) {
-    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i> ' . Yii::t('yii', 'Login'), 'url' => ['/site/login']];
+    $menuItems[] = ['label' => '<i class="fa fa-sign-in fa-fw"></i> ' . Yii::t('app', 'Login'), 'url' => ['/site/login']];
 } else {
     $menuItems[] = [
-        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . Yii::t('yii', 'Shopping Cart'),
+        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . Yii::t('app', 'Shopping Cart'),
         'url' => ['/checkout/cart'],
         'linkOptions' => [
             'class' => 'visible-xs'
@@ -53,7 +53,7 @@ if (Yii::$app->user->isGuest) {
         'items' => [
             '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('_loading') . '</li>',
             [
-                'label' => 'See All <i class="fa fa-angle-right"></i>',
+                'label' => Yii::t('app', 'See All') . ' <i class="fa fa-angle-right"></i>',
                 'linkOptions' => [
                     'class' => 'text-center'
                 ],
@@ -66,29 +66,29 @@ if (Yii::$app->user->isGuest) {
         'label' => '<i class="fa fa-user fa-fw"></i>',
         'items' => [
             [
-                'label' => '<i class="fa fa-user fa-fw"></i> ' . Yii::t('yii', 'Manage Profile'),
+                'label' => '<i class="fa fa-user fa-fw"></i> ' . Yii::t('app', 'Manage Profile'),
                 'url' => ['/user/index'],
             ],
             [
-                'label' => '<i class="fa fa-heart fa-fw"></i> ' . Yii::t('yii', 'Favorites'),
+                'label' => '<i class="fa fa-heart fa-fw"></i> ' . Yii::t('app', 'Favorites'),
                 'url' => ['/user/favorite'],
             ],
             [
-                'label' => '<i class="fa fa-columns fa-fw"></i> ' . Yii::t('yii', 'Product Compare'),
+                'label' => '<i class="fa fa-columns fa-fw"></i> ' . Yii::t('app', 'Product Compare'),
                 'url' => ['/user/comparison'],
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-check fa-fw"></i> ' . Yii::t('yii', 'Confirmation'),
+                'label' => '<i class="fa fa-check fa-fw"></i> ' . Yii::t('app', 'Confirmation'),
                 'url' => ['/user/confirmation'],
             ],
             [
-                'label' => '<i class="fa fa-check-circle fa-fw"></i> ' . Yii::t('yii', 'View Transaction History'),
+                'label' => '<i class="fa fa-check-circle fa-fw"></i> ' . Yii::t('app', 'View Transaction History'),
                 'url' => ['/user/transaction'],
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-sign-out fa-fw"></i> ' . Yii::t('yii', 'Logout'),
+                'label' => '<i class="fa fa-sign-out fa-fw"></i> ' . Yii::t('app', 'Logout'),
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ],

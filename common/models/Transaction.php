@@ -51,12 +51,12 @@ class Transaction extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                static::STATUS_USER_UN_PAY => Yii::t('yii', 'User Un Pay'),
-                static::STATUS_USER_PAY => Yii::t('yii', 'User Has Pay'),
-                static::STATUS_CONFIRM => Yii::t('yii', 'Confirm'),
-                static::STATUS_DELIVER => Yii::t('yii', 'Deliver'),
-                static::STATUS_DELIVERED => Yii::t('yii', 'Delivered'),
-                static::STATUS_REJECTED => Yii::t('yii', 'Rejected'),
+                static::STATUS_USER_UN_PAY => Yii::t('app', 'User Un Pay'),
+                static::STATUS_USER_PAY => Yii::t('app', 'User Has Pay'),
+                static::STATUS_CONFIRM => Yii::t('app', 'Confirm'),
+                static::STATUS_DELIVER => Yii::t('app', 'Deliver'),
+                static::STATUS_DELIVERED => Yii::t('app', 'Delivered'),
+                static::STATUS_REJECTED => Yii::t('app', 'Rejected'),
             ]
             : [
                 static::STATUS_USER_UN_PAY,
@@ -98,7 +98,7 @@ class Transaction extends ActiveRecord
                 'disclaimer',
                 'required',
                 'requiredValue' => Yii::$app->id == "app-backend" ? 0 : 1,
-                'message' => Yii::t('yii', 'You must agree to our disclaimer')
+                'message' => Yii::t('app', 'You must agree to our disclaimer')
             ],
             ['status', 'default', 'value' => static::STATUS_USER_UN_PAY],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
@@ -113,13 +113,13 @@ class Transaction extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'user_id' => Yii::t('yii', 'User'),
-            'shipping_id' => Yii::t('yii', 'Shipping Address'),
-            'note' => Yii::t('yii', 'Note'),
-            'status' => Yii::t('yii', 'Status'),
-            'sub_total' => Yii::t('yii', 'Sub Total'),
-            'grand_total' => Yii::t('yii', 'Grand Total'),
+            'id' => Yii::t('app', 'ID'),
+            'user_id' => Yii::t('app', 'User'),
+            'shipping_id' => Yii::t('app', 'Shipping Address'),
+            'note' => Yii::t('app', 'Note'),
+            'status' => Yii::t('app', 'Status'),
+            'sub_total' => Yii::t('app', 'Sub Total'),
+            'grand_total' => Yii::t('app', 'Grand Total'),
         ];
     }
 

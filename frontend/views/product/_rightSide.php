@@ -46,8 +46,8 @@ use yii\helpers\Url;
             $form = ActiveForm::begin();
             echo $form->field($cartModel, 'qty', [
                 'template' => "
-                    <div class='input-group input-group-sm' style='width: 200px'>
-                        <div class='input-group-addon'>".Yii::t('yii','Add To Cart')."</div>
+                    <div class='input-group input-group-sm' style='max-width: 250px'>
+                        <div class='input-group-addon'>".Yii::t('app','Add To Cart')."</div>
                         {input}
                         <div class='input-group-btn'>
                             <button type='submit' class='btn btn-danger'>
@@ -58,13 +58,13 @@ use yii\helpers\Url;
                     \n{error}
                                 ",
             ])->input('number', [
-                'placeholder' => 'Quantity'
+                'placeholder' => Yii::t('app','Quantity')
             ]);
             echo Html::activeHiddenInput($cartModel, 'product_id', ['value' => $model->id]);
             $form->end();
             ?>
         <?php else : ?>
-            <h5><?=Yii::t('yii','Stock Unavailable')?></h5>
+            <h5><?=Yii::t('app','Stock Unavailable')?></h5>
         <?php endif ?>
     </div>
     <table class="table">
@@ -78,10 +78,10 @@ use yii\helpers\Url;
     <div class="panel-footer">
         <?php if (!Yii::$app->user->isGuest) :?>
             <span class="user-action">
-                <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('yii','Toggle User Favorite')?>">
+                <a href="<?=Url::to(['/user/toggle-favorite','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->favorites)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('app','Toggle User Favorite')?>">
                     <i class="fa fa-heart"></i>
                 </a>
-                <a href="<?=Url::to(['/user/toggle-comparison','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->comparison)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('yii','Add/Remove To Product Compare')?>">
+                <a href="<?=Url::to(['/user/toggle-comparison','id' => $model->id])?>" class="btn btn-circle <?= (in_array($model->id, Yii::$app->controller->comparison)) ? 'btn-primary' : 'btn-default'?>" title="<?=Yii::t('app','Add/Remove Product From Comparison')?>">
                     <i class="fa fa-columns"></i>
                 </a>
             </span>

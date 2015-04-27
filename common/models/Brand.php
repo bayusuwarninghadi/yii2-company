@@ -42,7 +42,7 @@ class Brand extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
             [['brand'], 'required'],
             [['description'], 'string'],
@@ -56,9 +56,9 @@ class Brand extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('yii', 'ID'),
-            'brand' => Yii::t('yii', 'Brand'),
-            'description' => Yii::t('yii', 'Description'),
+            'id' => Yii::t('app', 'ID'),
+            'brand' => Yii::t('app', 'Brand'),
+            'description' => Yii::t('app', 'Description'),
         ];
     }
 

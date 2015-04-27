@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <h3><?=Yii::t('yii','User Comment(s)')?></h3>
+    <h3><?=Yii::t('app','User Comment(s)')?></h3>
     <div class="user-comment-view list-group-item">
         <?=Html::tag('div', $this->render('/layouts/_loading'), [
             'class' => 'comment-container',

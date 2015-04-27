@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 <li class="navigation-search">
     <?php $form = ActiveForm::begin(['action' => ['product/index'], 'method' => 'get']) ?>
     <div class="input-group">
-        <?= Html::textInput('ProductSearch[name]', null, ['class' => 'form-control', 'placeholder' => Yii::t('yii', 'Search Product...')]) ?>
+        <?= Html::textInput('ProductSearch[name]', null, ['class' => 'form-control', 'placeholder' => Yii::t('app', 'Search Product...')]) ?>
         <span class="input-group-btn">
             <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
         </span>
