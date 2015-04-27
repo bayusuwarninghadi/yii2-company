@@ -18,10 +18,11 @@ $this->title = $name;
     </div>
 
     <p>
-        The above error occurred while the Web server was processing your request.
+        <?= Yii::t('yii', 'The above error occurred while the Web server was processing your request.') ?>
     </p>
+
     <p>
-        Please contact us if you think this is a server error. Thank you.
+        <?= Yii::t('yii', 'Please contact us if you think this is a server error. Thank you.') ?>
     </p>
 
 </div>

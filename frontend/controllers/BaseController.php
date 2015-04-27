@@ -79,6 +79,17 @@ class BaseController extends Controller
     }
 
     /**
+     * TODO create language module
+     * Load Lang
+     */
+    protected function loadLanguage()
+    {
+        if (Yii::$app->request->get('lang')){
+            Yii::$app->language = 'en-US';
+        }
+    }
+
+    /**
      * Load User Attributes
      * 1. Favorites
      * 2. Comparison
@@ -152,7 +163,6 @@ class BaseController extends Controller
         $model->from_device = 'other';
         $model->from_ip = Yii::$app->getRequest()->getUserIP();
         $model->from_latitude = (Yii::$app->request->post('from_latitude') != '') ? Yii::$app->request->post('from_latitude') : Yii::$app->request->get('from_latitude');
-        $model->merchant_id = (Yii::$app->request->post('merchant_id') != '') ? Yii::$app->request->post('merchant_id') : Yii::$app->request->get('merchant_id');
         $model->from_longitude = (Yii::$app->request->post('from_longitude') != '') ? Yii::$app->request->post('from_longitude') : Yii::$app->request->get('from_longitude');
         return $model->save();
     }

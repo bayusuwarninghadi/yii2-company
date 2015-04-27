@@ -62,10 +62,10 @@ class ProductAttribute extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'product_id' => 'Product ID',
-            'key' => 'Key',
-            'value' => 'Value',
+            'id' => Yii::t('yii','ID'),
+            'product_id' => Yii::t('yii','Product'),
+            'key' => Yii::t('yii','Key'),
+            'value' => Yii::t('yii','Value'),
         ];
     }
 

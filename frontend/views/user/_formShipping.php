@@ -1,6 +1,7 @@
 <?php
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+
 /**
  * Created by PhpStorm.
  * User: bay_oz
@@ -15,14 +16,17 @@ use yii\helpers\Html;
 <div class="article-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="panel">
-        <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
+        <div class="panel-heading">
+            <i class="fa fa-pencil fa-fw"></i>
+            <?= $model->isNewRecord ? Yii::t('yii', 'Create') : Yii::t('yii', 'Update') ?>
+        </div>
         <div class="panel-body">
             <?= $form->field($model, 'address')->textarea(['row' => 3]) ?>
             <?= $form->field($model, 'city')->textInput(['maxlength' => 50]) ?>
             <?= $form->field($model, 'postal_code')->textInput(['maxlength' => 5]) ?>
         </div>
         <div class="panel-footer">
-            <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+            <?= Html::submitButton($model->isNewRecord ? Yii::t('yii', 'Create') : Yii::t('yii', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
         </div>
     </div>
     <?php ActiveForm::end(); ?>

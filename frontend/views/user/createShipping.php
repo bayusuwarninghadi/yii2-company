@@ -10,7 +10,7 @@ use yii\helpers\Html;
  * @var $this \yii\web\View
  */
 
-$this->title = 'Create Shipping';
+$this->title = Yii::t('yii', 'Create Shipping');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=Html::decode($this->title)?></h1>

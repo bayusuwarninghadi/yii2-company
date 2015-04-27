@@ -11,7 +11,7 @@ use yii\helpers\Html;
  * @var $this \yii\web\View
  */
 
-$this->title = 'Update ' . $model->city;
+$this->title = Yii::t('yii', 'Update') . ' ' . $model->city;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::decode($this->title) ?></h1>

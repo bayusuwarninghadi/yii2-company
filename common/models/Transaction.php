@@ -2,12 +2,12 @@
 
 namespace common\models;
 
-use Yii;
-use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
-use DatePeriod;
 use DateInterval;
+use DatePeriod;
 use DateTime;
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
 
@@ -42,6 +42,7 @@ class Transaction extends ActiveRecord
 
 
     public $disclaimer = 0;
+
     /**
      * @param bool $with_key
      * @return array
@@ -50,12 +51,12 @@ class Transaction extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                static::STATUS_USER_UN_PAY => 'User Un Pay',
-                static::STATUS_USER_PAY => 'User Has Pay',
-                static::STATUS_CONFIRM => 'Confirm',
-                static::STATUS_DELIVER => 'Deliver',
-                static::STATUS_DELIVERED => 'Delivered',
-                static::STATUS_REJECTED => 'Rejected',
+                static::STATUS_USER_UN_PAY => Yii::t('yii', 'User Un Pay'),
+                static::STATUS_USER_PAY => Yii::t('yii', 'User Has Pay'),
+                static::STATUS_CONFIRM => Yii::t('yii', 'Confirm'),
+                static::STATUS_DELIVER => Yii::t('yii', 'Deliver'),
+                static::STATUS_DELIVERED => Yii::t('yii', 'Delivered'),
+                static::STATUS_REJECTED => Yii::t('yii', 'Rejected'),
             ]
             : [
                 static::STATUS_USER_UN_PAY,
@@ -97,7 +98,7 @@ class Transaction extends ActiveRecord
                 'disclaimer',
                 'required',
                 'requiredValue' => Yii::$app->id == "app-backend" ? 0 : 1,
-                'message' => 'You must agree to our disclaimer'
+                'message' => Yii::t('yii', 'You must agree to our disclaimer')
             ],
             ['status', 'default', 'value' => static::STATUS_USER_UN_PAY],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
@@ -112,13 +113,13 @@ class Transaction extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User',
-            'shipping_id' => 'Shipping Address',
-            'note' => 'Note',
-            'status' => 'Status',
-            'sub_total' => 'Sub Total',
-            'grand_total' => 'Grand Total',
+            'id' => Yii::t('yii', 'ID'),
+            'user_id' => Yii::t('yii', 'User'),
+            'shipping_id' => Yii::t('yii', 'Shipping Address'),
+            'note' => Yii::t('yii', 'Note'),
+            'status' => Yii::t('yii', 'Status'),
+            'sub_total' => Yii::t('yii', 'Sub Total'),
+            'grand_total' => Yii::t('yii', 'Grand Total'),
         ];
     }
 

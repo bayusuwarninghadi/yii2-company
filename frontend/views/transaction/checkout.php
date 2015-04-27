@@ -21,7 +21,7 @@ use yii\widgets\ActiveForm;
  * @var $paymentMethod array
  */
 
-$this->title = 'Checkout';
+$this->title = Yii::t('yii', 'Checkout');
 $this->params['breadcrumbs'][] = $this->title;
 
 $form = ActiveForm::begin(['id' => 'checkout-form']);
@@ -29,7 +29,7 @@ echo Collapse::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> Review Your Cart',
+            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('yii', 'Review Your Cart'),
             'content' => $this->render('cartAjax', [
                 'dataProvider' => $cartDataProvider,
                 'grandTotal' => $grandTotal
@@ -43,7 +43,7 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> Shipping Address',
+            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('yii', 'Shipping Address'),
             'content' =>
                 $form->field($model, 'shipping_id')->radioList(
                     ArrayHelper::map(Shipping::findAll(['user_id' => Yii::$app->user->getId()]), 'id', 'address'), [
@@ -61,7 +61,7 @@ echo Collapse::widget([
             ],
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> Payment Method',
+            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('yii', 'Payment Method'),
             'content' =>
                 $form->field($model, 'payment_method')->radioList($paymentMethod),
             'contentOptions' => [
@@ -73,12 +73,12 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> Submit',
+            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('yii', 'Submit'),
             'content' =>
                 HtmlPurifier::process($notes->description) .
                 $form->field($model, 'note')->textarea(['rows' => 3]) .
-                $form->field($model, 'disclaimer')->checkbox(['label' => 'I agree to the our '.Html::a('Terms And Condition', '/site/terms')]) .
-                Html::submitButton('Process Checkout', ['class' => 'btn btn-primary']),
+                $form->field($model, 'disclaimer')->checkbox(['label' => Yii::t('yii', 'I agree to the our') . ' ' . Html::a(Yii::t('yii', 'Terms And Condition'), '/site/terms')]) .
+                Html::submitButton(Yii::t('yii', 'Process Checkout'), ['class' => 'btn btn-primary']),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'

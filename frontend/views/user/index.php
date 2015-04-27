@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="user-update row">
     <div class="col-sm-6">
         <div class="panel panel-default">
-            <div class="panel-heading">Update Profile</div>
-        	<div class="panel-body">
+            <div class="panel-heading"><?= Yii::t('yii', 'Update Profile') ?></div>
+            <div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
                 <?= $form->field($model, 'image', [
                     'template' => Html::tag('div', UploadHelper::getHtml('user/' . $model->id, 'small')) .
@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']); ?>
                 <?= $form->field($model, 'username')->textInput(['maxlength' => 255]) ?>
                 <?= $form->field($model, 'email')->textInput(['maxlength' => 255]) ?>
-                <?= $form->field($model, 'phone',[
+                <?= $form->field($model, 'phone', [
                     'template' => "
                     {label}
                     <div class='input-group'>
@@ -34,38 +34,38 @@ $this->params['breadcrumbs'][] = $this->title;
                     \n{error}"
                 ])->textInput(['maxlength' => 32]) ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
-                <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>
+                <?= Html::submitButton(Yii::t('yii', 'Update'), ['class' => 'btn btn-primary']) ?>
                 <?php ActiveForm::end(); ?>
-        	</div>
+            </div>
         </div>
 
     </div>
     <div class="col-sm-6">
         <div class="panel panel-primary">
-            <div class="panel-heading">Shipping</div>
-            <?php if ($model->shippings) :?>
-                <?php foreach ($model->shippings as $shipping) :?>
+            <div class="panel-heading"><?= Yii::t('yii', 'Shipping') ?></div>
+            <?php if ($model->shippings) : ?>
+                <?php foreach ($model->shippings as $shipping) : ?>
                     <div class="list-group-item">
                         <div class="pull-right">
-                            <?=Html::a('Edit',['update-shipping','id' => $shipping->id])?>
-                            <?=Html::a('Delete',['delete-shipping','id' => $shipping->id],[
+                            <?= Html::a(Yii::t('yii', 'Edit'), ['update-shipping', 'id' => $shipping->id]) ?>
+                            <?= Html::a(Yii::t('yii', 'Delete'), ['delete-shipping', 'id' => $shipping->id], [
                                 'data' => [
-                                    'confirm' => 'Are you sure you want to delete this item?',
+                                    'confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
                                     'method' => 'post',
                                 ],
-                            ])?>
+                            ]) ?>
                         </div>
-                        <div class="list-group-item-heading"><?=$shipping->city?></div>
-                        <?=Html::decode($shipping->address)?> <?=$shipping->postal_code?>
+                        <div class="list-group-item-heading"><?= $shipping->city ?></div>
+                        <?= Html::decode($shipping->address) ?> <?= $shipping->postal_code ?>
                     </div>
                 <?php endforeach ?>
-            <?php else :?>
+            <?php else : ?>
                 <div class="list-group-item">
-                    You Don't Have Shipping Address, this is required for checkout
+                    <?= Yii::t('yii', "You Don't Have Shipping Address, this is required for checkout") ?>
                 </div>
             <?php endif ?>
             <div class="panel-footer">
-                <?=Html::a('Create New Shipping Address',['create-shipping'],['class' => 'btn btn-success'])?>
+                <?= Html::a(Yii::t('yii', 'Create New Shipping Address'), ['create-shipping'], ['class' => 'btn btn-success']) ?>
             </div>
         </div>
     </div>

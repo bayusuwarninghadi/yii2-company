@@ -13,13 +13,13 @@ use yii\helpers\Html;
             <?=Html::a('<i class="fa fa-facebook"></i>',Yii::$app->controller->settings['facebook_url'],['class'=>'btn btn-lg btn-circle btn-primary'])?>
             <?=Html::a('<i class="fa fa-twitter"></i>',Yii::$app->controller->settings['twitter_url'],['class'=>'btn btn-lg btn-circle btn-info'])?>
         </div>
-        &copy; My Company <?= date('Y') ?>
+        &copy; <?=Yii::$app->controller->settings['site_name']?> <?= date('Y') ?>
         <p>
             <small>
-                <?=Html::a('Privacy',['/site/privacy'])?>
-                <?=Html::a('FAQ',['/site/faq'])?>
-                <?=Html::a('About',['/site/about'])?>
-                <?=Html::a('Contact',['/site/contact'])?>
+                <?=Html::a(Yii::t('yii','Privacy'),['/site/privacy'])?>
+                <?=Html::a(Yii::t('yii','FAQ'),['/site/faq'])?>
+                <?=Html::a(Yii::t('yii','About'),['/site/about'])?>
+                <?=Html::a(Yii::t('yii','Contact'),['/site/contact'])?>
             </small>
         </p>
     </div>

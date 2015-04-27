@@ -16,7 +16,7 @@ use yii\helpers\HtmlPurifier;
  * @var $brands \common\models\Brand[]
  */
 
-$this->title = 'Welcome';
+$this->title = Yii::t('yii','Welcome');
 
 ?>
 <?= Carousel::widget([

@@ -46,7 +46,7 @@ class Confirmation extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
             [['transaction_id', 'user_id', 'amount'], 'integer'],
             [['note', 'name', 'payment_method'], 'string'],
@@ -65,18 +65,18 @@ class Confirmation extends ActiveRecord
     {
         if (!$this->hasErrors()) {
             if ($this->transaction === null) {
-                $this->addError($attribute, 'Transaction Id Not Found.');
+                $this->addError($attribute, Yii::t('yii', 'Transaction Id Not Found'));
             } else {
                 switch ($this->transaction->status) {
                     case (int)Transaction::STATUS_REJECTED:
-                        $this->addError($attribute, 'Transaction Rejected.');
+                        $this->addError($attribute, Yii::t('yii', 'Transaction Rejected'));
                         break;
                     case (int)Transaction::STATUS_CONFIRM:
-                        $this->addError($attribute, 'Transaction Was Approved.');
+                        $this->addError($attribute, Yii::t('yii', 'Transaction Was Approved'));
                         break;
                     case (int)Transaction::STATUS_DELIVER:
                     case (int)Transaction::STATUS_DELIVERED:
-                        $this->addError($attribute, 'Transaction Was Deliver.');
+                        $this->addError($attribute, Yii::t('yii', 'Transaction Was Deliver'));
                         break;
                 }
             }
@@ -89,14 +89,14 @@ class Confirmation extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'transaction_id' => 'Transaction ID',
-            'user_id' => 'User ID',
-            'name' => 'Bank User Name',
-            'amount' => 'Amount',
-            'image' => 'Payment Struck',
-            'note' => 'Leave Me Some Note',
-            'created_at' => 'Transfer Date',
+            'id' => Yii::t('yii', 'ID'),
+            'transaction_id' => Yii::t('yii', 'Transaction ID'),
+            'user_id' => Yii::t('yii', 'User ID'),
+            'name' => Yii::t('yii', 'Bank User Name'),
+            'amount' => Yii::t('yii', 'Amount'),
+            'image' => Yii::t('yii', 'Payment Struck'),
+            'note' => Yii::t('yii', 'Leave Me Some Note'),
+            'created_at' => Yii::t('yii', 'Transfer Date'),
         ];
     }
 

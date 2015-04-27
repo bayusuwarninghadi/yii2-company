@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Transaction Detail</h3>
+            <h3 class="panel-title"><?=Yii::t('yii', 'Transaction Detail')?></h3>
         </div>
         <?= $this->render('cartAjax', [
             'dataProvider' => $cartDataProvider,

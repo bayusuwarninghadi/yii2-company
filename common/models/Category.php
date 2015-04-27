@@ -2,9 +2,9 @@
 
 namespace common\models;
 
+use creocoder\nestedsets\NestedSetsBehavior;
 use Yii;
 use yii\db\ActiveRecord;
-use creocoder\nestedsets\NestedSetsBehavior;
 
 /**
  * This is the model class for table "category".
@@ -25,7 +25,8 @@ class Category extends ActiveRecord
     /**
      * @return array
      */
-    public function behaviors() {
+    public function behaviors()
+    {
         return [
             'tree' => [
                 'class' => NestedSetsBehavior::className(),
@@ -81,9 +82,9 @@ class Category extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'description' => 'Description',
+            'id' => Yii::t('yii', 'ID'),
+            'name' => Yii::t('yii', 'Name'),
+            'description' => Yii::t('yii', 'Description'),
         ];
     }
 

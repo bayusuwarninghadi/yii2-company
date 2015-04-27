@@ -1,6 +1,6 @@
 <?php
-use yii\bootstrap\Nav;
 use backend\widget\NavBar;
+use yii\bootstrap\Nav;
 
 /* @var $this \yii\web\View */
 
@@ -31,17 +31,11 @@ echo Nav::widget([
                 ],
             ]
         ],
-        [
-            'label' => '<i class="fa fa-envelope fa-fw"></i>',
-            'url' => ['/inbox/index']
-        ],
+        ['label' => '<i class="fa fa-comment fa-fw"></i>', 'url' => ['/inbox/index']],
         [
             'label' => '<i class="fa fa-user fa-fw"></i>',
             'items' => [
-                [
-                    'label' => '<i class="fa fa-user fa-fw"></i> Profile',
-                    'url' => ['/user/view', 'id' => Yii::$app->user->getId()],
-                ],
+                ['label' => '<i class="fa fa-user fa-fw"></i> Profile', 'url' => ['/user/view', 'id' => Yii::$app->user->getId()]],
                 '<li class="divider"></li>',
                 [
                     'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',

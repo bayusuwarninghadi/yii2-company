@@ -95,7 +95,7 @@ class Product extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         if (parent::afterSave($insert, $changedAttributes)) {
-            if ($this->isNewRecord){
+            if ($this->isNewRecord) {
                 $attr = new ProductAttribute();
                 $attr->product_id = $this->id;
                 $attr->key = 'detail';
@@ -177,7 +177,7 @@ class Product extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
             [['name', 'description', 'cat_id'], 'required'],
             [['description'], 'string'],
@@ -200,23 +200,23 @@ class Product extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'name' => 'Name',
-            'subtitle' => 'Subtitle',
-            'description' => 'Description',
-            'price' => 'Price',
-            'cat_id' => 'Category Id',
-            'discount' => 'Discount',
-            'stock' => 'Stock',
-            'status' => 'Status',
-            'visible' => 'Visible',
-            'order' => 'Order',
-            'rating' => 'Rating',
-            'image_url' => 'Image URL',
-            'category.name' => 'Category',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
-            'brand_id' => 'Brand',
+            'id' => Yii::t('yii', 'ID'),
+            'name' => Yii::t('yii', 'Name'),
+            'subtitle' => Yii::t('yii', 'Subtitle'),
+            'description' => Yii::t('yii', 'Description'),
+            'price' => Yii::t('yii', 'Price'),
+            'cat_id' => Yii::t('yii', 'Category'),
+            'discount' => Yii::t('yii', 'Discount'),
+            'stock' => Yii::t('yii', 'Stock'),
+            'status' => Yii::t('yii', 'Status'),
+            'visible' => Yii::t('yii', 'Visible'),
+            'order' => Yii::t('yii', 'Order'),
+            'rating' => Yii::t('yii', 'Rating'),
+            'image_url' => Yii::t('yii', 'Image URL'),
+            'category.name' => Yii::t('yii', 'Category'),
+            'created_at' => Yii::t('yii', 'Created At'),
+            'updated_at' => Yii::t('yii', 'Updated At'),
+            'brand_id' => Yii::t('yii', 'Brand'),
         ];
     }
 
@@ -273,9 +273,9 @@ class Product extends ActiveRecord
      */
     public function getProductAttributeDetail()
     {
-        if (!$this->productAttributeDetail){
+        if (!$this->productAttributeDetail) {
             $this->productAttributeDetail = ProductAttribute::findOne(['product_id' => $this->id, 'key' => 'details']);
-            if ($this->productAttributeDetail == null){
+            if ($this->productAttributeDetail == null) {
                 $attr = new ProductAttribute();
                 $attr->product_id = $this->id;
                 $attr->key = 'details';
@@ -293,7 +293,7 @@ class Product extends ActiveRecord
      */
     public function getProductAttributeDetailValue()
     {
-        if (!$this->productAttributeDetailValue && $detail = $this->getProductAttributeDetail()){
+        if (!$this->productAttributeDetailValue && $detail = $this->getProductAttributeDetail()) {
             $this->productAttributeDetailValue = Json::decode($detail->value);
         }
         return $this->productAttributeDetailValue;

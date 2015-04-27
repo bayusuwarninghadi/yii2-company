@@ -10,7 +10,6 @@ class m150413_191219_create_request_table extends Migration
         $this->createTable('request',[
             'id' => 'pk',
             'user_id' => Schema::TYPE_INTEGER,
-            'merchant_id' => Schema::TYPE_INTEGER,
             'controller' => Schema::TYPE_STRING,
             'action' => Schema::TYPE_STRING,
             'related_parameters' => Schema::TYPE_STRING,

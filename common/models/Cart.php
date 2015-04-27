@@ -35,8 +35,8 @@ class Cart extends ActiveRecord
     {
         return [
             [['user_id', 'product_id', 'qty'], 'required'],
-            ['qty','integer','min' => 1],
-            ['qty','validateMaxQty'],
+            ['qty', 'integer', 'min' => 1],
+            ['qty', 'validateMaxQty'],
             [['user_id', 'product_id', 'transaction_id'], 'integer']
         ];
     }
@@ -50,12 +50,12 @@ class Cart extends ActiveRecord
     {
         if (!$this->hasErrors()) {
             if ($this->qty > $count = Product::findOne($this->product_id)->stock) {
-                $this->addError($attribute, 'Quantity must be less than '.$count);
+                $this->addError($attribute, Yii::t('yii', 'Quantity must be less than') . ' ' . $count);
             }
         }
 
         if ($this->product_id) {
-            return ;
+            return;
         }
     }
 
@@ -66,11 +66,11 @@ class Cart extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'product_id' => 'Product ID',
-            'qty' => 'Quantity',
-            'product.name' => 'Product',
+            'id' => Yii::t('yii', 'ID'),
+            'user_id' => Yii::t('yii', 'User ID'),
+            'product_id' => Yii::t('yii', 'Product ID'),
+            'qty' => Yii::t('yii', 'Quantity'),
+            'product.name' => Yii::t('yii', 'Product'),
         ];
     }
 

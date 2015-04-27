@@ -3,8 +3,8 @@
 namespace common\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user_comment".
@@ -35,9 +35,9 @@ class UserComment extends ActiveRecord
     {
         $return = ($with_key == true)
             ? [
-                static::KEY_PRODUCT => 'Product',
-                static::KEY_ARTICLE => 'Article',
-                static::KEY_NEWS => 'News',
+                static::KEY_PRODUCT => Yii::t('yii', 'Product'),
+                static::KEY_ARTICLE => Yii::t('yii', 'Article'),
+                static::KEY_NEWS => Yii::t('yii', 'News'),
             ]
             : [
                 static::KEY_PRODUCT,
@@ -72,9 +72,9 @@ class UserComment extends ActiveRecord
     {
         return [
             [['table_id', 'user_id', 'rating'], 'integer'],
-            [['title','user_id'], 'required'],
+            [['title', 'user_id'], 'required'],
             [['comment'], 'string'],
-            [['title','table_key'], 'string', 'max' => 255],
+            [['title', 'table_key'], 'string', 'max' => 255],
             ['table_key', 'in', 'range' => static::getKeyAsArray(false)],
         ];
     }
@@ -85,15 +85,15 @@ class UserComment extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'table_key' => 'Table Key',
-            'table_id' => 'Table ID',
-            'user_id' => 'User ID',
-            'title' => 'Title',
-            'comment' => 'Comment',
-            'rating' => 'Rating',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('yii', 'ID'),
+            'table_key' => Yii::t('yii', 'Table Key'),
+            'table_id' => Yii::t('yii', 'Table ID'),
+            'user_id' => Yii::t('yii', 'User'),
+            'title' => Yii::t('yii', 'Title'),
+            'comment' => Yii::t('yii', 'Comment'),
+            'rating' => Yii::t('yii', 'Rating'),
+            'created_at' => Yii::t('yii', 'Created At'),
+            'updated_at' => Yii::t('yii', 'Updated At'),
         ];
     }
 

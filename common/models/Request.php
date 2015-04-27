@@ -2,14 +2,14 @@
 
 namespace common\models;
 
-use Yii;
-use DatePeriod;
 use DateInterval;
+use DatePeriod;
 use DateTime;
+use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\db\Query;
 use yii\helpers\ArrayHelper;
-use yii\db\ActiveRecord;
-use yii\behaviors\TimestampBehavior;
 
 
 /**
@@ -17,7 +17,6 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $merchant_id
  * @property string $controller
  * @property string $action
  * @property string $related_parameters
@@ -54,7 +53,7 @@ class Request extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'merchant_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'created_at', 'updated_at'], 'integer'],
             [['controller', 'action', 'related_parameters', 'from_device', 'from_ip', 'from_latitude', 'from_longitude'], 'string', 'max' => 255]
         ];
     }
@@ -65,9 +64,8 @@ class Request extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'merchant_id' => 'Merchant ID',
+            'id' => 'Id',
+            'user_id' => 'User',
             'controller' => 'Controller',
             'action' => 'Action',
             'related_parameters' => 'Related Parameters',
@@ -103,7 +101,7 @@ class Request extends ActiveRecord
 
         /**
          * @var \DateTimeInterface $d
-        */
+         */
         $total = (new Query())
             ->select('count(*) as total_request, DATE(FROM_UNIXTIME(`created_at`)) AS created_at')
             ->from(static::tableName())

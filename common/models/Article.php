@@ -41,7 +41,7 @@ class Article extends ActiveRecord
             /*
              * remove image asset before deleting
              */
-            switch($this->type_id){
+            switch ($this->type_id) {
                 case (int)static::TYPE_ARTICLE:
                     $folder = 'article';
                     break;
@@ -61,8 +61,8 @@ class Article extends ActiveRecord
                     $folder = false;
                     break;
             }
-            if ($folder){
-                RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/'.$folder.'/' . $this->id . '/');
+            if ($folder) {
+                RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
             }
             return true;
         } else {
@@ -118,7 +118,7 @@ class Article extends ActiveRecord
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed ' . Yii::$app->params['maxFileUploadSize'] . ' Mb')
+                'tooBig' => Yii::t('yii', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
 
             [['title', 'description', 'type_id'], 'required'],
@@ -138,14 +138,14 @@ class Article extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'description' => 'Description',
-            'status' => 'Status',
-            'order' => 'Order',
-            'type_id' => 'Type ID',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'id' => Yii::t('yii', 'ID'),
+            'title' => Yii::t('yii', 'Title'),
+            'description' => Yii::t('yii', 'Description'),
+            'status' => Yii::t('yii', 'Status'),
+            'order' => Yii::t('yii', 'Order'),
+            'type_id' => Yii::t('yii', 'Type ID'),
+            'created_at' => Yii::t('yii', 'Created At'),
+            'updated_at' => Yii::t('yii', 'Updated At'),
         ];
     }
 }

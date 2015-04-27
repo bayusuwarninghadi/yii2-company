@@ -22,7 +22,7 @@ use yii\helpers\Html;
                 <a class="right fa fa-chevron-right btn btn-primary" href="#new-product-slider" data-slide="next"></a>
             </div>
             <h2>
-                New Product
+                <?=Yii::t('yii','New Product')?>
                 <small><?= Html::a('See All', ['/product/index']) ?></small>
             </h2>
             <div class="clearfix"></div>

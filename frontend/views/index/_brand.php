@@ -37,7 +37,7 @@ use yii\bootstrap\Carousel;
         <a class="left fa fa-chevron-left btn btn-default" href="#brand-slider" data-slide="prev"></a>
         <a class="right fa fa-chevron-right btn btn-default" href="#brand-slider" data-slide="next"></a>
     </div>
-    <strong>OUR BRAND</strong>
+    <strong><?=Yii::t('yii','OUR BRAND')?></strong>
 
     <div class="clearfix"></div>
 </div>

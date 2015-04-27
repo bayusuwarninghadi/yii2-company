@@ -13,24 +13,24 @@ use yii\helpers\Html;
  * @var $transactionIds array
  */
 
-$this->title = 'Payment Confirmation';
+$this->title = Yii::t('yii', 'Payment Confirmation');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=$this->title?></h1>
 <div class="row">
     <div class="col-sm-6">
         <div class="panel panel-warning">
-            <div class="panel-heading">Fill Your Transfer Detail Bellow</div>
+            <div class="panel-heading"><?=Yii::t('yii', 'Fill Your Transfer Detail Bellow')?></div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds,['prompt' => 'Select Transaction ID']) ?>
+                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds,['prompt' => Yii::t('yii', 'Select Transaction ID')]) ?>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                 <?php if (!empty($paymentMethod)) echo $form->field($model, 'payment_method')->dropDownList($paymentMethod) ?>
                 <?= $form->field($model, 'amount',[
                     'template' => "
                     {label}
                     <div class='input-group'>
-                        <span class='input-group-addon'>Rp</span>
+                        <span class='input-group-addon'>".Yii::t('yii', 'Rp')."</span>
                         {input}
                     </div>
                     \n{error}"
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'note')->textarea(['rows' => 4]) ?>
                 <?= $form->field($model, 'created_at')->input('date') ?>
                 <?= $form->field($model, 'image')->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']); ?>
-                <?= Html::submitButton('Submit', ['class' => 'btn btn-danger']) ?>
+                <?= Html::submitButton(Yii::t('yii', 'Submit'), ['class' => 'btn btn-danger']) ?>
                 <?php ActiveForm::end(); ?>
             </div>
         </div>
