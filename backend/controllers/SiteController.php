@@ -1,15 +1,15 @@
 <?php
 namespace backend\controllers;
 
+use common\models\LoginForm;
+use common\models\Request;
 use common\models\Transaction;
 use common\models\User;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\web\Controller;
-use common\models\LoginForm;
 use yii\filters\VerbFilter;
-use common\models\Request;
+use yii\web\Controller;
 
 /**
  * Site controller
@@ -60,14 +60,17 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $transactionDataProvider = new ActiveDataProvider([
-            'query' => Transaction::find()->where(['status' => Transaction::STATUS_USER_UN_PAY])->limit(5)->orderBy('created_at DESC'),
+            'query' => Transaction::find()
+                ->where(['IN', 'status', [Transaction::STATUS_USER_UN_PAY, Transaction::STATUS_USER_PAY]])
+                ->limit(5)
+                ->orderBy('created_at DESC'),
             'sort' => false
         ]);
         $userDataProvider = new ActiveDataProvider([
             'query' => User::find()->where(['role' => User::ROLE_USER])->limit(5)->orderBy('created_at DESC'),
             'sort' => false
         ]);
-        return $this->render('index',[
+        return $this->render('index', [
             'requestChart' => Request::chartOptions(10),
             'transactionChart' => Transaction::chartOptions(10),
             'transactionDataProvider' => $transactionDataProvider,

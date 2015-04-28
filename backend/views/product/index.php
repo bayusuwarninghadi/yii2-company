@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     [
                         'attribute' => 'name',
                         'value' => function($data){
+
                             return Html::tag('b',$data->name).Html::tag('div',$data->category->name,['class' => 'text-muted small']);
                         },
                         'format' => 'html'

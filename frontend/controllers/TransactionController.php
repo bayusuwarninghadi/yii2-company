@@ -6,12 +6,14 @@ use common\models\Article;
 use common\models\Cart;
 use common\models\Transaction;
 use Yii;
+use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * Class TransactionController
@@ -53,42 +55,60 @@ class TransactionController extends BaseController
 
         $cartModel = $this->findCart();
         /**
-         * @var integer $grandTotal
+         * @var integer $subTotal
          * @var $cartDataProvider ActiveDataProvider
          */
         $cartDataProvider = $cartModel['dataProvider'];
-        $grandTotal = $cartModel['grandTotal'];
-        $model->sub_total = $grandTotal;
-        $model->grand_total = $grandTotal;
+        $subTotal = $cartModel['subTotal'];
+        $model->sub_total = $subTotal;
 
         if (!$cartDataProvider->getModels()) {
             throw new BadRequestHttpException("You don't have any product in your cart.");
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            /**
-             * Save Transaction Attributes
-             * @var $product Cart
-             */
-            foreach ($cartDataProvider->getModels() as $product) {
-                $product->transaction_id = $model->id;
-                $product->save();
+        if ($model->load(Yii::$app->request->post())) {
+
+            if (Yii::$app->request->isAjax) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                return ActiveForm::validate($model);
             }
-            Yii::$app->session->setFlash('success', 'Check your email for next instruction');
 
-            Yii::$app->mailer
-                ->compose('checkout', [
-                    'user' => Yii::$app->user->identity,
-                    'transaction' => $model,
-                    'cartDataProvider' => $cartDataProvider,
-                    'grandTotal' => $grandTotal,
-                ])
-                ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
-                ->setTo(Yii::$app->user->identity->email)
-                ->setSubject('Checkout Success #' . $model->id)
-                ->send();
+            $model->grand_total = $subTotal;
 
-            return $this->redirect(['success', 'id' => $model->id]);
+            if ($voucher = $model->getVoucher()){
+                $model->grand_total -= $voucher->value;
+            }
+
+            return $this->render('summary', [
+                'model' => $model,
+                'cartDataProvider' => $cartDataProvider,
+                'subTotal' => $subTotal,
+            ]);
+
+//            if ($model->save()){
+//                /**
+//                 * Save Transaction Attributes
+//                 * @var $product Cart
+//                 */
+//                foreach ($cartDataProvider->getModels() as $product) {
+//                    $product->transaction_id = $model->id;
+//                    $product->save();
+//                }
+//                Yii::$app->session->setFlash('success', 'Check your email for next instruction');
+//
+//                Yii::$app->mailer
+//                    ->compose('checkout', [
+//                        'user' => Yii::$app->user->identity,
+//                        'transaction' => $model,
+//                        'cartDataProvider' => $cartDataProvider,
+//                    ])
+//                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+//                    ->setTo(Yii::$app->user->identity->email)
+//                    ->setSubject('Checkout Success #' . $model->id)
+//                    ->send();
+//
+//            }
+
         }
 
         $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
@@ -98,14 +118,19 @@ class TransactionController extends BaseController
             $paymentMethod['Bank Transfer'] = 'Bank Transfer';
         }
 
+        $shippingMethod = [
+            'JNE Express' => 'JNE Express',
+            'JNE YES' => 'JNE YES'
+        ];
+
         return $this->render('checkout', [
             'paymentMethod' => $paymentMethod,
+            'shippingMethod' => $shippingMethod,
             'model' => $model,
             'cartDataProvider' => $cartDataProvider,
-            'grandTotal' => $grandTotal,
+            'subTotal' => $subTotal,
             'notes' => $notes
         ]);
-
     }
 
     /**
@@ -219,19 +244,18 @@ class TransactionController extends BaseController
                 'pageSize' => 1000,
             ],
         ]);
-        $grandTotal = 0;
+        $subTotal = 0;
         $model = $dataProvider->getModels();
         /** @var Cart $cart */
         foreach ($model as $cart) {
             $_price = round($cart->product->price * (100 - ($cart->product->discount)) / 100 * $cart->qty, 0, PHP_ROUND_HALF_UP);
-            $grandTotal += $_price;
+            $subTotal += $_price;
         }
         $params = [
             'dataProvider' => $dataProvider,
-            'grandTotal' => $grandTotal
+            'subTotal' => $subTotal
         ];
 
         return $params;
-
     }
 }

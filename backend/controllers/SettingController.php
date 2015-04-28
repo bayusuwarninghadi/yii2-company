@@ -136,7 +136,7 @@ class SettingController extends Controller
         }
 
 
-        $model = Setting::find()->all();
+        $model = Setting::find()->where(['page' => 'setting', 'readonly' => Setting::READONLY_NOT])->all();
         return $this->render('index', [
             'model' => $model,
         ]);

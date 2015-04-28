@@ -97,14 +97,14 @@ class UserController extends BaseController
 
         $favorites = Json::decode($model->value);
 
-        $array_found = array_search($product->id, $favorites);
-        if ((string)$array_found != '') {
-            unset($favorites[$array_found]);
+        $key = array_search($product->id, $favorites);
+        if ($key === false) {
+            $favorites[] = $product->id;
         } else {
-            $favorites[] = $id;
+            array_splice($favorites, $key, 1);
         }
 
-        $model->value = Json::encode($favorites);
+        $model->value = Json::encode((array)$favorites);
         $model->save();
 
         if (Yii::$app->request->isAjax) {
@@ -158,13 +158,14 @@ class UserController extends BaseController
 
         $comparison = Json::decode($model->value);
 
-        $array_found = array_search($product->id, $comparison);
-        if ((string)$array_found != '') {
-            unset($comparison[$array_found]);
+        $key = array_search($product->id, $comparison);
+        if ($key === false) {
+            $comparison[] = $product->id;
         } else {
-            $comparison[] = $id;
+            array_splice($comparison, $key, 1);
         }
-        $model->value = Json::encode($comparison);
+
+        $model->value = Json::encode((array)$comparison);
         $model->save();
 
         if (Yii::$app->request->isAjax) {

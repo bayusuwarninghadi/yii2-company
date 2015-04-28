@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property integer $user_id
  * @property string $address
  * @property string $city
+ * @property string $city_area
  * @property integer $postal_code
  *
  * @property User $user
@@ -34,8 +35,8 @@ class Shipping extends ActiveRecord
     {
         return [
             [['user_id', 'postal_code'], 'integer'],
-            [['address', 'city'], 'required'],
-            [['address', 'city'], 'string', 'max' => 255]
+            [['address', 'city', 'city_area'], 'required'],
+            [['address', 'city', 'city_area'], 'string', 'max' => 255]
         ];
     }
 
@@ -49,6 +50,7 @@ class Shipping extends ActiveRecord
             'user_id' => Yii::t('app', 'User'),
             'address' => Yii::t('app', 'Address'),
             'city' => Yii::t('app', 'City'),
+            'city_area' => Yii::t('app', 'City Area'),
             'postal_code' => Yii::t('app', 'Postal Code'),
         ];
     }

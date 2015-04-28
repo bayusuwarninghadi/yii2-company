@@ -1,5 +1,6 @@
 <?php
 use backend\widget\chart\Morris;
+use common\models\Transaction;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
@@ -28,6 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4>Last Transaction Activity</h4>
                 <?= GridView::widget([
                     'dataProvider' => $transactionDataProvider,
+                    'rowOptions' => function ($model) {
+                        switch ($model->status) {
+                            case (int)Transaction::STATUS_USER_PAY;
+                                $class = 'warning';
+                                break;
+                            default;
+                                $class = '';
+                                break;
+                        }
+                        return ['class' => $class];
+                    },
                     'layout' => '{items}',
                     'columns' => [
                         'user.username',
@@ -43,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'username',
                         'email',
                     ],
-                ]);?>
+                ]); ?>
 
             </div>
         </div>

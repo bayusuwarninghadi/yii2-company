@@ -17,6 +17,13 @@ echo Nav::widget([
     'options' => ['class' => 'nav navbar-top-links navbar-right'],
     'items' => [
         [
+            'label' => '<i class="fa fa-globe fa-fw"></i>',
+            'url' => Yii::$app->components['frontendSiteUrl'],
+            'linkOptions' => [
+                'target' => '_blank'
+            ],
+        ],
+        [
             'label' => '<i class="fa fa-gears fa-fw"></i>',
             'url' => ['/setting/index'],
             'items' => [
@@ -28,6 +35,11 @@ echo Nav::widget([
                 [
                     'label' => '<i class="fa fa-file-picture-o fa-fw"></i> Theme',
                     'url' => ['/setting/theme']
+                ],
+                '<li class="divider"></li>',
+                [
+                    'label' => '<i class="fa fa-ship fa-fw"></i> Shipping Method',
+                    'url' => ['/shipping-method/index']
                 ],
             ]
         ],

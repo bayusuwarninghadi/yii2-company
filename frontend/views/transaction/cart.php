@@ -8,7 +8,7 @@ use yii\helpers\Html;
  * Date: 4/18/15
  * Time: 01:00
  * @var \yii\data\ActiveDataProvider $dataProvider
- * @var integer $grandTotal
+ * @var integer $subTotal
  */
 
 $this->title = Yii::t('app', 'Shopping Cart');
@@ -89,10 +89,10 @@ echo GridView::widget([
     ",
     'panelFooter' => $dataProvider->getModels()
         ? Html::a('<i class="fa fa-shopping-cart"></i> ' . Yii::t('app', 'Checkout'), ['checkout'], ['class' => 'btn btn-success'])
-        : Html::a('<i class="fa fa-search"></i> Go ' . Yii::t('app', 'Go Shopping'), ['/product/index'], ['class' => 'btn btn-primary']),
+        : Html::a('<i class="fa fa-search"></i> ' . Yii::t('app', 'Go Shopping'), ['/product/index'], ['class' => 'btn btn-primary']),
     'panelAfter' => "
         <div class='text-right'>
-            <h4><small>" . Yii::t('app', 'Grand Total') . " </small><br/>" . Yii::$app->formatter->asCurrency($grandTotal) . "</h4>
+            <h4><small>" . Yii::t('app','Sub Total') . ' ' . " </small><br/>" . Yii::$app->formatter->asCurrency($subTotal) . "</h4>
         </div>
     ",
     'dataProvider' => $dataProvider,

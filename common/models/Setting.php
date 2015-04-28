@@ -11,6 +11,7 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $key
  * @property string $value
+ * @property string $page
  * @property integer $type
  * @property integer $readonly
  */
@@ -85,11 +86,12 @@ class Setting extends ActiveRecord
             [['key'], 'required'],
             ['key', 'filter', 'filter' => 'trim'],
             ['key', 'unique', 'message' => Yii::t('app', 'This key already exist')],
-            [['value'], 'string'],
+            [['value', 'page'], 'string'],
             [['readonly'], 'integer'],
             ['readonly', 'default', 'value' => static::READONLY_NOT],
             ['readonly', 'in', 'range' => static::getReadonlyAsArray(false)],
             ['type', 'default', 'value' => static::TYPE_TEXT],
+            ['page', 'default', 'value' => 'setting'],
             ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_TINY_MCE, static::TYPE_IMAGE_INPUT, static::TYPE_FILE_INPUT, static::TYPE_CHECK]],
             [['key'], 'string', 'max' => 255]
         ];
@@ -104,6 +106,7 @@ class Setting extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'key' => Yii::t('app', 'Key'),
             'value' => Yii::t('app', 'Value'),
+            'page' => Yii::t('app', 'Page'),
             'readonly' => Yii::t('app', 'Readonly'),
         ];
     }

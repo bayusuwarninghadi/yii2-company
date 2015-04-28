@@ -12,38 +12,39 @@ use yii\widgets\ActiveForm;
  * Date: 4/19/15
  * Time: 22:59
  *
- * @var $model \common\models\Transaction
  * @var $notes \common\models\Article
  * @var $this \yii\web\View
+ * @var $model \common\models\Transaction
  * @var $form ActiveForm
  * @var $cartDataProvider \yii\data\ActiveDataProvider
- * @var $grandTotal integer
+ * @var $subTotal integer
  * @var $paymentMethod array
+ * @var $shippingMethod array
  */
 
 $this->title = Yii::t('app', 'Checkout');
 $this->params['breadcrumbs'][] = $this->title;
 
-$form = ActiveForm::begin(['id' => 'checkout-form']);
+$form = ActiveForm::begin(['id' => 'checkout-form', 'enableAjaxValidation' => true]);
 echo Collapse::widget([
     'encodeLabels' => false,
     'items' => [
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Review Your Cart'),
+            'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . Yii::t('app', 'Review Your Cart'),
             'content' => $this->render('cartAjax', [
                 'dataProvider' => $cartDataProvider,
-                'grandTotal' => $grandTotal
+                'subTotal' => $subTotal
             ]),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'
             ],
             'options' => [
-                'class' => 'panel-success'
+                'class' => 'panel-danger'
             ]
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Shipping Address'),
+            'label' => '<i class="fa fa-map-marker fa-fw"></i> ' . Yii::t('app', 'Shipping Address'),
             'content' =>
                 $form->field($model, 'shipping_id')->radioList(
                     ArrayHelper::map(Shipping::findAll(['user_id' => Yii::$app->user->getId()]), 'id', 'address'), [
@@ -61,14 +62,23 @@ echo Collapse::widget([
             ],
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Voucher Code'),
+            'label' => '<i class="fa fa-ship fa-fw"></i> ' . Yii::t('app', 'Shipping Method'),
+            'content' =>
+                $form->field($model, 'shipping_method')->radioList($shippingMethod),
+            'contentOptions' => [
+                'id' => 'shipping-method-form',
+                'class' => 'in'
+            ],
+            'options' => [
+                'class' => 'panel-success'
+            ]
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Payment Method'),
+            'label' => '<i class="fa fa-cc-visa fa-fw"></i> ' . Yii::t('app', 'Payment Method'),
             'content' =>
                 $form->field($model, 'payment_method')->radioList($paymentMethod),
             'contentOptions' => [
-                'id' => 'cart-form',
+                'id' => 'payment-method-form',
                 'class' => 'in'
             ],
             'options' => [
@@ -76,10 +86,11 @@ echo Collapse::widget([
             ]
         ],
         [
-            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Submit'),
+            'label' => '<i class="fa fa-paper-plane fa-fw"></i> ' . Yii::t('app', 'Calculate'),
             'content' =>
-                HtmlPurifier::process($notes->description) .
+                $form->field($model, 'voucher_code')->textInput().
                 $form->field($model, 'note')->textarea(['rows' => 3]) .
+                HtmlPurifier::process($notes->description) .
                 $form->field($model, 'disclaimer')->checkbox(['label' => Yii::t('app', 'I agree to the our') . ' ' . Html::a(Yii::t('app', 'Terms And Condition'), '/site/terms')]) .
                 Html::submitButton(Yii::t('app', 'Process Checkout'), ['class' => 'btn btn-primary']),
             'contentOptions' => [
@@ -87,7 +98,7 @@ echo Collapse::widget([
                 'class' => 'in'
             ],
             'options' => [
-                'class' => 'panel-danger'
+                'class' => 'panel-primary'
             ]
         ],
 

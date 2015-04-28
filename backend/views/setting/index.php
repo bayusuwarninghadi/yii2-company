@@ -34,32 +34,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="panel panel-yellow">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> Update</div>
         <?php foreach ($model as $m) {
-            if ($m->readonly == Setting::READONLY_NOT) {
-                $hint = '';
-                $formGroup = $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']]);
-                switch ($m->type) {
-                    case Setting::TYPE_TEXT_AREA:
-                        $formGroup = $formGroup->textarea(['rows' => 4]);
-                        break;
-                    case Setting::TYPE_TINY_MCE:
-                        $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
-                        break;
-                    case Setting::TYPE_IMAGE_INPUT:
-                        $hint = UploadHelper::getHtml('setting/' . $m->id, 'small');
-                        $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);
-                        break;
-                    case Setting::TYPE_FILE_INPUT:
-                        $hint = 'Current: ' . $m->value;
-                        $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control']);
-                        break;
-                    case Setting::TYPE_CHECK:
-                        $formGroup->checkbox();
-                        break;
-                }
-                echo $formGroup
-                    ->label(Inflector::camel2words($m->key, true))
-                    ->hint($hint);
+            $hint = '';
+            $formGroup = $form->field($m, "[$m->id]value", ['options' => ['class' => 'list-group-item container-fluid']]);
+            switch ($m->type) {
+                case Setting::TYPE_TEXT_AREA:
+                    $formGroup = $formGroup->textarea(['rows' => 4]);
+                    break;
+                case Setting::TYPE_TINY_MCE:
+                    $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
+                    break;
+                case Setting::TYPE_IMAGE_INPUT:
+                    $hint = UploadHelper::getHtml('setting/' . $m->id, 'small');
+                    $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);
+                    break;
+                case Setting::TYPE_FILE_INPUT:
+                    $hint = 'Current: ' . $m->value;
+                    $formGroup = $formGroup->fileInput(['class' => 'btn btn-default form-control']);
+                    break;
+                case Setting::TYPE_CHECK:
+                    $formGroup->checkbox();
+                    break;
             }
+            echo $formGroup
+                ->label(Inflector::camel2words($m->key, true))
+                ->hint($hint);
         } ?>
         <div class="panel-footer">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>

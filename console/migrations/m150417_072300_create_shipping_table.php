@@ -12,6 +12,7 @@ class m150417_072300_create_shipping_table extends Migration
             'user_id' => Schema::TYPE_INTEGER,
             'address' => Schema::TYPE_STRING . ' NOT NULL',
             'city' => Schema::TYPE_STRING . ' NOT NULL',
+            'city_area' => Schema::TYPE_STRING . ' NOT NULL',
             'postal_code' => Schema::TYPE_SMALLINT,
         ]);
         $this->addForeignKey('shipping_to_user', 'shipping', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');

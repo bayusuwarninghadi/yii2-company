@@ -16,8 +16,11 @@ use yii\helpers\ArrayHelper;
  *
  * @property integer $id
  * @property integer $user_id
- * @property integer $shipping_id
  * @property string $note
+ * @property integer $shipping_id
+ * @property string $shipping_method
+ * @property string $shipping_cost
+ * @property string $voucher_code
  * @property string $payment_method
  * @property integer $status
  * @property integer $sub_total
@@ -34,16 +37,41 @@ use yii\helpers\ArrayHelper;
  */
 class Transaction extends ActiveRecord
 {
+    /**
+     *
+     */
     const STATUS_USER_UN_PAY = 0;
+    /**
+     *
+     */
     const STATUS_USER_PAY = 1;
+    /**
+     *
+     */
     const STATUS_CONFIRM = 2;
+    /**
+     *
+     */
     const STATUS_DELIVER = 3;
+    /**
+     *
+     */
     const STATUS_DELIVERED = 4;
+    /**
+     *
+     */
     const STATUS_REJECTED = 5;
 
 
+    /**
+     * @var int
+     */
     public $disclaimer = 0;
-    public $voucher_code;
+
+    /**
+     * @var bool|Voucher
+     */
+    public $voucher = false;
 
     /**
      * @param bool $with_key
@@ -95,20 +123,47 @@ class Transaction extends ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'shipping_id', 'sub_total', 'grand_total', 'payment_method'], 'required'],
+            [['user_id', 'shipping_id', 'sub_total', 'grand_total', 'shipping_method','payment_method'], 'required'],
             [
                 'disclaimer',
                 'required',
                 'requiredValue' => Yii::$app->id == "app-backend" ? 0 : 1,
                 'message' => Yii::t('app', 'You must agree to our disclaimer')
             ],
+            ['voucher_code', 'unique', 'message' => Yii::t('app', 'Voucher Has Been Used')],
+            ['voucher_code' ,'validateVoucher'],
             ['status', 'default', 'value' => static::STATUS_USER_UN_PAY],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
-            [['user_id', 'shipping_id', 'status', 'sub_total', 'grand_total'], 'integer'],
-            [['note'], 'string', 'max' => 255]
+            [['user_id', 'shipping_id', 'status', 'sub_total', 'shipping_cost', 'grand_total'], 'integer'],
+            [['note', 'voucher_code', 'payment_method', 'shipping_method'], 'string', 'max' => 255]
         ];
     }
 
+    /**
+     * Validate Voucher.
+     * @param string $attribute the attribute currently being validated
+     */
+    public function validateVoucher($attribute){
+        if ($this->isNewRecord){
+            $voucher = $this->getVoucher();
+            if (!$voucher || ($voucher->status != Voucher::STATUS_AVAILABLE)) {
+                $this->addError($attribute, Yii::t('app', 'Voucher Is Not Available'));
+            }
+        }
+    }
+
+    /**
+     * Finds voucher by [[voucher_code]]
+     *
+     * @return Voucher|null
+     */
+    public function getVoucher(){
+        if (!$this->voucher && $this->voucher_code) {
+            $this->voucher = Voucher::find()->where(['id' => $this->voucher_code, 'status' => Voucher::STATUS_AVAILABLE])->one();
+        }
+
+        return $this->voucher;
+    }
     /**
      * @inheritdoc
      */
@@ -118,6 +173,10 @@ class Transaction extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'User'),
             'shipping_id' => Yii::t('app', 'Shipping Address'),
+            'shipping_method' => Yii::t('app', 'Shipping Method'),
+            'shipping_cost' => Yii::t('app', 'Shipping Cost'),
+            'payment_method' => Yii::t('app', 'Payment Method'),
+            'voucher_code' => Yii::t('app', 'Voucher Code'),
             'note' => Yii::t('app', 'Note'),
             'status' => Yii::t('app', 'Status'),
             'sub_total' => Yii::t('app', 'Sub Total'),
@@ -211,12 +270,5 @@ class Transaction extends ActiveRecord
     public function getConfirmations()
     {
         return $this->hasMany(Confirmation::className(), ['transaction_id' => 'id']);
-    }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getVoucher()
-    {
-        return $this->hasOne(Voucher::className(), ['id' => 'voucher_id']);
     }
 }
