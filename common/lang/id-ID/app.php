@@ -37,7 +37,8 @@ return [
     'Welcome' => 'Selamat Datang',
     'Advance Search' => 'Cari Lebih Rinci',
     'The file "{file}" is too big. Its size cannot exceed' => 'File "{file}" terlalu besar. Tidak boleh melebihi dari',
-    'title' => 'Judul',
+    'title' => 'judul',
+    'Title' => 'Judul',
     'Description' => 'Deskripsi',
     'Order' => 'Urutan',
     'Created At' => 'Dibuat Pada',
@@ -143,4 +144,5 @@ return [
     'Sort' => 'Urutan',
     'Quantity' => 'Kuantitas',
     'Verification Code' => 'Kode Verifikasi',
+    'View More' => 'Detail'
 ];

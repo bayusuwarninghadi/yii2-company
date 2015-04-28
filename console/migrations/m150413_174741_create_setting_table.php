@@ -57,6 +57,11 @@ class m150413_174741_create_setting_table extends Migration
             'key' => 'default_language',
             'value' => 'en-US',
         ]);
+        $this->insert('setting',[
+            'key' => 'enable_voucher',
+            'value' => 1,
+            'type' => Setting::TYPE_CHECK
+        ]);
     }
 
     public function safeDown()

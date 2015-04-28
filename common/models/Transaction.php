@@ -30,6 +30,7 @@ use yii\helpers\ArrayHelper;
  * @property Confirmation[] $confirmations
  * @property User $user
  * @property Cart[] $transactionAttributes
+ * @property Voucher $voucher
  */
 class Transaction extends ActiveRecord
 {
@@ -42,6 +43,7 @@ class Transaction extends ActiveRecord
 
 
     public $disclaimer = 0;
+    public $voucher_code;
 
     /**
      * @param bool $with_key
@@ -209,5 +211,12 @@ class Transaction extends ActiveRecord
     public function getConfirmations()
     {
         return $this->hasMany(Confirmation::className(), ['transaction_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getVoucher()
+    {
+        return $this->hasOne(Voucher::className(), ['id' => 'voucher_id']);
     }
 }

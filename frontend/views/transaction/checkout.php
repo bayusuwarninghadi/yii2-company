@@ -61,6 +61,9 @@ echo Collapse::widget([
             ],
         ],
         [
+            'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Voucher Code'),
+        ],
+        [
             'label' => '<i class="fa fa-expand fa-fw"></i> ' . Yii::t('app', 'Payment Method'),
             'content' =>
                 $form->field($model, 'payment_method')->radioList($paymentMethod),

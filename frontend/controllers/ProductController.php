@@ -104,7 +104,7 @@ class ProductController extends BaseController
 
         $models = Product::find()->where(
             "MATCH (name,subtitle,description) AGAINST (:string IN BOOLEAN MODE)",[
-                ':string' => Html::encode($model->name.$model->subtitle)
+                ':string' => Html::encode($model->name.' '.$model->subtitle)
             ]
         )->andFilterWhere(['<>','id',$model->id])->orderBy('created_at DESC')->limit(4)->all();
         $params = [

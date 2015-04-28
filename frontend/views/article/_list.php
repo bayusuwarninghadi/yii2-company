@@ -13,9 +13,9 @@ use yii\helpers\HtmlPurifier;
 ?>
 <h2>
     <?= Html::encode($model->title) ?>
-    <small><?=Html::a('View More',['view', 'id' => $model->id])?></small>
+    <small><?= Html::a(Yii::t('app', 'View More'), ['view', 'id' => $model->id]) ?></small>
 </h2>
-<?= HtmlPurifier::process(substr($model->description,0,200)) ?>
+<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
 <p>
-    <i class="fa fa-fw fa-calendar"></i> <?=Yii::$app->formatter->asDate($model->updated_at)?>
+    <i class="fa fa-fw fa-calendar"></i> <?= Yii::$app->formatter->asDate($model->updated_at) ?>
 </p>

@@ -15,6 +15,7 @@ class m150417_072400_create_transaction_table extends Migration
             'payment_method' => Schema::TYPE_STRING,
             'status' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'sub_total' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
+            'voucher_id' => Schema::TYPE_INTEGER,
             'grand_total' => Schema::TYPE_BIGINT . ' NOT NULL DEFAULT 0',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL',

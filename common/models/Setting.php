@@ -45,6 +45,10 @@ class Setting extends ActiveRecord
      * TYPE_FILE_INPUT
      */
     const TYPE_FILE_INPUT = 5;
+    /**
+     * TYPE_FILE_INPUT
+     */
+    const TYPE_CHECK = 6;
 
     /**
      * @param bool $with_key
@@ -86,7 +90,7 @@ class Setting extends ActiveRecord
             ['readonly', 'default', 'value' => static::READONLY_NOT],
             ['readonly', 'in', 'range' => static::getReadonlyAsArray(false)],
             ['type', 'default', 'value' => static::TYPE_TEXT],
-            ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_TINY_MCE, static::TYPE_IMAGE_INPUT, static::TYPE_FILE_INPUT]],
+            ['type', 'in', 'range' => [static::TYPE_TEXT, static::TYPE_TEXT_AREA, static::TYPE_TINY_MCE, static::TYPE_IMAGE_INPUT, static::TYPE_FILE_INPUT, static::TYPE_CHECK]],
             [['key'], 'string', 'max' => 255]
         ];
     }
