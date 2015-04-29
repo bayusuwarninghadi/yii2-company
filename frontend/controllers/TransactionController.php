@@ -4,8 +4,10 @@ namespace frontend\controllers;
 
 use common\models\Article;
 use common\models\Cart;
+use common\models\ShippingMethod;
 use common\models\Transaction;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
@@ -118,10 +120,7 @@ class TransactionController extends BaseController
             $paymentMethod['Bank Transfer'] = 'Bank Transfer';
         }
 
-        $shippingMethod = [
-            'JNE Express' => 'JNE Express',
-            'JNE YES' => 'JNE YES'
-        ];
+        $shippingMethod = ArrayHelper::map(ShippingMethod::find()->all(),'id','name');
 
         return $this->render('checkout', [
             'paymentMethod' => $paymentMethod,

@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $description
  *
  * @property ShippingMethodCost[] $shippingMethodCosts
+ * @property Transaction[] $transactions
  */
 class ShippingMethod extends ActiveRecord
 {
@@ -55,4 +56,13 @@ class ShippingMethod extends ActiveRecord
     {
         return $this->hasMany(ShippingMethodCost::className(), ['shipping_method_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTransactions()
+    {
+        return $this->hasMany(Transaction::className(), ['shipping_method_id' => 'id']);
+    }
+
 }

@@ -11,7 +11,7 @@ class m150417_072400_create_transaction_table extends Migration
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER,
             'shipping_id' => Schema::TYPE_INTEGER,
-            'shipping_method' => Schema::TYPE_STRING,
+            'shipping_method_id' => Schema::TYPE_INTEGER,
             'shipping_cost' => Schema::TYPE_INTEGER . ' NO NULL DEFAULT 0',
             'payment_method' => Schema::TYPE_STRING,
             'note' => Schema::TYPE_STRING,

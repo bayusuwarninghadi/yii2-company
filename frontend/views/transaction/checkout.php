@@ -64,7 +64,7 @@ echo Collapse::widget([
         [
             'label' => '<i class="fa fa-ship fa-fw"></i> ' . Yii::t('app', 'Shipping Method'),
             'content' =>
-                $form->field($model, 'shipping_method')->radioList($shippingMethod),
+                $form->field($model, 'shipping_method_id')->radioList($shippingMethod),
             'contentOptions' => [
                 'id' => 'shipping-method-form',
                 'class' => 'in'
