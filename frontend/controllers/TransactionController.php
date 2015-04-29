@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use common\models\Article;
 use common\models\Cart;
 use common\models\ShippingMethod;
+use common\models\ShippingMethodCost;
 use common\models\Transaction;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -81,6 +82,14 @@ class TransactionController extends BaseController
                 $model->grand_total -= $voucher->value;
             }
 
+            /**
+             * Calculate Shipping
+             * @var $ShippingCostModel ShippingMethodCost
+             */
+            if ($ShippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])){
+                $model->shipping_cost = $ShippingCostModel->value;
+                $model->grand_total += $ShippingCostModel->value;
+            }
             return $this->render('summary', [
                 'model' => $model,
                 'cartDataProvider' => $cartDataProvider,
@@ -134,31 +143,51 @@ class TransactionController extends BaseController
 
     /**
      * Action Success after checkout
-     *
-     * @param $id
-     * @return string
-     * @throws NotFoundHttpException
+     * @return string|Response
      */
-    public function actionSuccess($id)
-    {
-        $model = $this->findModel($id);
-        $note = Article::findOne(['title' => 'success', 'type_id' => Article::TYPE_PAGES]);
-
+    public function actionSuccess(){
+        $model = new Transaction();
+        $model->user_id = Yii::$app->user->getId();
+        $model->disclaimer = 1;
         $cartModel = $this->findCart();
         /**
-         * @var integer $grandTotal
          * @var $cartDataProvider ActiveDataProvider
          */
         $cartDataProvider = $cartModel['dataProvider'];
-        $grandTotal = $cartModel['grandTotal'];
 
-        return $this->render('success', [
-            'model' => $model,
-            'note' => $note,
-            'cartDataProvider' => $cartDataProvider,
-            'grandTotal' => $grandTotal,
-        ]);
+        if ($model->load(Yii::$app->request->post())) {
 
+            if ($model->save()){
+                /**
+                 * Save Transaction Attributes
+                 * @var $product Cart
+                 */
+                foreach ($cartDataProvider->getModels() as $product) {
+                    $product->transaction_id = $model->id;
+                    $product->save();
+                }
+                Yii::$app->session->setFlash('success', 'Check your email for next instruction');
+
+                Yii::$app->mailer
+                    ->compose('checkout', [
+                        'user' => Yii::$app->user->identity,
+                        'transaction' => $model,
+                        'cartDataProvider' => $cartDataProvider,
+                    ])
+                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+                    ->setTo(Yii::$app->user->identity->email)
+                    ->setSubject('Checkout Success #' . $model->id)
+                    ->send();
+
+                return $this->render('success', [
+                    'model' => $model,
+                    'note' => Article::findOne(['title' => 'success', 'type_id' => Article::TYPE_PAGES]),
+                    'cartDataProvider' => $cartDataProvider,
+                ]);
+            }
+        }
+        Yii::$app->session->setFlash('error', 'Error during submit your data');
+        return $this->redirect('checkout');
     }
 
     /**

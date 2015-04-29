@@ -18,42 +18,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            Transaction
-            <small>on last 30 days</small>
-        </div>
-        <div class="panel-body">
-            <?= Morris::widget($transactionChart) ?>
-        </div>
-    </div>
     <?php
     Pjax::begin();
     echo GridView::widget([
-        'panelBefore' => '
-<div class="small">
-    <div class="pull-left">
-        <span class="btn btn-sm btn-default"></span> Start Transaction&nbsp;
-    </div>
-    <div class="pull-left">
-        <span class="btn btn-sm btn-warning"></span> User Has Pay&nbsp;
-    </div>
-    <div class="pull-left">
-        <span class="btn btn-sm btn-info"></span> Confirm&nbsp;
-    </div>
-    <div class="pull-left">
-        <span class="btn btn-sm btn-primary"></span> Deliver&nbsp;
-    </div>
-    <div class="pull-left">
-        <span class="btn btn-sm btn-success"></span> Delivered&nbsp;
-    </div>
-    <div class="pull-left">
-        <span class="btn btn-sm btn-danger"></span> Rejected
-    </div>
-    <div class="clearfix"></div>
-</div>
-            ',
+        'panelBefore' => Morris::widget($transactionChart) .
+            '<br/><br/>
+            <div class="small text-right">
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-default"></span> Start Transaction&nbsp;
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-warning"></span> User Has Pay&nbsp;
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-info"></span> Confirm&nbsp;
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-primary"></span> Deliver&nbsp;
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-success"></span> Delivered&nbsp;
+                </div>
+                <div class="pull-right">
+                    <span class="btn btn-sm btn-danger"></span> Rejected&nbsp;
+                </div>
+                <div class="clearfix"></div>
+            </div>',
         'dataProvider' => $dataProvider,
+        'panelHeading' => '<i class="fa fa-area-chart"></i> Transaction <small>on last 30 days</small>',
         'filterModel' => $searchModel,
         'tableOptions' => ['class' => 'table table-bordered'],
         'rowOptions' => function($model){

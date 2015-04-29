@@ -44,7 +44,7 @@ class ShippingMethod extends ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'Shipping Method'),
             'description' => Yii::t('app', 'Description'),
         ];
     }

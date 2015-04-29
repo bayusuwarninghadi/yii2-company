@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 use yii\widgets\DetailView;
 
 /**
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <h1><?= $this->title ?></h1>
 <div class="panel panel-success">
     <div class="panel-heading">
-        <?= Yii::t('app', 'Detail') ?>
+        <i class="fa fa-truck fa-fw"></i> <?= Yii::t('app', 'Detail') ?>
     </div>
     <?= $this->render('cartAjax', [
         'dataProvider' => $cartDataProvider,
@@ -31,9 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'payment_method',
             'shipping.address',
-            'shipping.city',
-            'shipping_method',
+            'shipping.cityArea.name',
+            'shipping.cityArea.city.name',
             'shipping.postal_code',
+            'shippingMethod.name',
             'shipping_cost:currency',
             [
                 'label' => Yii::t('app', 'Voucher'),
@@ -47,9 +49,28 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]);
     ?>
-    <div class="panel-footer">
-        <strong>
-            <?= Yii::t('app', 'Grand Total') ?> <?= Yii::$app->formatter->asCurrency($model->grand_total) ?>
-        </strong>
+    <div class="panel-footer text-right">
+        <h3>
+            <small>
+                <?= Yii::t('app', 'Grand Total') ?>
+            </small>
+            <?= Yii::$app->formatter->asCurrency($model->grand_total) ?>
+        </h3>
+    </div>
+    <div class="panel-footer text-right">
+        <?php
+        $form = ActiveForm::begin(['action' => '/transaction/success']);
+        echo Html::activeHiddenInput($model, 'user_id');
+        echo Html::activeHiddenInput($model, 'shipping_id');
+        echo Html::activeHiddenInput($model, 'note');
+        echo Html::activeHiddenInput($model, 'sub_total');
+        echo Html::activeHiddenInput($model, 'grand_total');
+        echo Html::activeHiddenInput($model, 'payment_method');
+        echo Html::activeHiddenInput($model, 'voucher_code');
+        echo Html::activeHiddenInput($model, 'shipping_cost');
+        echo Html::activeHiddenInput($model, 'shipping_method_id');
+        echo Html::submitButton('Checkout', ['class' => 'btn btn-warning']);
+        $form->end();
+        ?>
     </div>
 </div>

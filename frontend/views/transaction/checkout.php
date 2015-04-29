@@ -92,7 +92,7 @@ echo Collapse::widget([
                 $form->field($model, 'note')->textarea(['rows' => 3]) .
                 HtmlPurifier::process($notes->description) .
                 $form->field($model, 'disclaimer')->checkbox(['label' => Yii::t('app', 'I agree to the our') . ' ' . Html::a(Yii::t('app', 'Terms And Condition'), '/site/terms')]) .
-                Html::submitButton(Yii::t('app', 'Process Checkout'), ['class' => 'btn btn-primary']),
+                Html::submitButton(Yii::t('app', 'Calculate'), ['class' => 'btn btn-primary']),
             'contentOptions' => [
                 'id' => 'cart-form',
                 'class' => 'in'

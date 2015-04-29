@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Html;
 
 /**
  * Created by PhpStorm.
@@ -19,17 +20,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="Success-page">
     <h1><?=$this->title?></h1>
-    <p>
-        <?= HtmlPurifier::process($note->description) ?>
-    </p>
-
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title"><?=Yii::t('app', 'Transaction Detail')?></h3>
-        </div>
-        <?= $this->render('cartAjax', [
-            'dataProvider' => $cartDataProvider,
-            'grandTotal' => $grandTotal
-        ]) ?>
-    </div>
-</div>
+    <?= HtmlPurifier::process($note->description) ?>
+    <?= Html::a('Start Shopping',['/product'],['class' => 'btn btn-success'])?>
+ </div>
