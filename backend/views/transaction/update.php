@@ -11,6 +11,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model common\models\Transaction */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $voucher \common\models\Voucher */
+/* @var $shippingMethod array */
 
 $this->title = 'Update Transaction: ' . ' ' . $model->user->username;
 $this->params['breadcrumbs'][] = ['label' => 'Transactions', 'url' => ['index']];
@@ -76,6 +78,18 @@ $arrayStatus = Transaction::getStatusAsArray();
                     </div>
                     \n{error}"
             ])->input('number') ?>
+            <?php
+            $voucherValue = Yii::$app->formatter->asCurrency($voucher ? $voucher->value : 0);
+            echo $form->field($model, 'voucher_code', [
+                'template' => "
+                    {label}
+                    <div class='input-group'>
+                        <span class='input-group-addon'>$voucherValue</span>
+                        {input}
+                    </div>
+                    \n{error}"
+            ])->textInput() ?>
+            <?=$form->field($model, 'shipping_method_id')->dropDownList($shippingMethod)?>
         </div>
         <div class="panel-footer text-right">
             <?= Html::submitButton('Update', ['class' => 'btn btn-primary']) ?>

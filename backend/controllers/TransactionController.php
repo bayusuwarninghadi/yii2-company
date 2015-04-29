@@ -2,9 +2,12 @@
 
 namespace backend\controllers;
 
+use common\models\ShippingMethod;
+use common\models\ShippingMethodCost;
 use Yii;
 use common\models\Transaction;
 use common\models\TransactionSearch;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,11 +55,27 @@ class TransactionController extends Controller
     {
         $model = $this->findModel($id);
 
+        if ($voucher = $model->getVoucher()){
+            $model->grand_total -= $voucher->value;
+        }
+
         if ($model->load(Yii::$app->request->post())) {
+
+            /**
+             * Calculate Shipping
+             * @var $shippingCostModel ShippingMethodCost
+             */
+            if ($shippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])){
+                $model->shipping_cost = $shippingCostModel->value;
+                $model->grand_total += $shippingCostModel->value;
+            }
+
             $model->save();
         }
         return $this->render('update', [
             'model' => $model,
+            'voucher' => $voucher,
+            'shippingMethod' => ArrayHelper::map(ShippingMethod::find()->all(),'id','name')
         ]);
     }
 

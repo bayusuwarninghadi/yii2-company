@@ -62,12 +62,11 @@ class TransactionController extends BaseController
          * @var $cartDataProvider ActiveDataProvider
          */
         $cartDataProvider = $cartModel['dataProvider'];
-        $subTotal = $cartModel['subTotal'];
-        $model->sub_total = $subTotal;
-
         if (!$cartDataProvider->getModels()) {
             throw new BadRequestHttpException("You don't have any product in your cart.");
         }
+        $subTotal = $cartModel['subTotal'];
+        $model->sub_total = $subTotal;
 
         if ($model->load(Yii::$app->request->post())) {
 
@@ -77,48 +76,24 @@ class TransactionController extends BaseController
             }
 
             $model->grand_total = $subTotal;
-
             if ($voucher = $model->getVoucher()){
                 $model->grand_total -= $voucher->value;
             }
 
             /**
              * Calculate Shipping
-             * @var $ShippingCostModel ShippingMethodCost
+             * @var $shippingCostModel ShippingMethodCost
              */
-            if ($ShippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])){
-                $model->shipping_cost = $ShippingCostModel->value;
-                $model->grand_total += $ShippingCostModel->value;
+            if ($shippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])){
+                $model->shipping_cost = $shippingCostModel->value;
+                $model->grand_total += $shippingCostModel->value;
             }
+
             return $this->render('summary', [
                 'model' => $model,
                 'cartDataProvider' => $cartDataProvider,
                 'subTotal' => $subTotal,
             ]);
-
-//            if ($model->save()){
-//                /**
-//                 * Save Transaction Attributes
-//                 * @var $product Cart
-//                 */
-//                foreach ($cartDataProvider->getModels() as $product) {
-//                    $product->transaction_id = $model->id;
-//                    $product->save();
-//                }
-//                Yii::$app->session->setFlash('success', 'Check your email for next instruction');
-//
-//                Yii::$app->mailer
-//                    ->compose('checkout', [
-//                        'user' => Yii::$app->user->identity,
-//                        'transaction' => $model,
-//                        'cartDataProvider' => $cartDataProvider,
-//                    ])
-//                    ->setFrom([$th is->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
-//                    ->setTo(Yii::$app->user->identity->email)
-//                    ->setSubject('Checkout Success #' . $model->id)
-//                    ->send();
-//
-//            }
 
         }
 

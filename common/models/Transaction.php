@@ -162,7 +162,7 @@ class Transaction extends ActiveRecord
     public function getVoucher()
     {
         if (!$this->voucher && $this->voucher_code) {
-            $this->voucher = Voucher::find()->where(['id' => $this->voucher_code, 'status' => Voucher::STATUS_AVAILABLE])->one();
+            $this->voucher = Voucher::find()->where(['id' => $this->voucher_code])->one();
         }
 
         return $this->voucher;
