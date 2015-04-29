@@ -14,6 +14,7 @@ use yii\db\ActiveRecord;
  *
  * @property City $city
  * @property ShippingMethodCost[] $shippingMethodCosts
+ * @property Shipping[] $shippings
  */
 class CityArea extends ActiveRecord
 {
@@ -45,7 +46,7 @@ class CityArea extends ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'city_id' => Yii::t('app', 'City ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'City Area Name'),
         ];
     }
 
@@ -64,4 +65,14 @@ class CityArea extends ActiveRecord
     {
         return $this->hasMany(ShippingMethodCost::className(), ['city_area_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippings()
+    {
+        return $this->hasMany(Shipping::className(), ['city_area_id' => 'id']);
+    }
+
+
 }

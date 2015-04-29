@@ -11,6 +11,10 @@ use yii\helpers\Html;
  */
 
 $this->title = Yii::t('app', 'Create Shipping');
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app','Profile'),
+    'url' => ['user/index']
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?=Html::decode($this->title)?></h1>

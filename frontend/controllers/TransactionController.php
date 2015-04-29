@@ -102,7 +102,7 @@ class TransactionController extends BaseController
 //                        'transaction' => $model,
 //                        'cartDataProvider' => $cartDataProvider,
 //                    ])
-//                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+//                    ->setFrom([$th is->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
 //                    ->setTo(Yii::$app->user->identity->email)
 //                    ->setSubject('Checkout Success #' . $model->id)
 //                    ->send();

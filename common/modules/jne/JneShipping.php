@@ -20,7 +20,8 @@ use yii\base\Component;
  * Class JneShipping
  * @package common\modules\jne
  */
-class JneShipping extends Component{
+class JneShipping extends Component
+{
 
     /**
      * @var array
@@ -37,8 +38,8 @@ class JneShipping extends Component{
      * read JNE.xls
      * @return bool|\PHPExcel_Worksheet
      */
-    public function read(){
-        echo "Reading File...\n";
+    public function read()
+    {
         $excelReader = \PHPExcel_IOFactory::load(__DIR__ . '/./JNE.xls');
         $this->worksheet = $excelReader->getActiveSheet();
         return $this->worksheet;
@@ -48,12 +49,12 @@ class JneShipping extends Component{
      * Create array for jne cost
      * @return bool|array
      */
-    public function createObject(){
-        if ($this->worksheet == false){
+    public function createObject()
+    {
+        if ($this->worksheet == false) {
             return false;
         }
-        $highestRow = $this->worksheet->getHighestRow();
-        for ($row = 3; $row <= $highestRow; ++$row) {
+        for ($row = 3; $row <= $this->worksheet->getHighestRow(); ++$row) {
             $_row = [
                 'province' => $this->worksheet->getCellByColumnAndRow(0, $row)->getValue(),
                 'city' => $this->worksheet->getCellByColumnAndRow(1, $row)->getValue(),
@@ -92,18 +93,28 @@ class JneShipping extends Component{
      * Generate Row
      * @return integer
      */
-    public function generate(){
+    public function generate()
+    {
         $count = 0;
         foreach ($this->jneCost as $province => $_city) {
+            /*
+             * Create Province
+             */
             $modelProvince = new Province();
             $modelProvince->name = $province;
             $modelProvince->save();
             foreach ($_city as $city => $_city_area) {
+                /*
+                 * Create City
+                 */
                 $modelCity = new City();
                 $modelCity->name = $city;
                 $modelCity->province_id = $modelProvince->id;
                 $modelCity->save();
                 foreach ($_city_area as $city_area => $_shippingMethod) {
+                    /*
+                     * Create City Area
+                     */
                     $modelCityArea = new CityArea();
                     $modelCityArea->name = $city_area;
                     $modelCityArea->city_id = $modelCity->id;
@@ -111,19 +122,29 @@ class JneShipping extends Component{
                     foreach ($_shippingMethod as $shippingMethod => $shippingMethodCost) {
                         $modelShippingMethod = ShippingMethod::findOne(['name' => $shippingMethod]);
                         if (!$modelShippingMethod) {
+                            /*
+                             * Create Shipping Method
+                             */
                             $modelShippingMethod = new ShippingMethod();
                             $modelShippingMethod->name = $shippingMethod;
                             $modelShippingMethod->description = $shippingMethod;
                             $modelShippingMethod->save();
                         }
 
+                        /*
+                         * Create Shipping Method Cost
+                         */
                         $modelShippingMethodCost = new ShippingMethodCost();
                         $modelShippingMethodCost->shipping_method_id = $modelShippingMethod->id;
                         $modelShippingMethodCost->city_area_id = $modelCityArea->id;
                         $modelShippingMethodCost->value = $shippingMethodCost['cost'];
                         $modelShippingMethodCost->estimate_time = $shippingMethodCost['estimate'];
-                        $modelShippingMethodCost->save();
-                        $count ++;
+                        if ($modelShippingMethodCost->save()) {
+                            $count++;
+                        } else {
+                            print_r($modelShippingMethodCost->errors);
+                            return false;
+                        }
                     }
                 }
             }

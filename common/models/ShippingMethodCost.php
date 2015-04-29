@@ -19,6 +19,19 @@ use yii\db\ActiveRecord;
  */
 class ShippingMethodCost extends ActiveRecord
 {
+
+    /**
+     * Temp city_id
+     * @var integer
+     */
+    public $city_id = 1;
+
+    /**
+     * Temp province_id
+     * @var integer
+     */
+    public $province_id = 1;
+
     /**
      * @inheritdoc
      */
@@ -33,6 +46,7 @@ class ShippingMethodCost extends ActiveRecord
     public function rules()
     {
         return [
+            [['shipping_method_id', 'value', 'city_area_id', 'estimate_time'], 'required'],
             [['shipping_method_id', 'value', 'city_area_id'], 'integer'],
             [['estimate_time'], 'string', 'max' => 255]
         ];

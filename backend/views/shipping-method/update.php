@@ -9,7 +9,7 @@ $this->title = Yii::t('app', 'Update {modelClass}: ', [
     'modelClass' => 'Shipping Method Cost',
 ]) . ' ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shipping Method Costs'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->shippingMethod->name . ' - ' . $model->cityArea->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app', 'Update');
 ?>
 <div class="shipping-method-cost-update">

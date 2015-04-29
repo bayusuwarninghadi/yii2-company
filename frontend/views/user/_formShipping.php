@@ -1,6 +1,10 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\helpers\ArrayHelper;
+use common\models\Province;
+use common\models\City;
+use common\models\CityArea;
 
 /**
  * Created by PhpStorm.
@@ -15,15 +19,16 @@ use yii\widgets\ActiveForm;
 ?>
 <div class="article-form">
     <?php $form = ActiveForm::begin(); ?>
-    <div class="panel">
+    <div class="panel panel-success">
         <div class="panel-heading">
             <i class="fa fa-pencil fa-fw"></i>
             <?= $model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update') ?>
         </div>
         <div class="panel-body">
             <?= $form->field($model, 'address')->textarea(['row' => 3]) ?>
-            <?= $form->field($model, 'city')->textInput(['maxlength' => 50]) ?>
-            <?= $form->field($model, 'postal_code')->textInput(['maxlength' => 5]) ?>
+            <?= $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(),'id','name')) ?>
+            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::findAll(['province_id' => $model->province_id]),'id','name')) ?>
+            <?= $form->field($model, 'city_area_id')->dropDownList(ArrayHelper::map(CityArea::findAll(['city_id' => $model->city_id]),'id','name')) ?>
         </div>
         <div class="panel-footer">
             <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

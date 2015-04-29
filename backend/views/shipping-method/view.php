@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\ShippingMethodCost */
 
-$this->title = $model->id;
+$this->title = $model->shippingMethod->name . ' - ' . $model->cityArea->name;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Shipping Method Costs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -25,15 +25,19 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
 
-    <?= DetailView::widget([
-        'model' => $model,
-        'attributes' => [
-            'id',
-            'shipping_method_id',
-            'value',
-            'estimate_time',
-            'city_area_id',
-        ],
-    ]) ?>
+    <div class="panel panel-green">
+        <div class="panel-heading"><i class="fa fa-list fa-fw"></i> Detail</div>
+        <?= DetailView::widget([
+            'model' => $model,
+            'attributes' => [
+                'shippingMethod.name',
+                'value:currency',
+                'estimate_time',
+                'cityArea.city.province.name',
+                'cityArea.city.name',
+                'cityArea.name',
+            ],
+        ]) ?>
+    </div>
 
 </div>

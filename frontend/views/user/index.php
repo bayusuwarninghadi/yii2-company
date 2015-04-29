@@ -55,7 +55,10 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                             ]) ?>
                         </div>
-                        <div class="list-group-item-heading"><?= $shipping->city ?></div>
+                        <h4 class="list-group-item-heading">
+                            <?= $shipping->cityArea->city->name?>
+                            <small><?= $shipping->cityArea->name ?></small>
+                        </h4>
                         <?= Html::decode($shipping->address) ?> <?= $shipping->postal_code ?>
                     </div>
                 <?php endforeach ?>

@@ -34,6 +34,13 @@ class JneController extends Controller
     public function actionIndex()
     {
         $jne = new JneShipping();
-        $jne->generate();
+        echo "Reading File...\n";
+        $jne->read();
+        echo "Creating JNE Array...\n";
+        $jne->createObject();
+        echo "Start Adding Data...\n";
+        if ($count = $jne->generate()){
+            echo "$count row(s) affected...\n";
+        }
     }
 }

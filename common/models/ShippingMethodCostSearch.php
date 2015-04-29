@@ -85,8 +85,8 @@ class ShippingMethodCostSearch extends ShippingMethodCost
         $query
             ->andFilterWhere(['like', 'estimate_time', $this->estimate_time])
             ->andFilterWhere(['like', 'city_area.name', $this->city_area_name])
-            ->andFilterWhere(['like', 'city_area.city.name', $this->city_name])
-            ->andFilterWhere(['like', 'city_area.city.province.name', $this->province_name]);
+            ->andFilterWhere(['like', 'city.name', $this->city_name])
+            ->andFilterWhere(['like', 'province.name', $this->province_name]);
 
         return $dataProvider;
     }

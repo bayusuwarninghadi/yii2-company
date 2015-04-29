@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'value:currency',
             'estimate_time',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'backend\widget\ActionColumn'],
         ],
     ]);
     Pjax::end();

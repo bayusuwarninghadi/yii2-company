@@ -255,6 +255,8 @@ class UserController extends BaseController
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect('index');
         }
+        $model->province_id = $model->cityArea->city->province_id;
+        $model->city_id = $model->cityArea->city_id;
         return $this->render('updateShipping', [
             'model' => $model,
         ]);

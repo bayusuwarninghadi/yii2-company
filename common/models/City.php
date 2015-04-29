@@ -45,7 +45,7 @@ class City extends ActiveRecord
         return [
             'id' => Yii::t('app', 'ID'),
             'province_id' => Yii::t('app', 'Province ID'),
-            'name' => Yii::t('app', 'Name'),
+            'name' => Yii::t('app', 'City Name'),
         ];
     }
 

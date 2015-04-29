@@ -11,7 +11,11 @@ use yii\helpers\Html;
  * @var $this \yii\web\View
  */
 
-$this->title = Yii::t('app', 'Update') . ' ' . $model->city;
+$this->title = Yii::t('app', 'Update') . ' ' . $model->cityArea->name;
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app','Profile'),
+    'url' => ['user/index']
+];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= Html::decode($this->title) ?></h1>

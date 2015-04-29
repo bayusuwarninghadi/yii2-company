@@ -16,6 +16,11 @@
     left: 0;
     bottom: 20px;
 }
+.product-container.list .user-action {
+    position: absolute;
+    bottom: 15px;
+    left: 130px;
+}
 
 .product-container.list .product-list .image {
     float: left;
