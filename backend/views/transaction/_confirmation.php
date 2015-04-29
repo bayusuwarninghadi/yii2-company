@@ -13,6 +13,7 @@ use yii\helpers\Html;
 
 echo GridView::widget([
     'panelHeading' => '<i class="fa fa-check-circle"></i> Confirmation',
+    'panelType' => 'panel-red',
     'dataProvider' => $dataProvider,
     'columns' => [
         [

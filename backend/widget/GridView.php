@@ -31,6 +31,11 @@ class GridView extends BaseGridView{
     /**
      * @var string
      */
+    public $panelType = 'panel-primary';
+
+    /**
+     * @var string
+     */
     public $panelAfter = '';
 
     /**
@@ -49,7 +54,7 @@ class GridView extends BaseGridView{
      * - `{pager}`: the pager. See [[renderPager()]].
      */
     public $layout = "
-        <div class='panel panel-primary'>
+        <div class='panel {panelType}'>
             <div class='panel-heading'>
                 {panelHeading}
                 <div class='pull-right'>{summary}</div>
@@ -99,6 +104,7 @@ class GridView extends BaseGridView{
         $this->layout = strtr(
             $this->layout,
             [
+                '{panelType}' => $this->panelType,
                 '{panelHeading}' => $this->panelHeading,
                 '{panelBefore}' => $this->panelBefore,
                 '{panelAfter}' => $this->panelAfter,
