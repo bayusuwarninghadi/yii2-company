@@ -14,6 +14,7 @@ class TransactionSearch extends Transaction
 
     public $user_name;
     public $shipping_city;
+    public $shipping_city_area;
 
     /**
      * @inheritdoc
@@ -22,7 +23,7 @@ class TransactionSearch extends Transaction
     {
         return [
             [['id', 'user_id', 'shipping_id', 'status', 'sub_total', 'grand_total'], 'integer'],
-            [['note','user_name', 'shipping_city'], 'safe'],
+            [['note', 'user_name', 'shipping_city', 'shipping_city_area'], 'safe'],
         ];
     }
 
@@ -44,7 +45,7 @@ class TransactionSearch extends Transaction
      */
     public function search($params)
     {
-        $query = Transaction::find()->joinWith(['user','shipping']);
+        $query = Transaction::find()->joinWith(['user', 'shipping', 'shipping.cityArea', 'shipping.cityArea.city']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -64,10 +65,15 @@ class TransactionSearch extends Transaction
             'desc' => ['user.name' => SORT_DESC],
         ];
 
-        // shipping
+        // shipping city
         $dataProvider->sort->attributes['shipping_city'] = [
-            'asc' => ['shipping.city' => SORT_ASC],
-            'desc' => ['shipping.city' => SORT_DESC],
+            'asc' => ['city.name' => SORT_ASC],
+            'desc' => ['city.name' => SORT_DESC],
+        ];
+        // shipping city area
+        $dataProvider->sort->attributes['shipping_city_area'] = [
+            'asc' => ['city_area.name' => SORT_ASC],
+            'desc' => ['city_area.name' => SORT_DESC],
         ];
 
         $query->andFilterWhere([
@@ -81,7 +87,8 @@ class TransactionSearch extends Transaction
         $query->andFilterWhere(['like', 'user.name', $this->user_name]);
         $query->andFilterWhere(['like', 'grand_total', $this->grand_total]);
         $query->andFilterWhere(['like', 'sub_total', $this->sub_total]);
-        $query->andFilterWhere(['like', 'shipping.city', $this->shipping_city]);
+        $query->andFilterWhere(['like', 'city.name', $this->shipping_city]);
+        $query->andFilterWhere(['like', 'city_area.name', $this->shipping_city_area]);
 
         return $dataProvider;
     }

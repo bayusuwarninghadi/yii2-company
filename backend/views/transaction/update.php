@@ -55,7 +55,7 @@ $arrayStatus = Transaction::getStatusAsArray();
             <h3 class="page-header"><?= $model->user->username ?>
                 <small><?= Yii::$app->formatter->asEmail($model->user->email) ?> </small>
             </h3>
-            <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'city'))->hint('depends on user shipping address') ?>
+            <?= $form->field($model, 'shipping_id')->dropDownList(ArrayHelper::map(Shipping::findAll(['user_id' => $model->user_id]), 'id', 'address'))->hint('depends on user shipping address') ?>
             <?= $form->field($model, 'note')->textarea(['row' => 3]) ?>
             <?= $form->field($model, 'sub_total', [
                 'template' => "

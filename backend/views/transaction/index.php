@@ -92,9 +92,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'user.username'
             ],
             [
-                'label' => 'Shipping',
                 'attribute' => 'shipping_city',
-                'value' => 'shipping.city'
+                'value' => 'shipping.cityArea.city.name'
+            ],
+            [
+                'attribute' => 'shipping_city_area',
+                'value' => 'shipping.cityArea.name'
             ],
             [
                 'attribute' => 'status',
