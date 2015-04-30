@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\City;
+use common\models\CityArea;
 use common\models\Confirmation;
 use common\models\Product;
 use common\models\Shipping;
@@ -11,10 +13,12 @@ use common\models\User;
 use common\models\UserAttribute;
 use common\modules\UploadHelper;
 use Yii;
+use yii\base\NotSupportedException;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
@@ -348,6 +352,19 @@ class UserController extends BaseController
             'transactionIds' => $transactionIds,
         ]);
 
+    }
+
+    public function actionDynamicDropdown($model, $parent)
+    {
+        switch ($model) {
+            case 'city':
+                return Html::dropDownList('city', null, ArrayHelper::map(City::findAll(['province_id' => $parent]), 'id', 'name'));
+                break;
+            case 'city_area':
+                return Html::dropDownList('city', null, ArrayHelper::map(CityArea::findAll(['city_id' => $parent]), 'id', 'name'));
+                break;
+        }
+        throw new NotSupportedException("Doesn't support for Model $model");
     }
 
 }

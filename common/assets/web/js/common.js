@@ -1,7 +1,1 @@
-/**
- * Created by bay_oz on 9/4/14.
- */
-
-$(document).ready(function () {
-
-});
+$(document).on("change","select[data-dynamic='true']",function(ev){var this_=$(ev.currentTarget);var child_=$("#"+this_.data("child"));var url_=this_.data("url");console.log(url_);var parent_=this_.val();if(child_.length>0&&url_!=""&&parent_!=""){$.ajax({url:url_,data:{parent:parent_},success:function(data){if(data){var dropdown_=$(data);child_.html(dropdown_.html());}}});}});

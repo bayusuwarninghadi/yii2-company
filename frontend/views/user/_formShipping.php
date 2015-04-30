@@ -5,6 +5,7 @@ use yii\helpers\ArrayHelper;
 use common\models\Province;
 use common\models\City;
 use common\models\CityArea;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -26,8 +27,24 @@ use common\models\CityArea;
         </div>
         <div class="panel-body">
             <?= $form->field($model, 'address')->textarea(['row' => 3]) ?>
-            <?= $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(),'id','name')) ?>
-            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::findAll(['province_id' => $model->province_id]),'id','name')) ?>
+            <?= $form->field($model, 'province_id')->dropDownList(
+                ArrayHelper::map(Province::find()->all(),'id','name'),
+                [
+                    'data' => [
+                        'dynamic' => 'true',
+                        'child' => Html::getInputId($model,'city_id'),
+                        'url' => Url::to(['/user/dynamic-dropdown','model' => 'city'])
+                    ]
+                ]) ?>
+            <?= $form->field($model, 'city_id')->dropDownList(
+                ArrayHelper::map(City::findAll(['province_id' => $model->province_id]),'id','name'),
+                [
+                    'data' => [
+                        'dynamic' => 'true',
+                        'child' => Html::getInputId($model,'city_area_id'),
+                        'url' => Url::to(['/user/dynamic-dropdown','model' => 'city_area'])
+                    ]
+                ]) ?>
             <?= $form->field($model, 'city_area_id')->dropDownList(ArrayHelper::map(CityArea::findAll(['city_id' => $model->city_id]),'id','name')) ?>
         </div>
         <div class="panel-footer">
