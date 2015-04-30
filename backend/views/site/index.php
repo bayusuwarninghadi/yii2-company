@@ -13,7 +13,6 @@ use yii\grid\GridView;
 $this->title = 'Dashboard';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1 class="page-header">Overview</h1>
 <div class="row">
     <?php foreach($siteStats as $pil) :?>
         <div class="col-sm-6 col-lg-3">
@@ -31,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <a href="<?=$pil['url']?>">
                     <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
+                        <span class="pull-left"><?=Yii::t('app','View Details')?></span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>

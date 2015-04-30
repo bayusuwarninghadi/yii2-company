@@ -28,29 +28,28 @@ echo Nav::widget([
             'url' => ['/setting/index'],
             'items' => [
                 [
-                    'label' => '<i class="fa fa-gear fa-fw"></i> Setting',
+                    'label' => '<i class="fa fa-gear fa-fw"></i> '.Yii::t('app','Setting'),
                     'url' => ['/setting/index']
                 ],
                 '<li class="divider"></li>',
                 [
-                    'label' => '<i class="fa fa-file-picture-o fa-fw"></i> Theme',
+                    'label' => '<i class="fa fa-file-picture-o fa-fw"></i> '.Yii::t('app','Site Theme'),
                     'url' => ['/setting/theme']
                 ],
                 '<li class="divider"></li>',
                 [
-                    'label' => '<i class="fa fa-ship fa-fw"></i> Shipping Method',
+                    'label' => '<i class="fa fa-ship fa-fw"></i> '.Yii::t('app','Shipping Method'),
                     'url' => ['/shipping-method/index']
                 ],
             ]
         ],
-        ['label' => '<i class="fa fa-comment fa-fw"></i>', 'url' => ['/inbox/index']],
         [
             'label' => '<i class="fa fa-user fa-fw"></i>',
             'items' => [
-                ['label' => '<i class="fa fa-user fa-fw"></i> Profile', 'url' => ['/user/view', 'id' => Yii::$app->user->getId()]],
+                ['label' => '<i class="fa fa-user fa-fw"></i> '.Yii::t('app','Profile'), 'url' => ['/user/view', 'id' => Yii::$app->user->getId()]],
                 '<li class="divider"></li>',
                 [
-                    'label' => '<i class="fa fa-sign-out fa-fw"></i>  Logout',
+                    'label' => '<i class="fa fa-sign-out fa-fw"></i> '.Yii::t('app','Logout'),
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ]
