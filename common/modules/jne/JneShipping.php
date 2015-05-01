@@ -90,39 +90,119 @@ class JneShipping extends Component
     }
 
     /**
-     * Generate Row
+     * deleteAllShipping
+     * @return int
+     */
+    public function deleteAllShipping(){
+        return ShippingMethodCost::deleteAll();
+    }
+
+    /**
+     * deleteLocalization
+     * @return bool
+     */
+    public function deleteLocalization(){
+        CityArea::deleteAll();
+        City::deleteAll();
+        Province::deleteAll();
+        return true;
+    }
+
+    /**
+     * Generate Localization: Province, City, CityArea
+     * @return array|mixed
+     */
+    public function generateLocalization()
+    {
+        $return = [
+            'data' => [],
+            'count' => [
+                'province' => 0,
+                'city' => 0,
+                'cityArea' => 0,
+            ],
+        ];
+        foreach ($this->jneCost as $province => $_city) {
+            /**
+             * Check Province
+             * if Model not exist then Create
+             */
+            $modelProvince = Province::findOne(['name' => $province]);
+            if (!$modelProvince) {
+                $modelProvince = new Province();
+                $modelProvince->name = $province;
+                $return['data'][$province]['result'] = $modelProvince->save() ? true : $modelProvince->errors;
+                $return['count']['province'] ++;
+            }
+            foreach ($_city as $city => $_cityArea) {
+                /**
+                 * Check City
+                 * if Model not exist then Create
+                 */
+                $modelCity = City::findOne(['name' => $province, 'province_id' => $modelProvince->id]);
+                if (!$modelCity) {
+                    $modelCity = new City();
+                    $modelCity->name = $city;
+                    $modelCity->province_id = $modelProvince->id;
+                    $return['data'][$province]['city'][$city]['result'] = $modelCity->save() ? true : $modelCity->errors;
+                    $return['count']['city'] ++;
+                }
+                foreach ($_cityArea as $cityArea => $_shippingMethod) {
+                    /**
+                     * Check City Area
+                     * if Model not exist then Create
+                     */
+                    $modelCityArea = CityArea::findOne(['name' => $cityArea, 'city_id' => $modelCity->id]);
+                    if (!$modelCityArea) {
+                        $modelCityArea = new CityArea();
+                        $modelCityArea->name = $cityArea;
+                        $modelCityArea->city_id = $modelCity->id;
+                        $return['data'][$province]['city'][$city]['cityArea'][$cityArea]['result'] = $modelCityArea->save() ? true : $modelCityArea->errors;
+                        $return['count']['cityArea'] ++;
+                    }
+                }
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * Generate Shipping Method Row
      * @return integer
      */
-    public function generate()
+    public function generateShippingMethod()
     {
         $count = 0;
+        $notFound = [];
         foreach ($this->jneCost as $province => $_city) {
-            /*
-             * Create Province
-             */
-            $modelProvince = new Province();
-            $modelProvince->name = $province;
-            $modelProvince->save();
-            foreach ($_city as $city => $_city_area) {
-                /*
-                 * Create City
-                 */
-                $modelCity = new City();
-                $modelCity->name = $city;
-                $modelCity->province_id = $modelProvince->id;
-                $modelCity->save();
-                foreach ($_city_area as $city_area => $_shippingMethod) {
-                    /*
-                     * Create City Area
-                     */
-                    $modelCityArea = new CityArea();
-                    $modelCityArea->name = $city_area;
-                    $modelCityArea->city_id = $modelCity->id;
-                    $modelCityArea->save();
+            /** @var $modelProvince Province */
+            $modelProvince = Province::findOne(['name' => $province]);
+            /* Continue if not exist */
+            if (!$modelProvince) {
+                $notFound[] = $province;
+                continue;
+            }
+            foreach ($_city as $city => $_cityArea) {
+                /** @var $modelCity City */
+                $modelCity = City::findOne(['name' => $city, 'province_id' => $modelProvince->id]);
+                /* Continue if not exist */
+                if (!$modelCity) {
+                    $notFound[] = $city;
+                    continue;
+                }
+                foreach ($_cityArea as $cityArea => $_shippingMethod) {
+                    /** @var $modelCityArea CityArea */
+                    $modelCityArea = CityArea::findOne(['name' => $cityArea, 'city_id' => $modelCity->id]);
+                    /* Continue if not exist */
+                    if (!$modelCityArea) {
+                        $notFound[] = $cityArea;
+                        continue;
+                    }
+
                     foreach ($_shippingMethod as $shippingMethod => $shippingMethodCost) {
                         $modelShippingMethod = ShippingMethod::findOne(['name' => $shippingMethod]);
                         if (!$modelShippingMethod) {
-                            /*
+                            /**
                              * Create Shipping Method
                              */
                             $modelShippingMethod = new ShippingMethod();
@@ -131,7 +211,7 @@ class JneShipping extends Component
                             $modelShippingMethod->save();
                         }
 
-                        /*
+                        /**
                          * Create Shipping Method Cost
                          */
                         $modelShippingMethodCost = new ShippingMethodCost();

@@ -86,26 +86,30 @@ class SiteController extends Controller
             'totalUser' => [
                 'panelType' => 'panel-yellow',
                 'count' => User::find()->count(),
-                'label' => Yii::t('app','Total Users'),
-                'url' => Url::to('/user/index')
+                'label' => Yii::t('app', 'Total Users'),
+                'url' => Url::to('/user/index'),
+                'icon' => 'fa-users'
             ],
             'totalComment' => [
                 'panelType' => 'panel-green',
                 'count' => UserComment::find()->count(),
-                'label' => Yii::t('app','Total Comments'),
-                'url' => Url::to('/user-comment/index')
+                'label' => Yii::t('app', 'Total Comments'),
+                'url' => Url::to('/user-comment/index'),
+                'icon' => 'fa-comments'
             ],
             'totalTransaction' => [
                 'panelType' => 'panel-red',
                 'count' => Transaction::find()->count(),
-                'label' => Yii::t('app','Total Transaction'),
-                'url' => Url::to('/transaction/index')
+                'label' => Yii::t('app', 'Total Transaction'),
+                'url' => Url::to('/transaction/index'),
+                'icon' => 'fa-list'
             ],
             'totalProduct' => [
                 'panelType' => 'panel-primary',
                 'count' => Product::find()->count(),
-                'label' => Yii::t('app','Total Product'),
-                'url' => Url::to('/product/index')
+                'label' => Yii::t('app', 'Total Product'),
+                'url' => Url::to('/product/index'),
+                'icon' => 'fa-truck'
             ],
         ];
         return $this->render('index', [

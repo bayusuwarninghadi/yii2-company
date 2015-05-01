@@ -6,18 +6,46 @@
 
 namespace backend\widget\chart;
 
+use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\View;
-use Yii;
 
+/**
+ * Class Morris
+ * Morris::widget([
+ * 'type' => 'Bar',
+ *       'options' => [
+ *          'data' => $data,
+ *          'xkey' => 'period',
+ *          'ykeys' => ['total'],
+ *          'labels' => ['total'],
+ *          'pointSize' => 2,
+ *          'hideHover' => 'auto',
+ *          'resize' => true
+ *       ],
+ * ])
+ * @package backend\widget\chart
+ */
 class Morris extends Widget
 {
+    /**
+     * @var string
+     */
     public $type = 'Area';
+    /**
+     * @var array
+     */
     public $options = [];
+    /**
+     * @var array
+     */
     public $containerOptions = [];
+    /**
+     * @var bool
+     */
     public $callback = false;
 
     /**
@@ -43,7 +71,7 @@ class Morris extends Widget
         // merge options with default values
         $defaultOptions = ['element' => $this->id];
         $this->options = ArrayHelper::merge($defaultOptions, $this->options);
-        
+
         $this->registerAssets();
 
         parent::run();

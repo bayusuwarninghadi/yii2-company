@@ -1,9 +1,9 @@
 <?php
 
-use yii\helpers\Html;
 use backend\widget\GridView;
-use yii\helpers\ArrayHelper;
 use common\models\ShippingMethod;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -16,7 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="shipping-method-cost-index">
 
     <h1>
-        <?=Html::a('<i class="fa fa-plus fa-fw"></i> Shipping Cost', ['create'], ['class' => 'btn btn-default pull-right'])?>
+        <span class="pull-right btn-group">
+            <?= Html::a('<i class="fa fa-plus fa-fw"></i> ' . Yii::t('app', 'Shipping Cost'), ['create'], ['class' => 'btn btn-default']) ?>
+            <?= Html::a('<i class="fa fa-file-excel-o fa-fw"></i> ' . Yii::t('app', 'Download sample file'), ['download-sample'], ['class' => 'btn btn-primary']) ?>
+        </span>
         <?= Html::encode($this->title) ?>
     </h1>
 
@@ -43,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Method',
-                'filter' => ArrayHelper::map(ShippingMethod::find()->all(),'id','name'),
+                'filter' => ArrayHelper::map(ShippingMethod::find()->all(), 'id', 'name'),
                 'attribute' => 'shipping_method_id',
                 'value' => 'shippingMethod.name'
             ],

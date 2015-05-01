@@ -4,21 +4,24 @@ namespace backend\controllers;
 
 use common\models\City;
 use common\models\CityArea;
-use Yii;
 use common\models\ShippingMethodCost;
 use common\models\ShippingMethodCostSearch;
+use Yii;
 use yii\base\NotSupportedException;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ShippingMethodController implements the CRUD actions for ShippingMethodCost model.
  */
 class ShippingMethodController extends Controller
 {
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -29,6 +32,29 @@ class ShippingMethodController extends Controller
                 ],
             ],
         ];
+    }
+
+    /**
+     * Download sample excel file
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionDownloadSample()
+    {
+        $file = Yii::$app->getBasePath() . '/../common/modules/jne/sample.xls';
+        if (!file_exists($file)) {
+            throw new NotFoundHttpException("Sample file doesn't exist");
+        }
+
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . basename($file));
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+        readfile($file);
+        return $this->goBack();
     }
 
     /**
@@ -86,7 +112,7 @@ class ShippingMethodController extends Controller
     {
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->save()){
+            if ($model->save()) {
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {
