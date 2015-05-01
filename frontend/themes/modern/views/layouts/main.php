@@ -1,7 +1,7 @@
 <?php
+use frontend\themes\modern\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
-use frontend\themes\modern\assets\AppAsset;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -21,7 +21,7 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 <div class="wrap">
-    <?=$this->render('_navigation')?>
+    <?= $this->render('/layouts/_navigation') ?>
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
@@ -29,7 +29,7 @@ AppAsset::register($this);
         <?= $content ?>
     </div>
 </div>
-<?=$this->render('/layouts/_footer')?>
+<?= $this->render('/layouts/_footer') ?>
 <?php echo $this->render('/layouts/_flash', []) ?>
 <?php $this->endBody() ?>
 </body>

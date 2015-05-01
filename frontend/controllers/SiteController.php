@@ -75,7 +75,7 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        $this->layout='mainIndex';
+        $this->layout = 'mainIndex';
         $slider = [];
         /**
          * @var $_article Article
@@ -134,7 +134,7 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $model = new ContactForm();
-        if (!Yii::$app->user->isGuest){
+        if (!Yii::$app->user->isGuest) {
             $model->name = Yii::$app->user->identity->username;
             $model->email = Yii::$app->user->identity->email;
         }
@@ -168,6 +168,7 @@ class SiteController extends BaseController
             'model' => Article::findOne(['title' => 'about', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
+
     /**
      * @return string
      */
@@ -177,6 +178,7 @@ class SiteController extends BaseController
             'model' => Article::findOne(['title' => 'faq', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
+
     /**
      * @return string
      */
@@ -186,6 +188,7 @@ class SiteController extends BaseController
             'model' => Article::findOne(['title' => 'terms', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
+
     /**
      * @return string
      */
@@ -208,6 +211,23 @@ class SiteController extends BaseController
             $model->setPassword($model->password);
             $model->generateAuthKey();
             if ($model->save()) {
+
+                Yii::$app->mailer
+                    ->compose(
+                        [
+                            'html' => 'register-html',
+                            'text' => 'register-text'
+                        ],
+                        [
+                            'user' => $model,
+                        ]
+                    )
+                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+                    ->setTo($model->email)
+                    ->setSubject(Yii::t('app', 'Register Success'))
+                    ->send();
+
+
                 if (Yii::$app->getUser()->login($model)) {
                     return $this->goHome();
                 }

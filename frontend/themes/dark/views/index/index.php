@@ -16,7 +16,7 @@ use yii\helpers\HtmlPurifier;
  * @var $brands \common\models\Brand[]
  */
 
-$this->title = 'Welcome';
+$this->title = Yii::t('app', 'Welcome');
 
 ?>
 <?= Carousel::widget([
@@ -30,15 +30,16 @@ $this->title = 'Welcome';
     ]
 ]);
 ?>
-<div class="container main-container" data-spy="scroll" data-target="#indexScrollspy" style="padding-top: 0; padding-bottom: 0;">
-    <?=$this->render('/index/_newProduct',[
+<div class="container main-container" data-spy="scroll" data-target="#indexScrollspy"
+     style="padding-top: 0; padding-bottom: 0;">
+    <?= $this->render('/index/_newProduct', [
         'products' => $products
-    ])?>
+    ]) ?>
     <section id="about-page" class="bg-white row">
         <div class="col-sm-4 col-md-3 hidden-xs">
-            <?=$this->render('/index/_brand',[
+            <?= $this->render('/index/_brand', [
                 'brands' => $brands
-            ])?>
+            ]) ?>
         </div>
         <div class="col-sm-8 col-md-9">
             <?= HtmlPurifier::process($page->description) ?>

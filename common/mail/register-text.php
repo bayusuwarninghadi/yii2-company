@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $user common\models\User */
 
 ?>
-<h2>Hello <?= Html::encode($user->username) ?>,</h2>
+Hello <?= Html::encode($user->username) ?>,
 Thanks, you've already registered
-<br/>
+
 Name : <?= $user->username ?>
-<br/>
 Email : <?= $user->email ?>
+

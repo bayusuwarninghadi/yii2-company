@@ -56,7 +56,7 @@ if (Yii::$app->user->isGuest) {
         'label' => '<i class="fa fa-shopping-cart fa-fw"></i>',
         'linkOptions' => ['class' => 'hidden-xs show-cart'],
         'items' => [
-            '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('_loading') . '</li>',
+            '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('/layouts/_loading') . '</li>',
             [
                 'label' => Yii::t('app', 'See All') . ' <i class="fa fa-angle-right"></i>',
                 'linkOptions' => ['class' => 'text-center'],

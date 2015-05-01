@@ -1,6 +1,6 @@
 <?php
-use yii\helpers\Html;
 use frontend\assets\AppAsset;
+use yii\helpers\Html;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -18,14 +18,14 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-    <?php $this->beginBody() ?>
-    <div class="wrap">
-        <?=$this->render('/layouts/_navigation')?>
-        <?= $content ?>
-    </div>
-    <?=$this->render('/layouts/_footer')?>
-    <?=$this->render('/layouts/_flash', []) ?>
-    <?php $this->endBody() ?>
+<?php $this->beginBody() ?>
+<div class="wrap">
+    <?= $this->render('/layouts/_navigation') ?>
+    <?= $content ?>
+</div>
+<?= $this->render('/layouts/_footer') ?>
+<?= $this->render('/layouts/_flash', []) ?>
+<?php $this->endBody() ?>
 </body>
 </html>
 <?php $this->endPage() ?>

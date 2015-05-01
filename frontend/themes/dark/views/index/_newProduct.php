@@ -19,20 +19,19 @@ use yii\helpers\Html;
 
     foreach ($products as $_item) {
         $items[] =
-            Html::beginTag('div',['class' => 'col-md-3 col-xs-6']) .
-            $this->render('/product/_list', [ 'model' => $_item]) .
-            Html::endTag('div')
-        ;
+            Html::beginTag('div', ['class' => 'col-md-3 col-xs-6']) .
+            $this->render('/product/_list', ['model' => $_item]) .
+            Html::endTag('div');
     }
 
     // divided carousel/4
-    $items = array_chunk($items,4);
+    $items = array_chunk($items, 4);
 
     $carouselItems = [];
 
-    foreach($items as $row) {
-        $element = Html::beginTag('div',['class' => 'row']);
-        foreach ($row as $item){
+    foreach ($items as $row) {
+        $element = Html::beginTag('div', ['class' => 'row']);
+        foreach ($row as $item) {
             $element .= $item;
         }
         $element .= Html::endTag('div');
@@ -55,7 +54,7 @@ use yii\helpers\Html;
             <a class="right fa fa-chevron-right btn btn-primary" href="#new-product-slider" data-slide="next"></a>
         </div>
         <h2>
-            New Product
+            <?= Yii::t('app', 'New Product') ?>
             <small><?= Html::a('See All', ['/product/index']) ?></small>
         </h2>
         <div class="clearfix"></div>
