@@ -70,7 +70,9 @@ class TransactionController extends Controller
                 $model->grand_total += $shippingCostModel->value;
             }
 
-            $model->save();
+            if ($model->save()){
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+            }
         }
         return $this->render('update', [
             'model' => $model,
@@ -90,8 +92,8 @@ class TransactionController extends Controller
     {
         $model = $this->findModel($id);
         $model->status = $status;
-        if ($model->validate()){
-            $model->save();
+        if ($model->validate() && $model->save()){
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
         }
         return $this->redirect(['update', 'id' => $id]);
     }

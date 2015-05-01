@@ -87,6 +87,7 @@ class UserController extends Controller
                         ],
                     ]);
                 }
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -115,6 +116,7 @@ class UserController extends Controller
                 ]);
             }
             if ($model->save()){
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

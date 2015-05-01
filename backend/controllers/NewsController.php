@@ -76,6 +76,7 @@ class NewsController extends Controller
         $model = new Article();
         $model->type_id = Article::TYPE_NEWS;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['/news/view', 'id' => $model->id]);
         } else {
             return $this->render('/article/create', [
@@ -98,6 +99,7 @@ class NewsController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_NEWS;
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['/news/view', 'id' => $model->id]);                
             }
         }

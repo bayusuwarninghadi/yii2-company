@@ -77,6 +77,7 @@ class ArticleController extends Controller
         $model->type_id = Article::TYPE_ARTICLE;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['/article/view', 'id' => $model->id]);
         }
 
@@ -99,6 +100,7 @@ class ArticleController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_ARTICLE;
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['/article/view', 'id' => $model->id]);                
             }
         }

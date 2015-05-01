@@ -174,6 +174,12 @@ class JneShipping extends Component
     {
         $count = 0;
         $notFound = [];
+
+        if (!$this->jneCost){
+            $this->read();
+            $this->createObject();
+        }
+
         foreach ($this->jneCost as $province => $_city) {
             /** @var $modelProvince Province */
             $modelProvince = Province::findOne(['name' => $province]);

@@ -106,6 +106,7 @@ class ProductController extends Controller
                     }
                     $model->save();
                 }
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -148,7 +149,7 @@ class ProductController extends Controller
                 $attr = $model->getProductAttributeDetail();
                 $attr->value = Json::encode($attributes);
                 $attr->save();
-
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Upated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
 

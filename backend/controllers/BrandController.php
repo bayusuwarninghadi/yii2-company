@@ -98,6 +98,7 @@ class BrandController extends Controller
                     'format' => 'jpeg'
                 ],
             ]);
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
             return $this->redirect(['index']);
         }
         return $this->render('update', [

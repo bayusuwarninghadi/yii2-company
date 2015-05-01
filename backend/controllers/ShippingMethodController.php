@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\UploadShippingMethod;
 use common\models\City;
 use common\models\CityArea;
 use common\models\ShippingMethodCost;
@@ -36,6 +37,7 @@ class ShippingMethodController extends Controller
 
     /**
      * Download sample excel file
+     *
      * @return \yii\web\Response
      * @throws NotFoundHttpException
      */
@@ -55,6 +57,28 @@ class ShippingMethodController extends Controller
         header('Content-Length: ' . filesize($file));
         readfile($file);
         return $this->goBack();
+    }
+
+    /**
+     * Upload existing excel
+     * @return string|\yii\web\Response
+     */
+    public function actionUpload()
+    {
+        $model = New UploadShippingMethod();
+        if ($model->load(Yii::$app->request->post())) {
+            /*
+             * Increase ini set
+             */
+            ini_set('max_execution_time', 3000);
+            if ($model->import()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Upload Success'));
+                return $this->redirect('index');
+            }
+        }
+        return $this->render('upload', [
+            'model' => $model
+        ]);
     }
 
     /**
@@ -94,6 +118,7 @@ class ShippingMethodController extends Controller
         $model = new ShippingMethodCost();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -113,6 +138,7 @@ class ShippingMethodController extends Controller
         $model = $this->findModel($id);
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         } else {

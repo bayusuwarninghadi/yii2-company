@@ -24,6 +24,10 @@ class GridView extends BaseGridView{
     public $panelHeading = '<span class="glyphicon glyphicon-list"></span> Listing';
 
     /**
+     * @var array
+     */
+    public $tableOptions = ['class' => 'table table-striped table-hover table-bordered'];
+    /**
      * @var string
      */
     public $panelBefore = '';

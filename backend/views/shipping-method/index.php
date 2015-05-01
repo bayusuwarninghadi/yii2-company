@@ -16,12 +16,16 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="shipping-method-cost-index">
 
     <h1>
-        <span class="pull-right btn-group">
+        <span class="pull-right">
             <?= Html::a('<i class="fa fa-plus fa-fw"></i> ' . Yii::t('app', 'Shipping Cost'), ['create'], ['class' => 'btn btn-default']) ?>
-            <?= Html::a('<i class="fa fa-file-excel-o fa-fw"></i> ' . Yii::t('app', 'Download sample file'), ['download-sample'], ['class' => 'btn btn-primary']) ?>
         </span>
         <?= Html::encode($this->title) ?>
     </h1>
+
+    <div class="form-group btn-group">
+        <?= Html::a('<i class="fa fa-file-excel-o fa-fw"></i> ' . Yii::t('app', 'Download sample'), ['download-sample'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fa fa-upload fa-fw"></i> ' . Yii::t('app', 'Upload file'), ['upload'], ['class' => 'btn btn-warning']) ?>
+    </div>
 
     <?php
     Pjax::begin();

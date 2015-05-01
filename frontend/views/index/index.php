@@ -17,7 +17,6 @@ use yii\helpers\HtmlPurifier;
  */
 
 $this->title = Yii::t('app','Welcome');
-
 ?>
 <?= Carousel::widget([
     'items' => $slider,

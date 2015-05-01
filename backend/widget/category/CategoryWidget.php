@@ -63,7 +63,7 @@ class CategoryWidget extends InputWidget
 
         $input_id = Html::getInputId($this->model, $this->attribute);
         $view->registerJs("
-			jQuery('.category-tree-container a').click(function(){
+			jQuery('.category-tree-container li > a').click(function(){
 				jQuery('#$input_id').val($(this).data('id'));
 				return false;
 			});");
@@ -105,10 +105,10 @@ class CategoryWidget extends InputWidget
     protected function renderOption($category)
     {
         echo Html::beginTag('div', ['class' => 'btn-group btn-group-sm hide']);
-        echo Html::a('Add Child', ['create-category', 'prepend' => $category->id], ['class' => 'btn btn-primary']);
-        echo Html::a('Insert After', ['create-category', 'after' => $category->id], ['class' => 'btn btn-success']);
-        echo Html::a('Edit', ['update-category', 'id' => $category->id], ['class' => 'btn btn-warning']);
-        echo Html::a('Delete', ['delete-category', 'id' => $category->id], [
+        echo Html::a('Add Child', ['create', 'prepend' => $category->id], ['class' => 'btn btn-primary']);
+        echo Html::a('Insert After', ['create', 'after' => $category->id], ['class' => 'btn btn-success']);
+        echo Html::a('Edit', ['update', 'id' => $category->id], ['class' => 'btn btn-warning']);
+        echo Html::a('Delete', ['delete', 'id' => $category->id], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',

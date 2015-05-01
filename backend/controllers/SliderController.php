@@ -78,6 +78,7 @@ class SliderController extends Controller
                         'format' => 'jpeg'
                     ],
                 ]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             }
             return $this->redirect(['index']);
         }
@@ -112,6 +113,7 @@ class SliderController extends Controller
                         'format' => 'jpeg'
                     ],
                 ]);
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['index']);
             }
         }

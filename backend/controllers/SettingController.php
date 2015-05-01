@@ -57,7 +57,9 @@ class SettingController extends Controller
         }
         if ($select != ''){
             $model->value = $select;
-            $model->save();
+            if ($model->save()){
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+            }
         }
 
         return $this->render('theme', [
@@ -153,6 +155,7 @@ class SettingController extends Controller
         $model = new Setting();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['index']);
         }
         return $this->render('create', [

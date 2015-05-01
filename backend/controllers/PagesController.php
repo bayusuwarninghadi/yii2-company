@@ -67,6 +67,7 @@ class PagesController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_PAGES;
             if ($model->save()) {
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['index']);
             }
         }
