@@ -3,8 +3,6 @@
 use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use yii\web\JqueryAsset;
-
 
 /* @var $this yii\web\View */
 /* @var array $images */
@@ -41,7 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => $arr[1] . ' ' . Yii::t('app', 'Reviews'),
                             'content' => Html::tag('div', $this->render('/layouts/_loading'), [
                                 'class' => 'comment-container',
-                                'data-id' => $model->id
+                                'data-id' => $model->id,
+                                'data-key' => 'product'
                             ]),
                         ],
                     ],
@@ -80,4 +79,3 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <!-- /.modal-dialog -->
 </div><!-- /.modal -->
-<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>

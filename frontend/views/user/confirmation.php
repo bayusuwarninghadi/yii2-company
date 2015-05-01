@@ -1,6 +1,8 @@
 <?php
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
+
 /**
  * Created by PhpStorm.
  * User: bay_oz
@@ -23,7 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="panel-heading"><?=Yii::t('app', 'Fill Your Transfer Detail Below')?></div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds,['prompt' => Yii::t('app', 'Select Transaction ID')]) ?>
+                <?= $form->field($model, 'transaction_id')->dropDownList($transactionIds,[
+                    'prompt' => Yii::t('app', 'Select Transaction ID'),
+                    'data' => [
+                        'dynamic' => 'true',
+                        'target' => 'product-list',
+                        'url' => Url::to(['/transaction/cart'])
+                    ]
+                ]) ?>
                 <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
                 <?php if (!empty($paymentMethod)) echo $form->field($model, 'payment_method')->dropDownList($paymentMethod) ?>
                 <?= $form->field($model, 'amount',[
@@ -44,4 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-sm-6">
+        <div id="product-list" class="product-list"></div>
+    </div>
 </div>

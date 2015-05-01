@@ -299,6 +299,9 @@ class UserController extends BaseController
         }
     }
 
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionConfirmation()
     {
         $model = new Confirmation();
@@ -354,14 +357,22 @@ class UserController extends BaseController
 
     }
 
-    public function actionDynamicDropdown($model, $parent)
+    /**
+     * actionDynamicDropdown
+     *
+     * @param $model
+     * @param $id
+     * @return string
+     * @throws NotSupportedException
+     */
+    public function actionDynamicDropdown($model, $id)
     {
         switch ($model) {
             case 'city':
-                return Html::dropDownList('city', null, ArrayHelper::map(City::findAll(['province_id' => $parent]), 'id', 'name'));
+                return Html::dropDownList('city', null, ArrayHelper::map(City::findAll(['province_id' => $id]), 'id', 'name'));
                 break;
             case 'city_area':
-                return Html::dropDownList('city', null, ArrayHelper::map(CityArea::findAll(['city_id' => $parent]), 'id', 'name'));
+                return Html::dropDownList('city', null, ArrayHelper::map(CityArea::findAll(['city_id' => $id]), 'id', 'name'));
                 break;
         }
         throw new NotSupportedException("Doesn't support for Model $model");

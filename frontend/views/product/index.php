@@ -1,8 +1,6 @@
 <?php
 
 use yii\widgets\ListView;
-use yii\web\JqueryAsset;
-use yii\bootstrap\BootstrapAsset;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductSearch */
@@ -46,7 +44,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>
-<?php $this->registerCssFile('/css/product.css', ['depends' => BootstrapAsset::className()]); ?>
-
 

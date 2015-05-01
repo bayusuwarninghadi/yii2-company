@@ -7,7 +7,6 @@ use common\models\Product;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
-use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -89,4 +88,3 @@ use yii\widgets\ActiveForm;
     </div>
     <?php ActiveForm::end(); ?>
 </div>
-<?php $this->registerJsFile('/js/product.js', ['depends' => JqueryAsset::className()]); ?>

@@ -2,9 +2,14 @@
 
 namespace backend\controllers;
 
+use common\models\City;
+use common\models\CityArea;
 use Yii;
 use common\models\ShippingMethodCost;
 use common\models\ShippingMethodCostSearch;
+use yii\base\NotSupportedException;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -121,4 +126,26 @@ class ShippingMethodController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    /**
+     * actionDynamicDropdown
+     *
+     * @param $model
+     * @param $id
+     * @return string
+     * @throws NotSupportedException
+     */
+    public function actionDynamicDropdown($model, $id)
+    {
+        switch ($model) {
+            case 'city':
+                return Html::dropDownList('city', null, ArrayHelper::map(City::findAll(['province_id' => $id]), 'id', 'name'));
+                break;
+            case 'city_area':
+                return Html::dropDownList('city', null, ArrayHelper::map(CityArea::findAll(['city_id' => $id]), 'id', 'name'));
+                break;
+        }
+        throw new NotSupportedException("Doesn't support for Model $model");
+    }
+
 }

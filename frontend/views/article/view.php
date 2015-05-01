@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use yii\web\JqueryAsset;
 
 /* @var string $this */
 /* @var $this yii\web\View */
@@ -41,8 +40,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="user-comment-view list-group-item">
         <?=Html::tag('div', $this->render('/layouts/_loading'), [
             'class' => 'comment-container',
-            'data-id' => $model->id
+            'data-id' => $model->id,
+            'data-key' => 'article'
         ])?>
     </div>
 </div>
-<?php $this->registerJsFile('/js/article.js',['depends' => JqueryAsset::className()])?>

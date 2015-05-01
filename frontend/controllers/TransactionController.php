@@ -214,12 +214,13 @@ class TransactionController extends BaseController
     }
 
     /**
-     * ViewCurrentChart.
+     * ViewCurrentCart.
+     * @param integer $id transaction_id
      * @return mixed
      */
-    public function actionCart()
+    public function actionCart($id = null)
     {
-        $params = $this->findCart();
+        $params = $this->findCart($id);
         return Yii::$app->request->isAjax ? $this->renderPartial('cartAjax', $params) : $this->render('cart', $params);
 
     }
@@ -229,7 +230,7 @@ class TransactionController extends BaseController
      * if $id == null
      * return current basket
      *
-     * @param integer $id
+     * @param integer $id transaction_id
      * @return array
      */
     protected function findCart($id = null)

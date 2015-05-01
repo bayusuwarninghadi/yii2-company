@@ -7,7 +7,7 @@ use common\models\ShippingMethod;
 use common\models\Province;
 use common\models\City;
 use common\models\CityArea;
-use yii\web\JqueryAsset;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\ShippingMethodCost */
@@ -23,8 +23,20 @@ use yii\web\JqueryAsset;
             <?= $form->field($model, 'shipping_method_id')->dropDownList(ArrayHelper::map(ShippingMethod::find()->all(),'id','name')) ?>
             <?= $form->field($model, 'value')->textInput() ?>
             <?= $form->field($model, 'estimate_time')->textInput(['maxlength' => 255]) ?>
-            <?= $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(),'id','name')) ?>
-            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::findAll(['province_id' => $model->province_id]),'id','name')) ?>
+            <?= $form->field($model, 'province_id')->dropDownList(ArrayHelper::map(Province::find()->all(),'id','name'),[
+                'data' => [
+                    'dynamic' => 'true',
+                    'target' => Html::getInputId($model, 'city_id'),
+                    'url' => Url::to(['/shipping-method/dynamic-dropdown', 'model' => 'city'])
+                ]
+            ]) ?>
+            <?= $form->field($model, 'city_id')->dropDownList(ArrayHelper::map(City::findAll(['province_id' => $model->province_id]),'id','name'),[
+                'data' => [
+                    'dynamic' => 'true',
+                    'target' => Html::getInputId($model, 'city_area_id'),
+                    'url' => Url::to(['/shipping-method/dynamic-dropdown', 'model' => 'city_area'])
+                ]
+            ]) ?>
             <?= $form->field($model, 'city_area_id')->dropDownList(ArrayHelper::map(CityArea::findAll(['city_id' => $model->city_id]),'id','name')) ?>
         </div>
         <div class="panel-footer">
@@ -35,4 +47,3 @@ use yii\web\JqueryAsset;
     <?php ActiveForm::end(); ?>
 
 </div>
-<?php $this->registerJsFile('/js/shipping.js', ['depends' => JqueryAsset::className()])?>

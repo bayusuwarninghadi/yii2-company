@@ -5,7 +5,6 @@ use common\models\Transaction;
 use yii\data\ActiveDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\web\JqueryAsset;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -111,5 +110,3 @@ $arrayStatus = Transaction::getStatusAsArray();
         ])
     ]) ?>
 </div>
-<?php $this->registerJsFile('/js/transaction.js', ['depends' => JqueryAsset::className()]); ?>
-
