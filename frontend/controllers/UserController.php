@@ -8,7 +8,6 @@ use common\models\Confirmation;
 use common\models\Product;
 use common\models\Shipping;
 use common\models\Transaction;
-use common\models\TransactionSearch;
 use common\models\User;
 use common\models\UserAttribute;
 use common\modules\UploadHelper;
@@ -177,24 +176,6 @@ class UserController extends BaseController
         } else {
             return $this->redirect(['comparison']);
         }
-    }
-
-
-    /**
-     * History Transaction
-     * @return mixed
-     */
-    public function actionTransaction()
-    {
-        $searchModel = new TransactionSearch();
-        $searchModel->user_id = Yii::$app->user->getId();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('transaction', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-
     }
 
     /**

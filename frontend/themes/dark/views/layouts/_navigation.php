@@ -87,7 +87,7 @@ if (Yii::$app->user->isGuest) {
             ],
             [
                 'label' => '<i class="fa fa-check-circle fa-fw"></i> ' . Yii::t('app', 'View Transaction History'),
-                'url' => ['/user/transaction'],
+                'url' => ['/transaction/index'],
             ],
             '<li class="divider"></li>',
             [

@@ -7,6 +7,7 @@ use common\models\Cart;
 use common\models\ShippingMethod;
 use common\models\ShippingMethodCost;
 use common\models\Transaction;
+use common\models\TransactionSearch;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
@@ -24,6 +25,26 @@ use yii\web\Response;
  */
 class TransactionController extends BaseController
 {
+
+
+
+    /**
+     * History Transaction
+     * @return mixed
+     */
+    public function actionIndex()
+    {
+        $searchModel = new TransactionSearch();
+        $searchModel->user_id = Yii::$app->user->getId();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+
+    }
+
     /**
      * @return array
      */
@@ -92,7 +113,6 @@ class TransactionController extends BaseController
             return $this->render('summary', [
                 'model' => $model,
                 'cartDataProvider' => $cartDataProvider,
-                'subTotal' => $subTotal,
             ]);
 
         }
@@ -173,8 +193,16 @@ class TransactionController extends BaseController
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $cartModel = $this->findCart();
+        /**
+         * @var $cartDataProvider ActiveDataProvider
+         */
+        $cartDataProvider = $cartModel['dataProvider'];
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'cartDataProvider' => $cartDataProvider
         ]);
     }
 

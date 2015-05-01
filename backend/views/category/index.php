@@ -15,6 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?=CategoryWidget::widget([
         'model' => $model,
         'attribute' => 'id',
-        'renderOption' => true
+        'options' => true
     ])?>
 </div>

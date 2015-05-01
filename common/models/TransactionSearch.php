@@ -78,7 +78,7 @@ class TransactionSearch extends Transaction
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            'transaction.user_id' => $this->user_id,
             'shipping_id' => $this->shipping_id,
             'transaction.status' => $this->status,
         ]);

@@ -19,14 +19,16 @@ class CategoryWidget extends InputWidget
     /**
      * @var bool
      */
-    public $renderOption = false;
+    public $options = false;
 
     /**
      * Initializes the widget.
      */
     public function init()
     {
-        CategoryWidgetAssets::register($this->view);
+        if ($this->options){
+            CategoryWidgetAssets::register($this->view);
+        }
     }
 
     /**
@@ -58,15 +60,10 @@ class CategoryWidget extends InputWidget
         echo Html::endTag('div');
 
         $view = $this->getView();
-        $view->registerCss(".category-tree-container a { border-top:1px solid #ccc }");
         $view->registerJs("jQuery('#$id>ul').metisMenu();");
 
         $input_id = Html::getInputId($this->model, $this->attribute);
-        $view->registerJs("
-			jQuery('.category-tree-container li > a').click(function(){
-				jQuery('#$input_id').val($(this).data('id'));
-				return false;
-			});");
+        $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
     }
 
     /**
@@ -83,14 +80,14 @@ class CategoryWidget extends InputWidget
             $paddingLeft = $level * 15;
             if ($_child = $category->children(1)->all()) {
                 echo Html::a('+ ' . $category->name . ' <i class="fa arrow"></i>', '#', ['data-id' => $category->id, 'style' => 'padding-left:' . $paddingLeft . 'px']);
-                if ($this->renderOption) {
-                    static::renderOption($category);
+                if ($this->options) {
+                    static::renderOptions($category);
                 }
                 static::renderCategory($_child, $level + 1);
             } else {
                 echo Html::a('+ ' . $category->name, '#', ['data-id' => $category->id, 'style' => 'padding-left:' . $paddingLeft . 'px']);
-                if ($this->renderOption) {
-                    static::renderOption($category);
+                if ($this->options) {
+                    static::renderOptions($category);
                 }
             }
             echo Html::endTag('li');
@@ -102,7 +99,7 @@ class CategoryWidget extends InputWidget
      * Render Options
      * @param $category
      */
-    protected function renderOption($category)
+    protected function renderOptions($category)
     {
         echo Html::beginTag('div', ['class' => 'btn-group btn-group-sm hide']);
         echo Html::a('Add Child', ['create', 'prepend' => $category->id], ['class' => 'btn btn-primary']);
