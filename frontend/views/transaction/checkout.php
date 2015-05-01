@@ -48,7 +48,7 @@ echo Collapse::widget([
             'content' =>
                 $form->field($model, 'shipping_id')->radioList(
                     ArrayHelper::map(Shipping::findAll(['user_id' => Yii::$app->user->getId()]), 'id', 'address'), [
-                        'class' => 'radio-form'
+                        'class' => 'radio-form radio'
                     ]
                 ) .
                 Html::a('Create New Shipping Address', ['/user/create-shipping'], ['class' => 'btn btn-success'])
@@ -64,7 +64,9 @@ echo Collapse::widget([
         [
             'label' => '<i class="fa fa-ship fa-fw"></i> ' . Yii::t('app', 'Shipping Method'),
             'content' =>
-                $form->field($model, 'shipping_method_id')->radioList($shippingMethod),
+                $form->field($model, 'shipping_method_id')->radioList($shippingMethod,[
+                    'class' => 'radio-form radio'
+                ]),
             'contentOptions' => [
                 'id' => 'shipping-method-form',
                 'class' => 'in'
@@ -76,7 +78,9 @@ echo Collapse::widget([
         [
             'label' => '<i class="fa fa-cc-visa fa-fw"></i> ' . Yii::t('app', 'Payment Method'),
             'content' =>
-                $form->field($model, 'payment_method')->radioList($paymentMethod),
+                $form->field($model, 'payment_method')->radioList($paymentMethod,[
+                    'class' => 'radio-form radio'
+                ]),
             'contentOptions' => [
                 'id' => 'payment-method-form',
                 'class' => 'in'

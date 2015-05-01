@@ -213,15 +213,9 @@ class SiteController extends BaseController
             if ($model->save()) {
 
                 Yii::$app->mailer
-                    ->compose(
-                        [
-                            'html' => 'register-html',
-                            'text' => 'register-text'
-                        ],
-                        [
-                            'user' => $model,
-                        ]
-                    )
+                    ->compose(['html' => 'register'], [
+                        'user' => $model,
+                    ])
                     ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
                     ->setTo($model->email)
                     ->setSubject(Yii::t('app', 'Register Success'))

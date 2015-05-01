@@ -17,8 +17,8 @@ class UserCommentSearch extends UserComment
     public function rules()
     {
         return [
-            [['id', 'table_id', 'user_id', 'rating'], 'integer'],
-            [['table_key', 'comment'], 'safe'],
+            [['id', 'table_id', 'user_id', 'rating', 'created_at', 'updated_at'], 'integer'],
+            [['table_key', 'title', 'comment'], 'safe'],
         ];
     }
 
@@ -48,14 +48,23 @@ class UserCommentSearch extends UserComment
 
         $this->load($params);
 
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
         $query->andFilterWhere([
             'id' => $this->id,
             'table_id' => $this->table_id,
             'user_id' => $this->user_id,
             'rating' => $this->rating,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'table_key', $this->table_key])
+            ->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'comment', $this->comment]);
 
         return $dataProvider;

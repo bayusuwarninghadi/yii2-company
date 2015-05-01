@@ -13,7 +13,7 @@ use yii\widgets\DetailView;
  * @var $cartDataProvider \yii\data\ActiveDataProvider
  */
 
-$this->title = Yii::t('app', 'Summary');
+$this->title = Yii::t('app', 'Transaction') . ' #' . $model->id;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <h1><?= $this->title ?></h1>

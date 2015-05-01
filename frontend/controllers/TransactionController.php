@@ -164,7 +164,7 @@ class TransactionController extends BaseController
                 Yii::$app->session->setFlash('success', 'Check your email for next instruction');
 
                 Yii::$app->mailer
-                    ->compose('checkout', [
+                    ->compose(['html' => 'checkout'], [
                         'user' => Yii::$app->user->identity,
                         'transaction' => $model,
                         'cartDataProvider' => $cartDataProvider,
