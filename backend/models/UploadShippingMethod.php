@@ -9,8 +9,7 @@
 namespace backend\models;
 
 
-use common\models\ShippingMethodCost;
-use common\modules\jne\JneShipping;
+use common\modules\generator\ShippingMethodGenerator;
 use Yii;
 use yii\base\Model;
 
@@ -58,11 +57,11 @@ class UploadShippingMethod extends Model
      */
     public function import()
     {
+        $shipping = new ShippingMethodGenerator();
         if ($this->replace) {
-            ShippingMethodCost::deleteAll();
+            $shipping->deleteAllShipping();
         }
-        $jne = new JneShipping();
-        return $jne->generateShippingMethod();
+        return $shipping->generateShippingMethod();
     }
 
     /**

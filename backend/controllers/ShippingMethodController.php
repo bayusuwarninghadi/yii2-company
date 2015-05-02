@@ -43,7 +43,7 @@ class ShippingMethodController extends Controller
      */
     public function actionDownloadSample()
     {
-        $file = Yii::$app->getBasePath() . '/../common/modules/jne/sample.xls';
+        $file = Yii::$app->getBasePath() . '/../common/modules/generator/assets/sample.xls';
         if (!file_exists($file)) {
             throw new NotFoundHttpException("Sample file doesn't exist");
         }
