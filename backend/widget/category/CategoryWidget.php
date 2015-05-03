@@ -53,7 +53,6 @@ class CategoryWidget extends InputWidget
     {
         $id = $this->getId();
 
-        echo Html::getAttributeValue($this->model, $this->attribute);
         echo Html::beginTag('div', ['class' => 'category-tree-container', 'id' => $id]);
         static::renderCategory(Category::find()->roots()->all());
         echo Html::activeHiddenInput($this->model, $this->attribute);

@@ -2,13 +2,15 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Article;
+use common\models\ArticleLang;
 use common\models\ArticleSearch;
+use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
  * ArticleController implements the CRUD actions for Article model.
@@ -74,16 +76,49 @@ class ArticleController extends Controller
     public function actionCreate()
     {
         $model = new Article();
+
+        /**
+         * Create New Article Language
+         */
+        $articleEnglish = new ArticleLang();
+        $articleEnglish->language = 'id-ID';
+
+        $articleIndonesia = new ArticleLang();
+        $articleIndonesia->language = 'en-US';
+
+        /**
+         * Set Type
+         */
         $model->type_id = Article::TYPE_ARTICLE;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $bodyData = Yii::$app->request->post();
+        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+        if ($model->load($bodyData) && $model->save()) {
+            /**
+             * Save Article Lang
+             */
+            $articleEnglish->article_id = $model->id;
+            $articleEnglish->title = $bodyData['articleEnglish']['title'];
+            $articleEnglish->description = $bodyData['articleEnglish']['description'];
+            if ($articleEnglish->validate()) {
+                $articleEnglish->save();
+            }
+
+            $articleIndonesia->article_id = $model->id;
+            $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
+            $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
+            if ($articleIndonesia->validate()) {
+                $articleIndonesia->save();
+            }
             Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['/article/view', 'id' => $model->id]);
         }
 
         return $this->render('/article/create', [
             'model' => $model,
-            'type' => 'Article'
+            'type' => 'Article',
+            'articleEnglish' => $articleEnglish,
+            'articleIndonesia' => $articleIndonesia,
         ]);
     }
 
@@ -97,16 +132,39 @@ class ArticleController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        $articleEnglish = $this->findLangModel($model->id, 'en-US');
+        $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
+
+        $bodyData = Yii::$app->request->post();
+        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+
+        if ($model->load($bodyData)) {
             $model->type_id = Article::TYPE_ARTICLE;
             if ($model->save()) {
+                /**
+                 * Save Article Lang
+                 */
+                $articleEnglish->title = $bodyData['articleEnglish']['title'];
+                $articleEnglish->description = $bodyData['articleEnglish']['description'];
+                if ($articleEnglish->validate()) {
+                    $articleEnglish->save();
+                }
+
+                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
+                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
+                if ($articleIndonesia->validate()) {
+                    $articleIndonesia->save();
+                }
+
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
-                return $this->redirect(['/article/view', 'id' => $model->id]);                
+                return $this->redirect(['/article/view', 'id' => $model->id]);
             }
         }
         return $this->render('/article/update', [
             'model' => $model,
-            'type' => 'Article'
+            'type' => 'Article',
+            'articleEnglish' => $articleEnglish,
+            'articleIndonesia' => $articleIndonesia,
         ]);
     }
 
@@ -137,5 +195,21 @@ class ArticleController extends Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+    }
+
+    /**
+     * Finds the ArticleLang model based on its primary key value.
+     * @param integer $articleId
+     * @param string $language
+     * @return ArticleLang the loaded model
+     */
+    protected function findLangModel($articleId, $language)
+    {
+        if (($model = ArticleLang::findOne(['article_id' => $articleId, 'language' => $language])) === null) {
+            $model = new ArticleLang();
+            $model->language = $language;
+            $model->article_id = $articleId;
+        }
+        return $model;
     }
 }

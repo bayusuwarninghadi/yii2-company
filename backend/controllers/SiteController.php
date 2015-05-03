@@ -65,6 +65,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+
         $transactionDataProvider = new ActiveDataProvider([
             'query' => Transaction::find()
                 ->where(['IN', 'status', [Transaction::STATUS_USER_UN_PAY, Transaction::STATUS_USER_PAY]])

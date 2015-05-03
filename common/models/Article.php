@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\modules\RemoveAssetHelper;
+use common\modules\translator\TranslateBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -11,6 +12,7 @@ use yii\db\ActiveRecord;
  * This is the model class for table "article".
  *
  * @property integer $id
+ * @property string $camel_case
  * @property string $title
  * @property string $description
  * @property integer $status
@@ -18,6 +20,8 @@ use yii\db\ActiveRecord;
  * @property integer $type_id
  * @property integer $created_at
  * @property integer $updated_at
+ *
+ * @property ArticleLang[] $articleLangs
  */
 class Article extends ActiveRecord
 {
@@ -30,6 +34,15 @@ class Article extends ActiveRecord
     const STATUS_ACTIVE = 10;
 
     public $image;
+    public $articleLangs;
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslations()
+    {
+        return $this->hasMany(ArticleLang::className(), ['article_id' => 'id']);
+    }
 
     /**
      * beforeDelete
@@ -95,6 +108,12 @@ class Article extends ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            'trans' => [
+                'class' => TranslateBehavior::className(),
+                'translationAttributes' => [
+                    'title', 'description'
+                ]
+            ],
         ];
     }
 
@@ -121,14 +140,13 @@ class Article extends ActiveRecord
                 'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
 
-            [['title', 'description', 'type_id'], 'required'],
-            [['description'], 'string'],
+            [['type_id'], 'required'],
             [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
             [['order'], 'default', 'value' => 0],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES, static::TYPE_SLIDER, static::TYPE_MAIL]],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
-            [['title'], 'string', 'max' => 255]
+            [['title', 'camel_case'], 'string', 'max' => 255]
         ];
     }
 

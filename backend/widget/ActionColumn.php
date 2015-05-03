@@ -9,15 +9,16 @@
 namespace backend\widget;
 
 
-use yii\grid\ActionColumn as BaseActionColumn;
 use Yii;
+use yii\grid\ActionColumn as BaseActionColumn;
 use yii\helpers\Html;
 
 /**
  * Class ActionColumn
  * @package common\component\module
  */
-class ActionColumn extends BaseActionColumn{
+class ActionColumn extends BaseActionColumn
+{
 
 
     /**
@@ -29,7 +30,7 @@ class ActionColumn extends BaseActionColumn{
      * @var array the HTML attributes for the column group tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $options = [ 'width' => '140px' ];
+    public $options = ['width' => '140px'];
 
     /**
      * @var string the template used for composing each cell in the action column.
@@ -52,7 +53,7 @@ class ActionColumn extends BaseActionColumn{
     protected function initDefaultButtons()
     {
         if (!isset($this->buttons['view'])) {
-            $this->buttons['view'] = function ($url, $model) {
+            $this->buttons['view'] = function ($url) {
                 return Html::a('<i class="fa fa-search"></i>', $url, [
                     'title' => Yii::t('yii', 'View'),
                     'data-pjax' => '0',
@@ -62,7 +63,7 @@ class ActionColumn extends BaseActionColumn{
             };
         }
         if (!isset($this->buttons['update'])) {
-            $this->buttons['update'] = function ($url, $model) {
+            $this->buttons['update'] = function ($url) {
                 return Html::a('<i class="fa fa-pencil"></i>', $url, [
                     'title' => Yii::t('yii', 'Update'),
                     'data-pjax' => '0',
@@ -71,7 +72,7 @@ class ActionColumn extends BaseActionColumn{
             };
         }
         if (!isset($this->buttons['delete'])) {
-            $this->buttons['delete'] = function ($url, $model) {
+            $this->buttons['delete'] = function ($url) {
                 return Html::a('<i class="fa fa-trash"></i>', $url, [
                     'title' => Yii::t('yii', 'Delete'),
                     'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
