@@ -8,11 +8,14 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\Tabs;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 /* @var $form yii\widgets\ActiveForm */
 /* @var $attributes array */
+/* @var $modelEnglish common\models\ProductLang */
+/* @var $modelIndonesia common\models\ProductLang */
 
 ?>
 
@@ -24,10 +27,33 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="list-group-item">
             <?= $form->field($model, 'images[]')->fileInput(['multiple' => '', 'class' => 'form-control btn btn-default', 'accept' => 'image/*']) ?>
-            <?= $form->field($model, 'name')->textInput(['maxlength' => 255]) ?>
-            <?= $form->field($model, 'subtitle')->textInput(['maxlength' => 255]) ?>
             <?= $form->field($model, 'cat_id', ['template' => "{input}\n{hint}\n{error}"])->widget(CategoryWidget::className()) ?>
-            <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']) ?>
+            <?php
+
+            $tinyMceConfig = Yii::$app->modules['tiny-mce'];
+            $items = [];
+
+            $tinyMceConfig['options']['name'] = 'modelEnglish[description]';
+            $items[] = [
+                'label' => 'English',
+                'content' =>
+                    $form->field($modelEnglish, 'name')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[name]']) .
+                    $form->field($modelEnglish, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[subtitle]']) .
+                    $form->field($modelEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+            ];
+            $tinyMceConfig['options']['name'] = 'modelIndonesia[description]';
+            $items[] = [
+                'label' => 'Indonesia',
+                'content' =>
+                    $form->field($modelIndonesia, 'name')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[name]']) .
+                    $form->field($modelIndonesia, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[subtitle]']) .
+                    $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+            ];
+
+            echo Tabs::widget([
+                'items' => $items
+            ]);
+            ?>
             <div class="row">
                 <div class="col-sm-4">
                     <?= $form->field($model, 'brand_id')->dropDownList(ArrayHelper::map(Brand::find()->all(), 'id', 'brand'), ['prompt' => 'Select Brand']) ?>

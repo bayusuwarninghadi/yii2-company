@@ -7,8 +7,8 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-/* @var $articleEnglish common\models\ArticleLang */
-/* @var $articleIndonesia common\models\ArticleLang */
+/* @var $modelEnglish common\models\ArticleLang */
+/* @var $modelIndonesia common\models\ArticleLang */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>
@@ -24,19 +24,19 @@ use yii\widgets\ActiveForm;
             $tinyMceConfig = Yii::$app->modules['tiny-mce'];
             $items = [];
 
-            $tinyMceConfig['options']['name'] = 'articleEnglish[description]';
+            $tinyMceConfig['options']['name'] = 'modelEnglish[description]';
             $items[] = [
                 'label' => 'English',
                 'content' =>
-                    $form->field($articleEnglish, 'title')->textInput(['maxlength' => 255, 'name' => 'articleEnglish[title]']) .
-                    $form->field($articleEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+                    $form->field($modelEnglish, 'title')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[title]']) .
+                    $form->field($modelEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
-            $tinyMceConfig['options']['name'] = 'articleIndonesia[description]';
+            $tinyMceConfig['options']['name'] = 'modelIndonesia[description]';
             $items[] = [
                 'label' => 'Indonesia',
                 'content' =>
-                    $form->field($articleIndonesia, 'title')->textInput(['maxlength' => 255, 'name' => 'articleIndonesia[title]']) .
-                    $form->field($articleIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+                    $form->field($modelIndonesia, 'title')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[title]']) .
+                    $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
 
             echo Tabs::widget([

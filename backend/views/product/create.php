@@ -6,6 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 /* @var $attributes array */
+/* @var $modelEnglish common\models\ProductLang */
+/* @var $modelIndonesia common\models\ProductLang */
 
 $this->title = 'Create Product';
 $this->params['breadcrumbs'][] = ['label' => 'Products', 'url' => ['index']];
@@ -17,7 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'attributes' => $attributes
+        'attributes' => $attributes,
+        'modelEnglish' => $modelEnglish,
+        'modelIndonesia' => $modelIndonesia,
     ]) ?>
 
 </div>

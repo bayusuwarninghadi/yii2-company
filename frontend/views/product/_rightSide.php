@@ -36,7 +36,7 @@ use yii\helpers\Url;
             <?= Html::decode($model->subtitle) ?>
         </div>
         <div>
-            <?php if ($model->brand) echo Html::decode($model->subtitle) ?>
+            <?php if ($model->brand) echo Html::decode($model->brand->brand) ?>
         </div>
     </div>
     <div class="list-group-item">

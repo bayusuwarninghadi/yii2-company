@@ -8,6 +8,8 @@ use yii\helpers\Json;
 /* @var $model common\models\Product */
 /* @var $attributes array */
 /* @var $gallery \common\models\ProductAttribute[] */
+/* @var $modelEnglish common\models\ProductLang */
+/* @var $modelIndonesia common\models\ProductLang */
 
 $this->title = 'Update Product: ' . ' ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['index']];
@@ -44,7 +46,9 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'attributes' => $attributes
+        'attributes' => $attributes,
+        'modelEnglish' => $modelEnglish,
+        'modelIndonesia' => $modelIndonesia,
     ]) ?>
 
 </div>

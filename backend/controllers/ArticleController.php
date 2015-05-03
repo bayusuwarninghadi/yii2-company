@@ -83,11 +83,11 @@ class ArticleController extends Controller
         /**
          * Create New Article Language
          */
-        $articleEnglish = new ArticleLang();
-        $articleEnglish->language = 'id-ID';
+        $modelEnglish = new ArticleLang();
+        $modelEnglish->language = 'id-ID';
 
-        $articleIndonesia = new ArticleLang();
-        $articleIndonesia->language = 'en-US';
+        $modelIndonesia = new ArticleLang();
+        $modelIndonesia->language = 'en-US';
 
         /**
          * Set Type
@@ -96,24 +96,24 @@ class ArticleController extends Controller
 
         $bodyData = Yii::$app->request->post();
         if ($model->load($bodyData)) {
-            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+            $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
 
                 /**
                  * Save Article Lang
                  */
-                $articleEnglish->article_id = $model->id;
-                $articleEnglish->title = $bodyData['articleEnglish']['title'];
-                $articleEnglish->description = $bodyData['articleEnglish']['description'];
-                if ($articleEnglish->validate()) {
-                    $articleEnglish->save();
+                $modelEnglish->article_id = $model->id;
+                $modelEnglish->title = $bodyData['modelEnglish']['title'];
+                $modelEnglish->description = $bodyData['modelEnglish']['description'];
+                if ($modelEnglish->validate()) {
+                    $modelEnglish->save();
                 }
 
-                $articleIndonesia->article_id = $model->id;
-                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
-                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
-                if ($articleIndonesia->validate()) {
-                    $articleIndonesia->save();
+                $modelIndonesia->article_id = $model->id;
+                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
+                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
+                if ($modelIndonesia->validate()) {
+                    $modelIndonesia->save();
                 }
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
                 return $this->redirect(['/article/view', 'id' => $model->id]);
@@ -123,8 +123,8 @@ class ArticleController extends Controller
         return $this->render('/article/create', [
             'model' => $model,
             'type' => 'Article',
-            'articleEnglish' => $articleEnglish,
-            'articleIndonesia' => $articleIndonesia,
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 
@@ -138,28 +138,28 @@ class ArticleController extends Controller
     {
         $model = $this->findModel($id);
 
-        $articleEnglish = $this->findLangModel($model->id, 'en-US');
-        $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
+        $modelEnglish = $this->findLangModel($model->id, 'en-US');
+        $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
         $bodyData = Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
-            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+            $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             $model->type_id = Article::TYPE_ARTICLE;
             if ($model->save()) {
                 /**
                  * Save Article Lang
                  */
-                $articleEnglish->title = $bodyData['articleEnglish']['title'];
-                $articleEnglish->description = $bodyData['articleEnglish']['description'];
-                if ($articleEnglish->validate()) {
-                    $articleEnglish->save();
+                $modelEnglish->title = $bodyData['modelEnglish']['title'];
+                $modelEnglish->description = $bodyData['modelEnglish']['description'];
+                if ($modelEnglish->validate()) {
+                    $modelEnglish->save();
                 }
 
-                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
-                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
-                if ($articleIndonesia->validate()) {
-                    $articleIndonesia->save();
+                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
+                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
+                if ($modelIndonesia->validate()) {
+                    $modelIndonesia->save();
                 }
 
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
@@ -169,8 +169,8 @@ class ArticleController extends Controller
         return $this->render('/article/update', [
             'model' => $model,
             'type' => 'Article',
-            'articleEnglish' => $articleEnglish,
-            'articleIndonesia' => $articleIndonesia,
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 

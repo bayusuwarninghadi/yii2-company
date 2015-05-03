@@ -5,6 +5,7 @@ namespace backend\controllers;
 use common\models\Category;
 use common\models\Product;
 use common\models\ProductAttribute;
+use common\models\ProductLang;
 use common\models\ProductSearch;
 use common\models\UserComment;
 use common\modules\UploadHelper;
@@ -83,12 +84,41 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        $param = Yii::$app->request->post();
-        $attributes = (isset($param['Product']['productAttributeDetailValue'])) ? $param['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+        /**
+         * Create New Article Language
+         */
+        $modelEnglish = new ProductLang();
+        $modelEnglish->language = 'id-ID';
 
-        if ($model->load($param)) {
+        $modelIndonesia = new ProductLang();
+        $modelIndonesia->language = 'en-US';
+
+        $bodyData = Yii::$app->request->post();
+        $attributes = (isset($bodyData['Product']['productAttributeDetailValue'])) ? $bodyData['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+
+        if ($model->load($bodyData)) {
 
             if ($model->save()) {
+
+                /**
+                 * Save Product Lang
+                 */
+                $modelEnglish->product_id = $model->id;
+                $modelEnglish->name = $bodyData['modelEnglish']['name'];
+                $modelEnglish->subtitle = $bodyData['modelEnglish']['subtitle'];
+                $modelEnglish->description = $bodyData['modelEnglish']['description'];
+                if ($modelEnglish->validate()) {
+                    $modelEnglish->save();
+                }
+
+                $modelEnglish->product_id = $model->id;
+                $modelIndonesia->name = $bodyData['modelIndonesia']['name'];
+                $modelIndonesia->subtitle = $bodyData['modelIndonesia']['subtitle'];
+                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
+                if ($modelIndonesia->validate()) {
+                    $modelIndonesia->save();
+                }
+
                 $attr = $model->getProductAttributeDetail();
                 $attr->value = Json::encode($attributes);
                 $attr->save();
@@ -113,7 +143,9 @@ class ProductController extends Controller
         return $this->render('create', [
             'model' => $model,
             'gallery' => null,
-            'attributes' => $attributes
+            'attributes' => $attributes,
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 
@@ -129,10 +161,14 @@ class ProductController extends Controller
 
         $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
 
-        $param = Yii::$app->request->post();
-        $attributes = (isset($param['Product']['productAttributeDetailValue'])) ? $param['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+        $bodyData = Yii::$app->request->post();
 
-        if ($model->load($param)) {
+        $modelEnglish = $this->findLangModel($model->id, 'en-US');
+        $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
+
+        $attributes = (isset($bodyData['Product']['productAttributeDetailValue'])) ? $bodyData['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+
+        if ($model->load($bodyData)) {
 
             $_images = UploadedFile::getInstances($model, 'images');
             foreach ($_images as $image) {
@@ -146,6 +182,24 @@ class ProductController extends Controller
                 }
             }
             if ($model->save()) {
+                /**
+                 * Save Product Lang
+                 */
+                $modelEnglish->name = $bodyData['modelEnglish']['name'];
+                $modelEnglish->subtitle = $bodyData['modelEnglish']['subtitle'];
+                $modelEnglish->description = $bodyData['modelEnglish']['description'];
+                if ($modelEnglish->validate()) {
+                    $modelEnglish->save();
+                }
+
+                $modelIndonesia->name = $bodyData['modelIndonesia']['name'];
+                $modelIndonesia->subtitle = $bodyData['modelIndonesia']['subtitle'];
+                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
+                if ($modelIndonesia->validate()) {
+                    $modelIndonesia->save();
+                }
+
+
                 $attr = $model->getProductAttributeDetail();
                 $attr->value = Json::encode($attributes);
                 $attr->save();
@@ -157,7 +211,9 @@ class ProductController extends Controller
         return $this->render('update', [
             'model' => $model,
             'gallery' => $gallery,
-            'attributes' => $attributes
+            'attributes' => $attributes,
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 
@@ -232,4 +288,21 @@ class ProductController extends Controller
             'categoryModel' => $categoryModel
         ]);
     }
+
+    /**
+     * Finds the ProductLang model based on its primary key value.
+     * @param integer $productId
+     * @param string $language
+     * @return ProductLang the loaded model
+     */
+    protected function findLangModel($productId, $language)
+    {
+        if (($model = ProductLang::findOne(['product_id' => $productId, 'language' => $language])) === null) {
+            $model = new ProductLang();
+            $model->language = $language;
+            $model->product_id = $productId;
+        }
+        return $model;
+    }
+
 }

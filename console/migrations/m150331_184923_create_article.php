@@ -1,8 +1,8 @@
 <?php
 
+use common\models\Article;
 use yii\db\Migration;
 use yii\db\Schema;
-use common\models\Article;
 
 /**
  * Class m150331_184923_create_article
@@ -29,8 +29,10 @@ class m150331_184923_create_article extends Migration
             'article_id' => Schema::TYPE_INTEGER,
             'title' => Schema::TYPE_STRING,
             'description' => Schema::TYPE_TEXT,
-            'language' => Schema::TYPE_TEXT,
+            'language' => Schema::TYPE_STRING . " NOT NULL DEFAULT 'en-US'",
         ]);
+
+        $this->addForeignKey('article_lang_to_article', 'article_lang', 'article_id', 'article', 'id', 'CASCADE', 'CASCADE');
 
         /**
          * Static Pages
@@ -43,7 +45,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'index',
             'description' => 'index page',
-            'language' => 'en-US',
             'article_id' => 1
         ]);
 
@@ -54,7 +55,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'about',
             'description' => 'about page',
-            'language' => 'en-US',
             'article_id' => 2
         ]);
 
@@ -65,7 +65,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'faq',
             'description' => 'Frequently asked question',
-            'language' => 'en-US',
             'article_id' => 3
         ]);
 
@@ -76,7 +75,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'privacy',
             'description' => 'Privacy and Policy',
-            'language' => 'en-US',
             'article_id' => 4
         ]);
 
@@ -87,7 +85,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'terms',
             'description' => 'Terms and Condition',
-            'language' => 'en-US',
             'article_id' => 5
         ]);
 
@@ -98,7 +95,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'checkout',
             'description' => 'This is note for checkout process',
-            'language' => 'en-US',
             'article_id' => 6
         ]);
 
@@ -109,7 +105,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'success',
             'description' => 'Thanks, check your email, we will delivery your order shortly',
-            'language' => 'en-US',
             'article_id' => 7
         ]);
 
@@ -120,7 +115,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'confirmation',
             'description' => 'Confirmation Page',
-            'language' => 'en-US',
             'article_id' => 8
         ]);
 
@@ -135,7 +129,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'language' => 'en-US',
             'article_id' => 9
         ]);
 
@@ -147,7 +140,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'language' => 'en-US',
             'article_id' => 10
         ]);
 
@@ -162,7 +154,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'Article',
             'description' => 'Article Example',
-            'language' => 'en-US',
             'article_id' => 11
         ]);
 
@@ -174,7 +165,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'Article 2',
             'description' => 'Article Example',
-            'language' => 'en-US',
             'article_id' => 12
         ]);
 
@@ -189,7 +179,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'News',
             'description' => 'News Example',
-            'language' => 'en-US',
             'article_id' => 13
         ]);
 
@@ -201,7 +190,6 @@ class m150331_184923_create_article extends Migration
         $this->insert('article_lang', [
             'title' => 'News 2',
             'description' => 'News Example',
-            'language' => 'en-US',
             'article_id' => 14
         ]);
 
@@ -212,6 +200,8 @@ class m150331_184923_create_article extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('article_lang_to_article', 'article_lang');
+        $this->dropTable('article_lang');
         $this->dropTable('article');
     }
 }

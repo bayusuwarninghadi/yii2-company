@@ -66,28 +66,28 @@ class PagesController extends Controller
     {
         $model = $this->findModel($id);
 
-        $articleEnglish = $this->findLangModel($model->id, 'en-US');
-        $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
+        $modelEnglish = $this->findLangModel($model->id, 'en-US');
+        $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
         $bodyData = Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
             $model->type_id = Article::TYPE_PAGES;
-            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+            $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
                 /**
                  * Save Article Lang
                  */
-                $articleEnglish->title = $bodyData['articleEnglish']['title'];
-                $articleEnglish->description = $bodyData['articleEnglish']['description'];
-                if ($articleEnglish->validate()) {
-                    $articleEnglish->save();
+                $modelEnglish->title = $bodyData['modelEnglish']['title'];
+                $modelEnglish->description = $bodyData['modelEnglish']['description'];
+                if ($modelEnglish->validate()) {
+                    $modelEnglish->save();
                 }
 
-                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
-                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
-                if ($articleIndonesia->validate()) {
-                    $articleIndonesia->save();
+                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
+                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
+                if ($modelIndonesia->validate()) {
+                    $modelIndonesia->save();
                 }
 
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
@@ -97,8 +97,8 @@ class PagesController extends Controller
         return $this->render('update', [
             'model' => $model,
             'type' => 'Pages',
-            'articleEnglish' => $articleEnglish,
-            'articleIndonesia' => $articleIndonesia,
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 

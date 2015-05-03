@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var string $type */
 /* @var $this yii\web\View */
 /* @var $model common\models\Article */
-/* @var $articleEnglish common\models\ArticleLang */
-/* @var $articleIndonesia common\models\ArticleLang */
+/* @var $modelEnglish common\models\ArticleLang */
+/* @var $modelIndonesia common\models\ArticleLang */
 
 
 $this->title = 'Create ' . $type;
@@ -19,8 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'articleEnglish' => $articleEnglish,
-        'articleIndonesia' => $articleIndonesia,
+        'modelEnglish' => $modelEnglish,
+        'modelIndonesia' => $modelIndonesia,
     ]) ?>
 
 </div>

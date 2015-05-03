@@ -3,6 +3,7 @@
 namespace common\models;
 
 use common\modules\RemoveAssetHelper;
+use common\modules\translator\TranslateBehavior;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -34,6 +35,7 @@ use yii\helpers\Json;
  * @property Category $category
  * @property Cart[] $carts
  * @property UserComment[] $userComments
+ * @property ProductLang[] $productLangs
  */
 class Product extends ActiveRecord
 {
@@ -70,6 +72,11 @@ class Product extends ActiveRecord
     public $productAttributeDetailValue = [];
 
     /**
+     * @var string
+     */
+    public $language = 'en-US';
+
+    /**
      * beforeDelete
      * @return bool
      */
@@ -94,20 +101,16 @@ class Product extends ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
-        if (parent::afterSave($insert, $changedAttributes)) {
-            if ($this->isNewRecord) {
-                $attr = new ProductAttribute();
-                $attr->product_id = $this->id;
-                $attr->key = 'detail';
-            } else {
-                $attr = $this->getProductAttributeDetail();
-            }
-            $attr->value = Json::encode($this->productAttributeDetailValue);
-            $attr->save();
-            return true;
+        parent::afterSave($insert, $changedAttributes);
+        if ($this->isNewRecord) {
+            $attr = new ProductAttribute();
+            $attr->product_id = $this->id;
+            $attr->key = 'detail';
         } else {
-            return false;
+            $attr = $this->getProductAttributeDetail();
         }
+        $attr->value = Json::encode($this->productAttributeDetailValue);
+        $attr->save();
     }
 
     /**
@@ -153,6 +156,13 @@ class Product extends ActiveRecord
     {
         return [
             TimestampBehavior::className(),
+            'trans' => [
+                'class' => TranslateBehavior::className(),
+                'translationAttributes' => [
+                    'name', 'subtitle', 'description'
+                ]
+            ],
+
         ];
     }
 
@@ -179,10 +189,10 @@ class Product extends ActiveRecord
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
                 'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
-            [['name', 'description', 'cat_id'], 'required'],
+            [['cat_id'], 'required'],
             [['description'], 'string'],
             [['stock', 'status', 'visible', 'cat_id', 'brand_id', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'subtitle', 'rating', 'image_url'], 'string', 'max' => 255],
+            [['rating', 'image_url'], 'string', 'max' => 255],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
             ['visible', 'default', 'value' => static::VISIBLE_VISIBLE],
@@ -192,6 +202,17 @@ class Product extends ActiveRecord
             ['discount', 'integer', 'max' => 100],
             ['image_url', 'default', 'value' => '/images/320x150.gif'],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+        if (isset(Yii::$app->session['lang'])) {
+            $this->language = Yii::$app->session['lang'];
+        }
     }
 
     /**
@@ -306,4 +327,13 @@ class Product extends ActiveRecord
     {
         return $this->hasOne(Brand::className(), ['id' => 'brand_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslations()
+    {
+        return $this->hasMany(ProductLang::className(), ['product_id' => 'id']);
+    }
+
 }

@@ -25,21 +25,6 @@ class m150415_155749_create_category_table extends Migration
             'rgt' => 1,
             'depth' => 0,
         ]);
-        $this->insert('product', [
-            'cat_id' => 1,
-            'name' => 'Product',
-            'description' => 'Product Description',
-        ]);
-        $this->insert('product', [
-            'cat_id' => 1,
-            'name' => 'Product 2',
-            'description' => 'Product Description',
-        ]);
-        $this->insert('product', [
-            'cat_id' => 1,
-            'name' => 'Product 3',
-            'description' => 'Product Description',
-        ]);
 
     }
 
