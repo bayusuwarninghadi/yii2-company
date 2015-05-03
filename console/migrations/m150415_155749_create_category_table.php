@@ -16,7 +16,6 @@ class m150415_155749_create_category_table extends Migration
             'rgt' => Schema::TYPE_INTEGER . ' NOT NULL',
             'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
         ]);
-        $this->addForeignKey('product_to_category', 'product', 'cat_id', 'category', 'id', 'CASCADE', 'CASCADE');
         $this->insert('category',[
             'name' => 'Category',
             'description' => 'Category',
@@ -26,6 +25,7 @@ class m150415_155749_create_category_table extends Migration
             'depth' => 0,
         ]);
 
+        $this->addForeignKey('product_to_category', 'product', 'cat_id', 'category', 'id', 'CASCADE', 'CASCADE');
     }
 
     public function safeDown()
