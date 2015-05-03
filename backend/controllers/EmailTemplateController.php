@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Article;
 use common\models\ArticleSearch;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -66,6 +67,7 @@ class EmailTemplateController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_MAIL;
+            $model->camel_case = Inflector::camelize($model->title);
             if ($model->save()) {
                 return $this->redirect(['index']);
             }

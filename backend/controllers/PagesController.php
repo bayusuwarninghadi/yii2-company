@@ -70,10 +70,10 @@ class PagesController extends Controller
         $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
 
         $bodyData = Yii::$app->request->post();
-        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
 
         if ($model->load($bodyData)) {
             $model->type_id = Article::TYPE_PAGES;
+            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
             if ($model->save()) {
                 /**
                  * Save Article Lang

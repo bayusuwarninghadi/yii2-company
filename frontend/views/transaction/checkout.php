@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
  * Date: 4/19/15
  * Time: 22:59
  *
- * @var $notes \common\models\Article
+ * @var $note \common\models\Article
  * @var $this \yii\web\View
  * @var $model \common\models\Transaction
  * @var $form ActiveForm
@@ -94,7 +94,7 @@ echo Collapse::widget([
             'content' =>
                 $form->field($model, 'voucher_code')->textInput().
                 $form->field($model, 'note')->textarea(['rows' => 3]) .
-                HtmlPurifier::process($notes->description) .
+                HtmlPurifier::process($note->description) .
                 $form->field($model, 'disclaimer')->checkbox(['label' => Yii::t('app', 'I agree to the our') . ' ' . Html::a(Yii::t('app', 'Terms And Condition'), '/site/terms')]) .
                 Html::submitButton(Yii::t('app', 'Calculate'), ['class' => 'btn btn-primary']),
             'contentOptions' => [

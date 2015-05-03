@@ -117,7 +117,7 @@ class TransactionController extends BaseController
 
         }
 
-        $notes = Article::find()->where(['title' => 'checkout', 'type_id' => Article::TYPE_PAGES])->one();
+        $note = Article::find()->where(['camel_case' => 'Checkout', 'type_id' => Article::TYPE_PAGES])->one();
 
         $paymentMethod = [];
         if ($this->settings['bank_transfer']) {
@@ -132,7 +132,7 @@ class TransactionController extends BaseController
             'model' => $model,
             'cartDataProvider' => $cartDataProvider,
             'subTotal' => $subTotal,
-            'notes' => $notes
+            'note' => $note
         ]);
     }
 
@@ -174,9 +174,10 @@ class TransactionController extends BaseController
                     ->setSubject('Checkout Success #' . $model->id)
                     ->send();
 
+                $note = Article::findOne(['camel_case' => 'Success', 'type_id' => Article::TYPE_PAGES]);
                 return $this->render('success', [
                     'model' => $model,
-                    'note' => Article::findOne(['title' => 'success', 'type_id' => Article::TYPE_PAGES]),
+                    'note' => $note,
                     'cartDataProvider' => $cartDataProvider,
                 ]);
             }

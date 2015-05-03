@@ -1,25 +1,12 @@
 <?php
-
-use common\modules\UploadHelper;
 use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-
 /**
  * Created by PhpStorm.
  * User: bay_oz
- * Date: 4/17/15
- * Time: 17:47
- *
+ * Date: 5/3/15
+ * Time: 23:16
  * @var $this \yii\web\View
  */
-
-NavBar::begin([
-    'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
-    'brandUrl' => Yii::$app->homeUrl,
-    'options' => [
-        'class' => 'navbar-default navbar-fixed-top',
-    ],
-]);
 
 $menuItems = [
     [
@@ -98,39 +85,10 @@ if (Yii::$app->user->isGuest) {
         ]
     ];
 }
-echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-left'],
-    'items' => [
-        [
-            'label' => '<i class="fa fa-flag fa-fw"></i>',
-            'items' => [
-                [
-                    'label' => 'Bahasa',
-                    'active' => Yii::$app->language == 'id-ID',
-                    'url' => [Yii::$app->getHomeUrl(),'lang' => 'id-ID']
-                ],
-                [
-                    'label' => 'English',
-                    'active' => Yii::$app->language == 'en-US',
-                    'url' => [Yii::$app->getHomeUrl(),'lang' => 'en-US']
-                ],
-            ]
-        ]
-    ],
-    'encodeLabels' => false
-]);
 
 echo Nav::widget([
     'options' => ['class' => 'navbar-nav navbar-right'],
     'items' => $menuItems,
     'encodeLabels' => false
 ]);
-echo Nav::widget([
-    'options' => ['class' => 'navbar-form navbar-right'],
-    'items' => [
-        $this->render('/layouts/_searchNav'),
-    ],
-    'encodeLabels' => false
-]);
 
-NavBar::end();

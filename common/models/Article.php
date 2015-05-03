@@ -25,16 +25,44 @@ use yii\db\ActiveRecord;
  */
 class Article extends ActiveRecord
 {
+
+    /**
+     * TYPE_ARTICLE
+     */
     const TYPE_ARTICLE = '1';
+    /**
+     * TYPE_NEWS
+     */
     const TYPE_NEWS = '2';
+    /**
+     * TYPE_PAGES
+     */
     const TYPE_PAGES = '3';
+    /**
+     * TYPE_SLIDER
+     */
     const TYPE_SLIDER = '4';
+    /**
+     * TYPE_MAIL
+     */
     const TYPE_MAIL = '5';
+    /**
+     * STATUS_INACTIVE
+     */
     const STATUS_INACTIVE = 0;
+    /**
+     * STATUS_ACTIVE
+     */
     const STATUS_ACTIVE = 10;
 
+    /**
+     * @var string $language
+     */
+    public $language = 'en-US';
+    /**
+     * @var
+     */
     public $image;
-    public $articleLangs;
 
     /**
      * @return \yii\db\ActiveQuery
@@ -115,6 +143,17 @@ class Article extends ActiveRecord
                 ]
             ],
         ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function afterFind()
+    {
+        parent::afterFind();
+        if (isset(Yii::$app->session['lang'])) {
+            $this->language = Yii::$app->session['lang'];
+        }
     }
 
     /**

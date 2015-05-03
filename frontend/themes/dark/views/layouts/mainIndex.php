@@ -20,7 +20,7 @@ AppAsset::register($this);
 <body>
     <?php $this->beginBody() ?>
     <div class="wrap">
-        <?=$this->render('/layouts/_navigation')?>
+        <?=$this->render('/layouts/_navbar')?>
         <?= $content ?>
     </div>
     <?=$this->render('/layouts/_footer')?>

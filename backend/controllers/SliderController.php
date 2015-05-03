@@ -65,6 +65,7 @@ class SliderController extends Controller
         $model = new Article();
         $model->type_id = Article::TYPE_SLIDER;
         $model->title = 'Slider';
+        $model->camel_case = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
@@ -99,6 +100,7 @@ class SliderController extends Controller
     {
         $model = $this->findModel($id);
         $model->title = 'Slider';
+        $model->camel_case = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
             $model->type_id = Article::TYPE_SLIDER;
             if ($model->save()) {

@@ -88,34 +88,36 @@ class NewsController extends Controller
         $articleIndonesia->language = 'en-US';
 
         $bodyData = Yii::$app->request->post();
-        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
 
-        if ($model->load($bodyData) && $model->save()) {
-            /**
-             * Save Article Lang
-             */
-            $articleEnglish->article_id = $model->id;
-            $articleEnglish->title = $bodyData['articleEnglish']['title'];
-            $articleEnglish->description = $bodyData['articleEnglish']['description'];
-            if ($articleEnglish->validate()) {
-                $articleEnglish->save();
+        if ($model->load($bodyData)) {
+            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+            if ($model->save()){
+
+                /**
+                 * Save Article Lang
+                 */
+                $articleEnglish->article_id = $model->id;
+                $articleEnglish->title = $bodyData['articleEnglish']['title'];
+                $articleEnglish->description = $bodyData['articleEnglish']['description'];
+                if ($articleEnglish->validate()) {
+                    $articleEnglish->save();
+                }
+
+                $articleIndonesia->article_id = $model->id;
+                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
+                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
+                if ($articleIndonesia->validate()) {
+                    $articleIndonesia->save();
+                }
+
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+                return $this->redirect(['/news/view', 'id' => $model->id]);
             }
-
-            $articleIndonesia->article_id = $model->id;
-            $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
-            $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
-            if ($articleIndonesia->validate()) {
-                $articleIndonesia->save();
-            }
-
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
-            return $this->redirect(['/news/view', 'id' => $model->id]);
-        } else {
-            return $this->render('/article/create', [
-                'model' => $model,
-                'type' => 'News'
-            ]);
         }
+        return $this->render('/article/create', [
+            'model' => $model,
+            'type' => 'News'
+        ]);
     }
 
     /**
@@ -132,10 +134,10 @@ class NewsController extends Controller
         $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
 
         $bodyData = Yii::$app->request->post();
-        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
 
         if ($model->load($bodyData)) {
             $model->type_id = Article::TYPE_NEWS;
+            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
             if ($model->save()) {
 
                 /**

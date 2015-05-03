@@ -91,7 +91,7 @@ class SiteController extends BaseController
         $brands = Brand::find()->all();;
         return $this->render('/index/index', [
             'slider' => $slider,
-            'page' => Article::findOne(['type_id' => Article::TYPE_PAGES, 'title' => 'index']),
+            'page' => Article::findOne(['type_id' => Article::TYPE_PAGES, 'camel_case' => 'Index']),
             'products' => $products,
             'brands' => $brands,
         ]);
@@ -165,7 +165,7 @@ class SiteController extends BaseController
     public function actionAbout()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['title' => 'about', 'type_id' => Article::TYPE_PAGES])
+            'model' => Article::findOne(['camel_case' => 'About', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
 
@@ -175,7 +175,7 @@ class SiteController extends BaseController
     public function actionFaq()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['title' => 'faq', 'type_id' => Article::TYPE_PAGES])
+            'model' => Article::findOne(['camel_case' => 'Faq', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
 
@@ -185,7 +185,7 @@ class SiteController extends BaseController
     public function actionTerms()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['title' => 'terms', 'type_id' => Article::TYPE_PAGES])
+            'model' => Article::findOne(['camel_case' => 'Terms', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
 
@@ -195,7 +195,7 @@ class SiteController extends BaseController
     public function actionPrivacy()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['title' => 'privacy', 'type_id' => Article::TYPE_PAGES])
+            'model' => Article::findOne(['camel_case' => 'Privacy', 'type_id' => Article::TYPE_PAGES])
         ]);
     }
 

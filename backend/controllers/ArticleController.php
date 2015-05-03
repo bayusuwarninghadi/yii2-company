@@ -17,6 +17,9 @@ use yii\web\NotFoundHttpException;
  */
 class ArticleController extends Controller
 {
+    /**
+     * @return array
+     */
     public function behaviors()
     {
         return [
@@ -92,26 +95,29 @@ class ArticleController extends Controller
         $model->type_id = Article::TYPE_ARTICLE;
 
         $bodyData = Yii::$app->request->post();
-        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
-        if ($model->load($bodyData) && $model->save()) {
-            /**
-             * Save Article Lang
-             */
-            $articleEnglish->article_id = $model->id;
-            $articleEnglish->title = $bodyData['articleEnglish']['title'];
-            $articleEnglish->description = $bodyData['articleEnglish']['description'];
-            if ($articleEnglish->validate()) {
-                $articleEnglish->save();
-            }
+        if ($model->load($bodyData)) {
+            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
+            if ($model->save()) {
 
-            $articleIndonesia->article_id = $model->id;
-            $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
-            $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
-            if ($articleIndonesia->validate()) {
-                $articleIndonesia->save();
+                /**
+                 * Save Article Lang
+                 */
+                $articleEnglish->article_id = $model->id;
+                $articleEnglish->title = $bodyData['articleEnglish']['title'];
+                $articleEnglish->description = $bodyData['articleEnglish']['description'];
+                if ($articleEnglish->validate()) {
+                    $articleEnglish->save();
+                }
+
+                $articleIndonesia->article_id = $model->id;
+                $articleIndonesia->title = $bodyData['articleIndonesia']['title'];
+                $articleIndonesia->description = $bodyData['articleIndonesia']['description'];
+                if ($articleIndonesia->validate()) {
+                    $articleIndonesia->save();
+                }
+                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+                return $this->redirect(['/article/view', 'id' => $model->id]);
             }
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
-            return $this->redirect(['/article/view', 'id' => $model->id]);
         }
 
         return $this->render('/article/create', [
@@ -136,9 +142,9 @@ class ArticleController extends Controller
         $articleIndonesia = $this->findLangModel($model->id, 'id-ID');
 
         $bodyData = Yii::$app->request->post();
-        $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
 
         if ($model->load($bodyData)) {
+            $model->camel_case = Inflector::camelize($bodyData['articleEnglish']['title']);
             $model->type_id = Article::TYPE_ARTICLE;
             if ($model->save()) {
                 /**
