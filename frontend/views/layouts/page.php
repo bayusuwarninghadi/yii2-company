@@ -2,7 +2,7 @@
 use yii\helpers\HtmlPurifier;
 
 /* @var $this yii\web\View */
-/* @var $model \common\models\Article */
+/* @var $model \common\models\Pages */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;

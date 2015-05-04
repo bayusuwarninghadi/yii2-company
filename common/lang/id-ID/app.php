@@ -18,7 +18,7 @@
  */
 return [
     'Product' => 'Produk',
-    'Article' => 'Artikel',
+    'Pages' => 'Artikel',
     'News' => 'Berita',
     'Manage Profile' => 'Kelola Profil',
     'Favorites' => 'Produk Yang Disuka',

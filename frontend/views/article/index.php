@@ -7,7 +7,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var string $type */
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\ArticleSearch */
+/* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = $type;

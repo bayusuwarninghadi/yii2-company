@@ -1,7 +1,7 @@
 <?php
 namespace frontend\controllers;
 
-use common\models\Article;
+use common\models\Pages;
 use common\models\Brand;
 use common\models\Inbox;
 use common\models\LoginForm;
@@ -78,9 +78,9 @@ class SiteController extends BaseController
         $this->layout = 'mainIndex';
         $slider = [];
         /**
-         * @var $_article Article
+         * @var $_article Pages
          */
-        foreach ($sliderModel = Article::find()->where(['type_id' => Article::TYPE_SLIDER])->orderBy('order ASC')->all() as $_article) {
+        foreach ($sliderModel = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all() as $_article) {
             $slider[] = [
                 'content' => UploadHelper::getHtml('slider/' . $_article->id, 'large', [], true),
                 'caption' => HtmlPurifier::process($_article->description),
@@ -91,7 +91,7 @@ class SiteController extends BaseController
         $brands = Brand::find()->all();;
         return $this->render('/index/index', [
             'slider' => $slider,
-            'page' => Article::findOne(['type_id' => Article::TYPE_PAGES, 'camel_case' => 'Index']),
+            'page' => Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']),
             'products' => $products,
             'brands' => $brands,
         ]);
@@ -165,7 +165,7 @@ class SiteController extends BaseController
     public function actionAbout()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['camel_case' => 'About', 'type_id' => Article::TYPE_PAGES])
+            'model' => Pages::findOne(['camel_case' => 'About', 'type_id' => Pages::TYPE_PAGES])
         ]);
     }
 
@@ -175,7 +175,7 @@ class SiteController extends BaseController
     public function actionFaq()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['camel_case' => 'Faq', 'type_id' => Article::TYPE_PAGES])
+            'model' => Pages::findOne(['camel_case' => 'Faq', 'type_id' => Pages::TYPE_PAGES])
         ]);
     }
 
@@ -185,7 +185,7 @@ class SiteController extends BaseController
     public function actionTerms()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['camel_case' => 'Terms', 'type_id' => Article::TYPE_PAGES])
+            'model' => Pages::findOne(['camel_case' => 'Terms', 'type_id' => Pages::TYPE_PAGES])
         ]);
     }
 
@@ -195,7 +195,7 @@ class SiteController extends BaseController
     public function actionPrivacy()
     {
         return $this->render('/layouts/page', [
-            'model' => Article::findOne(['camel_case' => 'Privacy', 'type_id' => Article::TYPE_PAGES])
+            'model' => Pages::findOne(['camel_case' => 'Privacy', 'type_id' => Pages::TYPE_PAGES])
         ]);
     }
 

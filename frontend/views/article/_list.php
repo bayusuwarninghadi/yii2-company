@@ -7,7 +7,7 @@ use yii\helpers\HtmlPurifier;
  * User: bay_oz
  * Date: 4/17/15
  * Time: 20:03
- * @var $model \common\models\Article
+ * @var $model \common\models\Pages
  */
 
 ?>

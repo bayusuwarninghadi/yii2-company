@@ -7,9 +7,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * ArticleSearch represents the model behind the search form about `common\models\Article`.
+ * PagesSearch represents the model behind the search form about `common\models\Pages`.
  */
-class ArticleSearch extends Article
+class PagesSearch extends Pages
 {
     /**
      * @inheritdoc
@@ -40,7 +40,7 @@ class ArticleSearch extends Article
      */
     public function search($params)
     {
-        $query = Article::find();
+        $query = Pages::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

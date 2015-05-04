@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\Article;
+use common\models\Pages;
 use common\models\Cart;
 use common\models\ShippingMethod;
 use common\models\ShippingMethodCost;
@@ -117,7 +117,7 @@ class TransactionController extends BaseController
 
         }
 
-        $note = Article::find()->where(['camel_case' => 'Checkout', 'type_id' => Article::TYPE_PAGES])->one();
+        $note = Pages::find()->where(['camel_case' => 'Checkout', 'type_id' => Pages::TYPE_PAGES])->one();
 
         $paymentMethod = [];
         if ($this->settings['bank_transfer']) {
@@ -174,7 +174,7 @@ class TransactionController extends BaseController
                     ->setSubject('Checkout Success #' . $model->id)
                     ->send();
 
-                $note = Article::findOne(['camel_case' => 'Success', 'type_id' => Article::TYPE_PAGES]);
+                $note = Pages::findOne(['camel_case' => 'Success', 'type_id' => Pages::TYPE_PAGES]);
                 return $this->render('success', [
                     'model' => $model,
                     'note' => $note,

@@ -11,7 +11,7 @@ use yii\helpers\HtmlPurifier;
  *
  * @var array $slider
  * @var $this \yii\web\View
- * @var $page \common\models\Article
+ * @var $page \common\models\Pages
  * @var $products \common\models\Product[]
  * @var $brands \common\models\Brand[]
  */

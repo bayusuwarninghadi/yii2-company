@@ -4,9 +4,9 @@ use yii\helpers\Html;
 
 /* @var string $type */
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
-/* @var $modelEnglish common\models\ArticleLang */
-/* @var $modelIndonesia common\models\ArticleLang */
+/* @var $model common\models\Pages */
+/* @var $modelEnglish common\models\PagesLang */
+/* @var $modelIndonesia common\models\PagesLang */
 
 
 $this->title = 'Update ' . $type . ': ' . ' ' . $model->title;

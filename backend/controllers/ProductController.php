@@ -85,7 +85,7 @@ class ProductController extends Controller
         $model = new Product();
 
         /**
-         * Create New Article Language
+         * Create New Pages Language
          */
         $modelEnglish = new ProductLang();
         $modelEnglish->language = 'id-ID';

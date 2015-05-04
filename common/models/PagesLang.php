@@ -11,12 +11,12 @@ use yii\db\ActiveRecord;
  * @property integer $id
  * @property string $title
  * @property string $description
- * @property integer $article_id
+ * @property integer $page_id
  * @property string $language
  *
- * @property Article $article
+ * @property Pages $article
  */
-class ArticleLang extends ActiveRecord
+class PagesLang extends ActiveRecord
 {
 
     public $lang;
@@ -26,7 +26,7 @@ class ArticleLang extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'article_lang';
+        return 'pages_lang';
     }
 
     /**
@@ -35,9 +35,9 @@ class ArticleLang extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'article_id'], 'required'],
+            [['title', 'description', 'page_id'], 'required'],
             [['description'], 'string'],
-            [['article_id'], 'integer'],
+            [['page_id'], 'integer'],
             [['title', 'language'], 'string', 'max' => 255]
         ];
     }
@@ -51,7 +51,7 @@ class ArticleLang extends ActiveRecord
             'id' => Yii::t('app', 'ID'),
             'title' => Yii::t('app', 'Title'),
             'description' => Yii::t('app', 'Description'),
-            'article_id' => Yii::t('app', 'Article ID'),
+            'page_id' => Yii::t('app', 'Pages ID'),
             'language' => Yii::t('app', 'Language'),
         ];
     }
@@ -61,6 +61,6 @@ class ArticleLang extends ActiveRecord
      */
     public function getArticle()
     {
-        return $this->hasOne(Article::className(), ['id' => 'article_id']);
+        return $this->hasOne(Pages::className(), ['id' => 'page_id']);
     }
 }

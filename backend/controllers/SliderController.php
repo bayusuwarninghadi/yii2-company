@@ -4,8 +4,8 @@ namespace backend\controllers;
 
 use common\modules\UploadHelper;
 use Yii;
-use common\models\Article;
-use common\models\ArticleSearch;
+use common\models\Pages;
+use common\models\PagesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * ArticleController implements the CRUD actions for Pages model.
  */
 class SliderController extends Controller
 {
@@ -39,13 +39,13 @@ class SliderController extends Controller
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Pages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_SLIDER;
+        $searchModel = new PagesSearch();
+        $searchModel->type_id = Pages::TYPE_SLIDER;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,14 +56,14 @@ class SliderController extends Controller
     }
 
     /**
-     * Creates a new Article model.
+     * Creates a new Pages model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Article();
-        $model->type_id = Article::TYPE_SLIDER;
+        $model = new Pages();
+        $model->type_id = Pages::TYPE_SLIDER;
         $model->title = 'Slider';
         $model->camel_case = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
@@ -91,7 +91,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Updates an existing Article model.
+     * Updates an existing Pages model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,7 +102,7 @@ class SliderController extends Controller
         $model->title = 'Slider';
         $model->camel_case = 'Slider';
         if ($model->load(Yii::$app->request->post())) {
-            $model->type_id = Article::TYPE_SLIDER;
+            $model->type_id = Pages::TYPE_SLIDER;
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
                 UploadHelper::saveImage($image, 'slider/' . $model->id,[
@@ -126,7 +126,7 @@ class SliderController extends Controller
     }
 
     /**
-     * Deletes an existing Article model.
+     * Deletes an existing Pages model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -139,15 +139,15 @@ class SliderController extends Controller
     }
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Pages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_SLIDER])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_SLIDER])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

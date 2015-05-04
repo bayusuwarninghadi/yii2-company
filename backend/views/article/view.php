@@ -6,7 +6,7 @@ use yii\helpers\HtmlPurifier;
 
 /* @var string $this */
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
+/* @var $model common\models\Pages */
 /* @var string $type */
 
 $this->title = $model->title;

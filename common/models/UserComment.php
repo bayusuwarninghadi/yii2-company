@@ -36,7 +36,7 @@ class UserComment extends ActiveRecord
         $return = ($with_key == true)
             ? [
                 static::KEY_PRODUCT => Yii::t('app', 'Product'),
-                static::KEY_ARTICLE => Yii::t('app', 'Article'),
+                static::KEY_ARTICLE => Yii::t('app', 'Pages'),
                 static::KEY_NEWS => Yii::t('app', 'News'),
             ]
             : [

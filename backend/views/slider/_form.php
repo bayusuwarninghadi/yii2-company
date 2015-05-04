@@ -6,7 +6,7 @@ use backend\widget\tinymce\TinyMce;
 use common\modules\UploadHelper;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
+/* @var $model common\models\Pages */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

@@ -12,7 +12,7 @@ use yii\helpers\Html;
  * @var $grandTotal integer
  * @var $this \yii\web\View
  * @var $model \common\models\Transaction
- * @var $note \common\models\Article
+ * @var $note \common\models\Pages
  */
 
 $this->title = $note->title;

@@ -6,9 +6,9 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Article */
-/* @var $modelEnglish common\models\ArticleLang */
-/* @var $modelIndonesia common\models\ArticleLang */
+/* @var $model common\models\Pages */
+/* @var $modelEnglish common\models\PagesLang */
+/* @var $modelIndonesia common\models\PagesLang */
 /* @var $form yii\widgets\ActiveForm */
 
 ?>

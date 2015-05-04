@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use common\models\Article;
+use common\models\Pages;
 use common\models\Product;
 use common\models\UserComment;
 use common\models\UserCommentSearch;
@@ -60,14 +60,14 @@ class UserCommentController extends BaseController
                     break;
                 case UserComment::KEY_ARTICLE:
                     /**
-                     * @var $article Article
+                     * @var $article Pages
                      */
-                    $article = Article::findOne($id);
+                    $article = Pages::findOne($id);
                     switch($article->type_id){
-                        case (int) Article::TYPE_ARTICLE:
+                        case (int) Pages::TYPE_ARTICLE:
                             $redirect = '/article/view';
                             break;
-                        case (int) Article::TYPE_NEWS:
+                        case (int) Pages::TYPE_NEWS:
                             $redirect = '/news/view';
                             break;
                         default;

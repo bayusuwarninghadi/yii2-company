@@ -21,9 +21,9 @@ use yii\db\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  *
- * @property ArticleLang[] $articleLangs
+ * @property PagesLang[] $articleLangs
  */
-class Article extends ActiveRecord
+class Pages extends ActiveRecord
 {
 
     /**
@@ -69,7 +69,7 @@ class Article extends ActiveRecord
      */
     public function getTranslations()
     {
-        return $this->hasMany(ArticleLang::className(), ['article_id' => 'id']);
+        return $this->hasMany(PagesLang::className(), ['page_id' => 'id']);
     }
 
     /**
@@ -161,7 +161,7 @@ class Article extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'article';
+        return 'pages';
     }
 
     /**

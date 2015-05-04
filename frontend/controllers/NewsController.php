@@ -3,13 +3,13 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Article;
-use common\models\ArticleSearch;
+use common\models\Pages;
+use common\models\PagesSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * ArticleController implements the CRUD actions for Pages model.
  */
 class NewsController extends BaseController
 {
@@ -26,13 +26,13 @@ class NewsController extends BaseController
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Pages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_NEWS;
+        $searchModel = new PagesSearch();
+        $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('/article/index', [
@@ -43,7 +43,7 @@ class NewsController extends BaseController
     }
 
     /**
-     * Displays a single Article model.
+     * Displays a single Pages model.
      * @param integer $id
      * @return mixed
      */
@@ -56,15 +56,15 @@ class NewsController extends BaseController
     }
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Pages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_NEWS])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_NEWS])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

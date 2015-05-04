@@ -2,9 +2,9 @@
 
 namespace backend\controllers;
 
-use common\models\Article;
-use common\models\ArticleLang;
-use common\models\ArticleSearch;
+use common\models\Pages;
+use common\models\PagesLang;
+use common\models\PagesSearch;
 use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -13,7 +13,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * ArticleController implements the CRUD actions for Pages model.
  */
 class PagesController extends Controller
 {
@@ -39,13 +39,13 @@ class PagesController extends Controller
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Pages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_PAGES;
+        $searchModel = new PagesSearch();
+        $searchModel->type_id = Pages::TYPE_PAGES;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -57,7 +57,7 @@ class PagesController extends Controller
 
 
     /**
-     * Updates an existing Article model.
+     * Updates an existing Pages model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -72,11 +72,11 @@ class PagesController extends Controller
         $bodyData = Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
-            $model->type_id = Article::TYPE_PAGES;
+            $model->type_id = Pages::TYPE_PAGES;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
                 /**
-                 * Save Article Lang
+                 * Save Pages Lang
                  */
                 $modelEnglish->title = $bodyData['modelEnglish']['title'];
                 $modelEnglish->description = $bodyData['modelEnglish']['description'];
@@ -104,15 +104,15 @@ class PagesController extends Controller
 
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Pages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_PAGES])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_PAGES])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -120,17 +120,17 @@ class PagesController extends Controller
     }
 
     /**
-     * Finds the ArticleLang model based on its primary key value.
+     * Finds the PagesLang model based on its primary key value.
      * @param integer $articleId
      * @param string $language
-     * @return ArticleLang the loaded model
+     * @return PagesLang the loaded model
      */
     protected function findLangModel($articleId, $language)
     {
-        if (($model = ArticleLang::findOne(['article_id' => $articleId, 'language' => $language])) === null) {
-            $model = new ArticleLang();
+        if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+            $model = new PagesLang();
             $model->language = $language;
-            $model->article_id = $articleId;
+            $model->page_id = $articleId;
         }
         return $model;
     }

@@ -39,9 +39,9 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-file fa-fw"></i> ' . Yii::t('app', 'Manage Page'),
+                    'label' => '<i class="fa fa-file fa-fw"></i> ' . Yii::t('app', 'Manage Pages'),
                     'items' => [
-                        ['label' => '<i class="fa fa-file-archive-o fa-fw"></i> ' . Yii::t('app', 'Static Page'), 'url' => ['/pages/index']],
+                        ['label' => '<i class="fa fa-file-archive-o fa-fw"></i> ' . Yii::t('app', 'Static Pages'), 'url' => ['/pages/index']],
                         ['label' => '<i class="fa fa-envelope-o fa-fw"></i> ' . Yii::t('app', 'Email Template'), 'url' => ['/email-template/index']],
                         ['label' => '<i class="fa fa-picture-o fa-fw"></i> ' . Yii::t('app', 'Slider'), 'url' => ['/slider/index']]
                     ]

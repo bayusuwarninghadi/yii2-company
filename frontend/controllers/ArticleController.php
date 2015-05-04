@@ -3,13 +3,13 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Article;
-use common\models\ArticleSearch;
+use common\models\Pages;
+use common\models\PagesSearch;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Article model.
+ * ArticleController implements the CRUD actions for Pages model.
  */
 class ArticleController extends BaseController
 {
@@ -26,24 +26,24 @@ class ArticleController extends BaseController
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Pages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_ARTICLE;
+        $searchModel = new PagesSearch();
+        $searchModel->type_id = Pages::TYPE_ARTICLE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('/article/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Article'
+            'type' => 'Pages'
         ]);
     }
 
     /**
-     * Displays a single Article model.
+     * Displays a single Pages model.
      * @param integer $id
      * @return mixed
      */
@@ -51,20 +51,20 @@ class ArticleController extends BaseController
     {
         return $this->render('/article/view', [
             'model' => $this->findModel($id),
-            'type' => 'Article'
+            'type' => 'Pages'
         ]);
     }
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Pages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_ARTICLE])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_ARTICLE])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

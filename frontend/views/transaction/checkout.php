@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
  * Date: 4/19/15
  * Time: 22:59
  *
- * @var $note \common\models\Article
+ * @var $note \common\models\Pages
  * @var $this \yii\web\View
  * @var $model \common\models\Transaction
  * @var $form ActiveForm

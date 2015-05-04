@@ -1,20 +1,20 @@
 <?php
 
-use common\models\Article;
+use common\models\Pages;
 use yii\db\Migration;
 use yii\db\Schema;
 
 /**
  * Class m150331_184923_create_article
  */
-class m150331_184923_create_article extends Migration
+class m150331_184923_create_pages_table extends Migration
 {
     /**
      * Migrate
      */
     public function safeUp()
     {
-        $this->createTable('article', [
+        $this->createTable('pages', [
             'id' => Schema::TYPE_PK,
             'camel_case' => Schema::TYPE_STRING,
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
@@ -24,173 +24,173 @@ class m150331_184923_create_article extends Migration
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
         ]);
 
-        $this->createTable('article_lang', [
+        $this->createTable('pages_lang', [
             'id' => Schema::TYPE_PK,
-            'article_id' => Schema::TYPE_INTEGER,
+            'pages_id' => Schema::TYPE_INTEGER,
             'title' => Schema::TYPE_STRING,
             'description' => Schema::TYPE_TEXT,
             'language' => Schema::TYPE_STRING . " NOT NULL DEFAULT 'en-US'",
         ]);
 
-        $this->addForeignKey('article_lang_to_article', 'article_lang', 'article_id', 'article', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('pages_lang_to_pages', 'pages_lang', 'pages_id', 'pages', 'id', 'CASCADE', 'CASCADE');
 
         /**
          * Static Pages
          * Using by default configuration
          */
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 1,
             'camel_case' => 'Index',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'index',
             'description' => 'index page',
-            'article_id' => 1
+            'pages_id' => 1
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 2,
             'camel_case' => 'About',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'about',
             'description' => 'about page',
-            'article_id' => 2
+            'pages_id' => 2
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 3,
             'camel_case' => 'Faq',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'faq',
             'description' => 'Frequently asked question',
-            'article_id' => 3
+            'pages_id' => 3
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 4,
             'camel_case' => 'Privacy',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'privacy',
             'description' => 'Privacy and Policy',
-            'article_id' => 4
+            'pages_id' => 4
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 5,
             'camel_case' => 'Terms',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'terms',
             'description' => 'Terms and Condition',
-            'article_id' => 5
+            'pages_id' => 5
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 6,
             'camel_case' => 'Checkout',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'checkout',
             'description' => 'This is note for checkout process',
-            'article_id' => 6
+            'pages_id' => 6
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 7,
             'camel_case' => 'Success',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'success',
             'description' => 'Thanks, check your email, we will delivery your order shortly',
-            'article_id' => 7
+            'pages_id' => 7
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 8,
             'camel_case' => 'Confirmation',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'confirmation',
             'description' => 'Confirmation Page',
-            'article_id' => 8
+            'pages_id' => 8
         ]);
 
         /**
          * Slider Pages
          */
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 9,
-            'type_id' => Article::TYPE_SLIDER,
+            'type_id' => Pages::TYPE_SLIDER,
             'camel_case' => 'Slider',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'article_id' => 9
+            'pages_id' => 9
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 10,
-            'type_id' => Article::TYPE_SLIDER,
+            'type_id' => Pages::TYPE_SLIDER,
             'camel_case' => 'Slider',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'article_id' => 10
+            'pages_id' => 10
         ]);
 
         /**
          * Article Pages
          */
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 11,
-            'type_id' => Article::TYPE_ARTICLE,
+            'type_id' => Pages::TYPE_ARTICLE,
             'camel_case' => 'Article',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'Article',
-            'description' => 'Article Example',
-            'article_id' => 11
+            'description' => 'Pages Example',
+            'pages_id' => 11
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 12,
-            'type_id' => Article::TYPE_ARTICLE,
+            'type_id' => Pages::TYPE_ARTICLE,
             'camel_case' => 'Article2',
         ]);
-        $this->insert('article_lang', [
-            'title' => 'Article 2',
-            'description' => 'Article Example',
-            'article_id' => 12
+        $this->insert('pages_lang', [
+            'title' => 'Pages 2',
+            'description' => 'Pages Example',
+            'pages_id' => 12
         ]);
 
         /**
          * News Pages
          */
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 13,
-            'type_id' => Article::TYPE_NEWS,
+            'type_id' => Pages::TYPE_NEWS,
             'camel_case' => 'News',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'News',
             'description' => 'News Example',
-            'article_id' => 13
+            'pages_id' => 13
         ]);
 
-        $this->insert('article', [
+        $this->insert('pages', [
             'id' => 14,
-            'type_id' => Article::TYPE_NEWS,
+            'type_id' => Pages::TYPE_NEWS,
             'camel_case' => 'News2',
         ]);
-        $this->insert('article_lang', [
+        $this->insert('pages_lang', [
             'title' => 'News 2',
             'description' => 'News Example',
-            'article_id' => 14
+            'pages_id' => 14
         ]);
 
     }
@@ -200,8 +200,8 @@ class m150331_184923_create_article extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('article_lang_to_article', 'article_lang');
-        $this->dropTable('article_lang');
-        $this->dropTable('article');
+        $this->dropForeignKey('pages_lang_to_pages', 'pages_lang');
+        $this->dropTable('pages_lang');
+        $this->dropTable('pages');
     }
 }

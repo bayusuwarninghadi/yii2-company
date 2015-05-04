@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\Article;
-use common\models\ArticleSearch;
+use common\models\Pages;
+use common\models\PagesSearch;
 use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
 /**
- * EmailTemplateController implements the CRUD actions for Article model.
+ * EmailTemplateController implements the CRUD actions for Pages model.
  */
 class EmailTemplateController extends Controller
 {
@@ -38,13 +38,13 @@ class EmailTemplateController extends Controller
     }
 
     /**
-     * Lists all Article models.
+     * Lists all Pages models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticleSearch();
-        $searchModel->type_id = Article::TYPE_MAIL;
+        $searchModel = new PagesSearch();
+        $searchModel->type_id = Pages::TYPE_MAIL;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -56,7 +56,7 @@ class EmailTemplateController extends Controller
 
 
     /**
-     * Updates an existing Article model.
+     * Updates an existing Pages model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -66,7 +66,7 @@ class EmailTemplateController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->type_id = Article::TYPE_MAIL;
+            $model->type_id = Pages::TYPE_MAIL;
             $model->camel_case = Inflector::camelize($model->title);
             if ($model->save()) {
                 return $this->redirect(['index']);
@@ -80,15 +80,15 @@ class EmailTemplateController extends Controller
 
 
     /**
-     * Finds the Article model based on its primary key value.
+     * Finds the Pages model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Article the loaded model
+     * @return Pages the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Article::findOne(['id' => $id, 'type_id' => Article::TYPE_MAIL])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_MAIL])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
