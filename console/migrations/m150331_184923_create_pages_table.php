@@ -26,13 +26,13 @@ class m150331_184923_create_pages_table extends Migration
 
         $this->createTable('pages_lang', [
             'id' => Schema::TYPE_PK,
-            'pages_id' => Schema::TYPE_INTEGER,
+            'page_id' => Schema::TYPE_INTEGER,
             'title' => Schema::TYPE_STRING,
             'description' => Schema::TYPE_TEXT,
             'language' => Schema::TYPE_STRING . " NOT NULL DEFAULT 'en-US'",
         ]);
 
-        $this->addForeignKey('pages_lang_to_pages', 'pages_lang', 'pages_id', 'pages', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('pages_lang_to_pages', 'pages_lang', 'page_id', 'pages', 'id', 'CASCADE', 'CASCADE');
 
         /**
          * Static Pages
@@ -45,7 +45,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'index',
             'description' => 'index page',
-            'pages_id' => 1
+            'page_id' => 1
         ]);
 
         $this->insert('pages', [
@@ -55,7 +55,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'about',
             'description' => 'about page',
-            'pages_id' => 2
+            'page_id' => 2
         ]);
 
         $this->insert('pages', [
@@ -65,7 +65,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'faq',
             'description' => 'Frequently asked question',
-            'pages_id' => 3
+            'page_id' => 3
         ]);
 
         $this->insert('pages', [
@@ -75,7 +75,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'privacy',
             'description' => 'Privacy and Policy',
-            'pages_id' => 4
+            'page_id' => 4
         ]);
 
         $this->insert('pages', [
@@ -85,7 +85,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'terms',
             'description' => 'Terms and Condition',
-            'pages_id' => 5
+            'page_id' => 5
         ]);
 
         $this->insert('pages', [
@@ -95,7 +95,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'checkout',
             'description' => 'This is note for checkout process',
-            'pages_id' => 6
+            'page_id' => 6
         ]);
 
         $this->insert('pages', [
@@ -105,7 +105,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'success',
             'description' => 'Thanks, check your email, we will delivery your order shortly',
-            'pages_id' => 7
+            'page_id' => 7
         ]);
 
         $this->insert('pages', [
@@ -115,7 +115,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'confirmation',
             'description' => 'Confirmation Page',
-            'pages_id' => 8
+            'page_id' => 8
         ]);
 
         /**
@@ -129,7 +129,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'pages_id' => 9
+            'page_id' => 9
         ]);
 
         $this->insert('pages', [
@@ -140,7 +140,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'slider',
             'description' => 'about page',
-            'pages_id' => 10
+            'page_id' => 10
         ]);
 
         /**
@@ -154,7 +154,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'Article',
             'description' => 'Pages Example',
-            'pages_id' => 11
+            'page_id' => 11
         ]);
 
         $this->insert('pages', [
@@ -165,7 +165,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'Pages 2',
             'description' => 'Pages Example',
-            'pages_id' => 12
+            'page_id' => 12
         ]);
 
         /**
@@ -179,7 +179,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'News',
             'description' => 'News Example',
-            'pages_id' => 13
+            'page_id' => 13
         ]);
 
         $this->insert('pages', [
@@ -190,7 +190,7 @@ class m150331_184923_create_pages_table extends Migration
         $this->insert('pages_lang', [
             'title' => 'News 2',
             'description' => 'News Example',
-            'pages_id' => 14
+            'page_id' => 14
         ]);
 
     }

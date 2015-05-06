@@ -25,7 +25,7 @@ use yii\helpers\HtmlPurifier;
             <td><?=Yii::$app->formatter->asPercent($model->discount / 100)?></td>
         </tr>
         <tr>
-            <th><?=Yii::t('app', 'Grand Total')?>/th>
+            <th><?=Yii::t('app', 'Grand Total')?></th>
             <td><?=Yii::$app->formatter->asCurrency(round($model->price * (100 - $model->discount) / 100, 0, PHP_ROUND_HALF_UP))?></td>
         </tr>
         <?php foreach ($model->getProductAttributeDetailValue() as $name => $detail) : ?>
