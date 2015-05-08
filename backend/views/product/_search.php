@@ -23,6 +23,13 @@ use yii\widgets\ActiveForm;
         <div class="panel-heading">
             <i class="fa fa-search"></i> Advance Search
         </div>
+        <div class="category-tree-container">
+            <ul class="nav categories-tree collapse">
+                <li>
+                    <a class="<?php if ($model->cat_id == '') echo 'active'?>" href="#" data-id="" style="padding-left:15px">+ <?=Yii::t('app','All Category')?></a>
+                </li>
+            </ul>
+        </div>
         <?= $form->field($model, 'cat_id', ['template' => "{input}\n{hint}\n{error}", 'options' => ['class' => '']])->widget(CategoryWidget::className(), ['withPanel' => false]) ?>
         <div class="panel-body">
             <?= $form->field($model, 'name') ?>

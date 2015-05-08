@@ -212,15 +212,24 @@ class SiteController extends BaseController
             $model->generateAuthKey();
             if ($model->save()) {
 
-                Yii::$app->mailer
-                    ->compose(['html' => 'register'], [
-                        'user' => $model,
-                    ])
-                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
-                    ->setTo($model->email)
-                    ->setSubject(Yii::t('app', 'Register Success'))
-                    ->send();
+                /** @var Pages $content */
+                if ($content = Pages::findOne(['camel_case' => 'Register', 'type_id' => Pages::TYPE_MAIL])){
+                    $params = [];
+                    $replace = [];
+                    foreach($model->toArray() as $k => $v){
+                        $params[] = "[[user.$k]]";
+                        $replace[] = $v;
+                    }
 
+                    $html = str_replace($params, $replace, $content->description);
+                    Yii::$app->mailer
+                        ->compose()
+                        ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+                        ->setTo($model->email)
+                        ->setHtmlBody($html)
+                        ->setSubject(Yii::t('app', 'Register Success'))
+                        ->send();
+                }
 
                 if (Yii::$app->getUser()->login($model)) {
                     return $this->goHome();

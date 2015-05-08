@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <?= $this->render('cartAjax', [
         'dataProvider' => $cartDataProvider,
-        'subTotal' => $subTotal
+        'subTotal' => $model->sub_total
     ]) ?>
     <?= DetailView::widget([
         'model' => $model,

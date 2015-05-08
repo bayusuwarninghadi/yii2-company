@@ -16,13 +16,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     
     <div class="row">
+        <?php Pjax::begin();?>
         <div class="col-md-4">
             <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
         <div class="col-md-8">
-            <?php 
-            Pjax::begin();
-            echo GridView::widget([
+            <?= GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
@@ -53,9 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['class' => 'backend\widget\ActionColumn'],
                 ],
-            ]); 
-            Pjax::end()
-            ?>
+            ]); ?>
         </div>
+        <?php Pjax::end(); ?>
     </div>
 </div>

@@ -3,8 +3,10 @@
 namespace backend\controllers;
 
 use common\models\CategorySearch;
+use creocoder\nestedsets\NestedSetsBehavior;
 use Yii;
 use common\models\Category;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -17,6 +19,15 @@ class CategoryController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -44,25 +55,33 @@ class CategoryController extends Controller
      */
     public function actionCreate()
     {
+        /** @var $model Category|NestedSetsBehavior */
         $model = new Category();
 
         if ($model->load(Yii::$app->request->post())) {
-            // nested set
-            if (Yii::$app->request->get('prepend')){
-                $prepend = $this->findModel(Yii::$app->request->get('prepend'));
-                $model->prependTo($prepend);
-            } elseif (Yii::$app->request->get('append')){
-                $append = $this->findModel(Yii::$app->request->get('append'));
-                $model->appendTo($append);
-            } elseif (Yii::$app->request->get('before')){
-                $before = $this->findModel(Yii::$app->request->get('before'));
-                $model->insertBefore($before);
-            } elseif (Yii::$app->request->get('after')){
-                $after = $this->findModel(Yii::$app->request->get('after'));
-                $model->insertAfter($after);
+            if (Yii::$app->request->get('node')){
+                // nested set
+                $node = $this->findModel(Yii::$app->request->get('node-id'));
+                switch (Yii::$app->request->get('node')){
+                    case 'prepend':
+                        $model->prependTo($node);
+                        break;
+                    case 'append':
+                        $model->appendTo($node);
+                        break;
+                    case 'before':
+                        $model->insertBefore($node, false);
+                        break;
+                    case 'after':
+                        $model->insertAfter($node, false);
+                        break;
+                    default:
+                        break;
+                }
             } else {
                 $model->makeRoot();
             }
+
             Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
             return $this->redirect(['index']);
         }
@@ -97,7 +116,7 @@ class CategoryController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDeleteCategory($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 

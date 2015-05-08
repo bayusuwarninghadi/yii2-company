@@ -2,22 +2,24 @@
 
 namespace frontend\controllers;
 
-use common\models\Pages;
 use common\models\Cart;
+use common\models\Pages;
 use common\models\ShippingMethod;
 use common\models\ShippingMethodCost;
 use common\models\Transaction;
 use common\models\TransactionSearch;
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\widgets\ActiveForm;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\BadRequestHttpException;
 use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
+use yii\widgets\ActiveForm;
+use yii\widgets\DetailView;
 
 /**
  * Class TransactionController
@@ -25,7 +27,6 @@ use yii\web\Response;
  */
 class TransactionController extends BaseController
 {
-
 
 
     /**
@@ -97,7 +98,7 @@ class TransactionController extends BaseController
             }
 
             $model->grand_total = $subTotal;
-            if ($voucher = $model->getVoucher()){
+            if ($voucher = $model->getVoucher()) {
                 $model->grand_total -= $voucher->value;
             }
 
@@ -105,7 +106,7 @@ class TransactionController extends BaseController
              * Calculate Shipping
              * @var $shippingCostModel ShippingMethodCost
              */
-            if ($shippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])){
+            if ($shippingCostModel = ShippingMethodCost::findOne(['city_area_id' => $model->shipping->city_area_id])) {
                 $model->shipping_cost = $shippingCostModel->value;
                 $model->grand_total += $shippingCostModel->value;
             }
@@ -124,7 +125,7 @@ class TransactionController extends BaseController
             $paymentMethod['Bank Transfer'] = 'Bank Transfer';
         }
 
-        $shippingMethod = ArrayHelper::map(ShippingMethod::find()->all(),'id','name');
+        $shippingMethod = ArrayHelper::map(ShippingMethod::find()->all(), 'id', 'name');
 
         return $this->render('checkout', [
             'paymentMethod' => $paymentMethod,
@@ -140,7 +141,8 @@ class TransactionController extends BaseController
      * Action Success after checkout
      * @return string|Response
      */
-    public function actionSuccess(){
+    public function actionSuccess()
+    {
         $model = new Transaction();
         $model->user_id = Yii::$app->user->getId();
         $model->disclaimer = 1;
@@ -152,7 +154,7 @@ class TransactionController extends BaseController
 
         if ($model->load(Yii::$app->request->post())) {
 
-            if ($model->save()){
+            if (true) {
                 /**
                  * Save Transaction Attributes
                  * @var $product Cart
@@ -163,16 +165,55 @@ class TransactionController extends BaseController
                 }
                 Yii::$app->session->setFlash('success', 'Check your email for next instruction');
 
-                Yii::$app->mailer
-                    ->compose(['html' => 'checkout'], [
-                        'user' => Yii::$app->user->identity,
-                        'transaction' => $model,
-                        'cartDataProvider' => $cartDataProvider,
-                    ])
-                    ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
-                    ->setTo(Yii::$app->user->identity->email)
-                    ->setSubject('Checkout Success #' . $model->id)
-                    ->send();
+                /** @var Pages $content */
+                if ( false && $content = Pages::findOne(['camel_case' => 'Checkout', 'type_id' => Pages::TYPE_MAIL])) {
+                    $params = [];
+                    $replace = [];
+                    foreach ($model->toArray() as $k => $v) {
+                        $params[] = "[[transaction.$k]]";
+                        $replace[] = $v;
+                    }
+
+                    $params[] = '[[transaction.product]]';
+                    $replace[] = $this->renderPartial(
+                        '/transaction/cartAjax', [
+                            'dataProvider' => $cartDataProvider,
+                            'subTotal' => $model->sub_total
+                        ]
+                    );
+
+                    $params[] = '[[transaction.detail]]';
+                    $replace[] = DetailView::widget([
+                        'model' => $model,
+                        'attributes' => [
+                            'payment_method',
+                            'shipping.address',
+                            'shipping.cityArea.name',
+                            'shipping.cityArea.city.name',
+                            'shipping.postal_code',
+                            'shippingMethod.name',
+                            'shipping_cost:currency',
+                            [
+                                'label' => Yii::t('app', 'Voucher'),
+                                'value' => ($model->voucher)
+                                    ?
+                                    Html::tag('h2', $model->voucher_code . ' <small class="line-through">' . Yii::$app->formatter->asCurrency($model->voucher->value) . '</small>')
+                                    : '',
+                                'format' => 'html'
+                            ],
+                            'note',
+                        ],
+                    ]);
+
+                    $html = str_replace($params, $replace, $content->description);
+                    Yii::$app->mailer
+                        ->compose()
+                        ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
+                        ->setTo(Yii::$app->user->identity->email)
+                        ->setHtmlBody($html)
+                        ->setSubject('Checkout Success #' . $model->id)
+                        ->send();
+                }
 
                 $note = Pages::findOne(['camel_case' => 'Success', 'type_id' => Pages::TYPE_PAGES]);
                 return $this->render('success', [

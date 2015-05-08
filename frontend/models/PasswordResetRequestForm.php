@@ -1,8 +1,12 @@
 <?php
 namespace frontend\models;
 
+use common\models\Pages;
+use common\models\Setting;
 use common\models\User;
 use yii\base\Model;
+use Yii;
+use yii\helpers\Html;
 
 /**
  * Password reset request form
@@ -47,11 +51,28 @@ class PasswordResetRequestForm extends Model
             }
 
             if ($user->save()) {
-                return \Yii::$app->mailer->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
-                    ->setFrom([\Yii::$app->params['supportEmail'] => \Yii::$app->name . ' robot'])
-                    ->setTo($this->email)
-                    ->setSubject('Password reset for ' . \Yii::$app->name)
-                    ->send();
+
+                /** @var Pages $content */
+                if ($content = Pages::findOne(['camel_case' => 'PasswordResetToken', 'type_id' => Pages::TYPE_MAIL])){
+                    $params = [];
+                    $replace = [];
+                    foreach($user->toArray() as $k => $v){
+                        $params[] = "[[user.$k]]";
+                        $replace[] = $v;
+                    }
+                    $resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+                    $params[] = 'resetLink';
+                    $replace[] = Html::a(Html::encode($resetLink), $resetLink);
+
+                    $html = str_replace($params, $replace, $content->description);
+                    return Yii::$app->mailer
+                        ->compose()
+                        ->setFrom([Setting::findOne(['key' => 'no_reply_email'])->value => Yii::$app->name . ' robot'])
+                        ->setTo($this->email)
+                        ->setSubject('Password reset for ' . Yii::$app->name)
+                        ->setHtmlBody($html)
+                        ->send();
+                }
             }
         }
 

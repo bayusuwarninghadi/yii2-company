@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use creocoder\nestedsets\NestedSetsBehavior;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -45,8 +46,8 @@ class ProductSearch extends Product
     public function rules()
     {
         return [
-            [['id', 'price', 'discount', 'stock', 'brand_id', 'price_from', 'price_to', 'stock_from', 'stock_to', 'discount_from', 'discount_to', 'status', 'visible', 'order', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'sort', 'description', 'category_name'], 'safe'],
+            [['id', 'price', 'discount', 'stock', 'brand_id', 'price_from', 'price_to', 'stock_from', 'stock_to', 'discount_from', 'discount_to', 'status', 'visible', 'order', 'created_at', 'cat_id', 'updated_at'], 'integer'],
+            [['name', 'sort', 'description', 'subtitle', 'category_name'], 'safe'],
         ];
     }
 
@@ -61,7 +62,7 @@ class ProductSearch extends Product
 
     /**
      * getCatId as Array
-     * @param Category $category
+     * @param Category|NestedSetsBehavior $category
      * @return array
      */
     protected function getCategoryChildIds($category)
@@ -85,7 +86,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find()->joinWith(['category']);
+        $query = Product::find()->joinWith(['category','translations']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -107,17 +108,28 @@ class ProductSearch extends Product
             'desc' => ['category.name' => SORT_DESC],
         ];
 
+        $dataProvider->sort->attributes['name'] = [
+            'asc' => ['product_lang.name' => SORT_ASC],
+            'desc' => ['product_lang.name' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['subtitle'] = [
+            'asc' => ['product_lang.subtitle' => SORT_ASC],
+            'desc' => ['product_lang.subtitle' => SORT_DESC],
+        ];
+
         $query->andFilterWhere([
             'id' => $this->id,
             'status' => $this->status,
             'brand_id' => $this->brand_id,
+            'cat_id' => $this->cat_id,
             'visible' => $this->visible,
             'order' => $this->order,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'product.name', $this->name])
+        $query->andFilterWhere(['like', 'product_lang.name', $this->name])
             ->andFilterWhere(['like', 'price', $this->price])
             ->andFilterWhere(['like', 'discount', $this->price])
             ->andFilterWhere(['like', 'stock', $this->stock])
@@ -127,9 +139,13 @@ class ProductSearch extends Product
             ->andFilterWhere(['<=', 'discount', $this->discount_to])
             ->andFilterWhere(['>=', 'stock', $this->stock_from])
             ->andFilterWhere(['<=', 'stock', $this->stock_to])
-            ->andFilterWhere(['like', 'product.description', $this->description]);
+            ->andFilterWhere(['like', 'product_lang.description', $this->description])
+            ->andFilterWhere(['like', 'product_lang.subtitle', $this->subtitle])
+        ;
 
-        if ($this->cat_id && $cat_ids = Category::findOne($this->cat_id)) {
+        if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
+            /** @var Category $category */
+            $cat_ids = self::getCategoryChildIds($category);
             $query->andFilterWhere(['in', 'cat_id', $cat_ids]);
         }
 

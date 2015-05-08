@@ -2,6 +2,7 @@
 namespace backend\widget\category;
 
 use common\models\Category;
+use creocoder\nestedsets\NestedSetsBehavior;
 use yii\helpers\Html;
 use yii\widgets\InputWidget;
 
@@ -22,13 +23,17 @@ class CategoryWidget extends InputWidget
     public $options = false;
 
     /**
+     * @var integer
+     */
+    protected $selected;
+
+    /**
      * Initializes the widget.
      */
     public function init()
     {
-        if ($this->options){
-            CategoryWidgetAssets::register($this->view);
-        }
+        CategoryWidgetAssets::register($this->view);
+        $this->selected = Html::getAttributeValue($this->model, $this->attribute);
     }
 
     /**
@@ -54,15 +59,18 @@ class CategoryWidget extends InputWidget
         $id = $this->getId();
 
         echo Html::beginTag('div', ['class' => 'category-tree-container', 'id' => $id]);
-        static::renderCategory(Category::find()->roots()->all());
         echo Html::activeHiddenInput($this->model, $this->attribute);
+        $root = Category::find()->roots()->all();
+        if ($root) {
+            static::renderCategory($root);
+            $view = $this->getView();
+            $view->registerJs("jQuery('#$id>ul').metisMenu();");
+
+            $input_id = Html::getInputId($this->model, $this->attribute);
+            $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
+        }
         echo Html::endTag('div');
 
-        $view = $this->getView();
-        $view->registerJs("jQuery('#$id>ul').metisMenu();");
-
-        $input_id = Html::getInputId($this->model, $this->attribute);
-        $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
     }
 
     /**
@@ -73,18 +81,31 @@ class CategoryWidget extends InputWidget
      */
     protected function renderCategory($categories, $level = 1)
     {
-        echo Html::beginTag('ul', ['class' => 'nav categories-tree', 'role' => 'navigation']);
+        echo Html::beginTag('ul', ['class' => 'nav categories-tree collapse in', 'role' => 'navigation']);
+        /** @var NestedSetsBehavior|Category $category */
         foreach ($categories as $category) {
             echo Html::beginTag('li');
             $paddingLeft = $level * 15;
             if ($_child = $category->children(1)->all()) {
-                echo Html::a('+ ' . $category->name . ' <i class="fa arrow"></i>', '#', ['data-id' => $category->id, 'style' => 'padding-left:' . $paddingLeft . 'px']);
+                echo Html::a('+ ' . $category->name . ' <i class="fa arrow"></i>', '#',
+                    [
+                        'data-id' => $category->id,
+                        'style' => 'padding-left:' . $paddingLeft . 'px',
+                        'class' => ($this->selected == $category->id) ? 'active' : ''
+                    ]
+                );
                 if ($this->options) {
                     static::renderOptions($category);
                 }
                 static::renderCategory($_child, $level + 1);
             } else {
-                echo Html::a('+ ' . $category->name, '#', ['data-id' => $category->id, 'style' => 'padding-left:' . $paddingLeft . 'px']);
+                echo Html::a('+ ' . $category->name, '#',
+                    [
+                        'data-id' => $category->id,
+                        'style' => 'padding-left:' . $paddingLeft . 'px',
+                        'class' => ($this->selected == $category->id) ? 'active' : ''
+                    ]
+                );
                 if ($this->options) {
                     static::renderOptions($category);
                 }
@@ -101,11 +122,11 @@ class CategoryWidget extends InputWidget
     protected function renderOptions($category)
     {
         echo Html::beginTag('div', ['class' => 'btn-group btn-group-sm hide']);
-        echo Html::a('Add Child', ['create', 'prepend' => $category->id], ['class' => 'btn btn-primary']);
-        echo Html::a('Insert After', ['create', 'after' => $category->id], ['class' => 'btn btn-success']);
-        echo Html::a('Edit', ['update', 'id' => $category->id], ['class' => 'btn btn-warning']);
-        echo Html::a('Delete', ['delete', 'id' => $category->id], [
+        echo Html::a('<i class="fa fa-fw fa-level-down"></i>', ['create', 'node' => 'prepend', 'node-id' => $category->id], ['class' => 'btn btn-primary', 'title' => 'Insert Child']);
+        echo Html::a('<i class="fa fa-fw fa-edit"></i>', ['update', 'id' => $category->id], ['class' => 'btn btn-warning', 'title' => 'Edit Category']);
+        echo Html::a('<i class="fa fa-fw fa-trash-o"></i>', ['delete', 'id' => $category->id], [
             'class' => 'btn btn-danger',
+            'title' => 'Delete Category',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',

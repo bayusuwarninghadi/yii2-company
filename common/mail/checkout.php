@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
 
 /**
  * Created by PhpStorm.
@@ -13,18 +14,25 @@ use yii\widgets\DetailView;
  * @var $cartDataProvider \yii\data\ActiveDataProvider
  */
 
-$this->title = Yii::t('app', 'Transaction') . ' #' . $model->id;
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h1><?= $this->title ?></h1>
+<h1><?= Yii::t('app', 'Transaction') . ' #' . $model->id ?></h1>
 <div class="panel panel-success">
     <div class="panel-heading">
         <i class="fa fa-truck fa-fw"></i> <?= Yii::t('app', 'Detail') ?>
     </div>
-    <?= $this->render('cartAjax', [
+    <?= ListView::widget([
         'dataProvider' => $cartDataProvider,
-        'subTotal' => $model->sub_total,
-    ]) ?>
+        'emptyTextOptions' => ['class' => 'list-group-item'],
+        'itemView' => '/transaction/_list',
+        'layout' => '{items}' . Html::tag('div', Yii::t('app','Sub Total') . ' ' . Yii::$app->formatter->asCurrency($model->sub_total), ['class' => 'list-group-item text-right strong']),
+        'itemOptions' => [
+            'class' => 'list-group-item'
+        ],
+        'options' => [
+            'class' => 'cart-list list-group'
+        ],
+    ]);
+    ?>
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [

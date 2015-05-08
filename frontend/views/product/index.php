@@ -1,6 +1,7 @@
 <?php
 
 use yii\widgets\ListView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ProductSearch */
@@ -11,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
     <div class="row">
+        <?php Pjax::begin();?>
         <div class="col-md-3 col-sm-4">
             <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
@@ -40,8 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'itemOptions' => [
                     'class' => 'col-sm-6 col-lg-4 col-md-4 col-xs-6 product-list'
                 ]
-            ]); ?>
+            ]);
+            ?>
         </div>
+        <?php Pjax::end();?>
     </div>
 </div>
 

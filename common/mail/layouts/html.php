@@ -16,6 +16,7 @@ use yii\helpers\Html;
 <body>
     <?php $this->beginBody() ?>
     <?= $content ?>
+    <div class="footer"><?=Yii::t('app','With kind regards')?></div>
     <?php $this->endBody() ?>
 </body>
 </html>

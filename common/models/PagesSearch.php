@@ -40,19 +40,31 @@ class PagesSearch extends Pages
      */
     public function search($params)
     {
-        $query = Pages::find();
+        $query = Pages::find()->joinWith(['translations']);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 15,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    'updated_at' => SORT_DESC,
+                ]
+            ]
         ]);
 
         $this->load($params);
 
-        if (!$this->validate()) {
-            // uncomment the following line if you do not want to any records when validation fails
-            // $query->where('0=1');
-            return $dataProvider;
-        }
+        $dataProvider->sort->attributes['title'] = [
+            'asc' => ['pages_lang.title' => SORT_ASC],
+            'desc' => ['pages_lang.title' => SORT_DESC],
+        ];
+
+        $dataProvider->sort->attributes['description'] = [
+            'asc' => ['pages_lang.description' => SORT_ASC],
+            'desc' => ['pages_lang.description' => SORT_DESC],
+        ];
 
         $query->andFilterWhere([
             'id' => $this->id,
@@ -63,8 +75,8 @@ class PagesSearch extends Pages
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'description', $this->description]);
+        $query->andFilterWhere(['like', 'pages_lang.title', $this->title])
+            ->andFilterWhere(['like', 'pages_lang.description', $this->description]);
 
         return $dataProvider;
     }

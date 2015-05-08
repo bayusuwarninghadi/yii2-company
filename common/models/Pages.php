@@ -178,14 +178,13 @@ class Pages extends ActiveRecord
                 'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
                 'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
-
             [['type_id'], 'required'],
             [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
             [['order'], 'default', 'value' => 0],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES, static::TYPE_SLIDER, static::TYPE_MAIL]],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
-            [['title', 'camel_case'], 'string', 'max' => 255]
+            [['title', 'description', 'camel_case'], 'string', 'max' => 255]
         ];
     }
 

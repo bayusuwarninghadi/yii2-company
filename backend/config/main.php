@@ -18,6 +18,7 @@ return [
                 'readonly' => 'readonly',
             ],
             'configs' => [
+                'height' => 300,
                 'plugins' => 'link fullscreen image pagebreak paste',
                 'extended_valid_elements' => 'iframe[src|frameborder|style|scrolling|class|width|height|name|align]',
                 'paste_as_text' => true,

@@ -31,9 +31,9 @@ class Category extends ActiveRecord
             'tree' => [
                 'class' => NestedSetsBehavior::className(),
                 'treeAttribute' => 'tree',
-                // 'leftAttribute' => 'lft',
-                // 'rightAttribute' => 'rgt',
-                // 'depthAttribute' => 'depth',
+                'leftAttribute' => 'lft',
+                'rightAttribute' => 'rgt',
+                'depthAttribute' => 'depth',
             ],
         ];
     }
