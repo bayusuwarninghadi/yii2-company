@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
             <i class="fa fa-search"></i> <?= Yii::t('app', 'Advance Search') ?>
         </div>
         <div class="category-tree-container">
-            <ul class="nav categories-tree collapse">
+            <ul class="nav categories-tree">
                 <li>
                     <a class="<?php if ($model->cat_id == '') echo 'active'?>" href="#" data-id="" style="padding-left:15px">+ <?=Yii::t('app','All Category')?></a>
                 </li>

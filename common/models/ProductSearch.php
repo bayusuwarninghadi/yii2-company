@@ -70,8 +70,9 @@ class ProductSearch extends Product
         $return = [];
         $return[] = $category->id;
         if ($child = $category->children()->all()) {
+            /** @var Category $cat */
             foreach ($child as $cat) {
-                array_merge($return, $this->getCategoryChildIds($cat));
+                $return[] = $cat->id;
             }
         }
         return $return;
@@ -122,7 +123,6 @@ class ProductSearch extends Product
             'id' => $this->id,
             'status' => $this->status,
             'brand_id' => $this->brand_id,
-            'cat_id' => $this->cat_id,
             'visible' => $this->visible,
             'order' => $this->order,
             'created_at' => $this->created_at,
@@ -143,8 +143,8 @@ class ProductSearch extends Product
             ->andFilterWhere(['like', 'product_lang.subtitle', $this->subtitle])
         ;
 
+        /** @var Category $category */
         if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
-            /** @var Category $category */
             $cat_ids = self::getCategoryChildIds($category);
             $query->andFilterWhere(['in', 'cat_id', $cat_ids]);
         }

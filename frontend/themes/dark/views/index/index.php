@@ -22,7 +22,7 @@ $this->title = Yii::t('app', 'Welcome');
 <?= Carousel::widget([
     'items' => $slider,
     'options' => [
-        'id' => 'index-slider',
+        'class' => 'index-slider slide'
     ],
     'controls' => [
         '<span class="glyphicon glyphicon-chevron-left"></span>',

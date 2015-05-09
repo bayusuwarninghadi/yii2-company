@@ -96,4 +96,52 @@ class Category extends ActiveRecord
         return $this->hasMany(Product::className(), ['cat_id' => 'id']);
     }
 
+    /**
+     * getCategoryChild
+     *
+     * @param Category[] $categories
+     * @return array
+     */
+    public static function getCategoryChild($categories = null)
+    {
+        $return = [];
+        if ($categories == null) {
+            $categories = Category::find()->roots()->all();
+        }
+        foreach ($categories as $category) {
+            $return[$category->id] = $category->toArray();
+            if ($child = $category->children(1)->all()) {
+                $return[$category->id]['child'] = static::getCategoryChild($child);
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * renderNavItem
+     *
+     * @return array
+     */
+    public static function renderNavItem()
+    {
+        $items = [];
+        foreach ($categories = static::getCategoryChild() as $category) {
+            $_item = [
+                'label' => $category['name'],
+            ];
+            if (isset($category['child'])) {
+                foreach ($category['child'] as $subCategory) {
+                    $_item['items'][] = [
+                        'label' => $subCategory['name'],
+                        'url' => ['/product', 'ProductSearch[cat_id]' => $subCategory['id']]
+                    ];
+                }
+            } else {
+                $_item['url'] = ['/product', 'ProductSearch[cat_id]' => $category['id']];
+            }
+            $items[] = $_item;
+        }
+        return $items;
+    }
+
 }
