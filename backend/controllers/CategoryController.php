@@ -79,7 +79,17 @@ class CategoryController extends Controller
                         break;
                 }
             } else {
-                $model->makeRoot();
+                /**
+                 * assuming first row is root
+                 * @var Category|NestedSetsBehavior $root
+                 */
+                $root = Category::find()->one();
+                if (!$root){
+                    $root = new Category();
+                    $root->name = 'root';
+                    $root->makeRoot();
+                }
+                $model->prependTo($root);
             }
 
             Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));

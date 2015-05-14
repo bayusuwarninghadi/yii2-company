@@ -19,7 +19,7 @@ use yii\widgets\ActiveForm;
     ]); ?>
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-search"></i> <?= Yii::t('app', 'Advance Search') ?>
+            <i class="fa fa-search"></i> <?= Yii::t('app', 'Search') ?>
         </div>
         <div class="category-tree-container">
             <ul class="nav categories-tree">

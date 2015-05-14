@@ -23,9 +23,9 @@ class CategoryWidget extends InputWidget
     public $options = false;
 
     /**
-     * @var integer
+     * @var array
      */
-    protected $selected;
+    protected $selected = [];
 
     /**
      * Initializes the widget.
@@ -33,7 +33,15 @@ class CategoryWidget extends InputWidget
     public function init()
     {
         CategoryWidgetAssets::register($this->view);
-        $this->selected = Html::getAttributeValue($this->model, $this->attribute);
+        $selected = Html::getAttributeValue($this->model, $this->attribute);
+        $this->selected[] = $selected;
+        /** @var Category|NestedSetsBehavior $currentCategory*/
+        /** @var Category|NestedSetsBehavior $parent*/
+        if ($currentCategory = Category::findOne($selected)){
+            foreach ($currentCategory->parents()->all() as $parent){
+                $this->selected[] = $parent->id;
+            }
+        }
     }
 
     /**
@@ -60,15 +68,23 @@ class CategoryWidget extends InputWidget
 
         echo Html::beginTag('div', ['class' => 'category-tree-container', 'id' => $id]);
         echo Html::activeHiddenInput($this->model, $this->attribute);
-        $root = Category::find()->roots()->all();
-        if ($root) {
-            static::renderCategory($root);
-            $view = $this->getView();
-            $view->registerJs("jQuery('#$id>ul').metisMenu();");
-
-            $input_id = Html::getInputId($this->model, $this->attribute);
-            $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
+        /**
+         * assuming first row is root
+         * @var Category|NestedSetsBehavior $root
+         */
+        $root = Category::find()->one();
+        if (!$root){
+            $root = new Category();
+            $root->name = 'root';
+            $root->makeRoot();
         }
+        if ($root->isRoot()) {
+            static::renderCategory($root->children(1)->all());
+        }
+        $view = $this->getView();
+        $view->registerJs("jQuery('#$id>ul').metisMenu();");
+        $input_id = Html::getInputId($this->model, $this->attribute);
+        $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
         echo Html::endTag('div');
 
     }
@@ -81,7 +97,7 @@ class CategoryWidget extends InputWidget
      */
     protected function renderCategory($categories, $level = 1)
     {
-        echo Html::beginTag('ul', ['class' => 'nav categories-tree collapse in', 'role' => 'navigation']);
+        echo Html::beginTag('ul', ['class' => 'nav categories-tree', 'role' => 'navigation']);
         /** @var NestedSetsBehavior|Category $category */
         foreach ($categories as $category) {
             echo Html::beginTag('li');
@@ -91,7 +107,7 @@ class CategoryWidget extends InputWidget
                     [
                         'data-id' => $category->id,
                         'style' => 'padding-left:' . $paddingLeft . 'px',
-                        'class' => ($this->selected == $category->id) ? 'active' : ''
+                        'class' => in_array($category->id, $this->selected) ? 'active' : ''
                     ]
                 );
                 if ($this->options) {
@@ -103,7 +119,7 @@ class CategoryWidget extends InputWidget
                     [
                         'data-id' => $category->id,
                         'style' => 'padding-left:' . $paddingLeft . 'px',
-                        'class' => ($this->selected == $category->id) ? 'active' : ''
+                        'class' => in_array($category->id, $this->selected) ? 'active' : ''
                     ]
                 );
                 if ($this->options) {
@@ -122,11 +138,13 @@ class CategoryWidget extends InputWidget
     protected function renderOptions($category)
     {
         echo Html::beginTag('div', ['class' => 'btn-group btn-group-sm hide']);
-        echo Html::a('<i class="fa fa-fw fa-level-down"></i>', ['create', 'node' => 'prepend', 'node-id' => $category->id], ['class' => 'btn btn-primary', 'title' => 'Insert Child']);
-        echo Html::a('<i class="fa fa-fw fa-edit"></i>', ['update', 'id' => $category->id], ['class' => 'btn btn-warning', 'title' => 'Edit Category']);
+        echo Html::a('<i class="fa fa-fw fa-level-down"></i>', ['create', 'node' => 'prepend', 'node-id' => $category->id], ['class' => 'btn btn-success', 'title' => 'Insert sub category']);
+        echo Html::a('<i class="fa fa-fw fa-arrow-up"></i>', ['create', 'node' => 'before', 'node-id' => $category->id], ['class' => 'btn btn-success', 'title' => 'Insert before this category']);
+        echo Html::a('<i class="fa fa-fw fa-arrow-down"></i>', ['create', 'node' => 'after', 'node-id' => $category->id], ['class' => 'btn btn-success', 'title' => 'Insert after this category']);
+        echo Html::a('<i class="fa fa-fw fa-edit"></i>', ['update', 'id' => $category->id], ['class' => 'btn btn-primary', 'title' => 'Edit category']);
         echo Html::a('<i class="fa fa-fw fa-trash-o"></i>', ['delete', 'id' => $category->id], [
             'class' => 'btn btn-danger',
-            'title' => 'Delete Category',
+            'title' => 'Delete category',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
                 'method' => 'post',

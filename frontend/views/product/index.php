@@ -7,8 +7,17 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app','Product');
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app','Product'),
+    'url' => ['/product']
+];
+if ($searchModel->cat_id){
+    $this->params['breadcrumbs'][] = [
+        'label' => $searchModel->category->name,
+        'url' => ['/product','ProductSearch[cat_id]' => $searchModel->category->id]
+    ];
+}
+$this->params['breadcrumbs'][] = Yii::t('app','Search');
 ?>
 <div class="category-index">
     <div class="row">

@@ -135,8 +135,8 @@ class SiteController extends BaseController
     {
         $model = new ContactForm();
         if (!Yii::$app->user->isGuest) {
-            $model->name = Yii::$app->user->identity->username;
-            $model->email = Yii::$app->user->identity->email;
+            $model->name = Yii::$app->user->identity['username'];
+            $model->email = Yii::$app->user->identity['email'];
         }
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $inbox = new Inbox();

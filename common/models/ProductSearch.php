@@ -145,7 +145,7 @@ class ProductSearch extends Product
 
         /** @var Category $category */
         if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
-            $cat_ids = self::getCategoryChildIds($category);
+            $cat_ids = static::getCategoryChildIds($category);
             $query->andFilterWhere(['in', 'cat_id', $cat_ids]);
         }
 

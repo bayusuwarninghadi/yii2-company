@@ -14,7 +14,7 @@ $menuItems = [
         'url' => ['/product/index']
     ],
     [
-        'label' => '<i class="fa fa-files-o fa-fw"></i> ' . Yii::t('app', 'Article'),
+        'label' => '<i class="fa fa-files-o fa-fw"></i>',
         'items' => [
             [
                 'label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('app', 'Article'),

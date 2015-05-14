@@ -30,10 +30,6 @@ class Category extends ActiveRecord
         return [
             'tree' => [
                 'class' => NestedSetsBehavior::className(),
-                'treeAttribute' => 'tree',
-                'leftAttribute' => 'lft',
-                'rightAttribute' => 'rgt',
-                'depthAttribute' => 'depth',
             ],
         ];
     }
@@ -102,15 +98,13 @@ class Category extends ActiveRecord
      * @param Category[] $categories
      * @return array
      */
-    public static function getCategoryChild($categories = null)
+    public static function getCategoryChild($categories)
     {
         $return = [];
-        if ($categories == null) {
-            $categories = Category::find()->roots()->all();
-        }
+        /** @var Category|NestedSetsBehavior $category */
         foreach ($categories as $category) {
             $return[$category->id] = $category->toArray();
-            if ($child = $category->children(1)->all()) {
+            if ($child = $category->children()->all()) {
                 $return[$category->id]['child'] = static::getCategoryChild($child);
             }
         }
@@ -125,7 +119,19 @@ class Category extends ActiveRecord
     public static function renderNavItem()
     {
         $items = [];
-        foreach ($categories = static::getCategoryChild() as $category) {
+        /**
+         * assuming first row is root
+         * @var Category|NestedSetsBehavior $root
+         */
+
+        $root = Category::find()->one();
+        if (!$root) {
+            $root = new Category();
+            $root->name = 'root';
+            $root->makeRoot();
+        }
+
+        foreach ($categories = static::getCategoryChild($root->children(1)->all()) as $category) {
             $_item = [
                 'label' => $category['name'],
             ];
@@ -133,7 +139,10 @@ class Category extends ActiveRecord
                 foreach ($category['child'] as $subCategory) {
                     $_item['items'][] = [
                         'label' => $subCategory['name'],
-                        'url' => ['/product', 'ProductSearch[cat_id]' => $subCategory['id']]
+                        'url' => ['/product', 'ProductSearch[cat_id]' => $subCategory['id']],
+                        'options' => [
+                            'class' => 'sub-nav sub-' . (intval($subCategory['depth']) - 1)
+                        ]
                     ];
                 }
             } else {

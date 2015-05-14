@@ -209,7 +209,7 @@ class TransactionController extends BaseController
                     Yii::$app->mailer
                         ->compose()
                         ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
-                        ->setTo(Yii::$app->user->identity->email)
+                        ->setTo(Yii::$app->user->identity['email'])
                         ->setHtmlBody($html)
                         ->setSubject('Checkout Success #' . $model->id)
                         ->send();

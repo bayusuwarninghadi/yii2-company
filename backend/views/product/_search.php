@@ -17,6 +17,7 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin([
         'action' => ['index'],
         'method' => 'get',
+        'id' => 'product-search'
     ]); ?>
 
     <div class="panel panel-primary">
