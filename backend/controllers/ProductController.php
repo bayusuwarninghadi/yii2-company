@@ -70,7 +70,6 @@ class ProductController extends Controller
         return $this->render('view', [
             'model' => $model,
             'images' => $images,
-            'attributes' => $model->getProductAttributeDetailValue(),
             'userCommentDataProvider' => $userCommentDataProvider
         ]);
     }
@@ -87,16 +86,17 @@ class ProductController extends Controller
         /**
          * Create New Pages Language
          */
-        $modelEnglish = new ProductLang();
-        $modelEnglish->language = 'id-ID';
-
         $modelIndonesia = new ProductLang();
-        $modelIndonesia->language = 'en-US';
+        $modelIndonesia->language = 'id-ID';
+
+        $modelEnglish = new ProductLang();
+        $modelEnglish->language = 'en-US';
 
         $bodyData = Yii::$app->request->post();
-        $attributes = (isset($bodyData['Product']['productAttributeDetailValue'])) ? $bodyData['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+        $attributes = (isset($bodyData['Product']['productDetail'])) ? $bodyData['Product']['productDetail'] : $model->productDetail;
 
         if ($model->load($bodyData)) {
+            $model->productDetail = $attributes;
 
             if ($model->save()) {
 
@@ -119,10 +119,6 @@ class ProductController extends Controller
                     $modelIndonesia->save();
                 }
 
-                $attr = $model->getProductAttributeDetail();
-                $attr->value = Json::encode($attributes);
-                $attr->save();
-
                 if ($_images = UploadedFile::getInstances($model, 'images')){
                     foreach ($_images as $image) {
                         $_model = new ProductAttribute();
@@ -142,7 +138,6 @@ class ProductController extends Controller
         }
         return $this->render('create', [
             'model' => $model,
-            'gallery' => null,
             'attributes' => $attributes,
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
@@ -159,17 +154,15 @@ class ProductController extends Controller
     {
         $model = $this->findModel($id);
 
-        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
-
         $bodyData = Yii::$app->request->post();
 
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $attributes = (isset($bodyData['Product']['productAttributeDetailValue'])) ? $bodyData['Product']['productAttributeDetailValue'] : $model->getProductAttributeDetailValue();
+        $attributes = (isset($bodyData['Product']['productDetail'])) ? $bodyData['Product']['productDetail'] : $model->productDetail;
 
         if ($model->load($bodyData)) {
-
+            $model->productDetail = $attributes;
             $_images = UploadedFile::getInstances($model, 'images');
             foreach ($_images as $image) {
                 $_model = new ProductAttribute();
@@ -199,10 +192,6 @@ class ProductController extends Controller
                     $modelIndonesia->save();
                 }
 
-
-                $attr = $model->getProductAttributeDetail();
-                $attr->value = Json::encode($attributes);
-                $attr->save();
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Upated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
@@ -210,7 +199,6 @@ class ProductController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
-            'gallery' => $gallery,
             'attributes' => $attributes,
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
@@ -239,7 +227,8 @@ class ProductController extends Controller
      */
     public function actionDeleteProductAttribute($id)
     {
-        if (($model = ProductAttribute::find()->where($id)->one()) !== null){
+        /**@var ProductAttribute $model*/
+        if (($model = ProductAttribute::findOne($id)) !== null){
             $model->delete();
         }
     }

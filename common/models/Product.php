@@ -39,20 +39,26 @@ use yii\helpers\Json;
  */
 class Product extends ActiveRecord
 {
+
+    const PRODUCT_ATTRIBUTE_DETAILS = 'productDetail';
+    const PRODUCT_ATTRIBUTE_IMAGES = 'images';
     /**
-     *
+     * STATUS_INACTIVE
      */
     const STATUS_INACTIVE = 0;
+
     /**
-     *
+     * STATUS_ACTIVE
      */
     const STATUS_ACTIVE = 1;
+
     /**
-     *
+     * VISIBLE_INVISIBLE
      */
     const VISIBLE_INVISIBLE = 0;
+
     /**
-     *
+     * VISIBLE_VISIBLE
      */
     const VISIBLE_VISIBLE = 1;
 
@@ -62,14 +68,19 @@ class Product extends ActiveRecord
     public $images;
 
     /**
-     * @var $productAttributeDetail ProductAttribute
+     * @var $productAttributeTotalView ProductAttribute
      */
-    public $productAttributeDetail = false;
+    public $totalView;
 
     /**
-     * @var array
+     * @var ProductAttribute[]
      */
-    public $productAttributeDetailValue = [];
+    public $productDetail = [];
+
+    /**
+     * @var ProductAttribute[]
+     */
+    public $productImages = [];
 
     /**
      * @var string
@@ -78,14 +89,12 @@ class Product extends ActiveRecord
 
     /**
      * beforeDelete
+     * 1. Remove image asset before deleting
      * @return bool
      */
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            /*
-             * remove image asset before deleting
-             */
             RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->id);
             return true;
         } else {
@@ -95,6 +104,7 @@ class Product extends ActiveRecord
 
     /**
      * afterSave
+     *
      * @param boolean $insert whether this method called while inserting a record.
      * @param array $changedAttributes The old values of attributes that had changed and were saved.
      * @return bool
@@ -102,15 +112,22 @@ class Product extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        if ($this->isNewRecord) {
-            $attr = new ProductAttribute();
-            $attr->product_id = $this->id;
-            $attr->key = 'detail';
-        } else {
-            $attr = $this->getProductAttributeDetail();
+        $_productDetail = '';
+        foreach ($this->productAttributes as $productAttribute) {
+            if ($productAttribute->key == self::PRODUCT_ATTRIBUTE_DETAILS) {
+                $_productDetail = $productAttribute;
+            }
         }
-        $attr->value = Json::encode($this->productAttributeDetailValue);
-        $attr->save();
+
+        if ($this->productDetail) {
+            if (!$_productDetail) {
+                $_productDetail = new ProductAttribute();
+                $_productDetail->product_id = $this->id;
+                $_productDetail->key = self::PRODUCT_ATTRIBUTE_DETAILS;
+            }
+            $_productDetail->value = Json::encode($this->productDetail);
+            $_productDetail->save();
+        }
     }
 
     /**
@@ -213,6 +230,16 @@ class Product extends ActiveRecord
         if (isset(Yii::$app->session['lang'])) {
             $this->language = Yii::$app->session['lang'];
         }
+        foreach($this->productAttributes as $attr){
+            switch($attr->key){
+                case self::PRODUCT_ATTRIBUTE_DETAILS:
+                    $this->productDetail = Json::decode($attr->value);
+                    break;
+                case self::PRODUCT_ATTRIBUTE_IMAGES:
+                    $this->productImages[] = $attr;
+                    break;
+            }
+        }
     }
 
     /**
@@ -286,38 +313,6 @@ class Product extends ActiveRecord
         } else {
             return false;
         }
-    }
-
-    /**
-     * Get Product Attribute
-     * @return null|ProductAttribute|ActiveRecord
-     */
-    public function getProductAttributeDetail()
-    {
-        if (!$this->productAttributeDetail) {
-            $this->productAttributeDetail = ProductAttribute::findOne(['product_id' => $this->id, 'key' => 'details']);
-            if ($this->productAttributeDetail == null) {
-                $attr = new ProductAttribute();
-                $attr->product_id = $this->id;
-                $attr->key = 'details';
-                // add default value
-                $attr->value = Json::encode([]);
-                $this->productAttributeDetail = $attr;
-            }
-        }
-        return $this->productAttributeDetail;
-    }
-
-    /**
-     * Get Product Attribute Value
-     * @return string|Json
-     */
-    public function getProductAttributeDetailValue()
-    {
-        if (!$this->productAttributeDetailValue && $detail = $this->getProductAttributeDetail()) {
-            $this->productAttributeDetailValue = Json::decode($detail->value);
-        }
-        return $this->productAttributeDetailValue;
     }
 
     /**

@@ -54,10 +54,8 @@ class ProductController extends BaseController
             return $this->redirect(['/transaction/cart']);
         }
 
-        $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
-
         $images = [];
-        foreach ($gallery as $image){
+        foreach ($model->productImages as $image){
             $_arr = Json::decode($image->value);
             $images[] = Html::img($_arr['medium']);
         }
@@ -67,7 +65,6 @@ class ProductController extends BaseController
             'model' => $model,
             'cartModel' => $cartModel,
             'images' => $images,
-            'attributes' => $model->getProductAttributeDetailValue()
         ]);
     }
 

@@ -88,7 +88,7 @@ echo GridView::widget([
         </div>
     ",
     'panelFooter' => $dataProvider->getModels()
-        ? Html::a('<i class="fa fa-shopping-cart"></i> ' . Yii::t('app', 'Checkout'), ['checkout'], ['class' => 'btn btn-success'])
+        ? Html::a('<i class="fa fa-cart-arrow-down"></i> ' . Yii::t('app', 'Checkout'), ['checkout'], ['class' => 'btn btn-success'])
         : Html::a('<i class="fa fa-search"></i> ' . Yii::t('app', 'Go Shopping'), ['/product/index'], ['class' => 'btn btn-primary']),
     'panelAfter' => "
         <div class='text-right'>

@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 
 
 ?>
-<ul class="navbar-form navbar-right nav">
+<ul class="navbar-form navbar-nav nav">
     <li class="navigation-search">
         <?php $form = ActiveForm::begin(['action' => ['product/index'], 'method' => 'get']) ?>
         <div class="input-group">

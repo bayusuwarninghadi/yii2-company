@@ -87,7 +87,7 @@ use yii\bootstrap\Tabs;
                         </div>
                         <div class="panel-body custom-detail">
                             <?php foreach ($attributes as $name => $detail) : ?>
-                                <?= $form->field($model, 'productAttributeDetailValue[' . $name . ']', [
+                                <?= $form->field($model, 'productDetail[' . $name . ']', [
                                     'template' => "
                                             <div class='input-group'>
                                                 <span class='input-group-addon'>{label}</span>

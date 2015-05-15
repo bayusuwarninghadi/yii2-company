@@ -14,8 +14,7 @@ $this->title = Yii::t('app', "Product Comparison");
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<h1><?=$this->title?></h1>
-<div class="controls-box page-header">
+<div class="controls-box">
     <!-- Controls -->
     <div class="pull-right">
         <?=Yii::t('app', 'Total Item Compare:')?> <strong><?=$dataProvider->getCount()?></strong>
@@ -24,10 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <a class="right fa fa-chevron-right btn btn-primary" href="#comparison-slider" data-slide="next"></a>
         </div>
     </div>
-    <strong>
-        <?=Yii::t('app', 'Click on products bellow to compare')?>
-    </strong>
-
+    <h2><?=$this->title?></h2>
     <div class="clearfix"></div>
 </div>
 <?php

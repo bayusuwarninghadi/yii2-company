@@ -20,14 +20,12 @@ class ProductAttribute extends ActiveRecord
 {
     /**
      * beforeDelete
+     * 1. Remove image asset before deleting
      * @return bool
      */
     public function beforeDelete()
     {
         if (parent::beforeDelete()) {
-            /*
-             * remove image asset before deleting
-             */
             RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->product_id . '/' . $this->id . '/');
             return true;
         } else {

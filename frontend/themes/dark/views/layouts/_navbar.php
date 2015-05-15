@@ -17,12 +17,13 @@ NavBar::begin([
     'brandUrl' => Yii::$app->homeUrl,
     'options' => [
         'class' => 'navbar-inverse navbar-fixed-top',
+        'id' => 'main-navbar'
     ],
 ]);
 
 echo $this->render('/layouts/_language');
 echo $this->render('/layouts/_navigation');
-echo $this->render('/layouts/_categoryNavbar');
 echo $this->render('/layouts/_searchNav');
+echo $this->render('/layouts/_categoryNavbar');
 
 NavBar::end();

@@ -10,7 +10,7 @@ use common\models\Category;
  */
 
 echo Nav::widget([
-    'options' => ['class' => 'navbar-nav navbar-right'],
+    'options' => ['class' => 'navbar-nav navbar-right category-navbar'],
     'items' => Category::renderNavItem(),
 ]);
 

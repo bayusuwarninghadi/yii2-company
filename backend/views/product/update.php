@@ -12,7 +12,22 @@ use yii\helpers\Json;
 /* @var $modelIndonesia common\models\ProductLang */
 
 $this->title = 'Update Product: ' . ' ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['index']];
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'All Product'),
+    'url' => ['/product']
+];
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $currentCategory */
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $parent */
+$currentCategory = $model->category;
+foreach ($currentCategory->parents()->all() as $parent) {
+    if (!$parent->isRoot()) {
+        $this->params['breadcrumbs'][] = [
+            'label' => $parent->name,
+            'url' => ['/product', 'ProductSearch[cat_id]' => $parent->id]
+        ];
+    }
+}
+$this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['/product', 'ProductSearch[cat_id]' => $model->cat_id]];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
@@ -20,24 +35,28 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if ($gallery) :?>
+    <?php if (isset($model->productImages)) : ?>
         <div class="well">
             <h3>GALLERY</h3>
+
             <div class="row product-gallery text-center">
-                <?php foreach ($gallery as $image) : ?>
+                <?php foreach ($model->productImages as $image) : ?>
                     <?php $availableImages = Json::decode($image->value) ?>
                     <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2"
-                         data-url="<?=$availableImages['medium']?>"
-                         data-product="<?=$model->id?>"
-                         data-id="<?=$image->id?>">
+                         data-url="<?= $availableImages['medium'] ?>"
+                         data-product="<?= $model->id ?>"
+                         data-id="<?= $image->id ?>">
                         <a href=""
-                           class="gallery-container <?=($availableImages['medium'] == $model->image_url) ? 'active' : ''?>"
+                           class="gallery-container <?= ($availableImages['medium'] == $model->image_url) ? 'active' : '' ?>"
                            title="Set As Product Cover">
                             <div class="gallery"
-                                 style="background-image: url(<?= UploadHelper::getImageUrl('product/' . $model->id . '/' . $image->id,'medium') ?>)">
+                                 style="background-image: url(<?= UploadHelper::getImageUrl('product/' . $model->id . '/' . $image->id, 'medium') ?>)">
                             </div>
                         </a>
-                        <a href="" class="btn btn-danger btn-sm" data-dismiss="gallery-grid-container" aria-hidden="true"><i class="fa fa-trash-o"></i> Delete</a>
+                        <a href="" class="btn btn-danger btn-sm" data-dismiss="gallery-grid-container"
+                           aria-hidden="true">
+                            <i class="fa fa-trash-o"></i> Delete
+                        </a>
                     </div>
                 <?php endforeach ?>
             </div>

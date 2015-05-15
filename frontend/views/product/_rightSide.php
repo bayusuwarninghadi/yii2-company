@@ -14,7 +14,6 @@ use yii\helpers\Url;
 
 /* @var $cartModel common\models\Cart */
 /* @var $model common\models\Product */
-/* @var $attributes array */
 
 ?>
 <div class="panel panel-default">
@@ -51,7 +50,7 @@ use yii\helpers\Url;
                         {input}
                         <div class='input-group-btn'>
                             <button type='submit' class='btn btn-danger'>
-                                <i class='fa fa-shopping-cart'></i>
+                                <i class='fa fa-cart-plus'></i>
                             </button>
                         </div>
                     </div>
@@ -68,12 +67,15 @@ use yii\helpers\Url;
         <?php endif ?>
     </div>
     <table class="table">
-        <?php foreach ($attributes as $name => $detail) : ?>
+        <?php foreach ($model->productDetail as $name => $detail) : ?>
             <tr>
                 <th><?= Inflector::camel2words($name) ?></th>
                 <td><?= Html::decode($detail) ?></td>
             </tr>
         <?php endforeach ?>
+        <tr>
+            <td colspan="2"><i class="fa fa-eye fa-fw"></i> <?= Yii::t('app','Total View') ?>: </td>
+        </tr>
     </table>
     <div class="panel-footer">
         <?php if (!Yii::$app->user->isGuest) :?>

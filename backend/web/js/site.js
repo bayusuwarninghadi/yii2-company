@@ -7,8 +7,11 @@ $('.change-status').click(function () {
     location.href = '/transaction/change-status?id=' + id + '&status=' + status;
 });
 $(document).ready(function () {
-    $('.gallery-container:not(.active)').click(function (ev) {
+    $('.gallery-container').click(function (ev) {
         var this_ = $(ev.currentTarget);
+        if (this_.hasClass('active')){
+            return false;
+        }
         this_.find('.gallery').html('<i class="fa fa-spin fa-spinner fa-pulse fa-5x fa-inverse"></i>');
         var container_ = this_.parent();
         $.ajax({
@@ -56,17 +59,18 @@ $(document).ready(function () {
         }
 
         $('.custom-detail').append('' +
-        '<div class="form-group field-product-productattributedetailvalue-' + detail + '">' +
+        '<div class="form-group field-product-productDetail-' + detail + '">' +
         '<div class="input-group">' +
         '<span class="input-group-addon">' +
-        '<label class="control-label" for="product-productattributedetailvalue-' + detail + '">' + detail + '</label>' +
+        '<label class="control-label" for="product-productDetail-' + detail + '">' + detail + '</label>' +
         '</span>' +
-        '<input type="text" id="product-productattributedetailvalue-' + detail + '" class="form-control" name="Product[productAttributeDetailValue][' + detail + ']">' +
+        '<input type="text" id="product-productDetail-' + detail + '" class="form-control" name="Product[productDetail][' + detail + ']">' +
         '<span class="input-group-btn">' +
         '<a class="btn btn-danger btn-remove-detail"><i class="fa fa-trash-o"></i></a>' +
         '</span>' +
         '</div>' +
         '</div>');
+        return false;
     });
     $('.custom-detail').on('click', '.btn-remove-detail', function () {
         $(this).closest('.form-group').remove();

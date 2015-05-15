@@ -66,7 +66,7 @@ echo Collapse::widget([
             'content' =>
                 $form->field($model, 'shipping_method_id')->radioList($shippingMethod,[
                     'class' => 'radio-form radio'
-                ]),
+                ]) . '',
             'contentOptions' => [
                 'id' => 'shipping-method-form',
                 'class' => 'in'
@@ -80,7 +80,7 @@ echo Collapse::widget([
             'content' =>
                 $form->field($model, 'payment_method')->radioList($paymentMethod,[
                     'class' => 'radio-form radio'
-                ]),
+                ]) . '',
             'contentOptions' => [
                 'id' => 'payment-method-form',
                 'class' => 'in'

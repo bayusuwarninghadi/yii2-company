@@ -3,32 +3,29 @@
 use yii\bootstrap\Tabs;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use common\models\Category;
-use creocoder\nestedsets\NestedSetsBehavior;
 
 /* @var $this yii\web\View */
 /* @var array $images */
 /* @var $cartModel common\models\Cart */
 /* @var $model common\models\Product */
-/* @var $attributes array */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('app','Product'),
+    'label' => Yii::t('app','All Product'),
     'url' => ['/product']
 ];
-/** @var Category|NestedSetsBehavior $currentCategory*/
-/** @var Category|NestedSetsBehavior $parent*/
-if ($currentCategory = Category::findOne($model->cat_id)){
-    foreach ($currentCategory->parents()->all() as $parent){
-        if (!$parent->isRoot()){
-            $this->params['breadcrumbs'][] = [
-                'label' => $parent->name,
-                'url' => ['/product', 'ProductSearch[cat_id]' => $parent->id]
-            ];
-        }
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $currentCategory*/
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $parent*/
+$currentCategory = $model->category;
+foreach ($currentCategory->parents()->all() as $parent){
+    if (!$parent->isRoot()){
+        $this->params['breadcrumbs'][] = [
+            'label' => $parent->name,
+            'url' => ['/product', 'ProductSearch[cat_id]' => $parent->id]
+        ];
     }
 }
+
 $this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['/product', 'ProductSearch[cat_id]' => $model->cat_id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -69,7 +66,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-5">
             <?= $this->render('_rightSide', [
                 'model' => $model,
-                'attributes' => $attributes,
                 'cartModel' => $cartModel
             ]) ?>
         </div>

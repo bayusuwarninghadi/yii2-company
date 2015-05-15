@@ -1,5 +1,7 @@
 <?php
 use yii\bootstrap\Nav;
+use yii\helpers\Html;
+
 /**
  * Created by PhpStorm.
  * User: bay_oz
@@ -9,10 +11,6 @@ use yii\bootstrap\Nav;
  */
 
 $menuItems = [
-    [
-        'label' => '<i class="fa fa-truck fa-fw"></i> ' . Yii::t('app', 'Product'),
-        'url' => ['/product/index']
-    ],
     [
         'label' => '<i class="fa fa-files-o fa-fw"></i>',
         'items' => [
@@ -44,11 +42,16 @@ if (Yii::$app->user->isGuest) {
         'linkOptions' => ['class' => 'hidden-xs show-cart'],
         'items' => [
             '<li class="cart-pop" style="padding: 0 10px;">' . $this->render('/layouts/_loading') . '</li>',
-            [
-                'label' => Yii::t('app', 'See All') . ' <i class="fa fa-angle-right"></i>',
-                'linkOptions' => ['class' => 'text-center'],
-                'url' => ['/transaction/cart'],
-            ],
+            '<li class="container-fluid">
+                <div class="row">
+                    <div class="col-xs-6">
+                    ' . Html::a(Yii::t('app', 'See All'), ['/transaction/cart'], ['class' => 'btn btn-xs btn-success']) . '
+                    </div>
+                    <div class="col-xs-6 text-right">
+                    ' . Html::a('<i class="fa fa-cart-arrow-down fa-fw"></i>' . Yii::t('app', 'Checkout'), ['/transaction/checkout'], ['class' => 'btn btn-xs btn-warning']) . '
+                    </div>
+                </div>
+            </li>',
         ]
     ];
 

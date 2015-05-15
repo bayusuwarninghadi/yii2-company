@@ -1,23 +1,34 @@
 <?php
 
 use common\models\Product;
+use common\modules\UploadHelper;
 use yii\bootstrap\Carousel;
+use yii\bootstrap\Tabs;
 use yii\helpers\Html;
-use yii\widgets\DetailView;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Inflector;
-use common\modules\UploadHelper;
-use yii\bootstrap\Tabs;
+use yii\widgets\DetailView;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
 /* @var $images array */
-/* @var $attributes array */
 /* @var $userCommentDataProvider \yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['index']];
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $currentCategory */
+/** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $parent */
+$currentCategory = $model->category;
+foreach ($currentCategory->parents()->all() as $parent) {
+    if (!$parent->isRoot()) {
+        $this->params['breadcrumbs'][] = [
+            'label' => $parent->name,
+            'url' => ['/product', 'ProductSearch[cat_id]' => $parent->id]
+        ];
+    }
+}
+$this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['/product', 'ProductSearch[cat_id]' => $model->cat_id]];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
@@ -34,17 +45,18 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
     </p>
+
     <div class="row">
         <div class="col-sm-6 col-md-7">
             <div class="panel panel-primary">
                 <div class="panel-heading"><i class="fa fa-picture-o fa-fw"></i> Gallery</div>
-                <?=Carousel::widget([
+                <?= Carousel::widget([
                     'items' => $images,
                     'controls' => [
                         '<span class="glyphicon glyphicon-chevron-left"></span>',
                         '<span class="glyphicon glyphicon-chevron-right"></span>',
                     ]
-                ])?>
+                ]) ?>
                 <div class="panel-body">
                     <?php
                     $arr = explode('/', $model->rating);
@@ -80,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attributes' => [
                         [
                             'label' => 'Brand',
-                            'value' => UploadHelper::getHtml('brand/'.$model->brand_id),
+                            'value' => UploadHelper::getHtml('brand/' . $model->brand_id),
                             'format' => 'html'
                         ],
                         'name',
@@ -108,10 +120,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3> Custom Detail</h3>
                 </div>
                 <table class="table table-striped table-bordered ">
-                    <?php foreach ($attributes as $name => $detail) :?>
+                    <?php foreach ($model->productDetail as $name => $detail) : ?>
                         <tr>
-                            <th><?=Inflector::camel2words($name)?></th>
-                            <td><?=Html::decode($detail)?></td>
+                            <th><?= Inflector::camel2words($name) ?></th>
+                            <td><?= Html::decode($detail) ?></td>
                         </tr>
                     <?php endforeach ?>
                 </table>

@@ -53,9 +53,11 @@ html, body {
     max-height: 100px;
     max-width: 100px
 }
-.carousel.slide{
+
+.carousel.slide {
     overflow: hidden;
 }
+
 .index-slider {
     height: 100%;
 }
@@ -215,14 +217,19 @@ section {
     padding-left: 115px
 }
 
-.navbar-nav .sub-2, .navbar-nav .sub-3 {
+.navbar-nav .sub-2>a{
     font-size: small;
+    color: #888;
+}
+.navbar-nav .sub-3>a{
+    font-size: smaller;
+    color: #888;
 }
 
-.navbar-nav .sub-2 > a:before {
+.navbar-nav .sub-2 > a:before{
     content: "- ";
 }
 
 .navbar-nav .sub-3 > a:before {
-    content: "-- ";
+    content: "- - ";
 }
