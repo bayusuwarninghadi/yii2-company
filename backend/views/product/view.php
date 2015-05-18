@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3> Custom Detail</h3>
                 </div>
                 <table class="table table-striped table-bordered ">
-                    <?php foreach ($model->productDetail as $name => $detail) : ?>
+                    <?php foreach ($model->productDetailValue as $name => $detail) : ?>
                         <tr>
                             <th><?= Inflector::camel2words($name) ?></th>
                             <td><?= Html::decode($detail) ?></td>

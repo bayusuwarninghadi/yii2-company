@@ -3,14 +3,14 @@
 namespace frontend\controllers;
 
 use common\models\Cart;
-use common\models\ProductAttribute;
-use Yii;
 use common\models\Product;
+use common\models\ProductAttribute;
 use common\models\ProductSearch;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -43,7 +43,7 @@ class ProductController extends BaseController
                 'user_id' => Yii::$app->user->getId(),
                 'product_id' => $model->id
             ])->one();
-        if ($cartModel === null){
+        if ($cartModel === null) {
             $cartModel = new Cart();
         }
 
@@ -55,11 +55,14 @@ class ProductController extends BaseController
         }
 
         $images = [];
-        foreach ($model->productImages as $image){
+        foreach ($model->productImages as $image) {
             $_arr = Json::decode($image->value);
             $images[] = Html::img($_arr['medium']);
         }
         if (!$images) $images[] = Html::img($model->image_url);
+
+        $model->totalView->value = '' . (intval($model->totalView->value) + 1);
+        $model->totalView->save();
 
         return $this->render('view', [
             'model' => $model,
@@ -80,7 +83,7 @@ class ProductController extends BaseController
         $gallery = ProductAttribute::findAll(['product_id' => $model->id, 'key' => 'images']);
 
         $images = [];
-        foreach ($gallery as $image){
+        foreach ($gallery as $image) {
             $_arr = Json::decode($image->value);
             $images[] = Html::img($_arr['large']);
         }
@@ -100,10 +103,10 @@ class ProductController extends BaseController
         $model = $this->findModel($id);
 
         $models = Product::find()->where(
-            "MATCH (name,subtitle,description) AGAINST (:string IN BOOLEAN MODE)",[
-                ':string' => Html::encode($model->name.' '.$model->subtitle)
+            "MATCH (name,subtitle,description) AGAINST (:string IN BOOLEAN MODE)", [
+                ':string' => Html::encode($model->name . ' ' . $model->subtitle)
             ]
-        )->andFilterWhere(['<>','id',$model->id])->orderBy('created_at DESC')->limit(4)->all();
+        )->andFilterWhere(['<>', 'id', $model->id])->orderBy('created_at DESC')->limit(4)->all();
         $params = [
             'model' => $model,
             'models' => $models

@@ -6,7 +6,6 @@ use yii\helpers\Json;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
-/* @var $attributes array */
 /* @var $gallery \common\models\ProductAttribute[] */
 /* @var $modelEnglish common\models\ProductLang */
 /* @var $modelIndonesia common\models\ProductLang */
@@ -65,7 +64,6 @@ $this->params['breadcrumbs'][] = 'Update';
 
     <?= $this->render('_form', [
         'model' => $model,
-        'attributes' => $attributes,
         'modelEnglish' => $modelEnglish,
         'modelIndonesia' => $modelIndonesia,
     ]) ?>

@@ -5,7 +5,6 @@ use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Product */
-/* @var $attributes array */
 /* @var $modelEnglish common\models\ProductLang */
 /* @var $modelIndonesia common\models\ProductLang */
 
@@ -19,7 +18,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $this->render('_form', [
         'model' => $model,
-        'attributes' => $attributes,
         'modelEnglish' => $modelEnglish,
         'modelIndonesia' => $modelIndonesia,
     ]) ?>

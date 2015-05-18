@@ -60,7 +60,7 @@ class ProductController extends Controller
             $_arr = Json::decode($image->value);
             $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
         }
-        if (!$images) $images[] = Html::img(Yii::$app->components['frontendSiteUrl'].$model->image_url);
+        if (!$images) $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $model->image_url);
 
 
         $userCommentDataProvider = new ActiveDataProvider([
@@ -93,10 +93,9 @@ class ProductController extends Controller
         $modelEnglish->language = 'en-US';
 
         $bodyData = Yii::$app->request->post();
-        $attributes = (isset($bodyData['Product']['productDetail'])) ? $bodyData['Product']['productDetail'] : $model->productDetail;
+        $model->productDetailValue = (isset($bodyData['Product']['productDetailValue'])) ? $bodyData['Product']['productDetailValue'] : $model->productDetailValue;
 
         if ($model->load($bodyData)) {
-            $model->productDetail = $attributes;
 
             if ($model->save()) {
 
@@ -119,7 +118,7 @@ class ProductController extends Controller
                     $modelIndonesia->save();
                 }
 
-                if ($_images = UploadedFile::getInstances($model, 'images')){
+                if ($_images = UploadedFile::getInstances($model, 'images')) {
                     foreach ($_images as $image) {
                         $_model = new ProductAttribute();
                         $_model->key = 'images';
@@ -138,7 +137,6 @@ class ProductController extends Controller
         }
         return $this->render('create', [
             'model' => $model,
-            'attributes' => $attributes,
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);
@@ -159,10 +157,9 @@ class ProductController extends Controller
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $attributes = (isset($bodyData['Product']['productDetail'])) ? $bodyData['Product']['productDetail'] : $model->productDetail;
+        $model->productDetailValue = (isset($bodyData['Product']['productDetailValue'])) ? $bodyData['Product']['productDetailValue'] : $model->productDetailValue;
 
         if ($model->load($bodyData)) {
-            $model->productDetail = $attributes;
             $_images = UploadedFile::getInstances($model, 'images');
             foreach ($_images as $image) {
                 $_model = new ProductAttribute();
@@ -199,7 +196,6 @@ class ProductController extends Controller
         }
         return $this->render('update', [
             'model' => $model,
-            'attributes' => $attributes,
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);
@@ -213,7 +209,7 @@ class ProductController extends Controller
      */
     public function actionSetCover($id)
     {
-        if ($image_url = Yii::$app->request->post('imageUrl')){
+        if ($image_url = Yii::$app->request->post('imageUrl')) {
             Product::updateAll(['image_url' => $image_url], ['id' => $id]);
             echo 'ok';
         }
@@ -227,8 +223,13 @@ class ProductController extends Controller
      */
     public function actionDeleteProductAttribute($id)
     {
-        /**@var ProductAttribute $model*/
-        if (($model = ProductAttribute::findOne($id)) !== null){
+        /** @var ProductAttribute $model */
+        if (($model = ProductAttribute::findOne($id)) !== null) {
+            $json = Json::decode($model->value);
+            if ($model->product->image_url == $json['medium']){
+                $model->product->image_url = '/images/320x150.gif';
+                $model->product->save();
+            }
             $model->delete();
         }
     }

@@ -40,7 +40,17 @@ use yii\helpers\Json;
 class Product extends ActiveRecord
 {
 
+    /**
+     * PRODUCT_ATTRIBUTE_DETAILS
+     */
     const PRODUCT_ATTRIBUTE_DETAILS = 'productDetail';
+    /**
+     * PRODUCT_ATTRIBUTE_TOTAL_VIEW
+     */
+    const PRODUCT_ATTRIBUTE_TOTAL_VIEW = 'totalModel';
+    /**
+     * PRODUCT_ATTRIBUTE_IMAGES
+     */
     const PRODUCT_ATTRIBUTE_IMAGES = 'images';
     /**
      * STATUS_INACTIVE
@@ -68,14 +78,19 @@ class Product extends ActiveRecord
     public $images;
 
     /**
-     * @var $productAttributeTotalView ProductAttribute
+     * @var ProductAttribute
      */
-    public $totalView;
+    public $totalView =  false;
 
     /**
-     * @var ProductAttribute[]
+     * @var bool|ProductAttribute
      */
-    public $productDetail = [];
+    public $productDetail = false;
+
+    /**
+     * @var array
+     */
+    public $productDetailValue = [];
 
     /**
      * @var ProductAttribute[]
@@ -97,9 +112,8 @@ class Product extends ActiveRecord
         if (parent::beforeDelete()) {
             RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/product/' . $this->id);
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -112,21 +126,10 @@ class Product extends ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        $_productDetail = '';
-        foreach ($this->productAttributes as $productAttribute) {
-            if ($productAttribute->key == self::PRODUCT_ATTRIBUTE_DETAILS) {
-                $_productDetail = $productAttribute;
-            }
-        }
 
-        if ($this->productDetail) {
-            if (!$_productDetail) {
-                $_productDetail = new ProductAttribute();
-                $_productDetail->product_id = $this->id;
-                $_productDetail->key = self::PRODUCT_ATTRIBUTE_DETAILS;
-            }
-            $_productDetail->value = Json::encode($this->productDetail);
-            $_productDetail->save();
+        if ($this->productDetailValue) {
+            $this->productDetail->value = Json::encode($this->productDetailValue);
+            $this->productDetail->save();
         }
     }
 
@@ -230,16 +233,37 @@ class Product extends ActiveRecord
         if (isset(Yii::$app->session['lang'])) {
             $this->language = Yii::$app->session['lang'];
         }
-        foreach($this->productAttributes as $attr){
-            switch($attr->key){
+        foreach ($this->productAttributes as $attr) {
+            switch ($attr->key) {
                 case self::PRODUCT_ATTRIBUTE_DETAILS:
-                    $this->productDetail = Json::decode($attr->value);
+                    $this->productDetail = $attr;
                     break;
                 case self::PRODUCT_ATTRIBUTE_IMAGES:
                     $this->productImages[] = $attr;
                     break;
+                case self::PRODUCT_ATTRIBUTE_TOTAL_VIEW:
+                    $this->totalView = $attr;
+                    break;
             }
         }
+
+        if (!$this->productDetail) {
+            $this->productDetail = new ProductAttribute();
+            $this->productDetail->product_id = $this->id;
+            $this->productDetail->key = self::PRODUCT_ATTRIBUTE_DETAILS;
+            $this->productDetail->value = '{}';
+            $this->productDetail->save();
+        }
+        if (!$this->totalView) {
+            $this->totalView = new ProductAttribute();
+            $this->totalView->product_id = $this->id;
+            $this->totalView->key = self::PRODUCT_ATTRIBUTE_TOTAL_VIEW;
+            $this->totalView->value = '0';
+            $this->totalView->save();
+        }
+
+        $this->productDetailValue = Json::decode($this->productDetail->value);
+
     }
 
     /**
@@ -265,6 +289,7 @@ class Product extends ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'brand_id' => Yii::t('app', 'Brand'),
+            'totalView.value' => Yii::t('app', 'Total View'),
         ];
     }
 

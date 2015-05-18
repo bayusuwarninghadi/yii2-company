@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'format' => 'percent'
                     ],
+                    'totalView.value',
                     [
                         'attribute' => 'stock',
                         'options' => [
