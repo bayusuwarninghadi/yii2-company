@@ -77,4 +77,9 @@ $(document).ready(function () {
         $(this).closest('.form-group').remove();
         return false
     });
+
+    $('.toggle-search').click(function(){
+        $('.product-wrapper').toggleClass('show-sidebar');
+        return false;
+    })
 });

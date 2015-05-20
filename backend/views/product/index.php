@@ -8,20 +8,25 @@ use yii\widgets\Pjax;
 /* @var $searchModel common\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Product';
+$this->title = Yii::t('app','Product');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="category-index">
-    <?= Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default pull-right']) ?>
-    <h1><?= Html::encode($this->title) ?></h1>
+<div class="product-index">
 
-    <div class="row">
-        <?php Pjax::begin(); ?>
-        <div class="col-md-4">
+    <?= Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default pull-right']) ?>
+    <h1>
+        <?= Html::a('<i class="fa fa-bars fa-fw"></i>', '', ['class' => 'toggle-search']) ?>
+        <?= Html::encode($this->title) ?>
+    </h1>
+    <div class="product-wrapper">
+
+        <div class="product-sidebar">
             <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
-        <div class="col-md-8">
-            <?= GridView::widget([
+        <div class="product-content-wrapper transition">
+            <?php
+            Pjax::begin();
+            echo GridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $searchModel,
                 'columns' => [
@@ -57,8 +62,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     ['class' => 'backend\widget\ActionColumn'],
                 ],
-            ]); ?>
+            ]);
+            Pjax::end();?>
         </div>
-        <?php Pjax::end(); ?>
     </div>
 </div>

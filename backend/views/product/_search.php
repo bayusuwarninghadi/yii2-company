@@ -12,18 +12,16 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\widgets\ActiveForm */
 ?>
 
-<div class="product-search">
-
-    <?php $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
-        'id' => 'product-search'
-    ]); ?>
-
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <i class="fa fa-search"></i> Advance Search
-        </div>
+<?php $form = ActiveForm::begin([
+    'action' => ['index'],
+    'method' => 'get',
+    'id' => 'product-search'
+]); ?>
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <i class="fa fa-search"></i><?=Yii::t('app','Advance Search')?>
+    </div>
+    <div class="panel-product-search">
         <div class="category-tree-container">
             <ul class="nav categories-tree collapse">
                 <li>
@@ -62,12 +60,12 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'status')->dropDownList(Product::getStatusAsArray(), ['prompt' => 'Select Status']) ?>
             <?= $form->field($model, 'visible')->dropDownList(Product::getVisibleAsArray(), ['prompt' => 'Select Visibility']) ?>
         </div>
-        <div class="panel-footer text-right">
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-        </div>
     </div>
-
-
-    <?php ActiveForm::end(); ?>
-
+    <div class="panel-footer text-right">
+        <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+    </div>
 </div>
+<?php ActiveForm::end(); ?>
+
+
+
