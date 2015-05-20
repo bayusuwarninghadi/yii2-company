@@ -16,6 +16,11 @@ use yii\widgets\ListView;
 /* @var $userCommentDataProvider \yii\data\ActiveDataProvider */
 
 $this->title = $model->name;
+$this->params['breadcrumbs'][] = [
+    'label' => Yii::t('app', 'All Product'),
+    'url' => ['/product']
+];
+
 /** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $currentCategory */
 /** @var \common\models\Category|\creocoder\nestedsets\NestedSetsBehavior $parent */
 $currentCategory = $model->category;
@@ -28,7 +33,6 @@ foreach ($currentCategory->parents()->all() as $parent) {
     }
 }
 $this->params['breadcrumbs'][] = ['label' => $model->category->name, 'url' => ['/product', 'ProductSearch[cat_id]' => $model->cat_id]];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-view">
@@ -120,7 +124,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <h3> Custom Detail</h3>
                 </div>
                 <table class="table table-striped table-bordered ">
-                    <?php foreach ($model->productDetailValue as $name => $detail) : ?>
+                    <?php foreach ($model->detailValue as $name => $detail) : ?>
                         <tr>
                             <th><?= Inflector::camel2words($name) ?></th>
                             <td><?= Html::decode($detail) ?></td>

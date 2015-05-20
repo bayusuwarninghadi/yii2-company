@@ -1,7 +1,7 @@
 <?php
 
-use yii\helpers\Html;
 use backend\widget\GridView;
+use yii\helpers\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -12,11 +12,11 @@ $this->title = 'Product';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="category-index">
-    <?=Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default pull-right'])?>
+    <?= Html::a('<i class="fa fa-plus fa-fw"></i> Product', ['create'], ['class' => 'btn btn-default pull-right']) ?>
     <h1><?= Html::encode($this->title) ?></h1>
-    
+
     <div class="row">
-        <?php Pjax::begin();?>
+        <?php Pjax::begin(); ?>
         <div class="col-md-4">
             <?= $this->render('_search', ['model' => $searchModel]); ?>
         </div>
@@ -27,16 +27,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     [
                         'attribute' => 'name',
-                        'value' => function($data){
-
-                            return Html::tag('b',$data->name).Html::tag('div',$data->category->name,['class' => 'text-muted small']);
+                        'value' => function ($data) {
+                            return Html::tag('b', $data->name) . Html::tag('div', $data->category->name, ['class' => 'text-muted small']);
                         },
                         'format' => 'html'
                     ],
                     'price:currency',
                     [
                         'attribute' => 'discount',
-                        'value' => function($data){
+                        'value' => function ($data) {
                             return $data->discount / 100;
                         },
                         'options' => [
@@ -44,7 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'format' => 'percent'
                     ],
-                    'totalView.value',
+                    [
+                        'attribute' => 'productTotalView.int_value',
+                        'value' => function ($data) {
+                            return $data->productTotalView ? $data->productTotalView->int_value : 0;
+                        }
+                    ],
                     [
                         'attribute' => 'stock',
                         'options' => [

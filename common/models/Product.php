@@ -32,6 +32,9 @@ use yii\helpers\Json;
  *
  * @property Brand $brand
  * @property ProductAttribute[] $productAttributes
+ * @property ProductAttribute[] $productImages
+ * @property ProductAttribute $productDetail
+ * @property ProductAttribute $productTotalView
  * @property Category $category
  * @property Cart[] $carts
  * @property UserComment[] $userComments
@@ -47,7 +50,7 @@ class Product extends ActiveRecord
     /**
      * PRODUCT_ATTRIBUTE_TOTAL_VIEW
      */
-    const PRODUCT_ATTRIBUTE_TOTAL_VIEW = 'totalModel';
+    const PRODUCT_ATTRIBUTE_TOTAL_VIEW = 'totalView';
     /**
      * PRODUCT_ATTRIBUTE_IMAGES
      */
@@ -77,25 +80,11 @@ class Product extends ActiveRecord
      */
     public $images;
 
-    /**
-     * @var ProductAttribute
-     */
-    public $totalView =  false;
-
-    /**
-     * @var bool|ProductAttribute
-     */
-    public $productDetail = false;
-
+    public $productTotalView = false;
     /**
      * @var array
      */
-    public $productDetailValue = [];
-
-    /**
-     * @var ProductAttribute[]
-     */
-    public $productImages = [];
+    public $detailValue = [];
 
     /**
      * @var string
@@ -127,9 +116,13 @@ class Product extends ActiveRecord
     {
         parent::afterSave($insert, $changedAttributes);
 
-        if ($this->productDetailValue) {
-            $this->productDetail->value = Json::encode($this->productDetailValue);
-            $this->productDetail->save();
+        if ($this->detailValue) {
+            if (($productDetail = $this->productDetail) === null){
+                $productDetail = new ProductAttribute();
+                $productDetail->key = self::PRODUCT_ATTRIBUTE_DETAILS;
+            }
+            $productDetail->value = Json::encode($this->detailValue);
+            $productDetail->save();
         }
     }
 
@@ -233,37 +226,9 @@ class Product extends ActiveRecord
         if (isset(Yii::$app->session['lang'])) {
             $this->language = Yii::$app->session['lang'];
         }
-        foreach ($this->productAttributes as $attr) {
-            switch ($attr->key) {
-                case self::PRODUCT_ATTRIBUTE_DETAILS:
-                    $this->productDetail = $attr;
-                    break;
-                case self::PRODUCT_ATTRIBUTE_IMAGES:
-                    $this->productImages[] = $attr;
-                    break;
-                case self::PRODUCT_ATTRIBUTE_TOTAL_VIEW:
-                    $this->totalView = $attr;
-                    break;
-            }
+        if ($this->productDetail){
+            $this->detailValue = Json::decode($this->productDetail->value);
         }
-
-        if (!$this->productDetail) {
-            $this->productDetail = new ProductAttribute();
-            $this->productDetail->product_id = $this->id;
-            $this->productDetail->key = self::PRODUCT_ATTRIBUTE_DETAILS;
-            $this->productDetail->value = '{}';
-            $this->productDetail->save();
-        }
-        if (!$this->totalView) {
-            $this->totalView = new ProductAttribute();
-            $this->totalView->product_id = $this->id;
-            $this->totalView->key = self::PRODUCT_ATTRIBUTE_TOTAL_VIEW;
-            $this->totalView->value = '0';
-            $this->totalView->save();
-        }
-
-        $this->productDetailValue = Json::decode($this->productDetail->value);
-
     }
 
     /**
@@ -289,7 +254,7 @@ class Product extends ActiveRecord
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Updated At'),
             'brand_id' => Yii::t('app', 'Brand'),
-            'totalView.value' => Yii::t('app', 'Total View'),
+            'productTotalView.int_value' => Yii::t('app', 'Total View'),
         ];
     }
 
@@ -299,6 +264,30 @@ class Product extends ActiveRecord
     public function getProductAttributes()
     {
         return $this->hasMany(ProductAttribute::className(), ['product_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductTotalView()
+    {
+        return $this->hasOne(ProductAttribute::className(), ['product_id' => 'id'])->where(['product_attribute.key' => self::PRODUCT_ATTRIBUTE_TOTAL_VIEW]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductDetail()
+    {
+        return $this->hasOne(ProductAttribute::className(), ['product_id' => 'id'])->where(['product_attribute.key' => self::PRODUCT_ATTRIBUTE_DETAILS]);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProductImages()
+    {
+        return $this->hasMany(ProductAttribute::className(), ['product_id' => 'id'])->where(['product_attribute.key' => self::PRODUCT_ATTRIBUTE_IMAGES]);
     }
 
     /**

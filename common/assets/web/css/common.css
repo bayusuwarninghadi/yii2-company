@@ -43,6 +43,6 @@
     width: 100%
 }
 
-.modal {
-    overflow: scroll;
+.modal, .modal-open .modal {
+    overflow-y: scroll;
 }

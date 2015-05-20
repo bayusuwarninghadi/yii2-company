@@ -59,18 +59,18 @@ $(document).ready(function () {
         }
 
         $('.custom-detail').append('' +
-        '<div class="form-group field-product-productDetailValue-' + detail + '">' +
+        '<div class="form-group field-product-detailValue-' + detail + '">' +
         '<div class="input-group">' +
         '<span class="input-group-addon">' +
-        '<label class="control-label" for="product-productDetailValue-' + detail + '">' + detail + '</label>' +
+        '<label class="control-label" for="product-detailValue-' + detail + '">' + detail + '</label>' +
         '</span>' +
-        '<input type="text" id="product-productDetailValue-' + detail + '" class="form-control" name="Product[productDetailValue][' + detail + ']">' +
+        '<input type="text" id="product-detailValue-' + detail + '" class="form-control" name="Product[detailValue][' + detail + ']">' +
         '<span class="input-group-btn">' +
         '<a class="btn btn-danger btn-remove-detail"><i class="fa fa-trash-o"></i></a>' +
         '</span>' +
         '</div>' +
         '</div>');
-        $('#product-productDetailValue-' + detail).focus();
+        $('#product-detailValue-' + detail).focus();
         return false;
     });
     $('.custom-detail').on('click', '.btn-remove-detail', function () {

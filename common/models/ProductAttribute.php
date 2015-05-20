@@ -13,6 +13,7 @@ use yii\db\ActiveRecord;
  * @property integer $product_id
  * @property string $key
  * @property string $value
+ * @property int $int_value
  *
  * @property Product $product
  */
@@ -47,7 +48,7 @@ class ProductAttribute extends ActiveRecord
     public function rules()
     {
         return [
-            [['product_id'], 'integer'],
+            [['product_id', 'int_value'], 'integer'],
             [['key'], 'required'],
             [['value'], 'string'],
             [['key'], 'string', 'max' => 255]
@@ -60,10 +61,11 @@ class ProductAttribute extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app','ID'),
-            'product_id' => Yii::t('app','Product'),
-            'key' => Yii::t('app','Key'),
-            'value' => Yii::t('app','Value'),
+            'id' => Yii::t('app', 'ID'),
+            'product_id' => Yii::t('app', 'Product'),
+            'key' => Yii::t('app', 'Key'),
+            'value' => Yii::t('app', 'Value'),
+            'int_value' => Yii::t('app', 'Integer Value'),
         ];
     }
 

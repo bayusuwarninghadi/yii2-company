@@ -93,7 +93,7 @@ class ProductController extends Controller
         $modelEnglish->language = 'en-US';
 
         $bodyData = Yii::$app->request->post();
-        $model->productDetailValue = (isset($bodyData['Product']['productDetailValue'])) ? $bodyData['Product']['productDetailValue'] : $model->productDetailValue;
+        $model->detailValue = (isset($bodyData['Product']['detailValue'])) ? $bodyData['Product']['detailValue'] : $model->detailValue;
 
         if ($model->load($bodyData)) {
 
@@ -157,7 +157,7 @@ class ProductController extends Controller
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $model->productDetailValue = (isset($bodyData['Product']['productDetailValue'])) ? $bodyData['Product']['productDetailValue'] : $model->productDetailValue;
+        $model->detailValue = (isset($bodyData['Product']['detailValue'])) ? $bodyData['Product']['detailValue'] : $model->detailValue;
 
         if ($model->load($bodyData)) {
             $_images = UploadedFile::getInstances($model, 'images');

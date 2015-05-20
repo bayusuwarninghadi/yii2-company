@@ -28,14 +28,14 @@ class ProductSearch extends Product
     public function attributeLabels()
     {
         $return = [
-            'price_from' => Yii::t('app','Price From'),
-            'price_to' => Yii::t('app','Price To'),
-            'discount_from' => Yii::t('app','Discount From'),
-            'discount_to' => Yii::t('app','Discount To'),
-            'stock_from' => Yii::t('app','Stock From'),
-            'stock_to' => Yii::t('app','Stock To'),
-            'sort' => Yii::t('app','Sort'),
-            'category_name' => Yii::t('app','Category'),
+            'price_from' => Yii::t('app', 'Price From'),
+            'price_to' => Yii::t('app', 'Price To'),
+            'discount_from' => Yii::t('app', 'Discount From'),
+            'discount_to' => Yii::t('app', 'Discount To'),
+            'stock_from' => Yii::t('app', 'Stock From'),
+            'stock_to' => Yii::t('app', 'Stock To'),
+            'sort' => Yii::t('app', 'Sort'),
+            'category_name' => Yii::t('app', 'Category'),
         ];
         return array_merge($return, parent::attributeLabels());
     }
@@ -87,8 +87,7 @@ class ProductSearch extends Product
      */
     public function search($params)
     {
-        $query = Product::find()->joinWith(['category','translations']);
-
+        $query = Product::find()->joinWith(['category', 'translations']);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
@@ -140,8 +139,7 @@ class ProductSearch extends Product
             ->andFilterWhere(['>=', 'stock', $this->stock_from])
             ->andFilterWhere(['<=', 'stock', $this->stock_to])
             ->andFilterWhere(['like', 'product_lang.description', $this->description])
-            ->andFilterWhere(['like', 'product_lang.subtitle', $this->subtitle])
-        ;
+            ->andFilterWhere(['like', 'product_lang.subtitle', $this->subtitle]);
 
         /** @var Category $category */
         if ($this->cat_id && $category = Category::findOne($this->cat_id)) {

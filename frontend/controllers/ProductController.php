@@ -54,15 +54,25 @@ class ProductController extends BaseController
             return $this->redirect(['/transaction/cart']);
         }
 
-        $images = [];
-        foreach ($model->productImages as $image) {
-            $_arr = Json::decode($image->value);
-            $images[] = Html::img($_arr['medium']);
+        if ($model->productImages) {
+            $images = [];
+            foreach ($model->productImages as $image) {
+                $_arr = Json::decode($image->value);
+                $images[] = Html::img($_arr['medium']);
+            }
+        } else {
+            $images = [Html::img($model->image_url)];
         }
-        if (!$images) $images[] = Html::img($model->image_url);
 
-        $model->totalView->value = '' . (intval($model->totalView->value) + 1);
-        $model->totalView->save();
+        if ($totalView = $model->productTotalView){
+            $totalView->int_value = intval($model->productTotalView->int_value) + 1;
+        } else {
+            $totalView = new ProductAttribute();
+            $totalView->product_id = $model->id;
+            $totalView->key = Product::PRODUCT_ATTRIBUTE_TOTAL_VIEW;
+            $totalView->int_value = 1;
+        }
+        $totalView->save();
 
         return $this->render('view', [
             'model' => $model,

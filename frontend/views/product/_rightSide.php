@@ -67,14 +67,14 @@ use yii\helpers\Url;
         <?php endif ?>
     </div>
     <table class="table">
-        <?php foreach ($model->productDetailValue as $name => $detail) : ?>
+        <?php foreach ($model->detailValue as $name => $detail) : ?>
             <tr>
                 <th><?= Inflector::camel2words($name) ?></th>
                 <td><?= Html::decode($detail) ?></td>
             </tr>
         <?php endforeach ?>
         <tr>
-            <td colspan="2"><i class="fa fa-eye fa-fw"></i> <?= Yii::t('app','Total View') ?> <?=$model->totalView->value?></td>
+            <td colspan="2"><i class="fa fa-eye fa-fw"></i> <?= Yii::t('app','Total View') ?> <?=$model->productTotalView ? $model->productTotalView->int_value : 0?></td>
         </tr>
     </table>
     <div class="panel-footer">
