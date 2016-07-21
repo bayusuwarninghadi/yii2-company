@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -23,7 +22,6 @@ use yii\db\ActiveRecord;
  */
 class UserComment extends ActiveRecord
 {
-    const KEY_PRODUCT = 'product';
     const KEY_ARTICLE = 'article';
     const KEY_NEWS = 'news';
 
@@ -33,18 +31,11 @@ class UserComment extends ActiveRecord
      */
     public static function getKeyAsArray($with_key = true)
     {
-        $return = ($with_key == true)
-            ? [
-                static::KEY_PRODUCT => Yii::t('app', 'Product'),
-                static::KEY_ARTICLE => Yii::t('app', 'Pages'),
-                static::KEY_NEWS => Yii::t('app', 'News'),
-            ]
-            : [
-                static::KEY_PRODUCT,
-                static::KEY_ARTICLE,
-                static::KEY_NEWS,
-            ];
-        return $return;
+        $return = [
+            static::KEY_ARTICLE => \Yii::t('app', 'Pages'),
+            static::KEY_NEWS => \Yii::t('app', 'News'),
+        ];
+        return $with_key ? $return : array_keys($return);
     }
 
     /**
@@ -85,15 +76,15 @@ class UserComment extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'table_key' => Yii::t('app', 'Table Key'),
-            'table_id' => Yii::t('app', 'Table ID'),
-            'user_id' => Yii::t('app', 'User'),
-            'title' => Yii::t('app', 'Title'),
-            'comment' => Yii::t('app', 'Comment'),
-            'rating' => Yii::t('app', 'Rating'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'id' => \Yii::t('app', 'ID'),
+            'table_key' => \Yii::t('app', 'Table Key'),
+            'table_id' => \Yii::t('app', 'Table ID'),
+            'user_id' => \Yii::t('app', 'User'),
+            'title' => \Yii::t('app', 'Title'),
+            'comment' => \Yii::t('app', 'Comment'),
+            'rating' => \Yii::t('app', 'Rating'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
         ];
     }
 

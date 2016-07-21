@@ -6,7 +6,6 @@
 
 namespace backend\widget\chart;
 
-use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;

@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -56,13 +55,13 @@ class Inbox extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'email' => Yii::t('app', 'Email'),
-            'subject' => Yii::t('app', 'Subject'),
-            'message' => Yii::t('app', 'Message'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'id' => \Yii::t('app', 'ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'subject' => \Yii::t('app', 'Subject'),
+            'message' => \Yii::t('app', 'Message'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
         ];
     }
 }

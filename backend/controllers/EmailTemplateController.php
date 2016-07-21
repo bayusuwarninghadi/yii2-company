@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Pages;
 use common\models\PagesSearch;
 use yii\helpers\Inflector;
@@ -45,7 +44,7 @@ class EmailTemplateController extends Controller
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_MAIL;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -65,7 +64,7 @@ class EmailTemplateController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             $model->type_id = Pages::TYPE_MAIL;
             $model->camel_case = Inflector::camelize($model->title);
             if ($model->save()) {

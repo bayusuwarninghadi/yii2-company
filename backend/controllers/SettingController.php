@@ -4,7 +4,6 @@ namespace backend\controllers;
 
 use common\models\Setting;
 use common\modules\UploadHelper;
-use Yii;
 use yii\filters\VerbFilter;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
@@ -41,7 +40,7 @@ class SettingController extends Controller
          * @var $model Setting
          */
         $model = Setting::findOne(['key' => 'theme']);
-        $themeFolders = glob(Yii::$app->getBasePath() . '/../frontend/themes/*', GLOB_ONLYDIR);
+        $themeFolders = glob(\Yii::$app->getBasePath() . '/../frontend/themes/*', GLOB_ONLYDIR);
 
         $themes = [];
         $carouselTheme = [];
@@ -58,7 +57,7 @@ class SettingController extends Controller
         if ($select != ''){
             $model->value = $select;
             if ($model->save()){
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
             }
         }
 
@@ -79,8 +78,8 @@ class SettingController extends Controller
 
         Header("Content-type: image/jpeg");
 
-        $themeDirectory = Yii::$app->getBasePath() . '/../frontend/themes/' . $theme;
-        $path = Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif';
+        $themeDirectory = \Yii::$app->getBasePath() . '/../frontend/themes/' . $theme;
+        $path = \Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif';
         if (file_exists($themeDirectory)) {
             if ($_images = glob($themeDirectory . '/*{jpg,png,gif,jpeg}', GLOB_BRACE)){
                 $path = $_images[0];
@@ -96,7 +95,7 @@ class SettingController extends Controller
      */
     public function actionIndex()
     {
-        $param = Yii::$app->request->post();
+        $param = \Yii::$app->request->post();
 
         if ($param) {
             foreach ($param['Setting'] as $_key => $_param) {
@@ -134,7 +133,7 @@ class SettingController extends Controller
                 $_model->value = $_param['value'];
                 $_model->save();
             }
-            Yii::$app->getSession()->setFlash('success', 'Your setting has been saved.');
+            \Yii::$app->getSession()->setFlash('success', 'Your setting has been saved.');
         }
 
 
@@ -154,8 +153,8 @@ class SettingController extends Controller
     {
         $model = new Setting();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
+            \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
             return $this->redirect(['index']);
         }
         return $this->render('create', [

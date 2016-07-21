@@ -12,7 +12,6 @@ namespace frontend\controllers;
 use common\models\Request;
 use common\models\Setting;
 use common\models\UserAttribute;
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
@@ -76,7 +75,7 @@ class BaseController extends Controller
     protected function loadThemes()
     {
         if (isset($this->settings['theme'])) {
-            $this->getView()->theme = Yii::createObject([
+            $this->getView()->theme = \Yii::createObject([
                 'class' => '\yii\base\Theme',
                 'pathMap' => ['@app/views' => '@app/themes/' . $this->settings['theme'] . '/views'],
                 'baseUrl' => '@app/themes/' . $this->settings['theme'] . '/web',
@@ -89,15 +88,15 @@ class BaseController extends Controller
      */
     protected function loadLanguage()
     {
-        if ($lang = Yii::$app->request->get('lang')) {
+        if ($lang = \Yii::$app->request->get('lang')) {
             if (in_array($lang, $this->supportedLanguage)){
-                Yii::$app->session['lang'] = $lang;
+                \Yii::$app->session['lang'] = $lang;
             }
         }
-        if (!Yii::$app->session['lang']){
-            Yii::$app->session['lang'] = $this->settings['default_language'];
+        if (!\Yii::$app->session['lang']){
+            \Yii::$app->session['lang'] = $this->settings['default_language'];
         }
-        Yii::$app->language = Yii::$app->session['lang'];
+        \Yii::$app->language = \Yii::$app->session['lang'];
     }
 
     /**
@@ -107,11 +106,11 @@ class BaseController extends Controller
      */
     protected function loadUserAttribute()
     {
-        if (Yii::$app->user->isGuest) return false;
+        if (\Yii::$app->user->isGuest) return false;
 
         $models = ArrayHelper::map(
             UserAttribute::find()
-                ->where(['user_id' => Yii::$app->user->getId()])
+                ->where(['user_id' => \Yii::$app->user->getId()])
                 ->andWhere(['IN', 'key', ['favorites', 'comparison']])
                 ->groupBy('key')
                 ->all(),
@@ -153,11 +152,11 @@ class BaseController extends Controller
     private function increaseApi()
     {
         $model = new Request();
-        $model->user_id = Yii::$app->user->getId();
-        $model->controller = Yii::$app->controller->id;
-        $model->action = Yii::$app->controller->action->id;
+        $model->user_id = \Yii::$app->user->getId();
+        $model->controller = \Yii::$app->controller->id;
+        $model->action = \Yii::$app->controller->action->id;
 
-        $url = Yii::$app->urlManager->parseRequest(Yii::$app->request);
+        $url = \Yii::$app->urlManager->parseRequest(\Yii::$app->request);
         $related = $_REQUEST;
         foreach ($url as $k => $v) {
             if (is_array($v)) {
@@ -172,9 +171,9 @@ class BaseController extends Controller
         $model->related_parameters = Json::encode($related);
 
         $model->from_device = 'other';
-        $model->from_ip = Yii::$app->getRequest()->getUserIP();
-        $model->from_latitude = (Yii::$app->request->post('from_latitude') != '') ? Yii::$app->request->post('from_latitude') : Yii::$app->request->get('from_latitude');
-        $model->from_longitude = (Yii::$app->request->post('from_longitude') != '') ? Yii::$app->request->post('from_longitude') : Yii::$app->request->get('from_longitude');
+        $model->from_ip = \Yii::$app->getRequest()->getUserIP();
+        $model->from_latitude = (\Yii::$app->request->post('from_latitude') != '') ? \Yii::$app->request->post('from_latitude') : \Yii::$app->request->get('from_latitude');
+        $model->from_longitude = (\Yii::$app->request->post('from_longitude') != '') ? \Yii::$app->request->post('from_longitude') : \Yii::$app->request->get('from_longitude');
         return $model->save();
     }
 }

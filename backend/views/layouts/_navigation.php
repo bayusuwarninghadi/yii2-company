@@ -6,7 +6,7 @@ use yii\bootstrap\Nav;
 
 NavBar::begin([
     'brandLabel' => '<i class="fa fa-lock fa-fw text-danger"></i> Administrator</span>',
-    'brandUrl' => Yii::$app->homeUrl,
+    'brandUrl' => \Yii::$app->homeUrl,
     'renderInnerContainer' => false,
     'options' => [
         'class' => 'navbar-inverse navbar-static-top navbar',
@@ -18,38 +18,22 @@ echo Nav::widget([
     'items' => [
         [
             'label' => '<i class="fa fa-globe fa-fw"></i>',
-            'url' => Yii::$app->components['frontendSiteUrl'],
+            'url' => \Yii::$app->components['frontendSiteUrl'],
             'linkOptions' => [
                 'target' => '_blank'
             ],
         ],
         [
             'label' => '<i class="fa fa-gears fa-fw"></i>',
-            'url' => ['/setting/index'],
-            'items' => [
-                [
-                    'label' => '<i class="fa fa-gear fa-fw"></i> '.Yii::t('app','Setting'),
-                    'url' => ['/setting/index']
-                ],
-                '<li class="divider"></li>',
-                [
-                    'label' => '<i class="fa fa-file-picture-o fa-fw"></i> '.Yii::t('app','Site Theme'),
-                    'url' => ['/setting/theme']
-                ],
-                '<li class="divider"></li>',
-                [
-                    'label' => '<i class="fa fa-ship fa-fw"></i> '.Yii::t('app','Shipping Method'),
-                    'url' => ['/shipping-method/index']
-                ],
-            ]
+            'url' => ['/setting/index']
         ],
         [
             'label' => '<i class="fa fa-user fa-fw"></i>',
             'items' => [
-                ['label' => '<i class="fa fa-user fa-fw"></i> '.Yii::t('app','Profile'), 'url' => ['/user/view', 'id' => Yii::$app->user->getId()]],
+                ['label' => '<i class="fa fa-user fa-fw"></i> '.\Yii::t('app','Profile'), 'url' => ['/user/view', 'id' => \Yii::$app->user->getId()]],
                 '<li class="divider"></li>',
                 [
-                    'label' => '<i class="fa fa-sign-out fa-fw"></i> '.Yii::t('app','Logout'),
+                    'label' => '<i class="fa fa-sign-out fa-fw"></i> '.\Yii::t('app','Logout'),
                     'url' => ['/site/logout'],
                     'linkOptions' => ['data-method' => 'post']
                 ]

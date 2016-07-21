@@ -13,7 +13,7 @@ use yii\helpers\HtmlPurifier;
     <div class="col-sm-3">
         <div><?= $model->user->username ?></div>
         <div>
-            <small><i class="fa fa-calendar"></i> <?= Yii::$app->formatter->asDate($model->created_at) ?></small>
+            <small><i class="fa fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->created_at) ?></small>
         </div>
     </div>
     <div class="col-sm-9">

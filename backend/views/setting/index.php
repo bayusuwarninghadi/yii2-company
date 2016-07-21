@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $formGroup = $formGroup->textarea(['rows' => 4]);
                     break;
                 case Setting::TYPE_TINY_MCE:
-                    $formGroup = $formGroup->widget(TinyMce::className(), Yii::$app->modules['tiny-mce']);
+                    $formGroup = $formGroup->widget(TinyMce::className(), \Yii::$app->modules['tiny-mce']);
                     break;
                 case Setting::TYPE_IMAGE_INPUT:
                     $hint = UploadHelper::getHtml('setting/' . $m->id, 'small');

@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\base\Model;
 
 /**
@@ -27,7 +26,6 @@ class ContactForm extends Model
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
         ];
     }
 
@@ -37,11 +35,10 @@ class ContactForm extends Model
     public function attributeLabels()
     {
         return [
-            'name' => Yii::t('app', 'Name'),
-            'email' => Yii::t('app', 'Email'),
-            'subject' => Yii::t('app', 'Subject'),
-            'body' => Yii::t('app', 'Message'),
-            'verifyCode' => Yii::t('app', 'Verification Code'),
+            'name' => \Yii::t('app', 'Name'),
+            'email' => \Yii::t('app', 'Email'),
+            'subject' => \Yii::t('app', 'Subject'),
+            'body' => \Yii::t('app', 'Message'),
         ];
     }
 
@@ -54,7 +51,7 @@ class ContactForm extends Model
      */
     public function sendEmail($email)
     {
-        return Yii::$app->mailer->compose()
+        return \Yii::$app->mailer->compose()
             ->setTo($email)
             ->setFrom([$this->email => $this->name])
             ->setSubject($this->subject)

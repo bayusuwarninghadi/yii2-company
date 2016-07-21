@@ -10,9 +10,9 @@ AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
-<html lang="<?= Yii::$app->language ?>">
+<html lang="<?= \Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
+    <meta charset="<?= \Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
@@ -20,7 +20,7 @@ AppAsset::register($this);
 </head>
 <body>
     <?php $this->beginBody() ?>
-    <?php if (Yii::$app->user->isGuest) : ?>
+    <?php if (\Yii::$app->user->isGuest) : ?>
         <?= $content ?>
     <?php else : ?>    
         <div id="wrapper">
@@ -31,7 +31,7 @@ AppAsset::register($this);
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                     'homeLink' => [
                         'label' => '<i class="fa fa-home fa-fw"></i> Home',
-                        'url' => Yii::$app->homeUrl
+                        'url' => \Yii::$app->homeUrl
                     ]
                 ]) ?>
                 <div class="main-container">
@@ -39,7 +39,7 @@ AppAsset::register($this);
                 </div>
             </div>
         </div>
-        <div class="footer">&copy; Copyright <?=Html::a('bay_oz', 'http://twitter.com/bay_oz')?> <?=Date('Y')?></div>      
+        <div class="footer"><?=Html::a('bay_oz', 'http://twitter.com/bay_oz')?> <?=Date('Y')?></div>
     <?php endif ?>
     <?php $this->endBody() ?>
 </body>

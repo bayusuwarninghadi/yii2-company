@@ -36,8 +36,8 @@ class CategoryWidget extends InputWidget
         $selected = Html::getAttributeValue($this->model, $this->attribute);
         $this->selected[] = $selected;
         /** @var Category|NestedSetsBehavior $currentCategory*/
-        /** @var Category|NestedSetsBehavior $parent*/
         if ($currentCategory = Category::findOne($selected)){
+            /** @var Category|NestedSetsBehavior $parent*/
             foreach ($currentCategory->parents()->all() as $parent){
                 $this->selected[] = $parent->id;
             }
@@ -73,18 +73,19 @@ class CategoryWidget extends InputWidget
          * @var Category|NestedSetsBehavior $root
          */
         $root = Category::find()->one();
-        if (!$root){
-            $root = new Category();
-            $root->name = 'root';
-            $root->makeRoot();
-        }
         if ($root->isRoot()) {
             static::renderCategory($root->children(1)->all());
         }
         $view = $this->getView();
         $view->registerJs("jQuery('#$id>ul').metisMenu();");
         $input_id = Html::getInputId($this->model, $this->attribute);
-        $view->registerJs("jQuery('.category-tree-container li>a').click(function(){jQuery('#$input_id').val($(this).data('id'));return false;});");
+        $view->registerJs("
+            jQuery('#$id li>a').click(function(){
+                $('#$id li>a').removeClass('active');
+                $(this).addClass('active')
+                jQuery('#$input_id').val($(this).data('id'));return false;
+            });
+        ");
         echo Html::endTag('div');
 
     }
@@ -103,7 +104,7 @@ class CategoryWidget extends InputWidget
             echo Html::beginTag('li');
             $paddingLeft = $level * 15;
             if ($_child = $category->children(1)->all()) {
-                echo Html::a('+ ' . $category->name . ' <i class="fa arrow"></i>', '#',
+                echo Html::a('+ ' . $category->title . ' <i class="fa arrow"></i>', '#',
                     [
                         'data-id' => $category->id,
                         'style' => 'padding-left:' . $paddingLeft . 'px',
@@ -115,7 +116,7 @@ class CategoryWidget extends InputWidget
                 }
                 static::renderCategory($_child, $level + 1);
             } else {
-                echo Html::a('+ ' . $category->name, '#',
+                echo Html::a('+ ' . $category->title, '#',
                     [
                         'data-id' => $category->id,
                         'style' => 'padding-left:' . $paddingLeft . 'px',

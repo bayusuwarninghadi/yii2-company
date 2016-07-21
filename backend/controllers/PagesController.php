@@ -5,7 +5,6 @@ namespace backend\controllers;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
-use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Inflector;
@@ -46,7 +45,7 @@ class PagesController extends Controller
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_PAGES;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -69,28 +68,28 @@ class PagesController extends Controller
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $bodyData = Yii::$app->request->post();
-
-        if ($model->load($bodyData)) {
+        $bodyData = \Yii::$app->request->post();
+        
+        if ($bodyData) {
             $model->type_id = Pages::TYPE_PAGES;
-            $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
+            $model->camel_case = Inflector::camelize($modelEnglish->title);
+            $modelIndonesia->title = $modelEnglish->title;
             if ($model->save()) {
                 /**
                  * Save Pages Lang
                  */
-                $modelEnglish->title = $bodyData['modelEnglish']['title'];
-                $modelEnglish->description = $bodyData['modelEnglish']['description'];
-                if ($modelEnglish->validate()) {
+
+                $modelEnglish->page_id = $model->id;
+                if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
                     $modelEnglish->save();
                 }
 
-                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
-                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
-                if ($modelIndonesia->validate()) {
+                $modelIndonesia->page_id = $model->id;
+                if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
                     $modelIndonesia->save();
                 }
 
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
                 return $this->redirect(['index']);
             }
         }

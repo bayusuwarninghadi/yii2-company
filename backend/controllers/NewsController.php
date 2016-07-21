@@ -5,15 +5,16 @@ namespace backend\controllers;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
-use Yii;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use common\modules\UploadHelper;
+use yii\web\UploadedFile;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * NewsController implements the CRUD actions for Pages model.
  */
 class NewsController extends Controller
 {
@@ -46,7 +47,7 @@ class NewsController extends Controller
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_NEWS;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('/article/index', [
             'searchModel' => $searchModel,
@@ -81,42 +82,38 @@ class NewsController extends Controller
         /**
          * Create New Pages Language
          */
-        $modelEnglish = new PagesLang();
-        $modelEnglish->language = 'id-ID';
+        $modelEnglish = $this->findLangModel($model->id, 'en-US');
+        $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $modelIndonesia = new PagesLang();
-        $modelIndonesia->language = 'en-US';
-
-        $bodyData = Yii::$app->request->post();
+        $bodyData = \Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()){
+                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'news/' . $model->id);
 
                 /**
                  * Save Pages Lang
                  */
                 $modelEnglish->page_id = $model->id;
-                $modelEnglish->title = $bodyData['modelEnglish']['title'];
-                $modelEnglish->description = $bodyData['modelEnglish']['description'];
-                if ($modelEnglish->validate()) {
+                if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
                     $modelEnglish->save();
                 }
 
                 $modelIndonesia->page_id = $model->id;
-                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
-                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
-                if ($modelIndonesia->validate()) {
+                if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
                     $modelIndonesia->save();
                 }
 
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
         return $this->render('/article/create', [
             'model' => $model,
-            'type' => 'News'
+            'type' => 'News',
+            'modelEnglish' => $modelEnglish,
+            'modelIndonesia' => $modelIndonesia,
         ]);
     }
 
@@ -133,29 +130,28 @@ class NewsController extends Controller
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $bodyData = Yii::$app->request->post();
+        $bodyData = \Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
             $model->type_id = Pages::TYPE_NEWS;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
+                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'news/' . $model->id);
 
                 /**
                  * Save Pages Lang
                  */
-                $modelEnglish->title = $bodyData['modelEnglish']['title'];
-                $modelEnglish->description = $bodyData['modelEnglish']['description'];
-                if ($modelEnglish->validate()) {
+                $modelEnglish->page_id = $model->id;
+                if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
                     $modelEnglish->save();
                 }
 
-                $modelIndonesia->title = $bodyData['modelIndonesia']['title'];
-                $modelIndonesia->description = $bodyData['modelIndonesia']['description'];
-                if ($modelIndonesia->validate()) {
+                $modelIndonesia->page_id = $model->id;
+                if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
                     $modelIndonesia->save();
                 }
 
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }

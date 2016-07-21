@@ -9,7 +9,6 @@
 namespace common\modules;
 
 use Imagine\Imagick\Imagine;
-use Yii;
 use yii\helpers\BaseArrayHelper;
 use yii\helpers\Html;
 use yii\web\UploadedFile;
@@ -38,7 +37,7 @@ class UploadHelper extends BaseArrayHelper
 
         // define path
         $app = $saveToFrontEnd ? 'frontend' : 'backend';
-        $destination = Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
+        $destination = \Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory
         if (!file_exists($destination)) {
@@ -68,7 +67,7 @@ class UploadHelper extends BaseArrayHelper
 
         // define path
         $app = $saveToFrontEnd ? 'frontend' : 'backend';
-        $destination = Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
+        $destination = \Yii::$app->getBasePath() . '/../' . $app . '/web/images/' . $path . '/';
 
         // check if path doesn't exist then create directory else remove all asset images
         if (!file_exists($destination)) {
@@ -135,10 +134,10 @@ class UploadHelper extends BaseArrayHelper
     public static function getImageUrl($path, $size = 'medium', $not_found = false)
     {
 
-        $real_path = Yii::$app->getBasePath() . '/../frontend/web/images/' . $path . '/';
+        $real_path = \Yii::$app->getBasePath() . '/../frontend/web/images/' . $path . '/';
 
         if (!file_exists($real_path)) {
-            return $not_found ? Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false;
+            return $not_found ? \Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false;
         }
 
         $_images = glob($real_path . '*{jpg,png,gif,jpeg}', GLOB_BRACE);
@@ -147,12 +146,12 @@ class UploadHelper extends BaseArrayHelper
 
         foreach ($_images as $image) {
             $path_info = pathinfo($image);
-            $image_url = Yii::$app->components['frontendSiteUrl'] . '/images/' . $path . '/' . $path_info['basename'];
+            $image_url = \Yii::$app->components['frontendSiteUrl'] . '/images/' . $path . '/' . $path_info['basename'];
             $images[$path_info['filename']] = $image_url;
         }
 
         $size = array_key_exists($size, $images) ? $size : 'medium';
 
-        return isset($images[$size]) ? $images[$size] : ($not_found ? Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false);
+        return isset($images[$size]) ? $images[$size] : ($not_found ? \Yii::$app->components['frontendSiteUrl'] . '/images/320x150.gif' : false);
     }
 }

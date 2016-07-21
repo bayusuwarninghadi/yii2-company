@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -13,8 +12,6 @@ use yii\db\ActiveRecord;
  * @property string $name
  *
  * @property City $city
- * @property ShippingMethodCost[] $shippingMethodCosts
- * @property Shipping[] $shippings
  */
 class CityArea extends ActiveRecord
 {
@@ -44,9 +41,9 @@ class CityArea extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'city_id' => Yii::t('app', 'City ID'),
-            'name' => Yii::t('app', 'City Area Name'),
+            'id' => \Yii::t('app', 'ID'),
+            'city_id' => \Yii::t('app', 'City ID'),
+            'name' => \Yii::t('app', 'City Area Name'),
         ];
     }
 
@@ -56,22 +53,6 @@ class CityArea extends ActiveRecord
     public function getCity()
     {
         return $this->hasOne(City::className(), ['id' => 'city_id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getShippingMethodCosts()
-    {
-        return $this->hasMany(ShippingMethodCost::className(), ['city_area_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getShippings()
-    {
-        return $this->hasMany(Shipping::className(), ['city_area_id' => 'id']);
     }
 
 

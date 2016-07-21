@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use common\modules\UploadHelper;
-use Yii;
 use common\models\User;
 use backend\models\UserSearch;
 use yii\web\Controller;
@@ -45,7 +44,7 @@ class UserController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -75,7 +74,7 @@ class UserController extends Controller
     {
         $model = new User();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             $model->setPassword($model->password);
             $model->generateAuthKey();
             if ($model->save()){
@@ -87,7 +86,7 @@ class UserController extends Controller
                         ],
                     ]);
                 }
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }
@@ -106,7 +105,7 @@ class UserController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             if ($image = UploadedFile::getInstance($model, 'image')){
                 UploadHelper::saveImage($image, 'user/' . $model->id,[
                     'small' => [
@@ -116,7 +115,7 @@ class UserController extends Controller
                 ]);
             }
             if ($model->save()){
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
         }

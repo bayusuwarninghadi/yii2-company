@@ -3,10 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Pages;
-use common\models\Product;
 use common\models\UserComment;
 use common\models\UserCommentSearch;
-use Yii;
 use yii\filters\VerbFilter;
 use yii\web\ForbiddenHttpException;
 
@@ -40,24 +38,12 @@ class UserCommentController extends BaseController
         $searchModel->table_key = $key;
         $searchModel->table_id = $id;
 
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         $model = new UserComment();
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             switch ($key){
-                case UserComment::KEY_PRODUCT:
-                    /**
-                     * Calculate Rating
-                     * @var Product $product
-                     */
-                    $product = Product::findOne($id);
-                    $ratingArr = explode('/', $product->rating);
-                    $product->rating = (intval($ratingArr[0]) + $model->rating) .'/'.(intval($ratingArr[1]) + 1);
-                    $product->save();
-
-                    $redirect = '/product/view';
-                    break;
                 case UserComment::KEY_ARTICLE:
                     /**
                      * @var $article Pages
@@ -81,9 +67,9 @@ class UserCommentController extends BaseController
             }
             $model->table_key = $key;
             $model->table_id = $id;
-            $model->user_id = Yii::$app->user->getId();
+            $model->user_id = \Yii::$app->user->getId();
             if ($model->save()){
-                Yii::$app->session->setFlash('success', 'Comment added, Thanks');
+                \Yii::$app->session->setFlash('success', 'Comment added, Thanks');
                 return $this->redirect([$redirect, 'id' => $id]);
             }
         }
@@ -93,6 +79,6 @@ class UserCommentController extends BaseController
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ];
-        return Yii::$app->request->isAjax ? $this->renderPartial('index', $params) : $this->render('index', $params);
+        return \Yii::$app->request->isAjax ? $this->renderPartial('index', $params) : $this->render('index', $params);
     }
 }

@@ -15,25 +15,25 @@ $menuItems = [
         'label' => '<i class="fa fa-files-o fa-fw"></i>',
         'items' => [
             [
-                'label' => '<i class="fa fa-table fa-fw"></i> ' . Yii::t('app', 'Article'),
+                'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Article'),
                 'url' => ['/article/index']
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-edit fa-fw"></i> ' . Yii::t('app', 'News'),
+                'label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'News'),
                 'url' => ['/news/index']
             ],
         ]
     ]
 ];
-if (Yii::$app->user->isGuest) {
+if (\Yii::$app->user->isGuest) {
     $menuItems[] = [
-        'label' => '<i class="fa fa-sign-in fa-fw"></i> ' . Yii::t('app', 'Login'),
+        'label' => '<i class="fa fa-sign-in fa-fw"></i> ' . \Yii::t('app', 'Login'),
         'url' => ['/site/login']
     ];
 } else {
     $menuItems[] = [
-        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . Yii::t('app', 'Shopping Cart'),
+        'label' => '<i class="fa fa-shopping-cart fa-fw"></i> ' . \Yii::t('app', 'Shopping Cart'),
         'url' => ['/checkout/cart'],
         'linkOptions' => ['class' => 'visible-xs'],
     ];
@@ -45,10 +45,10 @@ if (Yii::$app->user->isGuest) {
             '<li class="container-fluid">
                 <div class="row">
                     <div class="col-xs-6">
-                    ' . Html::a(Yii::t('app', 'See All'), ['/transaction/cart'], ['class' => 'btn btn-xs btn-success']) . '
+                    ' . Html::a(\Yii::t('app', 'See All'), ['/transaction/cart'], ['class' => 'btn btn-xs btn-success']) . '
                     </div>
                     <div class="col-xs-6 text-right">
-                    ' . Html::a('<i class="fa fa-cart-arrow-down fa-fw"></i>' . Yii::t('app', 'Checkout'), ['/transaction/checkout'], ['class' => 'btn btn-xs btn-warning']) . '
+                    ' . Html::a('<i class="fa fa-cart-arrow-down fa-fw"></i>' . \Yii::t('app', 'Checkout'), ['/transaction/checkout'], ['class' => 'btn btn-xs btn-warning']) . '
                     </div>
                 </div>
             </li>',
@@ -59,29 +59,29 @@ if (Yii::$app->user->isGuest) {
         'label' => '<i class="fa fa-user fa-fw"></i>',
         'items' => [
             [
-                'label' => '<i class="fa fa-user fa-fw"></i> ' . Yii::t('app', 'Manage Profile'),
+                'label' => '<i class="fa fa-user fa-fw"></i> ' . \Yii::t('app', 'Manage Profile'),
                 'url' => ['/user/index'],
             ],
             [
-                'label' => '<i class="fa fa-heart fa-fw"></i> ' . Yii::t('app', 'Favorites'),
+                'label' => '<i class="fa fa-heart fa-fw"></i> ' . \Yii::t('app', 'Favorites'),
                 'url' => ['/user/favorite'],
             ],
             [
-                'label' => '<i class="fa fa-columns fa-fw"></i> ' . Yii::t('app', 'Product Compare'),
+                'label' => '<i class="fa fa-columns fa-fw"></i> ' . \Yii::t('app', 'Product Compare'),
                 'url' => ['/user/comparison'],
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-check fa-fw"></i> ' . Yii::t('app', 'Confirmation'),
+                'label' => '<i class="fa fa-check fa-fw"></i> ' . \Yii::t('app', 'Confirmation'),
                 'url' => ['/user/confirmation'],
             ],
             [
-                'label' => '<i class="fa fa-check-circle fa-fw"></i> ' . Yii::t('app', 'View Transaction History'),
+                'label' => '<i class="fa fa-check-circle fa-fw"></i> ' . \Yii::t('app', 'View Transaction History'),
                 'url' => ['/transaction/index'],
             ],
             '<li class="divider"></li>',
             [
-                'label' => '<i class="fa fa-sign-out fa-fw"></i> ' . Yii::t('app', 'Logout'),
+                'label' => '<i class="fa fa-sign-out fa-fw"></i> ' . \Yii::t('app', 'Logout'),
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post']
             ],

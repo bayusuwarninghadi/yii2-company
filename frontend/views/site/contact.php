@@ -1,39 +1,42 @@
 <?php
 use yii\bootstrap\ActiveForm;
-use yii\captcha\Captcha;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\ContactForm */
 
-$this->title = Yii::t('app', 'Contact Us');
+$this->title = \Yii::t('app', 'Contact Us');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-contact">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Yii::t('app', 'If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.') ?>
-    </p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'contact-form']); ?>
-            <?php if (Yii::$app->user->isGuest) : ?>
-                <?= $form->field($model, 'name') ?>
-                <?= $form->field($model, 'email') ?>
-            <?php endif ?>
-            <?= $form->field($model, 'subject') ?>
-            <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
-            <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
-                'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
-            ]) ?>
-            <div class="form-group">
-                <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary', 'name' => 'contact-button']) ?>
-            </div>
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
-
 </div>
+<section id="contact">
+    <div class="container">
+        <h2 class="section-heading text-center">Contact Us</h2>
+        <?php $form = ActiveForm::begin(['id' => 'contact-form','action' => ['/contact'],]); ?>
+        <div class="row">
+            <div class="col-sm-6">
+                <?php if (\Yii::$app->user->isGuest) : ?>
+                    <div class="form-group">
+                        <?= Html::activeTextInput($model,'name',['placeholder' => Yii::t('app','Name'), 'class' => 'form-control']) ?>
+                    </div>
+                    <div class="form-group">
+                        <?= Html::activeTextInput($model,'email',['placeholder' => Yii::t('app','Email'), 'class' => 'form-control']) ?>
+                    </div>
+                <?php endif ?>
+                <div class="form-group">
+                    <?= Html::activeTextInput($model,'subject',['placeholder' => Yii::t('app','Subject'), 'class' => 'form-control']) ?>
+                </div>
+                <div class="form-group">
+                    <?= Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-lg', 'name' => 'contact-button']) ?>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <?= Html::activeTextarea($model,'body',['placeholder' => Yii::t('app','Body'), 'class' => 'form-control', 'rows' => 11]) ?>
+            </div>
+        </div>
+        <?php ActiveForm::end(); ?>
+    </div>
+    <div class="clearfix"></div>
+</section>
+<div>

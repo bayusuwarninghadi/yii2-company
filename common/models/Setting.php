@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -85,7 +84,7 @@ class Setting extends ActiveRecord
         return [
             [['key'], 'required'],
             ['key', 'filter', 'filter' => 'trim'],
-            ['key', 'unique', 'message' => Yii::t('app', 'This key already exist')],
+            ['key', 'unique', 'message' => \Yii::t('app', 'This key already exist')],
             [['value', 'page'], 'string'],
             [['readonly'], 'integer'],
             ['readonly', 'default', 'value' => static::READONLY_NOT],
@@ -103,11 +102,11 @@ class Setting extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'key' => Yii::t('app', 'Key'),
-            'value' => Yii::t('app', 'Value'),
-            'page' => Yii::t('app', 'Page'),
-            'readonly' => Yii::t('app', 'Readonly'),
+            'id' => \Yii::t('app', 'ID'),
+            'key' => \Yii::t('app', 'Key'),
+            'value' => \Yii::t('app', 'Value'),
+            'page' => \Yii::t('app', 'Page'),
+            'readonly' => \Yii::t('app', 'Readonly'),
         ];
     }
 }

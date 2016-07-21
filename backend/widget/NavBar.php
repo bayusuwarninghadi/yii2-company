@@ -2,7 +2,6 @@
 
 namespace backend\widget;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Widget;
@@ -108,7 +107,7 @@ class NavBar extends Widget
         echo $this->renderToggleButton();
         if ($this->brandLabel !== false) {
             Html::addCssClass($this->brandOptions, 'navbar-brand');
-            echo Html::a($this->brandLabel, $this->brandUrl === false ? Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
+            echo Html::a($this->brandLabel, $this->brandUrl === false ? \Yii::$app->homeUrl : $this->brandUrl, $this->brandOptions);
         }
         echo Html::endTag('div');
         $options = $this->containerOptions;

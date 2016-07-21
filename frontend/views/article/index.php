@@ -1,5 +1,6 @@
 <?php
 
+use yii\widgets\Pjax;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
@@ -17,34 +18,38 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="article-search col-md-3 hidden-xs">
             <div class="panel panel-default" id="article-search" >
+                <?php $form = ActiveForm::begin([
+                    'action' => ['index'],
+                    'method' => 'get',
+                ]); ?>
                 <div class="panel-heading">
-                    <h3 class="panel-title"><?=Yii::t('app','Search')?></h3>
+                    <h3 class="panel-title"><?=\Yii::t('app','Search')?></h3>
                 </div>
                 <div class="panel-body">
-                    <?php $form = ActiveForm::begin([
-                        'action' => ['index'],
-                        'method' => 'get',
-                    ]); ?>
-                    <?= $form->field($searchModel, 'title') ?>
-                    <?= $form->field($searchModel, 'description') ?>
-                    <?php ActiveForm::end(); ?>
+                    <?= $form->field($searchModel, 'key') ?>
                 </div>
                 <div class="panel-footer">
                     <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
                 </div>
+                <?php ActiveForm::end(); ?>
             </div>
         </div>
         <div class="col-md-9">
-            <?= ListView::widget([
+            <?php
+            Pjax::begin();
+            echo ListView::widget([
                 'dataProvider' => $dataProvider,
                 'itemView' => '_list',
-                'layout' => "<p>{summary}</p>{items}{pager}",
+                'layout' => "{items}{pager}",
                 'itemOptions' => [
-                    'class' => 'list-group-item'
+                    'class' => 'media'
                 ]
-            ]); ?>
+            ]);
+            Pjax::end();
+            ?>
 
         </div>
+
     </div>
 
 

@@ -2,25 +2,74 @@
 
 namespace common\models;
 
+use common\modules\translator\TranslateBehavior;
 use creocoder\nestedsets\NestedSetsBehavior;
-use Yii;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "category".
  *
  * @property integer $id
- * @property string $name
+ * @property string $title
  * @property string $description
+ * @property integer $type_id
  * @property integer $tree
  * @property integer $lft
  * @property integer $rgt
+ * @property string $url
  * @property integer $depth
+ * @property integer $created_at
+ * @property integer $updated_at
  *
- * @property Product[] $products
+ * @property Pages[] $pages
+ * @property User $user
  */
 class Category extends ActiveRecord
 {
+
+    const TYPE_PAGE = 1;
+    const TYPE_LIST = 2;
+    const TYPE_URL = 3;
+
+    /**
+     * @param bool $with_key
+     * @return array
+     */
+    public static function getTypeAsArray($with_key = true)
+    {
+        $return = [
+            static::TYPE_PAGE => 'Page',
+            static::TYPE_LIST => 'List',
+            static::TYPE_URL => 'Url',
+        ];
+
+        return $with_key ? $return : array_keys($return);
+    }
+
+    public $image;
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            ['type_id', 'default', 'value' => static::TYPE_PAGE],
+            ['type_id', 'in', 'range' => static::getTypeAsArray(false)],
+            ['created_by', 'default', 'value' => \Yii::$app->user->getId()],
+            [
+                'image',
+                'file',
+                'extensions' => 'gif, jpg, png',
+                'mimeTypes' => 'image/jpeg, image/png',
+                'maxSize' => 1024 * 1024 * \Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => \Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . \Yii::$app->params['maxFileUploadSize'] . ' Mb'
+            ],
+            ['url', 'string']
+        ];
+    }
+
 
     /**
      * @return array
@@ -28,8 +77,15 @@ class Category extends ActiveRecord
     public function behaviors()
     {
         return [
+            TimestampBehavior::className(),
             'tree' => [
                 'class' => NestedSetsBehavior::className(),
+            ],
+            'trans' => [
+                'class' => TranslateBehavior::className(),
+                'translationAttributes' => [
+                    'title', 'description'
+                ]
             ],
         ];
     }
@@ -61,15 +117,27 @@ class Category extends ActiveRecord
     }
 
     /**
+     * @var string $language
+     */
+    public $language = 'en-US';
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTranslations()
+    {
+        return $this->hasMany(CategoryLang::className(), ['cat_id' => 'id']);
+    }
+
+    /**
      * @inheritdoc
      */
-    public function rules()
+    public function afterFind()
     {
-        return [
-            [['name'], 'required'],
-            [['description'], 'string'],
-            [['name'], 'string', 'max' => 255]
-        ];
+        parent::afterFind();
+        if (isset(\Yii::$app->session['lang'])) {
+            $this->language = \Yii::$app->session['lang'];
+        }
     }
 
     /**
@@ -78,19 +146,46 @@ class Category extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'description' => Yii::t('app', 'Description'),
+            'id' => \Yii::t('app', 'ID'),
+            'name' => \Yii::t('app', 'Name'),
+            'description' => \Yii::t('app', 'Description'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProducts()
+    public function getPages()
     {
-        return $this->hasMany(Product::className(), ['cat_id' => 'id']);
+        return $this->hasMany(Pages::className(), ['cat_id' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    /**
+     * getCatId as Array
+     * @param Category|NestedSetsBehavior $category
+     * @return array
+     */
+    public static function getCategoryChildIds($category)
+    {
+        $return = [];
+        $return[] = $category->id;
+        if ($child = $category->children()->all()) {
+            /** @var Category $cat */
+            foreach ($child as $cat) {
+                $return[] = $cat->id;
+            }
+        }
+        return $return;
+    }
+
 
     /**
      * getCategoryChild
@@ -103,7 +198,12 @@ class Category extends ActiveRecord
         $return = [];
         /** @var Category|NestedSetsBehavior $category */
         foreach ($categories as $category) {
-            $return[$category->id] = $category->toArray();
+            $return[$category->id] = [
+                'title' => $category->title,
+                'id' => $category->id,
+                'type_id' => $category->type_id,
+                'url' => $category->url,
+            ];
             if ($child = $category->children()->all()) {
                 $return[$category->id]['child'] = static::getCategoryChild($child);
             }
@@ -125,32 +225,50 @@ class Category extends ActiveRecord
          */
 
         $root = Category::find()->one();
-        if (!$root) {
-            $root = new Category();
-            $root->name = 'root';
-            $root->makeRoot();
-        }
 
         foreach ($categories = static::getCategoryChild($root->children(1)->all()) as $category) {
             $_item = [
-                'label' => $category['name'],
+                'label' => $category['title'],
             ];
             if (isset($category['child'])) {
                 foreach ($category['child'] as $subCategory) {
                     $_item['items'][] = [
-                        'label' => $subCategory['name'],
-                        'url' => ['/product', 'ProductSearch[cat_id]' => $subCategory['id']],
+                        'label' => $subCategory['title'],
+                        'url' => static::renderUrlCategory($subCategory),
                         'options' => [
                             'class' => 'sub-nav sub-' . (intval($subCategory['depth']) - 1)
                         ]
                     ];
                 }
             } else {
-                $_item['url'] = ['/product', 'ProductSearch[cat_id]' => $category['id']];
+                $_item['url'] = static::renderUrlCategory($category);
             }
             $items[] = $_item;
         }
         return $items;
+    }
+
+    /**
+     * renderUrlCategory
+     * @param Category $category
+     * @return mixed
+     */
+    protected static function renderUrlCategory($category){
+
+        \Yii::warning($category);
+        switch ($category['type_id']){
+            case static::TYPE_LIST:
+                $url = ['/content', 'PageSearch[cat_id]' => $category['id']];
+                break;
+            case static::TYPE_PAGE:
+                $url = ['/content/view', 'cat_id' => $category['id']];
+                break;
+            default:
+                $url = $category['url'];
+                break;
+
+        }
+        return $url;
     }
 
 }

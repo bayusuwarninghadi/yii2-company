@@ -27,7 +27,8 @@
     "tinymce/tinymce": "*",
     "creocoder/yii2-nested-sets": "*",
     "yiisoft/yii2-imagine": "*",
-    "phpoffice/phpexcel": "dev-master"
+    "phpoffice/phpexcel": "dev-master",
+    "romdim/yii2-bootstrap-material": "dev-master"
   },
   "require-dev": {
     "yiisoft/yii2-codeception": "*",

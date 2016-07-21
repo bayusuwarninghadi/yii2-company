@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
@@ -58,7 +57,7 @@ class CategorySearch extends Category
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
+        $query->andFilterWhere(['like', 'name', $this->title])
             ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;

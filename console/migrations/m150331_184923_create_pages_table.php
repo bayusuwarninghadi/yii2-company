@@ -16,12 +16,14 @@ class m150331_184923_create_pages_table extends Migration
     {
         $this->createTable('pages', [
             'id' => Schema::TYPE_PK,
+            'cat_id' => Schema::TYPE_INTEGER,
             'camel_case' => Schema::TYPE_STRING,
             'status' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 10',
             'order' => Schema::TYPE_SMALLINT . ' NOT NULL DEFAULT 0',
             'type_id' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 3',
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
+            'created_by' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 1',
         ]);
 
         $this->createTable('pages_lang', [

@@ -2,11 +2,10 @@
 
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "article_lang".
+ * This is the model class for table "pages_lang".
  *
  * @property integer $id
  * @property string $title
@@ -35,7 +34,7 @@ class PagesLang extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'description', 'page_id'], 'required'],
+            [['title', 'page_id'], 'required'],
             [['description'], 'string'],
             [['page_id'], 'integer'],
             [['title', 'language'], 'string', 'max' => 255]
@@ -48,11 +47,11 @@ class PagesLang extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
-            'page_id' => Yii::t('app', 'Pages ID'),
-            'language' => Yii::t('app', 'Language'),
+            'id' => \Yii::t('app', 'ID'),
+            'title' => \Yii::t('app', 'Title'),
+            'description' => \Yii::t('app', 'Description'),
+            'page_id' => \Yii::t('app', 'Pages ID'),
+            'language' => \Yii::t('app', 'Language'),
         ];
     }
 

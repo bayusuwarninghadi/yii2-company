@@ -1,10 +1,9 @@
 <?php
 namespace console\controllers;
 
-use common\models\Product;
-use common\models\ProductAttribute;
+use common\models\PageAttribute;
+use common\models\Pages;
 use common\modules\RemoveAssetHelper;
-use Yii;
 use yii\console\Controller;
 use yii\helpers\ArrayHelper;
 
@@ -46,31 +45,31 @@ class AssetCompilerController extends Controller
         }
     }
 
-    public function actionRemoveInvalidProduct()
+    public function actionRemoveInvalidPages()
     {
         /**
          * Collect Directory for Product
          */
-        $productExist = Product::find()->column();
-        foreach ($productExist as &$id) {
-            $id = 'frontend/web/images/product/' . $id;
+        $page_exist = Pages::find()->column();
+        foreach ($page_exist as &$id) {
+            $id = 'frontend/web/images/page/' . $id;
         }
         $dirExist = glob('frontend/web/images/product/*', GLOB_ONLYDIR);
-        $willRemove = array_diff($dirExist, $productExist);
+        $willRemove = array_diff($dirExist, $page_exist);
 
         /**
          * Collect Directory for ProductAttribute
          */
-        $productAttrExist = ArrayHelper::map(ProductAttribute::find()->all(), 'id', 'product_id');
-        foreach ($productAttrExist as $key => &$attr) {
-            $attr = 'frontend/web/images/product/' . $attr . '/' . $key;
+        $page_attr_exist = ArrayHelper::map(PageAttribute::find()->all(), 'id', 'page_id');
+        foreach ($page_attr_exist as $key => &$attr) {
+            $attr = 'frontend/web/images/page/' . $attr . '/' . $key;
         }
 
         $dirAttributeExist = [];
-        foreach ($productExist as $productFolder) {
-            $dirAttributeExist = array_merge($dirAttributeExist, glob($productFolder . '/*', GLOB_ONLYDIR));
+        foreach ($page_exist as $page_folder) {
+            $dirAttributeExist = array_merge($dirAttributeExist, glob($page_folder . '/*', GLOB_ONLYDIR));
         }
-        $willRemove = array_merge($willRemove, array_diff($dirAttributeExist, $productAttrExist));
+        $willRemove = array_merge($willRemove, array_diff($dirAttributeExist, $page_attr_exist));
 
         if (RemoveAssetHelper::removeDirectory($willRemove)) {
             echo "Remove Success \n";

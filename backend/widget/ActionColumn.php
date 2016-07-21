@@ -9,7 +9,6 @@
 namespace backend\widget;
 
 
-use Yii;
 use yii\grid\ActionColumn as BaseActionColumn;
 use yii\helpers\Html;
 
@@ -55,7 +54,7 @@ class ActionColumn extends BaseActionColumn
         if (!isset($this->buttons['view'])) {
             $this->buttons['view'] = function ($url) {
                 return Html::a('<i class="fa fa-search"></i>', $url, [
-                    'title' => Yii::t('yii', 'View'),
+                    'title' => \Yii::t('yii', 'View'),
                     'data-pjax' => '0',
                     'data-ajax' => $this->viewAjax ? '1' : false,
                     'class' => 'btn btn-info btn-sm btn-view-ajax',
@@ -65,7 +64,7 @@ class ActionColumn extends BaseActionColumn
         if (!isset($this->buttons['update'])) {
             $this->buttons['update'] = function ($url) {
                 return Html::a('<i class="fa fa-pencil"></i>', $url, [
-                    'title' => Yii::t('yii', 'Update'),
+                    'title' => \Yii::t('yii', 'Update'),
                     'data-pjax' => '0',
                     'class' => 'btn btn-warning btn-sm'
                 ]);
@@ -74,8 +73,8 @@ class ActionColumn extends BaseActionColumn
         if (!isset($this->buttons['delete'])) {
             $this->buttons['delete'] = function ($url) {
                 return Html::a('<i class="fa fa-trash"></i>', $url, [
-                    'title' => Yii::t('yii', 'Delete'),
-                    'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
+                    'title' => \Yii::t('yii', 'Delete'),
+                    'data-confirm' => \Yii::t('yii', 'Are you sure you want to delete this item?'),
                     'data-method' => 'post',
                     'data-pjax' => '0',
                     'class' => 'btn btn-danger btn-sm'

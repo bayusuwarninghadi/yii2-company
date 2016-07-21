@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -43,9 +42,9 @@ class City extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'province_id' => Yii::t('app', 'Province ID'),
-            'name' => Yii::t('app', 'City Name'),
+            'id' => \Yii::t('app', 'ID'),
+            'province_id' => \Yii::t('app', 'Province ID'),
+            'name' => \Yii::t('app', 'City Name'),
         ];
     }
 

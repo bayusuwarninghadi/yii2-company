@@ -149,18 +149,18 @@ h1, h2, h3, h4 {
 }
 .product-sidebar {
     position: absolute;
-    bottom: 0;
-    top: 0;
+    left: 0;
     width: 300px;
-    max-height: 100%;
-    overflow: hidden;
     margin: 0;
     z-index: 1;
     display: none;
 }
+.product-sidebar .panel-body{
+    overflow: scroll;
+}
 .product-sidebar .panel-product-search{
     overflow-y: scroll;
-    height: 400px;
+    max-height: 400px;
 }
 .product-content-wrapper{
     position: relative;

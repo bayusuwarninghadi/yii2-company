@@ -8,7 +8,6 @@
 
 namespace common\modules;
 
-use Yii;
 use yii\helpers\BaseArrayHelper;
 
 /**

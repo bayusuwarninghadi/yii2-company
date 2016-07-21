@@ -2,23 +2,25 @@
 
 namespace common\models;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
  * PagesSearch represents the model behind the search form about `common\models\Pages`.
+ * @property string $key
  */
 class PagesSearch extends Pages
 {
+    public $key;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
-            [['title', 'description'], 'safe'],
+            [['id', 'status', 'order', 'type_id', 'created_at', 'updated_at', 'cat_id'], 'integer'],
+            [['title', 'description', 'key'], 'safe'],
         ];
     }
 
@@ -73,10 +75,18 @@ class PagesSearch extends Pages
             'type_id' => $this->type_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
-        ]);
-
-        $query->andFilterWhere(['like', 'pages_lang.title', $this->title])
+        ])
+            ->andFilterWhere(['like', 'pages_lang.title', $this->title])
             ->andFilterWhere(['like', 'pages_lang.description', $this->description]);
+        /** @var Category $category */
+
+        if ($this->key){
+            $query->andWhere("pages_lang.title like '%".$this->key."%' OR pages_lang.description like '%".$this->key."%'");
+        }
+        if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
+            $cat_ids = Category::getCategoryChildIds($category);
+            $query->andFilterWhere(['in', 'cat_id', $cat_ids]);
+        }
 
         return $dataProvider;
     }

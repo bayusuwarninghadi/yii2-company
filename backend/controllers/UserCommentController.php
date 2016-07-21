@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\UserComment;
 use common\models\UserCommentSearch;
 use yii\web\Controller;
@@ -33,7 +32,7 @@ class UserCommentController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserCommentSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -62,7 +61,7 @@ class UserCommentController extends Controller
     {
         $model = new UserComment();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -81,7 +80,7 @@ class UserCommentController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

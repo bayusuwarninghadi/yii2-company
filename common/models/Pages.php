@@ -4,7 +4,6 @@ namespace common\models;
 
 use common\modules\RemoveAssetHelper;
 use common\modules\translator\TranslateBehavior;
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
@@ -13,6 +12,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string $camel_case
+ * @property integer $cat_id
  * @property string $title
  * @property string $description
  * @property integer $status
@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
  * @property integer $updated_at
  *
  * @property PagesLang[] $articleLangs
+ * @property User $user
  */
 class Pages extends ActiveRecord
 {
@@ -46,6 +47,10 @@ class Pages extends ActiveRecord
      * TYPE_MAIL
      */
     const TYPE_MAIL = '5';
+    /**
+     * TYPE_CONTENT
+     */
+    const TYPE_CONTENT = '6';
     /**
      * STATUS_INACTIVE
      */
@@ -103,7 +108,7 @@ class Pages extends ActiveRecord
                     break;
             }
             if ($folder) {
-                RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
+                RemoveAssetHelper::removeDirectory(\Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
             }
             return true;
         } else {
@@ -117,16 +122,31 @@ class Pages extends ActiveRecord
      */
     public static function getStatusAsArray($with_key = true)
     {
-        $return = ($with_key == true)
-            ? [
-                static::STATUS_INACTIVE => 'Inactive',
-                static::STATUS_ACTIVE => 'Active',
-            ]
-            : [
-                static::STATUS_INACTIVE,
-                static::STATUS_ACTIVE,
-            ];
-        return $return;
+        $return = [
+            static::STATUS_INACTIVE => 'Inactive',
+            static::STATUS_ACTIVE => 'Active',
+        ];
+
+        return $with_key ? $return : array_keys($return);
+    }
+
+
+    /**
+     * @param bool $with_key
+     * @return array
+     */
+    public static function getTypeAsArray($with_key = true)
+    {
+        $return = [
+            static::TYPE_CONTENT => 'Content',
+            static::TYPE_NEWS => 'News',
+            static::TYPE_ARTICLE => 'Article',
+            static::TYPE_MAIL => 'Mail',
+            static::TYPE_PAGES => 'Pages',
+            static::TYPE_SLIDER => 'Slider',
+        ];
+
+        return $with_key ? $return : array_keys($return);
     }
 
     /**
@@ -151,8 +171,8 @@ class Pages extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
-        if (isset(Yii::$app->session['lang'])) {
-            $this->language = Yii::$app->session['lang'];
+        if (isset(\Yii::$app->session['lang'])) {
+            $this->language = \Yii::$app->session['lang'];
         }
     }
 
@@ -175,16 +195,17 @@ class Pages extends ActiveRecord
                 'file',
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
-                'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'maxSize' => 1024 * 1024 * \Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => \Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . \Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
+            ['created_by', 'default', 'value' => \Yii::$app->user->getId()],
             [['type_id'], 'required'],
-            [['status', 'order', 'type_id', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'order', 'cat_id', 'type_id', 'created_at', 'updated_at'], 'integer'],
             [['order'], 'default', 'value' => 0],
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
-            ['type_id', 'in', 'range' => [static::TYPE_ARTICLE, static::TYPE_NEWS, static::TYPE_PAGES, static::TYPE_SLIDER, static::TYPE_MAIL]],
+            ['type_id', 'in', 'range' => static::getTypeAsArray(false)],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
-            [['title', 'description', 'camel_case'], 'string', 'max' => 255]
+            [['title', 'camel_case'], 'string', 'max' => 255]
         ];
     }
 
@@ -194,14 +215,49 @@ class Pages extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'title' => Yii::t('app', 'Title'),
-            'description' => Yii::t('app', 'Description'),
-            'status' => Yii::t('app', 'Status'),
-            'order' => Yii::t('app', 'Order'),
-            'type_id' => Yii::t('app', 'Type ID'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
+            'id' => \Yii::t('app', 'ID'),
+            'title' => \Yii::t('app', 'Title'),
+            'cat_id' => \Yii::t('app', 'Category'),
+            'description' => \Yii::t('app', 'Description'),
+            'status' => \Yii::t('app', 'Status'),
+            'order' => \Yii::t('app', 'Order'),
+            'type_id' => \Yii::t('app', 'Type ID'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
         ];
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPageAttributes()
+    {
+        return $this->hasMany(PageAttribute::className(), ['page_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'cat_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'created_by']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUserComments()
+    {
+        return $this->hasMany(UserComment::className(), ['table_id' => 'id'])->andWhere(['table_key' => static::tableName()]);
+    }
+
+
 }

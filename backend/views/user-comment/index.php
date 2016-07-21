@@ -7,7 +7,7 @@ use yii\helpers\Html;
 /* @var $searchModel common\models\UserCommentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'User Comments');
+$this->title = \Yii::t('app', 'User Comments');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-comment-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a(Yii::t('app', 'Create User Comment'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(\Yii::t('app', 'Create User Comment'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

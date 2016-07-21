@@ -19,7 +19,7 @@ use common\modules\UploadHelper;
                 'template' => Html::tag('div', UploadHelper::getHtml('slider/' . $model->id, 'small')) .
                     "{label}\n{input}\n{hint}\n{error}"
             ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
-		    <?= $form->field($model, 'description')->widget(TinyMce::className(), Yii::$app->modules['tiny-mce'])->label('Caption')?>
+		    <?= $form->field($model, 'description')->widget(TinyMce::className(), \Yii::$app->modules['tiny-mce'])->label('Caption')?>
             <?= $form->field($model, 'order')->input('order') ?>
 
         </div>

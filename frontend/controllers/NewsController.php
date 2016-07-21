@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use Yii;
 use common\models\Pages;
 use common\models\PagesSearch;
 use yii\web\NotFoundHttpException;
@@ -33,7 +32,7 @@ class NewsController extends BaseController
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_NEWS;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('/article/index', [
             'searchModel' => $searchModel,

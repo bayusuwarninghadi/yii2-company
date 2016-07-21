@@ -2,8 +2,8 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
-        'backendSiteUrl' => 'http://cms.yii2-commerce.com',
-        'frontendSiteUrl' => 'http://local.yii2-commerce.com',
+        'backendSiteUrl' => 'http://cms.yii2-company.com',
+        'frontendSiteUrl' => 'http://www.yii2-company.com',
         'formatter' => [
             'locale' => 'id-ID',
             'timeZone' => 'Asia/Jakarta',

@@ -2,12 +2,9 @@
 namespace backend\controllers;
 
 use common\models\LoginForm;
-use common\models\Product;
 use common\models\Request;
-use common\models\Transaction;
 use common\models\User;
 use common\models\UserComment;
-use Yii;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -66,15 +63,6 @@ class SiteController extends Controller
     public function actionIndex()
     {
 
-        $transactionDataProvider = new ActiveDataProvider([
-            'query' => Transaction::find()
-                ->where(['IN', 'status', [Transaction::STATUS_USER_UN_PAY, Transaction::STATUS_USER_PAY]])
-                ->orderBy('created_at DESC'),
-            'sort' => false,
-            'pagination' => [
-                'pageSize' => 8,
-            ],
-        ]);
         $userDataProvider = new ActiveDataProvider([
             'query' => User::find()->where(['role' => User::ROLE_USER])->limit(5)->orderBy('created_at DESC'),
             'sort' => false,
@@ -87,36 +75,20 @@ class SiteController extends Controller
             'totalUser' => [
                 'panelType' => 'panel-yellow',
                 'count' => User::find()->count(),
-                'label' => Yii::t('app', 'Total Users'),
+                'label' => \Yii::t('app', 'Total Users'),
                 'url' => Url::to('/user/index'),
                 'icon' => 'fa-users'
             ],
             'totalComment' => [
                 'panelType' => 'panel-green',
                 'count' => UserComment::find()->count(),
-                'label' => Yii::t('app', 'Total Comments'),
+                'label' => \Yii::t('app', 'Total Comments'),
                 'url' => Url::to('/user-comment/index'),
                 'icon' => 'fa-comments'
-            ],
-            'totalTransaction' => [
-                'panelType' => 'panel-red',
-                'count' => Transaction::find()->count(),
-                'label' => Yii::t('app', 'Total Transaction'),
-                'url' => Url::to('/transaction/index'),
-                'icon' => 'fa-list'
-            ],
-            'totalProduct' => [
-                'panelType' => 'panel-primary',
-                'count' => Product::find()->count(),
-                'label' => Yii::t('app', 'Total Product'),
-                'url' => Url::to('/product/index'),
-                'icon' => 'fa-truck'
             ],
         ];
         return $this->render('index', [
             'requestChart' => Request::chartOptions(10),
-            'transactionChart' => Transaction::chartOptions(10),
-            'transactionDataProvider' => $transactionDataProvider,
             'userDataProvider' => $userDataProvider,
             'siteStats' => $siteStats,
         ]);
@@ -132,7 +104,7 @@ class SiteController extends Controller
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -146,7 +118,7 @@ class SiteController extends Controller
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        \Yii::$app->user->logout();
 
         return $this->goHome();
     }

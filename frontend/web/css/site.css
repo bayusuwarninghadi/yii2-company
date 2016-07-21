@@ -1,235 +1,105 @@
-html, body {
-    height: 100%
+/*!
+ * Start Bootstrap - Small Business HTML Template (http://startbootstrap.com)
+ * Code licensed under the Apache License v2.0.
+ * For details, see http://www.apache.org/licenses/LICENSE-2.0.
+ */
+
+body {
+    padding-top: 70px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
 }
 
-.navbar-form .form-control:focus {
-    width: 200px
+.navbar-fixed-top .nav {
+    padding: 15px 0;
 }
 
-.navbar-nav.navbar-right:first-child {
-    margin-right: 0
+.navbar-fixed-top .navbar-brand {
+    padding: 0 15px;
 }
-
-.main-logo {
-    height: 40px;
-    margin-top: -10px
+.main-logo{
+    height: 50px;
 }
-
-.wrap {
-    min-height: 100%;
-    height: auto;
-    margin: 0 auto -100px;
-    padding: 0 0 100px
-}
-
-.wrap > .container {
-    padding: 70px 15px 20px
-}
-
-.footer {
+footer {
     padding: 30px 0;
-    background: #f5f5f5;
-    border-top: 1px solid #ccc
+}
+.line-40 {
+    margin-bottom: 0;
+    line-height: 40px;
 }
 
-.footer .social {
-    margin-bottom: 20px
-}
+@media(min-width:768px) {
+    body {
+        padding-top: 100px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
+    }
 
-.footer a {
-    margin: 0 5px
-}
-
-.cart-pop {
-    width: 300px;
-    font-size: 90%
-}
-
-.cart-pop img {
-    width: 90px
-}
-
-.cart-list img {
-    max-height: 100px;
-    max-width: 100px
-}
-
-.carousel.slide {
-    overflow: hidden;
-}
-
-.index-slider {
-    height: 100%;
-}
-
-@media (min-width: 768px) {
-    .product-slider .item {
-        max-height: 400px;
-        overflow: hidden;
-        position: relative
+    .navbar-fixed-top .navbar-brand {
+        padding: 15px 0;
     }
 }
-
-.carousel-holder {
-    margin-bottom: 30px
-}
-
-.carousel-control, .item {
-    border-radius: 4px
-}
-
-.thumbnail {
-    padding: 0;
-    overflow: hidden;
-    position: relative
-}
-
-.thumbnail .image {
-    background: no-repeat center center;
-    background-size: cover;
-    height: 150px
-}
-
-.thumbnail .stock {
-    position: absolute;
-    margin-top: -15px;
-    margin-left: 10px
-}
-
-.thumbnail .user-action {
-    position: absolute;
-    right: 10px;
-    margin-top: -15px
-}
-
-.thumbnail .caption {
-    height: 140px;
-    overflow: hidden
-}
-
-.thumbnail .caption h4 {
-    white-space: nowrap;
-    overflow: hidden
-}
-
-.thumbnail .ratings {
-    padding-right: 10px;
-    padding-left: 10px;
-    color: #d17581
-}
-
-.line-through {
-    text-decoration: line-through
-}
-
-.nav-tabs {
-    z-index: 1;
-    position: relative;
-    bottom: -1px
-}
-
-.tab-content {
-    border: 1px solid #ddd;
-    padding: 15px;
-    background: #fff
-}
-
-.modal-full {
-    width: 100%;
-    padding: 0 20px
-}
-
 section {
-    padding: 100px 0
+    padding: 100px 0;
+}
+.bg-light-gray {
+    background-color: #f7f7f7;
 }
 
-.navbar-inverse {
-    border: 0
+
+section#contact {
+    background: #222 url(../images/map-image.png) no-repeat center;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-    color: #f5f5f5
+section#contact .section-heading {
+    color: #fff
 }
 
-.bg-red {
-    background: #d9534f
+section#contact .form-group {
+    margin-bottom: 25px
 }
 
-.bg-white {
-    background: #fff
+section#contact .form-group input, section#contact .form-group textarea {
+    padding: 20px
 }
 
-.radio-form label {
-    display: block
+section#contact .form-group input.form-control {
+    height: auto
 }
 
-.top-notification {
-    min-width: 200px;
-    position: fixed;
-    bottom: 10px;
-    max-width: 400px;
-    right: 10px;
-    z-index: 1001
+section#contact .form-group textarea.form-control {
+    height: 236px
 }
 
-.panel > .list-group-item {
-    border-left: none;
-    border-right: 0
+section#contact .form-control:focus {
+    border-color: #fed136;
+    box-shadow: none
 }
 
-.product-list img {
-    max-width: 200px
+section#contact ::-webkit-input-placeholder {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #bbb
 }
 
-.product-container.list .product-list {
-    display: block;
-    width: 100%
+section#contact :-moz-placeholder {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #bbb
 }
 
-.product-container.list .product-list .thumbnail {
-    height: 150px;
-    margin-bottom: 5px
+section#contact ::-moz-placeholder {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #bbb
 }
 
-.product-container.list .product-list .thumbnail .caption {
-    height: 120px
+section#contact :-ms-input-placeholder {
+    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #bbb
 }
 
-.product-container.list .product-list .stock {
-    left: 0;
-    bottom: 20px
-}
-
-.product-container.list .user-action {
-    position: absolute;
-    bottom: 15px;
-    left: 130px
-}
-
-.product-container.list .product-list .image {
-    float: left;
-    display: inline-block;
-    height: 100%;
-    width: 200px
-}
-
-.product-container.list .product-list .product-detail {
-    padding-left: 115px
-}
-
-.navbar-nav .sub-2>a{
-    font-size: small;
-    color: #888;
-}
-.navbar-nav .sub-3>a{
-    font-size: smaller;
-    color: #888;
-}
-
-.navbar-nav .sub-2 > a:before{
-    content: "- ";
-}
-
-.navbar-nav .sub-3 > a:before {
-    content: "- - ";
+section#contact .text-danger {
+    color: #e74c3c
 }

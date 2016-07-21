@@ -18,12 +18,12 @@ echo Nav::widget([
             'items' => [
                 [
                     'label' => 'Indonesia',
-                    'active' => Yii::$app->language == 'id-ID',
+                    'active' => \Yii::$app->language == 'id-ID',
                     'url' => Url::current(['lang' => 'id-ID'])
                 ],
                 [
                     'label' => 'English',
-                    'active' => Yii::$app->language == 'en-US',
+                    'active' => \Yii::$app->language == 'en-US',
                     'url' => Url::current(['lang' => 'en-US'])
                 ],
             ]

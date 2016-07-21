@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use common\modules\UploadHelper;
-use Yii;
 use common\models\Pages;
 use common\models\PagesSearch;
 use yii\web\Controller;
@@ -46,7 +45,7 @@ class SliderController extends Controller
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_SLIDER;
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -66,7 +65,7 @@ class SliderController extends Controller
         $model->type_id = Pages::TYPE_SLIDER;
         $model->title = 'Slider';
         $model->camel_case = 'Slider';
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
                 UploadHelper::saveImage($image, 'slider/' . $model->id,[
@@ -79,7 +78,7 @@ class SliderController extends Controller
                         'format' => 'jpeg'
                     ],
                 ]);
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
             }
             return $this->redirect(['index']);
         }
@@ -101,7 +100,7 @@ class SliderController extends Controller
         $model = $this->findModel($id);
         $model->title = 'Slider';
         $model->camel_case = 'Slider';
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             $model->type_id = Pages::TYPE_SLIDER;
             if ($model->save()) {
                 $image = UploadedFile::getInstance($model, 'image');
@@ -115,7 +114,7 @@ class SliderController extends Controller
                         'format' => 'jpeg'
                     ],
                 ]);
-                Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
+                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
                 return $this->redirect(['index']);
             }
         }

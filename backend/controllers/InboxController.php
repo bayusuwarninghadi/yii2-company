@@ -2,7 +2,6 @@
 
 namespace backend\controllers;
 
-use Yii;
 use common\models\Inbox;
 use backend\models\Inbox as InboxSearch;
 use yii\web\Controller;
@@ -43,7 +42,7 @@ class InboxController extends Controller
     public function actionIndex()
     {
         $searchModel = new InboxSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

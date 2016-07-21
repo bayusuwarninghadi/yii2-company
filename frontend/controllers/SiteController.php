@@ -2,16 +2,13 @@
 namespace frontend\controllers;
 
 use common\models\Pages;
-use common\models\Brand;
 use common\models\Inbox;
 use common\models\LoginForm;
-use common\models\Product;
 use common\models\User;
 use common\modules\UploadHelper;
 use frontend\models\ContactForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use Yii;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -63,10 +60,6 @@ class SiteController extends BaseController
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'tester' : null,
-            ],
         ];
     }
 
@@ -75,7 +68,6 @@ class SiteController extends BaseController
      */
     public function actionIndex()
     {
-        $this->layout = 'mainIndex';
         $slider = [];
         /**
          * @var $_article Pages
@@ -87,13 +79,21 @@ class SiteController extends BaseController
             ];
         }
 
-        $products = Product::find()->where(['status' => Product::STATUS_ACTIVE, 'visible' => Product::VISIBLE_VISIBLE])->orderBy('created_at DESC')->limit(8)->all();;
-        $brands = Brand::find()->all();;
-        return $this->render('/index/index', [
+
+        $this->layout = false;
+        $model = new ContactForm();
+        if (!\Yii::$app->user->isGuest) {
+            $model->name = \Yii::$app->user->identity['username'];
+            $model->email = \Yii::$app->user->identity['email'];
+        }
+
+
+        return $this->render('index', [
+            'model' => $model,
             'slider' => $slider,
+            'contents' => Pages::find()->where(['type_id' => Pages::TYPE_CONTENT])->limit(3)->orderBy('created_at desc')->all(),
+            'newsFeeds' => Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all(),
             'page' => Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']),
-            'products' => $products,
-            'brands' => $brands,
         ]);
     }
 
@@ -107,9 +107,9 @@ class SiteController extends BaseController
         }
 
         $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->login()) {
             $user = $model->getUser();
-            Yii::$app->session->setFlash('success', 'Welcome ' . $user->username);
+            \Yii::$app->session->setFlash('success', 'Welcome ' . $user->username);
             return $this->goBack();
         } else {
             return $this->render('login', [
@@ -123,7 +123,7 @@ class SiteController extends BaseController
      */
     public function actionLogout()
     {
-        Yii::$app->user->logout();
+        \Yii::$app->user->logout();
 
         return $this->goHome();
     }
@@ -134,21 +134,21 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $model = new ContactForm();
-        if (!Yii::$app->user->isGuest) {
-            $model->name = Yii::$app->user->identity['username'];
-            $model->email = Yii::$app->user->identity['email'];
+        if (!\Yii::$app->user->isGuest) {
+            $model->name = \Yii::$app->user->identity['username'];
+            $model->email = \Yii::$app->user->identity['email'];
         }
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             $inbox = new Inbox();
             $inbox->name = $model->name;
             $inbox->email = $model->email;
             $inbox->subject = $model->subject;
             $inbox->message = $model->body;
             $inbox->save();
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+            if ($model->sendEmail(\Yii::$app->params['adminEmail'])) {
+                \Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
             } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending email.');
+                \Yii::$app->session->setFlash('error', 'There was an error sending email.');
             }
 
             return $this->refresh();
@@ -205,7 +205,7 @@ class SiteController extends BaseController
     public function actionSignup()
     {
         $model = new User();
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(\Yii::$app->request->post())) {
             $model->status = User::STATUS_ACTIVE;
             $model->role = User::ROLE_USER;
             $model->setPassword($model->password);
@@ -222,16 +222,16 @@ class SiteController extends BaseController
                     }
 
                     $html = str_replace($params, $replace, $content->description);
-                    Yii::$app->mailer
+                    \Yii::$app->mailer
                         ->compose()
                         ->setFrom([$this->settings['no_reply_email'] => $this->settings['site_name'] . ' no-reply'])
                         ->setTo($model->email)
                         ->setHtmlBody($html)
-                        ->setSubject(Yii::t('app', 'Register Success'))
+                        ->setSubject(\Yii::t('app', 'Register Success'))
                         ->send();
                 }
 
-                if (Yii::$app->getUser()->login($model)) {
+                if (\Yii::$app->getUser()->login($model)) {
                     return $this->goHome();
                 }
             }
@@ -248,13 +248,13 @@ class SiteController extends BaseController
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+        if ($model->load(\Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
-                Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
+                \Yii::$app->getSession()->setFlash('success', 'Check your email for further instructions.');
 
                 return $this->goHome();
             } else {
-                Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
+                \Yii::$app->getSession()->setFlash('error', 'Sorry, we are unable to reset password for email provided.');
             }
         }
 
@@ -276,8 +276,8 @@ class SiteController extends BaseController
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->getSession()->setFlash('success', 'New password was saved.');
+        if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            \Yii::$app->getSession()->setFlash('success', 'New password was saved.');
 
             return $this->goHome();
         }

@@ -7,7 +7,7 @@
  */
 use frontend\widgets\Alert;
 
-$flash = Yii::$app->session->getAllFlashes();
+$flash = \Yii::$app->session->getAllFlashes();
 $alert_type = [
     'error' => 'alert-danger',
     'success' => 'alert-success',

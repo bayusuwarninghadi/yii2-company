@@ -14,9 +14,9 @@ use yii\bootstrap\NavBar;
 
 NavBar::begin([
     'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
-    'brandUrl' => Yii::$app->homeUrl,
+    'brandUrl' => \Yii::$app->homeUrl,
     'options' => [
-        'class' => 'navbar-default navbar-fixed-top',
+        'class' => 'navbar-inverse navbar-fixed-top',
         'id' => 'main-navbar'
     ],
 ]);

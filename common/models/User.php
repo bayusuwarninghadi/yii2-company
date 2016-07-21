@@ -5,7 +5,6 @@ use common\modules\RemoveAssetHelper;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
@@ -31,12 +30,10 @@ use yii\web\UploadedFile;
  * @property integer $updated_at
  * @property string $password write-only password
  *
- * @property Cart[] $carts
- * @property Shipping[] $shippings
- * @property Transaction[] $transactions
  * @property UserComment[] $userComments
  * @property UserAttribute[] $userAttributes
- * @property Confirmation[] $confirmations
+ * @property Category[] $categories
+ * @property Pages[] $pages
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -83,16 +80,11 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function getRoleAsArray($with_key = true)
     {
-        $return = ($with_key == true)
-            ? [
-                static::ROLE_USER => 'User',
-                static::ROLE_ADMIN => 'Admin',
-            ]
-            : [
-                static::ROLE_USER,
-                static::ROLE_ADMIN,
-            ];
-        return $return;
+        $return = [
+            static::ROLE_USER => 'User',
+            static::ROLE_ADMIN => 'Admin',
+        ];
+        return $with_key ? $return : array_keys($return);
     }
 
     /**
@@ -101,16 +93,12 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function getStatusAsArray($with_key = true)
     {
-        $return = ($with_key == true)
-            ? [
-                static::STATUS_ACTIVE => 'Active',
-                static::STATUS_INACTIVE => 'Inactive',
-            ]
-            : [
-                static::STATUS_ACTIVE,
-                static::STATUS_INACTIVE,
-            ];
-        return $return;
+        $return = [
+            static::STATUS_ACTIVE => 'Active',
+            static::STATUS_INACTIVE => 'Inactive',
+        ];
+        return $with_key ? $return : array_keys($return);
+
     }
 
     /**
@@ -124,7 +112,7 @@ class User extends ActiveRecord implements IdentityInterface
             /*
              * remove image asset before deleting
              */
-            RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/user/' . $this->id);
+            RemoveAssetHelper::removeDirectory(\Yii::$app->getBasePath() . '/../frontend/web/images/user/' . $this->id);
             return true;
         } else {
             return false;
@@ -160,19 +148,19 @@ class User extends ActiveRecord implements IdentityInterface
                 'file',
                 'extensions' => 'gif, jpg, png',
                 'mimeTypes' => 'image/jpeg, image/png',
-                'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
-                'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+                'maxSize' => 1024 * 1024 * \Yii::$app->params['maxFileUploadSize'],
+                'tooBig' => \Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . \Yii::$app->params['maxFileUploadSize'] . ' Mb'
             ],
 
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'message' => Yii::t('app', 'This username has already been taken')],
+            ['username', 'unique', 'message' => \Yii::t('app', 'This username has already been taken')],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
             ['email', 'email'],
-            ['email', 'unique', 'message' => Yii::t('app', 'This email address has already been taken')],
+            ['email', 'unique', 'message' => \Yii::t('app', 'This email address has already been taken')],
 
             [['status', 'created_at', 'updated_at'], 'integer'],
             [['password_hash', 'password_reset_token', 'email'], 'string', 'max' => 255],
@@ -190,7 +178,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'disclaimer',
                 'required',
                 'requiredValue' => 1,
-                'message' => Yii::t('app', 'You must agree to our disclaimer')
+                'message' => \Yii::t('app', 'You must agree to our disclaimer')
             ]
 
         ];
@@ -252,7 +240,7 @@ class User extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-        $expire = Yii::$app->params['user.passwordResetTokenExpire'];
+        $expire = \Yii::$app->params['user.passwordResetTokenExpire'];
         $parts = explode('_', $token);
         $timestamp = (int)end($parts);
         return $timestamp + $expire >= time();
@@ -290,7 +278,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function validatePassword($password)
     {
-        return Yii::$app->security->validatePassword($password, $this->password_hash);
+        return \Yii::$app->security->validatePassword($password, $this->password_hash);
     }
 
     /**
@@ -300,7 +288,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function setPassword($password)
     {
-        $this->password_hash = Yii::$app->security->generatePasswordHash($password);
+        $this->password_hash = \Yii::$app->security->generatePasswordHash($password);
     }
 
     /**
@@ -308,7 +296,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Yii::$app->security->generateRandomString();
+        $this->auth_key = \Yii::$app->security->generateRandomString();
     }
 
     /**
@@ -316,7 +304,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function generatePasswordResetToken()
     {
-        $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->password_reset_token = \Yii::$app->security->generateRandomString() . '_' . time();
     }
 
     /**
@@ -325,30 +313,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCarts()
-    {
-        return $this->hasMany(Cart::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getShippings()
-    {
-        return $this->hasMany(Shipping::className(), ['user_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getTransactions()
-    {
-        return $this->hasMany(Transaction::className(), ['user_id' => 'id']);
     }
 
     /**
@@ -422,32 +386,42 @@ class User extends ActiveRecord implements IdentityInterface
         ];
         return $return;
     }
+
     /**
      * @inheritdoc
      */
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
-            'password_hash' => Yii::t('app', 'Password Hash'),
-            'password_reset_token' => Yii::t('app', 'Password Reset Token'),
-            'email' => Yii::t('app', 'Email'),
-            'phone' => Yii::t('app', 'Phone'),
-            'auth_key' => Yii::t('app', 'Auth Key'),
-            'status' => Yii::t('app', 'Status'),
-            'role' => Yii::t('app', 'Role'),
-            'created_at' => Yii::t('app', 'Created At'),
-            'updated_at' => Yii::t('app', 'Updated At'),
-            'password' => Yii::t('app', 'Password'),
+            'id' => \Yii::t('app', 'ID'),
+            'username' => \Yii::t('app', 'Username'),
+            'password_hash' => \Yii::t('app', 'Password Hash'),
+            'password_reset_token' => \Yii::t('app', 'Password Reset Token'),
+            'email' => \Yii::t('app', 'Email'),
+            'phone' => \Yii::t('app', 'Phone'),
+            'auth_key' => \Yii::t('app', 'Auth Key'),
+            'status' => \Yii::t('app', 'Status'),
+            'role' => \Yii::t('app', 'Role'),
+            'created_at' => \Yii::t('app', 'Created At'),
+            'updated_at' => \Yii::t('app', 'Updated At'),
+            'password' => \Yii::t('app', 'Password'),
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getConfirmations()
+    public function getCategories()
     {
-        return $this->hasMany(Confirmation::className(), ['user_id' => 'id']);
+        return $this->hasMany(Category::className(), ['created_by' => 'id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPages()
+    {
+        return $this->hasMany(Pages::className(), ['created_by' => 'id']);
+    }
+
 }

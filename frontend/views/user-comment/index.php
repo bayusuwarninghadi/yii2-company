@@ -17,7 +17,7 @@ use yii\widgets\ListView;
 <div class="row">
     <div class="col-sm-4">
         <?php
-        if (Yii::$app->user->isGuest) {
+        if (\Yii::$app->user->isGuest) {
             echo Html::a('Login To Comment', '/site/login');
         } else {
             $form = ActiveForm::begin();
@@ -36,7 +36,7 @@ use yii\widgets\ListView;
         echo ListView::widget([
             'dataProvider' => $dataProvider,
             'itemView' => '_list',
-            'emptyText' => Yii::t('app', 'No comment(s) found.'),
+            'emptyText' => \Yii::t('app', 'No comment(s) found.'),
             'separator' => '<hr/>',
             'layout' => '<div class="panel panel-default"><div class="panel-heading">{summary}</div><div class="panel-body">{items}</div>{pager}</div>',
         ]);

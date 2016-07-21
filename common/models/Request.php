@@ -5,7 +5,6 @@ namespace common\models;
 use DateInterval;
 use DatePeriod;
 use DateTime;
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\db\Query;

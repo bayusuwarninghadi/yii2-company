@@ -6,7 +6,6 @@
  */
 namespace common\modules\translator;
 
-use Yii;
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 
@@ -155,7 +154,7 @@ class TranslateBehavior extends Behavior
     public function getLanguage()
     {
         if ($this->_language === null) {
-            $this->_language = Yii::$app->language;
+            $this->_language = \Yii::$app->language;
         }
         return $this->_language;
     }
