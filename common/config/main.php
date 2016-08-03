@@ -3,7 +3,7 @@ return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'backendSiteUrl' => 'http://justforyou.bayoz.xyz',
-        'frontendSiteUrl' => 'http://comapny.bayoz.xyz',
+        'frontendSiteUrl' => 'http://company.bayoz.xyz',
         'formatter' => [
             'locale' => 'id-ID',
             'timeZone' => 'Asia/Jakarta',
