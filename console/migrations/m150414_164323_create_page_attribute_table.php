@@ -18,7 +18,7 @@ class m150414_164323_create_page_attribute_table extends Migration
 
     public function safeDown()
     {
-        $this->dropForeignKey('page_attribute_to_page','page_attribute');
+        $this->dropForeignKey('page_attribute_to_pages','page_attribute');
         $this->dropTable('page_attribute');
     }
     

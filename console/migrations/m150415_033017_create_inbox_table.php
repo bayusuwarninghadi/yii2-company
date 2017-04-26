@@ -18,7 +18,7 @@ class m150415_033017_create_inbox_table extends Migration
         ]);
     }
 
-    public function safeDow()
+    public function safeDown()
     {
         $this->dropTable('inbox');
     }

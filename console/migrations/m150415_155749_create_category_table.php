@@ -14,6 +14,7 @@ class m150415_155749_create_category_table extends Migration
             'lft' => Schema::TYPE_INTEGER . ' NOT NULL',
             'rgt' => Schema::TYPE_INTEGER . ' NOT NULL',
             'depth' => Schema::TYPE_INTEGER . ' NOT NULL',
+            'url' => Schema::TYPE_STRING,
             'created_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'updated_at' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 0',
             'created_by' => Schema::TYPE_INTEGER . ' NOT NULL DEFAULT 1',
@@ -42,6 +43,7 @@ class m150415_155749_create_category_table extends Migration
     {
         $this->dropForeignKey('category_lang_to_category', 'category_lang');
         $this->dropForeignKey('page_to_category', 'pages');
+        $this->dropTable('category_lang');
         $this->dropTable('category');
     }
     
