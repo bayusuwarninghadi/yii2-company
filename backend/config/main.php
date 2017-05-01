@@ -19,10 +19,11 @@ return [
             ],
             'configs' => [
                 'height' => 300,
-                'plugins' => 'link fullscreen image pagebreak paste',
+                'plugins' => 'link fullscreen image pagebreak paste code',
                 'extended_valid_elements' => 'iframe[src|frameborder|style|scrolling|class|width|height|name|align]',
                 'paste_as_text' => true,
-                'toolbar' => "fullscreen | undo redo | styleselect | bold italic |  alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | image | pagebreak",
+                'toolbar' => "fullscreen | undo redo | styleselect | bold italic |  alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | image | pagebreak code |",
+	            'menubar' => 'tools',
                 'menu' => []
             ]
         ],

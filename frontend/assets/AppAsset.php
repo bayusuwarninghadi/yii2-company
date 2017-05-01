@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/metisMenu.js',
+        'js/masonry.min.js',
         'js/site.js',
     ];
     public $depends = [

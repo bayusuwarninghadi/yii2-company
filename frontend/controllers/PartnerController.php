@@ -10,7 +10,7 @@ use yii\filters\VerbFilter;
 /**
  * ArticleController implements the CRUD actions for Pages model.
  */
-class ArticleController extends BaseController
+class PartnerController extends BaseController
 {
     public function behaviors()
     {
@@ -31,13 +31,13 @@ class ArticleController extends BaseController
     public function actionIndex()
     {
         $searchModel = new PagesSearch();
-        $searchModel->type_id = Pages::TYPE_ARTICLE;
+        $searchModel->type_id = Pages::TYPE_PARTNER;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/article/index', [
+        return $this->render('/partner/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Article'
+            'type' => 'Partner'
         ]);
     }
 
@@ -48,9 +48,9 @@ class ArticleController extends BaseController
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/partner/view', [
             'model' => $this->findModel($id),
-            'type' => 'Article'
+            'type' => 'Partner'
         ]);
     }
 
@@ -63,7 +63,7 @@ class ArticleController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_ARTICLE])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_PARTNER])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

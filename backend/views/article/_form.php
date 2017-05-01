@@ -35,6 +35,7 @@ use common\modules\UploadHelper;
                 'label' => 'English',
                 'content' =>
                     $form->field($modelEnglish, 'title')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[title]']) .
+                    $form->field($modelEnglish, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[subtitle]']) .
                     $form->field($modelEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
             $tinyMceConfig['options']['name'] = 'modelIndonesia[description]';
@@ -42,6 +43,7 @@ use common\modules\UploadHelper;
                 'label' => 'Indonesia',
                 'content' =>
                     $form->field($modelIndonesia, 'title')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[title]']) .
+                    $form->field($modelIndonesia, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[subtitle]']) .
                     $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
 

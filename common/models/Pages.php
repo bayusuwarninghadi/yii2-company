@@ -8,12 +8,13 @@ use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "article".
+ * This is the model class for table "pages".
  *
  * @property integer $id
  * @property string $camel_case
  * @property integer $cat_id
  * @property string $title
+ * @property string $subtitle
  * @property string $description
  * @property integer $status
  * @property integer $order
@@ -51,6 +52,11 @@ class Pages extends ActiveRecord
      * TYPE_CONTENT
      */
     const TYPE_CONTENT = '6';
+
+    /**
+     * TYPE_PARTNER
+     */
+    const TYPE_PARTNER = '7';
     /**
      * STATUS_INACTIVE
      */
@@ -103,6 +109,9 @@ class Pages extends ActiveRecord
                 case (int)static::TYPE_MAIL:
                     $folder = 'mail';
                     break;
+                case (int)static::TYPE_PARTNER:
+                    $folder = 'partner';
+                    break;
                 default:
                     $folder = false;
                     break;
@@ -144,6 +153,7 @@ class Pages extends ActiveRecord
             static::TYPE_MAIL => 'Mail',
             static::TYPE_PAGES => 'Pages',
             static::TYPE_SLIDER => 'Slider',
+            static::TYPE_PARTNER => 'Partner',
         ];
 
         return $with_key ? $return : array_keys($return);
@@ -159,7 +169,7 @@ class Pages extends ActiveRecord
             'trans' => [
                 'class' => TranslateBehavior::className(),
                 'translationAttributes' => [
-                    'title', 'description'
+                    'title', 'description', 'subtitle'
                 ]
             ],
         ];
@@ -205,7 +215,7 @@ class Pages extends ActiveRecord
             ['status', 'default', 'value' => static::STATUS_ACTIVE],
             ['type_id', 'in', 'range' => static::getTypeAsArray(false)],
             ['status', 'in', 'range' => static::getStatusAsArray(false)],
-            [['title', 'camel_case'], 'string', 'max' => 255]
+            [['title', 'camel_case', 'subtitle'], 'string', 'max' => 255]
         ];
     }
 
@@ -217,6 +227,7 @@ class Pages extends ActiveRecord
         return [
             'id' => \Yii::t('app', 'ID'),
             'title' => \Yii::t('app', 'Title'),
+            'subtitle' => \Yii::t('app', 'Subtitle'),
             'cat_id' => \Yii::t('app', 'Category'),
             'description' => \Yii::t('app', 'Description'),
             'status' => \Yii::t('app', 'Status'),

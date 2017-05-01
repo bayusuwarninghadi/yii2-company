@@ -23,6 +23,13 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
+                    'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Partner'),
+                    'items' => [
+                        ['label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Manage Partner'), 'url' => ['/partner/index']],
+                        ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create Partner'), 'url' => ['/partner/create']]
+                    ]
+                ],
+                [
                     'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Article'),
                     'items' => [
                         ['label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Manage Article'), 'url' => ['/article/index']],

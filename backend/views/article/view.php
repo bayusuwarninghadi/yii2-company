@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\HtmlPurifier;
+use common\modules\UploadHelper;
 
 /* @var string $this */
 /* @var $this yii\web\View */
@@ -32,7 +33,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
+                [
+                    'label' => 'images',
+                    'value' => UploadHelper::getHtml(strtolower($type) . '/' . $model->id, 'small'),
+                    'format' => 'html'
+                ],
                 'title',
+                'subtitle',
                 'created_at:datetime',
                 'updated_at:datetime',
             ],

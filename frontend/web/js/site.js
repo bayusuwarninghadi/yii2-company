@@ -29,4 +29,27 @@ $(document).ready(function () {
     });
     var related_container = $(".related-product");
     related_container.find(".row").load("/product/related?id=" + related_container.data("id"));
+
+    $('.grid').masonry({
+        itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
+        percentPosition: true
+    });
+
+    $('.carousel').carousel({
+        interval: 10000
+    });
+    $('.carousel.carousel-thumbnail .item').each(function () {
+        var next = $(this).next();
+        if (!next.length) {
+            next = $(this).siblings(':first');
+        }
+        next.children(':first-child').clone().appendTo($(this));
+
+        if (next.next().length > 0) {
+            next.next().children(':first-child').clone().appendTo($(this));
+        }
+        else {
+            $(this).siblings(':first').children(':first-child').clone().appendTo($(this));
+        }
+    });
 });

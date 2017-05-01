@@ -16,14 +16,14 @@ NavBar::begin([
     'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
     'brandUrl' => \Yii::$app->homeUrl,
     'options' => [
-        'class' => 'navbar-inverse navbar-fixed-top',
+        'class' => 'navbar-default navbar-fixed-top',
         'id' => 'main-navbar'
     ],
 ]);
 
 echo $this->render('/layouts/_language');
 echo $this->render('/layouts/_navigation');
-echo $this->render('/layouts/_searchNav');
+//echo $this->render('/layouts/_searchNav');
 echo $this->render('/layouts/_categoryNavbar');
 
 NavBar::end();
