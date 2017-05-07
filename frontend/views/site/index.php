@@ -45,10 +45,10 @@ $this->title = \Yii::t('app', 'Welcome');
                     <a class="page-scroll" href="#partner">Partner</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#news">Article</a>
+                    <a class="page-scroll" href="#news">Lates News</a>
                 </li>
                 <li>
-                    <a class="page-scroll" href="#news">Lates News</a>
+                    <a class="page-scroll" href="#article">Article</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#contact">Contact</a>
