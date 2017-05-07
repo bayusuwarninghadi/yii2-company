@@ -91,6 +91,7 @@ class SiteController extends BaseController
             'slider' => $slider,
             'contents' => Pages::find()->where(['type_id' => Pages::TYPE_CONTENT])->limit(3)->orderBy('created_at desc')->all(),
             'newsFeeds' => Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all(),
+            'articles' => Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all(),
             'partners' => Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all(),
             'page' => Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']),
         ]);
