@@ -110,7 +110,7 @@ class PartnerController extends Controller
                 if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
                     $modelIndonesia->save();
                 }
-                
+
                 \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
                 return $this->redirect(['/partner/view', 'id' => $model->id]);
             }

@@ -3,6 +3,8 @@
 use yii\helpers\Html;
 use backend\widget\GridView;
 use yii\widgets\Pjax;
+use common\modules\UploadHelper;
+use common\models\Pages;
 
 /* @var $this yii\web\View */
 /* @var string $type */
@@ -23,7 +25,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             'title',
-            [
+	        [
+		        'label' => 'Image',
+		        'value' => function ($data) {
+                    /** @var $data \common\models\Pages */
+			        $types = Pages::getTypeAsArray();
+			        return UploadHelper::getHtml($types[$data->type_id] . '/' . $data->id, 'small', [], true);
+		        },
+		        'format' => 'html'
+	        ],
+
+	        [
                 'attribute' => 'order',
                 'options' => [
                     'style' => 'width:70px;'

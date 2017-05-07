@@ -44,9 +44,9 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Slider'),
+                    'label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Index Slider'),
                     'items' => [
-                        ['label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'Manage News'), 'url' => ['/slider/index']],
+                        ['label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'Manage Slider'), 'url' => ['/slider/index']],
                         ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/slider/create']]
                     ]
                 ],

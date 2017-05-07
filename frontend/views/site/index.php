@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
  */
 
 AppAsset::register($this);
-$this->title = \Yii::t('app','Welcome');
+$this->title = \Yii::t('app', 'Welcome');
 
 ?>
 <?php $this->beginPage() ?>
@@ -26,35 +26,36 @@ $this->title = \Yii::t('app','Welcome');
 <head>
     <meta charset="<?= \Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
+	<?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+	<?php $this->head() ?>
 </head>
 <body>
 <?php $this->beginBody() ?>
 <?= $this->render('/layouts/_navbar') ?>
 <div style="margin-top: -20px;">
-    <?= Carousel::widget([
-        'items' => $slider,
-        'options' => [
-            'class' => 'index-slider slide'
-        ],
-        'controls' => [
-            '<span class="glyphicon glyphicon-chevron-left"></span>',
-            '<span class="glyphicon glyphicon-chevron-right"></span>',
-        ]
-    ]);
-    ?>
+	<?= Carousel::widget([
+		'items' => $slider,
+		'options' => [
+			'class' => 'index-slider slide',
+			'id' => 'index-carousel'
+		],
+		'controls' => [
+			'<span class="glyphicon glyphicon-chevron-left"></span>',
+			'<span class="glyphicon glyphicon-chevron-right"></span>',
+		]
+	]);
+	?>
 
 </div>
 <section id="services">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading">
-                <?=Yii::$app->controller->settings['site_name']?>
+				<?= Yii::$app->controller->settings['site_name'] ?>
             </h2>
             <h3 class="section-subheading text-muted">
-                <?=Yii::t('app','Lorem ipsum dolor sit amet consectetur.')?>
+				<?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur.') ?>
             </h3>
             <br>
         </div>
@@ -65,7 +66,8 @@ $this->title = \Yii::t('app','Welcome');
                     <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                    architecto quo inventore harum ex magni, dicta impedit.</p>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
@@ -73,7 +75,8 @@ $this->title = \Yii::t('app','Welcome');
                     <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                    architecto quo inventore harum ex magni, dicta impedit.</p>
             </div>
             <div class="col-md-4">
                 <span class="fa-stack fa-4x">
@@ -81,49 +84,62 @@ $this->title = \Yii::t('app','Welcome');
                     <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
                 </span>
                 <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.</p>
+                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
+                    architecto quo inventore harum ex magni, dicta impedit.</p>
             </div>
         </div>
     </div>
 </section>
-<?= $this->render('_indexPartner', [
-    'models' => $partners
-])?>
+<section class="bg-light-gray">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading">
+				<?= Yii::t('app', 'Partners') ?>
+            </h2>
+            <h3 class="section-subheading text-muted">
+				<?= Yii::t('app', 'Kami bermitra dengan regulator dan seluruh ekosistem industri untuk mendorong masa depan keuangan berorientasi teknologi') ?>
+            </h3>
+        </div>
+	    <?= $this->render('/partner/_slider', [
+		    'models' => $partners
+	    ]) ?>
+    </div>
+</section>
 <section class="bg-primary">
     <div class="container text-center">
-        <?= HtmlPurifier::process($page->description) ?>
+		<?= HtmlPurifier::process($page->description) ?>
     </div>
 </section>
 <?= $this->render('_indexNews', [
 	'models' => $newsFeeds
-])?>
+]) ?>
 <section id="contact">
     <div class="container">
         <h2 class="section-heading text-center">Contact Us</h2>
-        <?php $form = ActiveForm::begin(['id' => 'contact-form','action' => ['/contact'],]); ?>
+		<?php $form = ActiveForm::begin(['id' => 'contact-form', 'action' => ['/contact'],]); ?>
         <div class="row">
             <div class="col-sm-6">
-                <?php if (\Yii::$app->user->isGuest) : ?>
+				<?php if (\Yii::$app->user->isGuest) : ?>
                     <div class="form-group">
-                        <?= Html::activeTextInput($model,'name',['placeholder' => Yii::t('app','Name'), 'class' => 'form-control']) ?>
+						<?= Html::activeTextInput($model, 'name', ['placeholder' => Yii::t('app', 'Name'), 'class' => 'form-control']) ?>
                     </div>
                     <div class="form-group">
-                        <?= Html::activeTextInput($model,'email',['placeholder' => Yii::t('app','Email'), 'class' => 'form-control']) ?>
+						<?= Html::activeTextInput($model, 'email', ['placeholder' => Yii::t('app', 'Email'), 'class' => 'form-control']) ?>
                     </div>
-                <?php endif ?>
+				<?php endif ?>
                 <div class="form-group">
-                    <?= Html::activeTextInput($model,'subject',['placeholder' => Yii::t('app','Subject'), 'class' => 'form-control']) ?>
+					<?= Html::activeTextInput($model, 'subject', ['placeholder' => Yii::t('app', 'Subject'), 'class' => 'form-control']) ?>
                 </div>
                 <div class="form-group">
-                    <?= Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-lg', 'name' => 'contact-button']) ?>
+					<?= Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-lg', 'name' => 'contact-button']) ?>
                 </div>
             </div>
             <div class="col-sm-6">
-                <?= Html::activeTextarea($model,'body',['placeholder' => Yii::t('app','Body'), 'class' => 'form-control', 'rows' => 11]) ?>
+				<?= Html::activeTextarea($model, 'body', ['placeholder' => Yii::t('app', 'Body'), 'class' => 'form-control', 'rows' => 11]) ?>
             </div>
         </div>
 
-        <?php ActiveForm::end(); ?>
+		<?php ActiveForm::end(); ?>
     </div>
 </section>
 
