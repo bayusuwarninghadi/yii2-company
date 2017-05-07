@@ -20,7 +20,6 @@ use yii\bootstrap\Carousel;
     </div>
     <div class="clearfix"></div>
 </div>
-<div class="row">
 	<?php
 	$items = [];
 	foreach ($models as $_item) {
@@ -53,4 +52,3 @@ use yii\bootstrap\Carousel;
 		'showIndicators' => false,
 		'controls' => false
 	]) ?>
-</div>

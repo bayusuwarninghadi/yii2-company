@@ -118,7 +118,7 @@ $this->title = \Yii::t('app', 'Welcome');
     </div>
 </section>
 <section class="bg-light-gray" id="partner">
-    <div class="container">
+    <div class="container-fluid">
         <div class="text-center">
             <h2 class="section-heading">
 				<?= Yii::t('app', 'Partners') ?>

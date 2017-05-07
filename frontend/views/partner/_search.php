@@ -20,40 +20,39 @@ use yii\helpers\Html;
 		'action' => ['index'],
 		'method' => 'get',
 	]); ?>
-    <div class="row">
-        <div class="form-group pull-left">
-		    <?php
-		    $get = Yii::$app->request->get('PagesSearch');
-		    ?>
-
+    <div class="form-group">
+        <div class="pull-left">
+			<?php
+			$get = Yii::$app->request->get('PagesSearch');
+			?>
             <ul class="nav nav-pills">
-			    <?php foreach ($tags as $tag): ?>
-				    <?php
-				    $tag = trim($tag);
-				    $isActive = boolval(isset($get['tag']) && $get['tag'] == $tag); ?>
+				<?php foreach ($tags as $tag): ?>
+					<?php
+					$tag = trim($tag);
+					$isActive = boolval(isset($get['tag']) && $get['tag'] == $tag); ?>
                     <li class="<?php if ($isActive) echo 'active' ?>">
-					    <?php
-					    ?>
+						<?php
+						?>
                         <a class="text-capitalize" href="?PagesSearch%5Btag%5D=<?= $tag ?>">
-						    <?= $tag ?>
+							<?= $tag ?>
                         </a>
                     </li>
-			    <?php endforeach; ?>
+				<?php endforeach; ?>
                 <li class="<?php if (empty($get) || empty($get['tag'])) echo 'active' ?>">
                     <a href="?PagesSearch%5Btag%5D=">
-					    <?= Yii::t('app', 'All') ?>
+						<?= Yii::t('app', 'All') ?>
                     </a>
                 </li>
 
             </ul>
         </div>
-        <div class="input-group pull-right" style="width: 200px">
-		    <?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control']) ?>
-            <span class="input-group-btn">
-		    <?= Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-primary']) ?>
-		</span>
+        <div class="input-group pull-right" style="width: 300px">
+			<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control']) ?>
+            <div class="input-group-btn">
+				<?= Html::submitButton('<i class="fa fa-search"></i>', ['class' => 'btn btn-primary']) ?>
+            </div>
         </div>
-
+        <div class="clearfix"></div>
     </div>
 	<?php ActiveForm::end(); ?>
 </div>

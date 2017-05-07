@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </section>
 <section class="small-section bg-light-gray">
-    <div class="container">
+    <div class="container-fluid">
         <?=$this->render('_search', [
 	        'searchModel' => $searchModel,
 	        'tags' => $tags
@@ -35,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo ListView::widget([
 			'dataProvider' => $dataProvider,
 			'itemView' => '_list',
-			'layout' => "{items}{pager}",
+			'layout' => "<div class='grid'>{items}</div>{pager}",
 			'itemOptions' => [
 				'class' => 'grid-item col-sm-3'
 			]

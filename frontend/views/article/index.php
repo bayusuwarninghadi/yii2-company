@@ -27,25 +27,20 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 
 <section class="bg-light-gray small-section">
-    <div class="container">
+    <div class="container-fluid">
         <div class="hidden-xs form-group">
 			<?php $form = ActiveForm::begin([
 				'action' => ['index'],
 				'method' => 'get',
 			]); ?>
-            <div class="row">
-                <div class="col-sm-6">
-					<?= Html::activeDropDownList($searchModel, 'tag', $tags, ['class' => 'form-control', 'prompt' => 'All Topics']) ?>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-						<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search']) ?>
-                        <div class="input-group-btn">
-							<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-                        </div>
-                    </div>
+			<?= Html::activeDropDownList($searchModel, 'tag', $tags, ['class' => 'form-control pull-left', 'style' => 'width:300px', 'prompt' => 'All Topics']) ?>
+            <div class="input-group pull-right" style="width: 300px">
+				<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search']) ?>
+                <div class="input-group-btn">
+					<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
                 </div>
             </div>
+            <div class="clearfix"></div>
 			<?php ActiveForm::end(); ?>
         </div>
 		<?php
@@ -53,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		echo ListView::widget([
 			'dataProvider' => $dataProvider,
 			'itemView' => '_list',
-			'layout' => "{items}{pager}",
+			'layout' => "<div class='grid'>{items}</div>{pager}",
 			'itemOptions' => [
 				'class' => 'grid-item col-sm-4'
 			]
