@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
  * @var $page \common\models\Pages
  * @var $contents \common\models\Pages[]
  * @var $newsFeeds \common\models\Pages[]
+ * @var $articles \common\models\Pages[]
  * @var $partners \common\models\Pages[]
  * @var $model \frontend\models\ContactForm;
  */
@@ -42,6 +43,9 @@ $this->title = \Yii::t('app', 'Welcome');
                 </li>
                 <li class="active">
                     <a class="page-scroll" href="#partner">Partner</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#news">Article</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#news">Lates News</a>
@@ -130,6 +134,9 @@ $this->title = \Yii::t('app', 'Welcome');
 </section>
 <?= $this->render('_indexNews', [
 	'models' => $newsFeeds
+]) ?>
+<?= $this->render('_indexArticle', [
+	'models' => $articles
 ]) ?>
 <section id="contact">
     <div class="container">
