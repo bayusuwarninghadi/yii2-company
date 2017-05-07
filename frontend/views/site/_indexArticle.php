@@ -44,5 +44,8 @@ use yii\helpers\Url;
                 </div>
 			<?php endforeach; ?>
         </div>
+        <div class="text-center">
+		    <?=Html::a('See More', ['/article'], ['class' => 'btn btn-primary btn-lg'])?>
+        </div>
     </div>
 </section>

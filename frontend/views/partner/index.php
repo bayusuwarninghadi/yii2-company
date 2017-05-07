@@ -5,6 +5,7 @@ use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var string $type */
+/* @var $tags array */
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -25,20 +26,21 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 <section class="small-section bg-light-gray">
     <div class="container">
-        <?php
+        <?=$this->render('_search', [
+	        'searchModel' => $searchModel,
+	        'tags' => $tags
+        ])?>
+		<?php
 		Pjax::begin();
 		echo ListView::widget([
 			'dataProvider' => $dataProvider,
 			'itemView' => '_list',
-			'layout' => $this->render('_search', [
-					'searchModel' => $searchModel
-				]) . "<br><div class='container-fluid'><div class='grid row'>{items}</div></div>{pager}",
+			'layout' => "{items}{pager}",
 			'itemOptions' => [
 				'class' => 'grid-item col-sm-3'
 			]
 		]);
 		Pjax::end();
 		?>
-
     </div>
 </section>

@@ -33,12 +33,14 @@ class ArticleController extends BaseController
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_ARTICLE;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+	    $tags = Pages::getTags(Pages::TYPE_ARTICLE);
 
-        return $this->render('/article/index', [
+	    return $this->render('/article/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Article'
-        ]);
+            'type' => 'Article',
+		    'tags' => $tags
+	    ]);
     }
 
     /**

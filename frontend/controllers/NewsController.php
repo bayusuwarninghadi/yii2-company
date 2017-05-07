@@ -33,11 +33,14 @@ class NewsController extends BaseController
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+	    $tags = Pages::getTags(Pages::TYPE_NEWS);
 
         return $this->render('/article/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'News'
+            'type' => 'News',
+	        'tags' => $tags
+
         ]);
     }
 

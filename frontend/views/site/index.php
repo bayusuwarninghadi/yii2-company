@@ -130,6 +130,9 @@ $this->title = \Yii::t('app', 'Welcome');
 	    <?= $this->render('/partner/_slider', [
 		    'models' => $partners
 	    ]) ?>
+        <div class="text-center">
+	        <?=Html::a('See More', ['/partner'], ['class' => 'btn btn-primary btn-lg'])?>
+        </div>
     </div>
 </section>
 <?= $this->render('_indexNews', [

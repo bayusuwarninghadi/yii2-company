@@ -10,6 +10,7 @@
 
 use common\modules\UploadHelper;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Html;
 
 ?>
 <section id="news">
@@ -40,15 +41,15 @@ use yii\helpers\HtmlPurifier;
                         </div>
                     </li>
 		        <?php endforeach; ?>
-
                 <li class="timeline-inverted">
                     <div class="timeline-image">
-                        <h4>Be Part
-                            <br>Of Our
-                            <br>Story!</h4>
+	                    <?=Html::a('<h4>Be part<br>of our<br>news</h4>', ['/news'], ['style' => 'color:white'])?>
                     </div>
                 </li>
             </ul>
+            <div class="text-center">
 
+            </div>
+        </div>
     </div>
 </section>

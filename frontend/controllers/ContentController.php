@@ -35,12 +35,14 @@ class ContentController extends BaseController
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_CONTENT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        
-        return $this->render('index', [
+	    $tags = Pages::getTags(Pages::TYPE_CONTENT);
+
+	    return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => Yii::t('app', 'Content')
-        ]);
+            'type' => Yii::t('app', 'Content'),
+		    'tags' => $tags
+	    ]);
     }
 
     /**

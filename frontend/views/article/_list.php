@@ -22,7 +22,7 @@ $types = Pages::getTypeAsArray()
             </div>
         </div>
         ' .
-		UploadHelper::getHtml( strtolower($types[$model->type_id]) . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
+		UploadHelper::getHtml(strtolower($types[$model->type_id]) . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
 		['view', 'id' => $model->id],
 		[
 			'class' => 'portfolio-link'
@@ -30,7 +30,7 @@ $types = Pages::getTypeAsArray()
 	) ?>
     <div class="portfolio-caption">
         <h3 class="m0">
-		    <?= Html::encode($model->title) ?>
+			<?= Html::encode($model->title) ?>
         </h3>
         <h4 class="text-thin m0"><?= Html::encode($model->subtitle) ?></h4>
         <p class="text-muted">
@@ -38,7 +38,7 @@ $types = Pages::getTypeAsArray()
         </p>
         <hr>
         <p class="text-muted">
-            <small><?= HtmlPurifier::process(substr($model->description, 0, 200)) ?> ... </small>
+            <small><?= HtmlPurifier::process(substr($model->description, 0, 200)) ?> ...</small>
         </p>
 
     </div>
