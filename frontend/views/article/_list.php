@@ -14,22 +14,32 @@ use common\models\Pages;
 
 $types = Pages::getTypeAsArray()
 ?>
-<div class="media ">
-
+<div class="portfolio-item">
 	<?= Html::a(
-		UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['style' => 'width: 200px;']),
+		'<div class="portfolio-hover">
+            <div class="portfolio-hover-content">
+                <i class="fa fa-plus fa-3x"></i>
+            </div>
+        </div>
+        ' .
+		UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
 		['view', 'id' => $model->id],
-		['class' => 'media-left']
+		[
+			'class' => 'portfolio-link'
+		]
 	) ?>
-    <div class="media-body">
-        <h4>
-			<?= Html::encode($model->title) ?>
-			<small><?= Html::encode($model->subtitle) ?></small>
-        </h4>
+    <div class="portfolio-caption">
+        <h3 class="m0">
+		    <?= Html::encode($model->title) ?>
+        </h3>
+        <h4 class="text-thin m0"><?= Html::encode($model->subtitle) ?></h4>
+        <p class="text-muted">
+            <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
+        </p>
         <hr>
-        <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
-        <?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
-        <small><?= Html::a(\Yii::t('app', 'View More'), ['view', 'id' => $model->id]) ?></small>
+        <p class="text-muted">
+            <small><?= HtmlPurifier::process(substr($model->description, 0, 200)) ?> ... </small>
+        </p>
+
     </div>
 </div>
-

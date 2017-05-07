@@ -40,6 +40,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'title',
                 'subtitle',
+                [
+                    'label' => 'Tags',
+	                'value' => function($model){
+                        /** @var $model \common\models\Pages */
+                        $tags = '';
+                        if ($model->pageTags){
+                            foreach (explode(',', $model->pageTags->value) as $tag){
+                                $tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
+                            }
+                        }
+                        return $tags;
+                    },
+                    'format' => 'html'
+                ] ,
                 'created_at:datetime',
                 'updated_at:datetime',
             ],

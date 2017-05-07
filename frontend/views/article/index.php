@@ -46,12 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
 		    'dataProvider' => $dataProvider,
 		    'itemView' => '_list',
 		    'layout' => "{items}{pager}",
-		    'itemOptions' => [
-			    'class' => 'list-group-item'
+            'itemOptions' => [
+			    'class' => 'grid-item col-sm-4'
 		    ]
 	    ]);
 	    Pjax::end();
 	    ?>
-
     </div>
 </section>

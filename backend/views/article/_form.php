@@ -47,11 +47,13 @@ use common\modules\UploadHelper;
                     $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
 
+
             echo Tabs::widget([
                 'items' => $items
             ]);
             ?>
-            <?= $form->field($model, 'order')->input('order') ?>
+            <?= $form->field($model, 'pageTags[value]')->textInput()->label(Yii::t('app', 'Tags, separate by comma')) ?>
+            <?= $form->field($model, 'order')->input('number') ?>
         </div>
         <div class="panel-footer">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -2,6 +2,12 @@
     font-weight: lighter !important;
 }
 
+@media (max-width: 768px) {
+    body {
+        padding-top: 77px;
+    }
+}
+
 .grid .grid-item {
     padding: 0 2px 4px;
 }
@@ -36,4 +42,11 @@
     background-image: url(../images/map-image.png);
     background-position: center;
     background-repeat: no-repeat
+}
+
+.m0 {
+    margin: 0 !important;
+}
+.p0 {
+    padding: 0 !important;
 }

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\PageAttribute;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
@@ -92,7 +93,17 @@ class ContentController extends Controller
             if ($model->save()){
                 if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'content/' . $model->id);
 
-                /**
+	            if (isset($bodyData['Pages']['pageTags'])){
+		            if (($tags = $model->pageTags) == null){
+			            $tags = new PageAttribute();
+			            $tags->page_id = $model->id;
+			            $tags->key = 'tags';
+		            }
+		            $tags->value = $bodyData['Pages']['pageTags']['value'];
+		            $tags->save();
+	            }
+
+	            /**
                  * Save Pages Lang
                  */
                 $modelEnglish->page_id = $model->id;
@@ -142,7 +153,17 @@ class ContentController extends Controller
             if ($model->save()) {
                 if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'content/' . $model->id);
 
-                /**
+	            if (isset($bodyData['Pages']['pageTags'])){
+		            if (($tags = $model->pageTags) == null){
+			            $tags = new PageAttribute();
+			            $tags->page_id = $model->id;
+			            $tags->key = 'tags';
+		            }
+		            $tags->value = $bodyData['Pages']['pageTags']['value'];
+		            $tags->save();
+	            }
+
+	            /**
                  * Save Pages Lang
                  */
                 $modelEnglish->page_id = $model->id;

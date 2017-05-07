@@ -22,6 +22,7 @@ use yii\db\ActiveRecord;
  * @property integer $created_at
  * @property integer $updated_at
  *
+ * @property PageAttribute $pageTags
  * @property PagesLang[] $articleLangs
  * @property User $user
  */
@@ -244,6 +245,14 @@ class Pages extends ActiveRecord
     public function getPageAttributes()
     {
         return $this->hasMany(PageAttribute::className(), ['page_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPageTags()
+    {
+        return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => 'tags']);
     }
 
     /**
