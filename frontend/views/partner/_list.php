@@ -11,7 +11,6 @@ use common\models\Pages;
  * @var $model \common\models\Pages
  */
 
-$types = Pages::getTypeAsArray()
 ?>
 <div class="portfolio-item">
 	<?= Html::a(
@@ -21,7 +20,7 @@ $types = Pages::getTypeAsArray()
             </div>
         </div>
         ' .
-		UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
+		UploadHelper::getHtml( 'partner/' . $model->id, 'medium', ['class' => 'img-responsive']),
 		['/partner/view', 'id' => $model->id],
         [
             'class' => 'portfolio-link'

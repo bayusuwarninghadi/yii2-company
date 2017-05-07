@@ -22,7 +22,7 @@ $types = Pages::getTypeAsArray()
             </div>
         </div>
         ' .
-		UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
+		UploadHelper::getHtml( strtolower($types[$model->type_id]) . '/' . $model->id, 'medium', ['class' => 'img-responsive']),
 		['view', 'id' => $model->id],
 		[
 			'class' => 'portfolio-link'
