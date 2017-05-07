@@ -10,40 +10,45 @@
 
 use common\modules\UploadHelper;
 use yii\helpers\HtmlPurifier;
-use yii\helpers\Html;
-use yii\helpers\Url;
 
 ?>
 <section id="news">
     <div class="container">
         <div class="text-center form-group">
-            <h2 class="section-heading"><?= Yii::t('app', 'News Feed') ?></h2>
-            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            <h2 class="section-heading"><?= Yii::t('app', 'Latest News') ?></h2>
+            <h3 class="section-subheading text-muted"><?=Yii::t('app', 'Keep in touch in our story')?></h3>
         </div>
         <div class="row">
-			<?php foreach ($models as $model): ?>
-                <div class="col-sm-4">
-                    <div class="team-member">
-                        <a href="<?=Url::to(['/news/view', 'id' => $model->id])?>">
-                            <div class="square-fix-300 bg-cover img-circle img m-auto"
-                                 style="background-image: url(<?=UploadHelper::getImageUrl('news/' . $model->id, 'medium')?>)"></div>
-                        </a>
+            <ul class="timeline">
+		        <?php foreach ($models as $key => $feed) :?>
+                    <li class="<?=(($key % 2) == 0) ? 'timeline-inverted' : ''?>">
+                        <div class="timeline-image">
+					        <?=UploadHelper::getHtml('news/' . $feed->id, 'medium', ['class' => 'img-circle img-responsive'])?>
+                        </div>
+                        <div class="timeline-panel">
+                            <div class="timeline-heading">
+                                <h4>
+							        <?=$feed->title?>
+                                    <small><?=$feed->subtitle?></small>
+                                    <hr style="margin: 5px 0 0;">
+                                    <small class="text-muted"><?=Yii::$app->formatter->asDate($feed->created_at)?></small>
+                                </h4>
+                            </div>
+                            <div class="timeline-body">
+						        <?= HtmlPurifier::process(substr($feed->description, 0, 200)) ?>
+                            </div>
+                        </div>
+                    </li>
+		        <?php endforeach; ?>
 
-                        <h3>
-							<?= Html::encode($model->title) ?>
-                            <br>
-                            <small>
-								<?= Html::encode($model->subtitle) ?>
-                                <br>
-                                <small class="text-muted"><?= Yii::$app->formatter->asDate($model->updated_at) ?></small>
-                            </small>
-                        </h3>
-                        <p class="text-muted">
-							<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
-                        </p>
+                <li class="timeline-inverted">
+                    <div class="timeline-image">
+                        <h4>Be Part
+                            <br>Of Our
+                            <br>Story!</h4>
                     </div>
-                </div>
-			<?php endforeach; ?>
-        </div>
+                </li>
+            </ul>
+
     </div>
 </section>
