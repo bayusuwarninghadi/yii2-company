@@ -193,7 +193,7 @@ class PartnerController extends Controller
     protected function findModel($id)
     {
         if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_PARTNER])) !== null) {
-            return $model;
+        	return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }

@@ -20,7 +20,7 @@ class PagesSearch extends Pages
     {
         return [
             [['id', 'status', 'order', 'type_id', 'created_at', 'updated_at', 'cat_id'], 'integer'],
-            [['title', 'description', 'key'], 'safe'],
+            [['title', 'description', 'subtitle', 'key'], 'safe'],
         ];
     }
 
@@ -77,6 +77,7 @@ class PagesSearch extends Pages
             'updated_at' => $this->updated_at,
         ])
             ->andFilterWhere(['like', 'pages_lang.title', $this->title])
+            ->andFilterWhere(['like', 'pages_lang.subtitle', $this->subtitle])
             ->andFilterWhere(['like', 'pages_lang.description', $this->description]);
         /** @var Category $category */
 

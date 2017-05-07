@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property string $title
+ * @property string $subtitle
  * @property string $description
  * @property integer $page_id
  * @property string $language
@@ -37,7 +38,7 @@ class PagesLang extends ActiveRecord
             [['title', 'page_id'], 'required'],
             [['description'], 'string'],
             [['page_id'], 'integer'],
-            [['title', 'language'], 'string', 'max' => 255]
+            [['title', 'language', 'subtitle'], 'string', 'max' => 255]
         ];
     }
 
@@ -49,6 +50,7 @@ class PagesLang extends ActiveRecord
         return [
             'id' => \Yii::t('app', 'ID'),
             'title' => \Yii::t('app', 'Title'),
+            'subtitle' => \Yii::t('app', 'Subtitle'),
             'description' => \Yii::t('app', 'Description'),
             'page_id' => \Yii::t('app', 'Pages ID'),
             'language' => \Yii::t('app', 'Language'),

@@ -169,7 +169,7 @@ class Pages extends ActiveRecord
             'trans' => [
                 'class' => TranslateBehavior::className(),
                 'translationAttributes' => [
-                    'title', 'description', 'subtitle'
+                    'title', 'subtitle', 'description',
                 ]
             ],
         ];
