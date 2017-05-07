@@ -22,22 +22,22 @@ use yii\helpers\Url;
         </div>
         <div class="row">
 			<?php foreach ($models as $model): ?>
-
                 <div class="col-sm-4">
                     <div class="team-member">
                         <a href="<?=Url::to(['/news/view', 'id' => $model->id])?>">
-                            <div class="square-fix-300 bg-cover img-circle img"
+                            <div class="square-fix-300 bg-cover img-circle img m-auto"
                                  style="background-image: url(<?=UploadHelper::getImageUrl('news/' . $model->id, 'medium')?>)"></div>
                         </a>
 
-                        <h4>
+                        <h3>
 							<?= Html::encode($model->title) ?>
                             <br>
                             <small>
 								<?= Html::encode($model->subtitle) ?>
+                                <br>
                                 <small class="text-muted"><?= Yii::$app->formatter->asDate($model->updated_at) ?></small>
                             </small>
-                        </h4>
+                        </h3>
                         <p class="text-muted">
 							<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
                         </p>

@@ -1,8 +1,6 @@
 <?php
 
 use yii\widgets\Pjax;
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
@@ -14,46 +12,33 @@ use yii\widgets\ListView;
 $this->title = $type;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index">
-    <div class="row">
-        <div class="article-search col-md-3 hidden-xs">
-            <div class="panel panel-default" id="article-search" >
-                <?php $form = ActiveForm::begin([
-                    'action' => ['index'],
-                    'method' => 'get',
-                ]); ?>
-                <div class="panel-heading">
-                    <h3 class="panel-title"><?=\Yii::t('app','Search')?></h3>
-                </div>
-                <div class="panel-body">
-                    <?= $form->field($searchModel, 'key') ?>
-                </div>
-                <div class="panel-footer">
-                    <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-                </div>
-                <?php ActiveForm::end(); ?>
-            </div>
-        </div>
-        <div class="col-md-9">
-            <div class="container-fluid">
-                <?php
-                Pjax::begin();
-                echo ListView::widget([
-                    'dataProvider' => $dataProvider,
-                    'itemView' => '_list',
-                    'options' => ['class' => 'grid row'],
-                    'layout' => "{items}{pager}",
-                    'itemOptions' => [
-                        'class' => 'grid-item col-sm-3'
-                    ]
-                ]);
-                Pjax::end();
-                ?>
-            </div>
+<section class="small-section">
+    <div class="text-center">
 
-        </div>
+        <h1 class="section-heading">
+			<?= Yii::t('app', 'Partners') ?>
+        </h1>
+        <h3 class="section-subheading text-muted">
+			<?= Yii::t('app', 'Kami bermitra dengan regulator dan seluruh ekosistem industri untuk mendorong masa depan keuangan berorientasi teknologi') ?>
+        </h3>
+    </div>
+</section>
+<section class="small-section bg-light-gray">
+    <div class="container">
+        <?php
+		Pjax::begin();
+		echo ListView::widget([
+			'dataProvider' => $dataProvider,
+			'itemView' => '_list',
+			'layout' => $this->render('_search', [
+					'searchModel' => $searchModel
+				]) . "<br><div class='container-fluid'><div class='grid row'>{items}</div></div>{pager}",
+			'itemOptions' => [
+				'class' => 'grid-item col-sm-3'
+			]
+		]);
+		Pjax::end();
+		?>
 
     </div>
-
-
-</div>
+</section>

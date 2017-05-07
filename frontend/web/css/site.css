@@ -5,12 +5,21 @@
 .grid .grid-item {
     padding: 0 2px 4px;
 }
+.grid .grid-item .portfolio-item{
+    margin-bottom: 0;
+}
 
 .grid .grid-item .thumbnail {
     border-radius: 0;
     margin: 0;
 }
 
+.small-section {
+    padding: 50px 0;
+}
+.m-auto {
+    margin: auto;
+}
 .square-fix-300 {
     width: 300px;
     height: 300px;

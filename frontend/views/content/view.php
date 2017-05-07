@@ -12,22 +12,22 @@ use yii\helpers\HtmlPurifier;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-view">
-
-    <div class="row">
-        <div class="col-sm-9">
-            <?=UploadHelper::getHtml( $type . '/' . $model->id, 'large',['class' => 'img-responsive'])?>
-            <h1><?= Html::encode($this->title) ?></h1>
-            <h4 class="page-header">
-                <?=$model->user->username?><br>
-                <small>
-                    <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
-                </small>
-            </h4>
-            <div style="display: inline">
-                <?= HTMLPurifier::process($model->description) ?>
+<section class="small-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
+                <h1><?= Html::encode($this->title) ?></h1>
+                <h4 class="page-header">
+		            <?=$model->user->username?><br>
+                    <small>
+                        <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
+                    </small>
+                </h4>
+                <div style="display: inline">
+		            <?= HTMLPurifier::process($model->description) ?>
+                </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="clearfix"></div>
         </div>
     </div>
-</div>
+</section>

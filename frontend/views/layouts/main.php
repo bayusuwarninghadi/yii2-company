@@ -14,6 +14,7 @@ AppAsset::register($this);
     <meta charset="<?= \Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<?= Html::csrfMetaTags() ?>
+    <title><?= Html::encode($this->title) ?></title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
@@ -28,10 +29,7 @@ AppAsset::register($this);
 <?php else : ?>
 	<?= $this->render('/layouts/_navbar') ?>
     <div class="header-breaker"></div>
-    <div class="container">
-		<?= $content ?>
-    </div>
-    <br>
+    <?= $content ?>
 <?php endif ?>
 <?= $this->render('/layouts/_footer') ?>
 <?php echo $this->render('/layouts/_flash', []) ?>

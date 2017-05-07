@@ -14,19 +14,22 @@ use common\models\Pages;
 
 $types = Pages::getTypeAsArray()
 ?>
-<?= Html::a(
-    UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['style' => 'width: 200px;']),
-    ['view', 'id' => $model->id],
-    ['class' => 'media-left']
-) ?>
-<div class="media-body">
-    <h4>
-        <?= Html::encode($model->title) ?>
-        <small><?= Html::a(\Yii::t('app', 'View More'), ['view', 'id' => $model->id]) ?></small>
-    </h4>
-    <?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
-    <p>
+<div class="media ">
+
+	<?= Html::a(
+		UploadHelper::getHtml( $types[$model->type_id] . '/' . $model->id, 'medium', ['style' => 'width: 200px;']),
+		['view', 'id' => $model->id],
+		['class' => 'media-left']
+	) ?>
+    <div class="media-body">
+        <h4>
+			<?= Html::encode($model->title) ?>
+			<small><?= Html::encode($model->subtitle) ?></small>
+        </h4>
+        <hr>
         <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
-    </p>
+        <?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
+        <small><?= Html::a(\Yii::t('app', 'View More'), ['view', 'id' => $model->id]) ?></small>
+    </div>
 </div>
 
