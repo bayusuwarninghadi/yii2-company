@@ -19,11 +19,16 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/metisMenu.css',
+        'css/agency.min.css',
         'css/site.css',
     ];
     public $js = [
         'js/metisMenu.js',
         'js/masonry.min.js',
+        'js/jquery.easing.min.js',
+        'js/cbpAnimatedHeader.min.js',
+        'js/classie.js',
+        'js/agency.js',
         'js/site.js',
     ];
     public $depends = [

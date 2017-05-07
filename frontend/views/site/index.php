@@ -1,6 +1,5 @@
 <?php
 
-use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\bootstrap\Carousel;
 use yii\helpers\HtmlPurifier;
@@ -16,23 +15,46 @@ use yii\widgets\ActiveForm;
  * @var $model \frontend\models\ContactForm;
  */
 
-AppAsset::register($this);
 $this->title = \Yii::t('app', 'Welcome');
 
 ?>
-<?php $this->beginPage() ?>
-<!DOCTYPE html>
-<html lang="<?= \Yii::$app->language ?>">
-<head>
-    <meta charset="<?= \Yii::$app->charset ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<?= Html::csrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
-	<?php $this->head() ?>
-</head>
-<body>
-<?php $this->beginBody() ?>
-<?= $this->render('/layouts/_navbar') ?>
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
+            </button>
+            <a class="navbar-brand page-scroll" href="#page-top">
+	            <?= Yii::$app->controller->settings['site_name'] ?>
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="hidden">
+                    <a href="#page-top"></a>
+                </li>
+                <li class="">
+                    <a class="page-scroll" href="#about">About</a>
+                </li>
+                <li class="active">
+                    <a class="page-scroll" href="#partner">Partner</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#news">Lates News</a>
+                </li>
+                <li>
+                    <a class="page-scroll" href="#contact">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
 <div style="margin-top: -20px;">
 	<?= Carousel::widget([
 		'items' => $slider,
@@ -48,14 +70,15 @@ $this->title = \Yii::t('app', 'Welcome');
 	?>
 
 </div>
-<section id="services">
+<section id="about">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading">
 				<?= Yii::$app->controller->settings['site_name'] ?>
             </h2>
             <h3 class="section-subheading text-muted">
-				<?= Yii::t('app', 'Lorem ipsum dolor sit amet consectetur.') ?>
+	            <?= HtmlPurifier::process($page->description) ?>
+
             </h3>
             <br>
         </div>
@@ -90,7 +113,7 @@ $this->title = \Yii::t('app', 'Welcome');
         </div>
     </div>
 </section>
-<section class="bg-light-gray">
+<section class="bg-light-gray" id="partner">
     <div class="container">
         <div class="text-center">
             <h2 class="section-heading">
@@ -103,11 +126,6 @@ $this->title = \Yii::t('app', 'Welcome');
 	    <?= $this->render('/partner/_slider', [
 		    'models' => $partners
 	    ]) ?>
-    </div>
-</section>
-<section class="bg-primary">
-    <div class="container text-center">
-		<?= HtmlPurifier::process($page->description) ?>
     </div>
 </section>
 <?= $this->render('_indexNews', [
@@ -142,10 +160,3 @@ $this->title = \Yii::t('app', 'Welcome');
 		<?php ActiveForm::end(); ?>
     </div>
 </section>
-
-<?= $this->render('/layouts/_footer') ?>
-<?= $this->render('/layouts/_flash', []) ?>
-<?php $this->endBody() ?>
-</body>
-</html>
-<?php $this->endPage() ?>

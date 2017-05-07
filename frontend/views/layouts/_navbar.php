@@ -1,6 +1,5 @@
 <?php
 
-use common\modules\UploadHelper;
 use yii\bootstrap\NavBar;
 
 /**
@@ -13,11 +12,11 @@ use yii\bootstrap\NavBar;
  */
 
 NavBar::begin([
-    'brandLabel' => UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'], true),
+    'brandLabel' => Yii::$app->controller->settings['site_name'],
     'brandUrl' => \Yii::$app->homeUrl,
     'options' => [
-        'class' => 'navbar-default navbar-fixed-top',
-        'id' => 'main-navbar'
+        'class' => 'navbar navbar-default navbar-fixed-top',
+        'id' => 'mainNav'
     ],
 ]);
 

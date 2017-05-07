@@ -1,116 +1,30 @@
-/*!
- * Start Bootstrap - Small Business HTML Template (http://startbootstrap.com)
- * Code licensed under the Apache License v2.0.
- * For details, see http://www.apache.org/licenses/LICENSE-2.0.
- */
-
-body {
-    padding-top: 70px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
-}
-
-.navbar-fixed-top .nav {
-    padding: 15px 0;
-}
-
-.navbar-fixed-top .navbar-brand {
-    padding: 0 15px;
-}
-.main-logo{
-    height: 50px;
-}
-footer {
-    padding: 30px 0;
-}
-.line-40 {
-    margin-bottom: 0;
-    line-height: 40px;
-}
-
-@media(min-width:768px) {
-    body {
-        padding-top: 100px; /* Required padding for .navbar-fixed-top. Change if height of navigation changes. */
-    }
-
-    .navbar-fixed-top .navbar-brand {
-        padding: 15px 0;
-    }
-}
-section {
-    padding: 100px 0;
-}
-.bg-light-gray {
-    background-color: #f7f7f7;
-}
-
-
-section#contact {
-    background: #222 url(../images/map-image.png) no-repeat center;
-}
-
-section#contact .section-heading {
-    color: #fff
-}
-
-section#contact .form-group {
-    margin-bottom: 25px
-}
-
-section#contact .form-group input, section#contact .form-group textarea {
-    padding: 20px
-}
-
-section#contact .form-group input.form-control {
-    height: auto
-}
-
-section#contact .form-group textarea.form-control {
-    height: 236px
-}
-
-section#contact .form-control:focus {
-    border-color: #fed136;
-    box-shadow: none
-}
-
-section#contact ::-webkit-input-placeholder {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #bbb
-}
-
-section#contact :-moz-placeholder {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #bbb
-}
-
-section#contact ::-moz-placeholder {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #bbb
-}
-
-section#contact :-ms-input-placeholder {
-    font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
-    font-weight: 700;
-    color: #bbb
-}
-
-section#contact .text-danger {
-    color: #e74c3c
-}
-
 .text-thin {
     font-weight: lighter !important;
 }
+
 .grid .grid-item {
     padding: 0 2px 4px;
 }
+
 .grid .grid-item .thumbnail {
     border-radius: 0;
     margin: 0;
+}
+
+.square-fix-300 {
+    width: 300px;
+    height: 300px;
+}
+
+.bg-cover {
+    background: #fff no-repeat center center;
+    background-size: cover;
+}
+
+.header-breaker {
+    height: 200px;
+    background-color: #222;
+    background-image: url(../images/map-image.png);
+    background-position: center;
+    background-repeat: no-repeat
 }

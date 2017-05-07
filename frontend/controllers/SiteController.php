@@ -79,8 +79,6 @@ class SiteController extends BaseController
             ];
         }
 
-
-        $this->layout = false;
         $model = new ContactForm();
         if (!\Yii::$app->user->isGuest) {
             $model->name = \Yii::$app->user->identity['username'];

@@ -30,12 +30,10 @@ $(document).ready(function () {
     var related_container = $(".related-product");
     related_container.find(".row").load("/product/related?id=" + related_container.data("id"));
 
+
     $('.grid').masonry({
         itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
         percentPosition: true
     });
 
-    $('.carousel-thumbnail').carousel({
-        interval: 10000
-    });
 });

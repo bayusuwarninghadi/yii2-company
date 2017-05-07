@@ -24,20 +24,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
                 </small>
             </h4>
-            <div class="pull-left" style="width: 50px;">
-                <div class="form-group">
-                    <?= Html::a('<i class="fa fa-facebook fa-fw fa-lg"></i>', 'http://www.facebook.com/sharer.php?u=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-primary btn-circle']) ?>
-                </div>
-                <div class="form-group">
-                    <?= Html::a('<i class="fa fa-twitter fa-fw fa-lg"></i>', 'http://twitter.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-info btn-circle']) ?>
-                </div>
-                <div class="form-group">
-                    <?= Html::a('<i class="fa fa-google-plus fa-fw fa-lg"></i>', 'https://plus.google.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-danger btn-circle']) ?>
-                </div>
-                <div class="form-group">
-                    <?= Html::a('<i class="fa fa-envelope fa-fw fa-lg"></i>', 'mailto:?Subject='.Html::decode($model->title).'&body=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'btn btn-warning btn-circle']) ?>
-                </div>
-            </div>
             <div style="display: inline">
                 <?= HTMLPurifier::process($model->description) ?>
             </div>
