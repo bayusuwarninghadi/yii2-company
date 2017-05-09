@@ -82,13 +82,12 @@ class PagesSearch extends Pages
 		])
 			->andFilterWhere(['like', 'pages_lang.title', $this->title])
 			->andFilterWhere(['like', 'pages_lang.subtitle', $this->subtitle])
-			->andFilterWhere(['like', PageAttribute::tableName() . '.value', $this->tag])
+			->andFilterWhere(['like', 'page_attribute.value', $this->tag])
 			->andFilterWhere(['like', 'pages_lang.description', $this->description]);
 
 		if ($this->key) {
 			$query->andWhere("pages_lang.title like '%" . $this->key . "%' OR pages_lang.description like '%" . $this->key . "%'");
 		}
-
 		/** @var Category $category */
 		if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
 			$cat_ids = Category::getCategoryChildIds($category);

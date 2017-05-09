@@ -33,12 +33,10 @@ $this->params['breadcrumbs'][] = $this->title;
 				'action' => ['index'],
 				'method' => 'get',
 			]); ?>
-			<?= Html::activeDropDownList($searchModel, 'tag', $tags, ['class' => 'form-control pull-left', 'style' => 'width:300px', 'prompt' => 'All Topics']) ?>
-            <div class="input-group pull-right" style="width: 300px">
-				<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search']) ?>
-                <div class="input-group-btn">
-					<?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-                </div>
+            <div class="text-center">
+                <?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control', 'prompt' => 'All Topics', 'style' => 'width:300px;display:inline;']) ?>
+                <?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search', 'style' => 'width:300px;display:inline;']) ?>
+                <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
             </div>
             <div class="clearfix"></div>
 			<?php ActiveForm::end(); ?>
