@@ -2,6 +2,18 @@
     font-weight: lighter !important;
 }
 
+.square-fix-300 {
+    width: 300px;
+    height: 300px;
+}
+
+@media (max-width: 992px) and (min-width: 768px) {
+    .square-fix-300 {
+        width: 200px;
+        height: 200px;
+    }
+
+}
 @media (max-width: 768px) {
     body {
         padding-top: 77px;
@@ -26,10 +38,7 @@
 .m-auto {
     margin: auto;
 }
-.square-fix-300 {
-    width: 300px;
-    height: 300px;
-}
+
 
 .bg-cover {
     background: #fff no-repeat center center;
