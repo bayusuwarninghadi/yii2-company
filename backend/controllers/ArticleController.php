@@ -98,7 +98,6 @@ class ArticleController extends Controller
             if ($model->save()) {
                 if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'article/' . $model->id);
 
-
                 /**
                  * Save Pages Lang
                  */

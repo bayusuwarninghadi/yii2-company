@@ -85,15 +85,20 @@ class SiteController extends BaseController
             $model->email = \Yii::$app->user->identity['email'];
         }
 
+        $pills = Pages::find()->where(['type_id' => Pages::TYPE_PILL])->limit(3)->orderBy('created_at desc')->all();
+        $indexPage = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']);
+
+        $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all();
+        $articles = Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all();
 
         return $this->render('index', [
             'model' => $model,
             'slider' => $slider,
-            'contents' => Pages::find()->where(['type_id' => Pages::TYPE_CONTENT])->limit(3)->orderBy('created_at desc')->all(),
-            'newsFeeds' => Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all(),
-            'articles' => Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all(),
+            'newsFeeds' => $newsFeed,
+            'articles' => $articles,
             'partners' => Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all(),
-            'page' => Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']),
+            'pills' => $pills,
+            'indexPage' => $indexPage,
         ]);
     }
 

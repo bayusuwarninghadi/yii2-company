@@ -147,6 +147,7 @@ h1, h2, h3, h4 {
 .product-wrapper {
     position: relative;
 }
+
 .product-sidebar {
     position: absolute;
     left: 0;
@@ -155,20 +156,36 @@ h1, h2, h3, h4 {
     z-index: 1;
     display: none;
 }
-.product-sidebar .panel-body{
+
+.product-sidebar .panel-body {
     overflow: scroll;
 }
-.product-sidebar .panel-product-search{
+
+.product-sidebar .panel-product-search {
     overflow-y: scroll;
     max-height: 400px;
 }
-.product-content-wrapper{
+
+.product-content-wrapper {
     position: relative;
     z-index: 2;
 }
-.product-wrapper.show-sidebar .product-content-wrapper{
+
+.product-wrapper.show-sidebar .product-content-wrapper {
     margin-left: 315px;
 }
+
 .product-wrapper.show-sidebar .product-sidebar {
     display: block;
+}
+
+.icon-container .icon {
+    padding: 1px
+}
+.icon-container .icon .icon-text{
+    display: block;
+}
+
+.icon-container button.selector {
+    font-size: .7em;
 }

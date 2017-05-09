@@ -23,7 +23,7 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Partner'),
+                    'label' => '<i class="fa fa-handshake-o fa-fw"></i> ' . \Yii::t('app', 'Partner'),
                     'items' => [
                         ['label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Manage Partner'), 'url' => ['/partner/index']],
                         ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create Partner'), 'url' => ['/partner/create']]
@@ -37,17 +37,17 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'News'),
+                    'label' => '<i class="fa fa-newspaper-o fa-fw"></i> ' . \Yii::t('app', 'News'),
                     'items' => [
                         ['label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'Manage News'), 'url' => ['/news/index']],
                         ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/news/create']]
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Index Slider'),
+                    'label' => '<i class="fa fa-pagelines fa-fw"></i> ' . \Yii::t('app', 'Index Pages'),
                     'items' => [
-                        ['label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'Manage Slider'), 'url' => ['/slider/index']],
-                        ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/slider/create']]
+                        ['label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Slider'), 'url' => ['/slider/index']],
+                        ['label' => '<i class="fa fa-hacker-news fa-fw"></i> ' . \Yii::t('app', 'Pills'), 'url' => ['/pill/index']],
                     ]
                 ],
                 [

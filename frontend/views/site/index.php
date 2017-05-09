@@ -2,14 +2,13 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Carousel;
-use yii\helpers\HtmlPurifier;
 use yii\widgets\ActiveForm;
 
 /**
  * @var array $slider
  * @var $this \yii\web\View
- * @var $page \common\models\Pages
- * @var $contents \common\models\Pages[]
+ * @var $indexPage \common\models\Pages
+ * @var $pills \common\models\Pages[]
  * @var $newsFeeds \common\models\Pages[]
  * @var $articles \common\models\Pages[]
  * @var $partners \common\models\Pages[]
@@ -74,49 +73,11 @@ $this->title = \Yii::t('app', 'Welcome');
 	?>
 
 </div>
-<section id="about">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading">
-				<?= Yii::$app->controller->settings['site_name'] ?>
-            </h2>
-            <h3 class="section-subheading text-muted">
-	            <?= HtmlPurifier::process($page->description) ?>
+<?= $this->render('_indexPills', [
+	'pills' => $pills,
+	'indexPage' => $indexPage,
+]) ?>
 
-            </h3>
-            <br>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                    <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
-                    architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                    <i class="fa fa-laptop fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
-                    architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
-            <div class="col-md-4">
-                <span class="fa-stack fa-4x">
-                    <i class="fa fa-circle fa-stack-2x text-success"></i>
-                    <i class="fa fa-lock fa-stack-1x fa-inverse"></i>
-                </span>
-                <h4 class="service-heading">Phase Two Expansion</h4>
-                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam
-                    architecto quo inventore harum ex magni, dicta impedit.</p>
-            </div>
-        </div>
-    </div>
-</section>
 <section class="bg-light-gray" id="partner">
     <div class="container-fluid">
         <div class="text-center">

@@ -21,6 +21,7 @@ use yii\db\ActiveRecord;
  * @property integer $type_id
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $created_by
  *
  * @property PageAttribute $pageTags
  * @property PagesLang[] $articleLangs
@@ -58,6 +59,11 @@ class Pages extends ActiveRecord
 	 * TYPE_PARTNER
 	 */
 	const TYPE_PARTNER = '7';
+
+	/**
+	 * TYPE_PARTNER
+	 */
+	const TYPE_PILL = '8';
 	/**
 	 * STATUS_INACTIVE
 	 */
@@ -136,6 +142,9 @@ class Pages extends ActiveRecord
 				case (int)static::TYPE_PARTNER:
 					$folder = 'partner';
 					break;
+				case (int)static::TYPE_PILL:
+					$folder = 'pill';
+					break;
 				default:
 					$folder = false;
 					break;
@@ -178,6 +187,7 @@ class Pages extends ActiveRecord
 			static::TYPE_PAGES => 'Pages',
 			static::TYPE_SLIDER => 'Slider',
 			static::TYPE_PARTNER => 'Partner',
+			static::TYPE_PILL => 'Pill',
 		];
 
 		return $with_key ? $return : array_keys($return);
