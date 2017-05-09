@@ -75,13 +75,13 @@ class SiteController extends BaseController
          */
 	    $sliderModels = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all();
         foreach ($sliderModels as $sliderModel) {
-        	$caption = Html::tag('h2', $sliderModel->title) . HtmlPurifier::process($sliderModel->description);
+	        $content = UploadHelper::getHtml('slider/' . $sliderModel->id, 'large', [], true);
         	if ($sliderModel->subtitle){
-		        $caption .= Html::a(\Yii::t('app', 'See More'), $sliderModel->subtitle, ['class' => 'btn btn-lg btn-primary']);
+		        $content = Html::a($content, $sliderModel->subtitle);
 	        }
             $slider[] = [
-                'content' => UploadHelper::getHtml('slider/' . $sliderModel->id, 'large', [], true),
-                'caption' => $caption,
+                'content' => $content,
+                'caption' => Html::tag('h2', $sliderModel->title) . HtmlPurifier::process($sliderModel->description),
             ];
         }
 
