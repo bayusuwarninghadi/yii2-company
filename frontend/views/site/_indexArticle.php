@@ -24,9 +24,9 @@ use yii\helpers\Url;
 			<?php foreach ($models as $model): ?>
                 <div class="col-sm-4">
                     <div class="team-member">
-                        <a href="<?=Url::to(['/news/view', 'id' => $model->id])?>">
+                        <a href="<?=Url::to(['/article/view', 'id' => $model->id])?>">
                             <div class="square-fix-300 bg-cover img-circle img m-auto"
-                                 style="background-image: url(<?=UploadHelper::getImageUrl('news/' . $model->id, 'medium')?>)"></div>
+                                 style="background-image: url(<?=UploadHelper::getImageUrl('article/' . $model->id, 'medium')?>)"></div>
                         </a>
                         <h3>
 							<?= Html::encode($model->title) ?>
