@@ -12,6 +12,7 @@ use frontend\models\ResetPasswordForm;
 use yii\base\InvalidParamException;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\web\BadRequestHttpException;
 
@@ -70,12 +71,17 @@ class SiteController extends BaseController
     {
         $slider = [];
         /**
-         * @var $_article Pages
+         * @var $sliderModel Pages
          */
-        foreach ($sliderModel = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all() as $_article) {
+	    $sliderModels = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all();
+        foreach ($sliderModels as $sliderModel) {
+        	$caption = Html::tag('h2', $sliderModel->title) . HtmlPurifier::process($sliderModel->description);
+        	if ($sliderModel->subtitle){
+		        $caption .= Html::a(\Yii::t('app', 'See More'), $sliderModel->subtitle, ['class' => 'btn btn-lg btn-primary']);
+	        }
             $slider[] = [
-                'content' => UploadHelper::getHtml('slider/' . $_article->id, 'large', [], true),
-                'caption' => HtmlPurifier::process($_article->description),
+                'content' => UploadHelper::getHtml('slider/' . $sliderModel->id, 'large', [], true),
+                'caption' => $caption,
             ];
         }
 

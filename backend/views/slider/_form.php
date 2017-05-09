@@ -4,10 +4,14 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use backend\widget\tinymce\TinyMce;
 use common\modules\UploadHelper;
+use yii\bootstrap\Tabs;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages */
 /* @var $form yii\widgets\ActiveForm */
+/* @var $modelEnglish common\models\PagesLang */
+/* @var $modelIndonesia common\models\PagesLang */
+
 ?>
 
 <div class="article-form">
@@ -19,8 +23,32 @@ use common\modules\UploadHelper;
                 'template' => Html::tag('div', UploadHelper::getHtml('slider/' . $model->id, 'small')) .
                     "{label}\n{input}\n{hint}\n{error}"
             ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
-		    <?= $form->field($model, 'description')->widget(TinyMce::className(), \Yii::$app->modules['tiny-mce'])->label('Caption')?>
-            <?= $form->field($model, 'order')->input('order') ?>
+            <?php
+            $tinyMceConfig = \Yii::$app->modules['tiny-mce'];
+            $items = [];
+
+            $tinyMceConfig['options']['name'] = 'modelEnglish[description]';
+            $items[] = [
+	            'label' => 'English',
+	            'content' =>
+		            $form->field($modelEnglish, 'title')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[title]']) .
+		            $form->field($modelEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+            ];
+            $tinyMceConfig['options']['name'] = 'modelIndonesia[description]';
+            $items[] = [
+	            'label' => 'Indonesia',
+	            'content' =>
+		            $form->field($modelIndonesia, 'title')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[title]']) .
+		            $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
+            ];
+
+
+            echo Tabs::widget([
+	            'items' => $items
+            ]);
+            ?>
+            <?= $form->field($model, 'subtitle')->textInput()->label('URL') ?>
+            <?= $form->field($model, 'order')->input('number') ?>
 
         </div>
         <div class="panel-footer">

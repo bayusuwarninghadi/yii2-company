@@ -29,6 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => 'html'
             ],
+            'title',
+            [
+                'attribute' => 'subtitle',
+                'label' => 'URL'
+            ],
             [
                 'attribute' => 'order',
                 'options' => [

@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\PagesLang;
 use common\modules\UploadHelper;
 use common\models\Pages;
 use common\models\PagesSearch;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -61,32 +63,48 @@ class SliderController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Pages();
-        $model->type_id = Pages::TYPE_SLIDER;
-        $model->title = 'Slider';
-        $model->camel_case = 'Slider';
-        if ($model->load(\Yii::$app->request->post())) {
-            if ($model->save()) {
-                $image = UploadedFile::getInstance($model, 'image');
-                UploadHelper::saveImage($image, 'slider/' . $model->id,[
-                    'large' => [
-                        'width' => 1000,
-                        'format' => 'jpeg'
-                    ],
-                    'small' => [
-                        'width' => 50,
-                        'format' => 'jpeg'
-                    ],
-                ]);
-                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
-            }
-            return $this->redirect(['index']);
-        }
+	    $model = new Pages();
 
-        return $this->render('create', [
-            'model' => $model,
-            'type' => 'Slider'
-        ]);
+	    /**
+	     * Create New Pages Language
+	     */
+	    $modelEnglish = $this->findLangModel($model->id, 'en-US');
+	    $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
+
+	    /**
+	     * Set Type
+	     */
+	    $model->type_id = Pages::TYPE_SLIDER;
+
+	    $bodyData = \Yii::$app->request->post();
+	    if ($model->load($bodyData)) {
+		    $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
+		    if ($model->save()) {
+			    if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'slider/' . $model->id);
+
+			    /**
+			     * Save Pages Lang
+			     */
+			    $modelEnglish->page_id = $model->id;
+			    if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
+				    $modelEnglish->save();
+			    }
+
+			    $modelIndonesia->page_id = $model->id;
+			    if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
+				    $modelIndonesia->save();
+			    }
+
+			    \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
+			    return $this->redirect(['index']);
+		    }
+	    }
+	    return $this->render('create', [
+		    'model' => $model,
+		    'type' => 'Slider',
+		    'modelEnglish' => $modelEnglish,
+		    'modelIndonesia' => $modelIndonesia,
+	    ]);
     }
 
     /**
@@ -97,30 +115,43 @@ class SliderController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
-        $model->title = 'Slider';
-        $model->camel_case = 'Slider';
-        if ($model->load(\Yii::$app->request->post())) {
-            $model->type_id = Pages::TYPE_SLIDER;
-            if ($model->save()) {
-                $image = UploadedFile::getInstance($model, 'image');
-                UploadHelper::saveImage($image, 'slider/' . $model->id,[
-                    'large' => [
-                        'width' => 1000,
-                        'format' => 'jpeg'
-                    ],
-                    'small' => [
-                        'width' => 50,
-                        'format' => 'jpeg'
-                    ],
-                ]);
-                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
-                return $this->redirect(['index']);
-            }
-        }
+	    $model = $this->findModel($id);
+
+	    $modelEnglish = $this->findLangModel($model->id, 'en-US');
+	    $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
+
+	    $bodyData = \Yii::$app->request->post();
+
+	    if ($model->load($bodyData)) {
+	    	$model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
+		    $model->type_id = Pages::TYPE_SLIDER;
+		    if ($model->save()) {
+			    if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'article/' . $model->id);
+
+			    /**
+			     * Save Pages Lang
+			     */
+			    $modelEnglish->page_id = $model->id;
+			    if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
+			    	$modelEnglish->subtitle = $model->subtitle;
+				    $modelEnglish->save();
+			    }
+
+			    $modelIndonesia->page_id = $model->id;
+			    if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
+				    $modelIndonesia->subtitle = $model->subtitle;
+				    $modelIndonesia->save();
+			    }
+
+			    \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
+			    return $this->redirect(['index']);
+		    }
+	    }
         return $this->render('update', [
             'model' => $model,
-            'type' => 'Slider'
+            'type' => 'Slider',
+	        'modelEnglish' => $modelEnglish,
+	        'modelIndonesia' => $modelIndonesia,
         ]);
     }
 
@@ -152,4 +183,21 @@ class SliderController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+	/**
+	 * Finds the PagesLang model based on its primary key value.
+	 * @param integer $pageId
+	 * @param string $language
+	 * @return PagesLang the loaded model
+	 */
+	protected function findLangModel($pageId, $language)
+	{
+		if (($model = PagesLang::findOne([
+				'page_id' => $pageId,
+				'language' => $language])) === null) {
+			$model = new PagesLang();
+			$model->language = $language;
+			$model->page_id = $pageId;
+		}
+		return $model;
+	}
 }
