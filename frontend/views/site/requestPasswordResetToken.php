@@ -9,19 +9,23 @@ use yii\bootstrap\ActiveForm;
 $this->title = \Yii::t('app', 'Request password reset');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-request-password-reset">
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="small-section bg-light-gray">
+    <div class="container">
+        <h1 class="section-heading"><?= Html::encode($this->title) ?></h1>
 
-    <p><?=\Yii::t('app', 'Please fill out your email. A link to reset password will be sent there')?></p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
-                <?= $form->field($model, 'email') ?>
+        <h3 class="section-subheading text-muted">
+	        <?=\Yii::t('app', 'Please fill out your email. A link to reset password will be sent there')?>
+        </h3>
+        <div class="row">
+            <div class="col-lg-5">
+	            <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
+	            <?= $form->field($model, 'email') ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
+		            <?= Html::submitButton('Send', ['class' => 'btn btn-primary']) ?>
                 </div>
-            <?php ActiveForm::end(); ?>
+	            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
-</div>
+
+</section>

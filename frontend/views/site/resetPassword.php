@@ -9,19 +9,23 @@ use yii\bootstrap\ActiveForm;
 $this->title = \Yii::t('app', 'Reset password');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-reset-password">
-    <h1><?= Html::encode($this->title) ?></h1>
+<section class="small-section bg-light-gray">
+    <div class="container">
+        <h1 class="section-heading"><?= Html::encode($this->title) ?></h1>
 
-    <p><?=\Yii::t('app', 'Please choose your new password:')?></p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
-                <?= $form->field($model, 'password')->passwordInput() ?>
+        <h3 class="section-subheading text-muted">
+	        <?=\Yii::t('app', 'Please choose your new password:')?>
+        </h3>
+        <div class="row">
+            <div class="col-lg-5">
+	            <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
+	            <?= $form->field($model, 'password')->passwordInput() ?>
                 <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+		            <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
                 </div>
-            <?php ActiveForm::end(); ?>
+	            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
-</div>
+
+</section>

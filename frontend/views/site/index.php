@@ -2,7 +2,6 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\Carousel;
-use yii\widgets\ActiveForm;
 
 /**
  * @var array $slider
@@ -12,52 +11,17 @@ use yii\widgets\ActiveForm;
  * @var $newsFeeds \common\models\Pages[]
  * @var $articles \common\models\Pages[]
  * @var $partners \common\models\Pages[]
- * @var $model \frontend\models\ContactForm;
+ * @var $contactForm \frontend\models\ContactForm;
  */
 
 $this->title = \Yii::t('app', 'Welcome');
 
 ?>
-
-<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header page-scroll">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span> Menu <i class="fa fa-bars"></i>
-            </button>
-            <a class="navbar-brand page-scroll" href="#page-top">
-	            <?= Yii::$app->controller->settings['site_name'] ?>
-            </a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
-                </li>
-                <li class="">
-                    <a class="page-scroll" href="#about">About</a>
-                </li>
-                <li class="active">
-                    <a class="page-scroll" href="#partner">Partner</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#news">Lates News</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#article">Article</a>
-                </li>
-                <li>
-                    <a class="page-scroll" href="#contact">Contact</a>
-                </li>
-            </ul>
-        </div>
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container-fluid -->
-</nav>
+<style>
+    section#contact{
+        background-image: url('/images/map-image.png');
+    }
+</style>
 <div style="margin-top: -20px;">
 	<?= Carousel::widget([
 		'items' => $slider,
@@ -96,38 +60,13 @@ $this->title = \Yii::t('app', 'Welcome');
         </div>
     </div>
 </section>
+
 <?= $this->render('_indexNews', [
 	'models' => $newsFeeds
 ]) ?>
 <?= $this->render('_indexArticle', [
 	'models' => $articles
 ]) ?>
-<section id="contact">
-    <div class="container">
-        <h2 class="section-heading text-center">Contact Us</h2>
-		<?php $form = ActiveForm::begin(['id' => 'contact-form', 'action' => ['/contact'],]); ?>
-        <div class="row">
-            <div class="col-sm-6">
-				<?php if (\Yii::$app->user->isGuest) : ?>
-                    <div class="form-group">
-						<?= Html::activeTextInput($model, 'name', ['placeholder' => Yii::t('app', 'Name'), 'class' => 'form-control']) ?>
-                    </div>
-                    <div class="form-group">
-						<?= Html::activeTextInput($model, 'email', ['placeholder' => Yii::t('app', 'Email'), 'class' => 'form-control']) ?>
-                    </div>
-				<?php endif ?>
-                <div class="form-group">
-					<?= Html::activeTextInput($model, 'subject', ['placeholder' => Yii::t('app', 'Subject'), 'class' => 'form-control']) ?>
-                </div>
-                <div class="form-group">
-					<?= Html::submitButton(\Yii::t('app', 'Submit'), ['class' => 'btn btn-primary btn-lg', 'name' => 'contact-button']) ?>
-                </div>
-            </div>
-            <div class="col-sm-6">
-				<?= Html::activeTextarea($model, 'body', ['placeholder' => Yii::t('app', 'Body'), 'class' => 'form-control', 'rows' => 11]) ?>
-            </div>
-        </div>
-
-		<?php ActiveForm::end(); ?>
-    </div>
-</section>
+<?= $this->render('_contact', [
+	'model' => $contactForm
+]) ?>

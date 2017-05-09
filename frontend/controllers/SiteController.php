@@ -79,10 +79,10 @@ class SiteController extends BaseController
             ];
         }
 
-        $model = new ContactForm();
+        $contactForm = new ContactForm();
         if (!\Yii::$app->user->isGuest) {
-            $model->name = \Yii::$app->user->identity['username'];
-            $model->email = \Yii::$app->user->identity['email'];
+            $contactForm->name = \Yii::$app->user->identity['username'];
+            $contactForm->email = \Yii::$app->user->identity['email'];
         }
 
         $pills = Pages::find()->where(['type_id' => Pages::TYPE_PILL])->limit(3)->orderBy('created_at desc')->all();
@@ -92,7 +92,7 @@ class SiteController extends BaseController
         $articles = Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all();
 
         return $this->render('index', [
-            'model' => $model,
+            'contactForm' => $contactForm,
             'slider' => $slider,
             'newsFeeds' => $newsFeed,
             'articles' => $articles,

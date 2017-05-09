@@ -15,13 +15,20 @@ use backend\widget\Sidebar;
             'encodeLabels' => false,
             'items' => [
                 ['label' => '<i class="fa fa-dashboard fa-fw"></i> ' . \Yii::t('app', 'Dashboard'), 'url' => '/site/index'],
-                [
-                    'label' => '<i class="fa fa-list fa-fw"></i> ' . \Yii::t('app', 'Content'),
-                    'items' => [
-                        ['label' => '<i class="fa fa-list-ol fa-fw"></i> ' . \Yii::t('app', 'Manage Category'), 'url' => ['/category/index']],
-                        ['label' => '<i class="fa fa-th-large fa-fw"></i> ' . \Yii::t('app', 'Manage Content'), 'url' => ['/content/index']],
-                    ]
-                ],
+	            [
+		            'label' => '<i class="fa fa-pagelines fa-fw"></i> ' . \Yii::t('app', 'Index Pages'),
+		            'items' => [
+			            ['label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Slider'), 'url' => ['/slider/index']],
+			            ['label' => '<i class="fa fa-hacker-news fa-fw"></i> ' . \Yii::t('app', 'Pills'), 'url' => ['/pill/index']],
+		            ]
+	            ],
+//	            [
+//                    'label' => '<i class="fa fa-list fa-fw"></i> ' . \Yii::t('app', 'Content'),
+//                    'items' => [
+//                        ['label' => '<i class="fa fa-list-ol fa-fw"></i> ' . \Yii::t('app', 'Manage Category'), 'url' => ['/category/index']],
+//                        ['label' => '<i class="fa fa-th-large fa-fw"></i> ' . \Yii::t('app', 'Manage Content'), 'url' => ['/content/index']],
+//                    ]
+//                ],
                 [
                     'label' => '<i class="fa fa-handshake-o fa-fw"></i> ' . \Yii::t('app', 'Partner'),
                     'items' => [
@@ -41,13 +48,6 @@ use backend\widget\Sidebar;
                     'items' => [
                         ['label' => '<i class="fa fa-edit fa-fw"></i> ' . \Yii::t('app', 'Manage News'), 'url' => ['/news/index']],
                         ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/news/create']]
-                    ]
-                ],
-                [
-                    'label' => '<i class="fa fa-pagelines fa-fw"></i> ' . \Yii::t('app', 'Index Pages'),
-                    'items' => [
-                        ['label' => '<i class="fa fa-picture-o fa-fw"></i> ' . \Yii::t('app', 'Slider'), 'url' => ['/slider/index']],
-                        ['label' => '<i class="fa fa-hacker-news fa-fw"></i> ' . \Yii::t('app', 'Pills'), 'url' => ['/pill/index']],
                     ]
                 ],
                 [

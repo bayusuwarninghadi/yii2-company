@@ -22,12 +22,14 @@ AppAsset::register($this);
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 	<?php $this->head() ?>
 </head>
-<body class="index" id="page-top">
+<body data-controller="<?=Yii::$app->controller->id?>"
+      data-action="<?=Yii::$app->controller->action->id?>"
+      class="index" id="page-top">
 <?php $this->beginBody() ?>
+<?= $this->render('/layouts/_navbar') ?>
 <?php if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index') : ?>
 	<?= $content ?>
 <?php else : ?>
-	<?= $this->render('/layouts/_navbar') ?>
     <div class="header-breaker"></div>
     <?= $content ?>
 <?php endif ?>

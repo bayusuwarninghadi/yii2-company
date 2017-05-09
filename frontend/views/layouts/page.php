@@ -7,6 +7,9 @@ use yii\helpers\HtmlPurifier;
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-page">
-    <?=HtmlPurifier::process($model->description)?>
-</div>
+<section class="small-section bg-light-gray">
+    <div class="container">
+        <?=HtmlPurifier::process($model->description)?>
+    </div>
+
+</section>
