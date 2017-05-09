@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $model->title;
                                             data-target-input="#pages-subtitle"
                                             data-target-icon="#drop-icon"
                                     >
-                                        <i class="fa fa-3x fa-fw <?= $icon ?>"></i>
+                                        <i class="fa fa-3x <?= $icon ?>"></i>
                                         <i class="icon-text"><?= $icon ?></i>
                                     </button>
                                 </div>
