@@ -31,8 +31,13 @@ $(document).ready(function () {
     related_container.find(".row").load("/product/related?id=" + related_container.data("id"));
 
 
-    $('.grid').masonry({
-        itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
-        percentPosition: true
-    });
+    var masonry_grid = $('.grid');
+    if (masonry_grid.length > 0){
+        masonry_grid.imagesLoaded( function() {
+            masonry_grid.masonry({
+                itemSelector: '.grid-item', // use a separate class for itemSelector, other than .col-
+                percentPosition: true
+            })
+        });
+    }
 });

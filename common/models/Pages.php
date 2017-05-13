@@ -107,6 +107,7 @@ class Pages extends ActiveRecord
 		$tags = [];
 		foreach ($model as $tag){
 			foreach (explode(',', $tag) as $_tag){
+				$_tag = trim($_tag);
 				if (!in_array($_tag, $tags)) $tags[] = $_tag;
 			}
 		}

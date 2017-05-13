@@ -59,6 +59,13 @@
 .p0 {
     padding: 0 !important;
 }
+.portfolio-item-fix-height .portfolio-caption{
+    height: 200px;
+    overflow: hidden;
+}
+.portfolio-item-fix-height .img{
+    max-width: 100%;
+}
 @media screen and (min-width: 768px) {
     .carousel-caption{
         padding-bottom: 100px;

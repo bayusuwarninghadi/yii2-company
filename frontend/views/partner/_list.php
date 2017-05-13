@@ -1,7 +1,6 @@
 <?php
 use common\modules\UploadHelper;
 use yii\helpers\Html;
-use common\models\Pages;
 
 /**
  * Created by PhpStorm.
@@ -16,7 +15,7 @@ use common\models\Pages;
 	<?= Html::a(
         '<div class="portfolio-hover">
             <div class="portfolio-hover-content">
-                <i class="fa fa-plus fa-3x"></i>
+                '. Yii::t('app','see detail').'
             </div>
         </div>
         ' .

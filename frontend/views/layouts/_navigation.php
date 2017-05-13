@@ -16,7 +16,7 @@ $navigation = [
 	'Partner' => ['/partner/index'],
 	'News' => ['/news/index'],
 	'Article' => ['/article/index'],
-	'Contact' => ['/contact/index']
+	'Contact' => ['/site/contact']
 ];
 if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index'){
 	foreach (array_keys($navigation) as $label){
