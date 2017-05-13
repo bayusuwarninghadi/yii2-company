@@ -2,6 +2,8 @@
 
 use yii\widgets\Pjax;
 use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var string $type */
@@ -26,10 +28,19 @@ $this->params['breadcrumbs'][] = $this->title;
 </section>
 <section class="small-section bg-light-gray">
     <div class="container-fluid">
-        <?=$this->render('_search', [
-	        'searchModel' => $searchModel,
-	        'tags' => $tags
-        ])?>
+        <div class="hidden-xs form-group">
+		    <?php $form = ActiveForm::begin([
+			    'action' => ['index'],
+			    'method' => 'get',
+		    ]); ?>
+            <div class="text-center">
+			    <?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control text-capitalize', 'prompt' => 'All Topics', 'style' => 'width:300px;display:inline;']) ?>
+			    <?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search', 'style' => 'width:300px;display:inline;']) ?>
+			    <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+            </div>
+            <div class="clearfix"></div>
+		    <?php ActiveForm::end(); ?>
+        </div>
 		<?php
 		Pjax::begin();
 		echo ListView::widget([

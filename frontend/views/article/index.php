@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'method' => 'get',
 			]); ?>
             <div class="text-center">
-                <?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control', 'prompt' => 'All Topics', 'style' => 'width:300px;display:inline;']) ?>
+                <?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control text-capitalize', 'prompt' => 'All Topics', 'style' => 'width:300px;display:inline;']) ?>
                 <?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search', 'style' => 'width:300px;display:inline;']) ?>
                 <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
             </div>

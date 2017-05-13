@@ -26,6 +26,7 @@ class AppAsset extends AssetBundle
         'js/metisMenu.js',
         'js/imagesloaded.pkgd.min.js',
         'js/masonry.min.js',
+	    'js/jquery.easing.min.js',
         'js/cbpAnimatedHeader.min.js',
         'js/classie.js',
         'js/agency.js',
