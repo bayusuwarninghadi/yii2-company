@@ -81,7 +81,7 @@ class SiteController extends BaseController
 	        }
             $slider[] = [
                 'content' => $content,
-                'caption' => Html::tag('h2', $sliderModel->title) . HtmlPurifier::process($sliderModel->description),
+                'caption' => Html::tag('h2', $sliderModel->title) . Html::tag('p', HtmlPurifier::process($sliderModel->description), ['class' => 'hidden-xs']),
             ];
         }
 
@@ -97,12 +97,14 @@ class SiteController extends BaseController
         $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all();
         $articles = Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all();
 
+        $partners = Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(4)->orderBy('created_at desc')->all();
+
         return $this->render('index', [
             'contactForm' => $contactForm,
             'slider' => $slider,
             'newsFeeds' => $newsFeed,
             'articles' => $articles,
-            'partners' => Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all(),
+            'partners' => $partners,
             'pills' => $pills,
             'indexPage' => $indexPage,
         ]);

@@ -9,8 +9,8 @@
  */
 
 use yii\helpers\Html;
-use yii\bootstrap\Carousel;
 use common\modules\UploadHelper;
+use yii\helpers\Url;
 
 ?>
 <section class="bg-light-gray" id="partner">
@@ -23,64 +23,28 @@ use common\modules\UploadHelper;
 				<?= Yii::t('app', 'Kami bermitra dengan regulator dan seluruh ekosistem industri untuk mendorong masa depan keuangan berorientasi teknologi') ?>
             </h3>
         </div>
-        <div class="form-group controls-box text-right">
-            <!-- Controls -->
-            <div class="controls btn-group">
-                <a class="left fa fa-chevron-left btn btn-default" href="#partner-slider" data-slide="prev"></a>
-                <a class="right fa fa-chevron-right btn btn-default" href="#partner-slider" data-slide="next"></a>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-		<?php
-		$items = [];
-		foreach ($models as $model) {
-			$items[] =
-				Html::beginTag('div', ['class' => 'col-md-3 col-xs-6']) .
-				Html::beginTag('div', ['class' => 'portfolio-item portfolio-item-fix-height']) .
-				Html::a('<div class="portfolio-hover">
-                        <div class="portfolio-hover-content text-uppercase">
-                            '. Yii::t('app','see detail').'
+        <div class="row">
+            <?php foreach ($models as $model) :?>
+                <div class="col-sm-3 col-xs-12 hidden-xs">
+                    <div class="portfolio-item portfolio-item-fix-height">
+                        <a href="<?=Url::to(['/partner/view', 'id' => $model->id])?>" class="portfolio-link">
+                            <div class="portfolio-hover">
+                                <div class="portfolio-hover-content text-uppercase">
+                                    <?=Yii::t('app','see detail')?>
+                                </div>
+                            </div>
+                            <div class="square-fix-300 bg-cover img m-auto"
+                                 style="background-image: url('<?=UploadHelper::getImageUrl('partner/' . $model->id, 'medium', ['class' => 'img-responsive'])?>')">
+                            </div>
+                        </a>
+                        <div class="portfolio-caption">
+                            <h4><?=$model->title?></h4>
+                            <p class="text-muted"><?=$model->subtitle?></p>
                         </div>
                     </div>
-                    <div class="square-fix-300 bg-cover img m-auto" style="background-image: url('.UploadHelper::getImageUrl('partner/' . $model->id, 'medium', ['class' => 'img-responsive']).')"></div>
-                    ',
-					['/partner/view', 'id' => $model->id],
-					[
-						'class' => 'portfolio-link'
-					]
-				) .
-				Html::beginTag('div', ['class' => 'portfolio-caption']) .
-				Html::tag('h4', $model->title) .
-				Html::tag('p', $model->subtitle, ['class' => 'text-muted']) .
-				Html::endTag('div') .
-				Html::endTag('div') .
-				Html::endTag('div');
-		}
-
-		$items = array_chunk($items, 4);
-
-		$partnerSliders = [];
-
-		foreach ($items as $row) {
-			$element = Html::beginTag('div', ['class' => 'row']);
-			foreach ($row as $item) {
-				$element .= $item;
-			}
-			$element .= Html::endTag('div');
-			$partnerSliders[] = $element;
-		}
-
-		?>
-		<?= Carousel::widget([
-			'items' => $partnerSliders,
-			'options' => [
-				'class' => 'slide',
-				'id' => 'partner-slider',
-			],
-			'showIndicators' => false,
-			'controls' => false
-		]) ?>
-
+                </div>
+            <?php endforeach ?>
+        </div>
         <div class="text-center">
 			<?= Html::a('See More', ['/partner'], ['class' => 'btn btn-primary btn-lg']) ?>
         </div>
