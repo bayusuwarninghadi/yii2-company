@@ -8,6 +8,7 @@
 
 namespace common\modules;
 
+use yii\db\Exception;
 use yii\helpers\BaseArrayHelper;
 
 /**
@@ -36,7 +37,11 @@ class RemoveAssetHelper extends BaseArrayHelper
                 static::removeDirectoryRecursive($_folder);
                 rmdir($f);
             } else {
-                unlink($f);
+            	try{
+		            unlink($f);
+	            } catch (Exception $e){
+
+	            }
             }
         }
         return true;
