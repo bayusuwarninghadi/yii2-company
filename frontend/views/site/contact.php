@@ -7,10 +7,10 @@ $this->title = \Yii::t('app', 'Contact Us');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <style>
-	#map {
-		height: 300px;
-		width: 100%;
-	}
+    #map {
+        height: 300px;
+        width: 100%;
+    }
 </style>
 <?php
 $position = explode(',', Yii::$app->controller->settings['latitude_longitude']);
@@ -24,13 +24,21 @@ $lng = $position[1];
             zoom: 16,
             center: location
         });
+        var infowindow = new google.maps.InfoWindow({
+            content: 'LOKASI KAMI'
+        });
         var marker = new google.maps.Marker({
             position: location,
-            map: map
+            map: map,
+            animation: google.maps.Animation.DROP,
+        });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
         });
     }
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=<?=Yii::$app->controller->settings['google_api_key']?>&callback=initMap">
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=<?= Yii::$app->controller->settings['google_api_key'] ?>&callback=initMap">
 </script>
 <div id="map"></div>
 <?= $this->render('_contact', [

@@ -34,7 +34,7 @@ class PartnerController extends BaseController
         $searchModel->type_id = Pages::TYPE_PARTNER;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Partner']);
+	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
 	    $tags = Pages::getTags(Pages::TYPE_PARTNER);
 
         return $this->render('/partner/index', [

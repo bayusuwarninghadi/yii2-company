@@ -8,7 +8,7 @@ class m170515_150457_add_new_static_page extends Migration
     public function up()
     {
 	    $this->insert(Pages::tableName(),[
-		    'camel_case' => 'Partner'
+		    'camel_case' => 'PartnerHeader'
 	    ]);
 	    $this->insert(PagesLang::tableName(), [
 		    'title' => 'Partner Header',
@@ -16,18 +16,18 @@ class m170515_150457_add_new_static_page extends Migration
 		    'page_id' => Yii::$app->db->getLastInsertID(),
 	    ]);
 	    $this->insert(Pages::tableName(),[
-		    'camel_case' => 'News'
+		    'camel_case' => 'NewsHeader'
 	    ]);
 	    $this->insert(PagesLang::tableName(), [
-		    'title' => 'News Header',
+		    'title' => 'NewsHeader',
 		    'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.',
 		    'page_id' => Yii::$app->db->getLastInsertID(),
 	    ]);
 	    $this->insert(Pages::tableName(),[
-		    'camel_case' => 'Article'
+		    'camel_case' => 'ArticleHeader'
 	    ]);
 	    $this->insert(PagesLang::tableName(), [
-		    'title' => 'Article Header',
+		    'title' => 'ArticleHeader',
 		    'description' => 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima maxime quam architecto quo inventore harum ex magni, dicta impedit.',
 		    'page_id' => Yii::$app->db->getLastInsertID(),
 	    ]);

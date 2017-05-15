@@ -94,9 +94,10 @@ class SiteController extends BaseController
         $pills = Pages::find()->where(['type_id' => Pages::TYPE_PILL])->limit(3)->orderBy('created_at desc')->all();
         $indexPage = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']);
 
-        $indexPartner = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Partner']);
-        $indexNews = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'News']);
-        $indexArticle = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Article']);
+        $indexPartner = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
+        $indexNews = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
+        $indexArticle = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ArticleHeader']);
+
 
         $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all();
 
