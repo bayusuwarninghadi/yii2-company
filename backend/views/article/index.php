@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 		        'value' => function ($data) {
                     /** @var $data \common\models\Pages */
 			        $types = Pages::getTypeAsArray();
-			        return UploadHelper::getHtml($types[strtolower($data->type_id)] . '/' . $data->id, 'small', [], true);
+			        return UploadHelper::getHtml(strtolower($types[$data->type_id]) . '/' . $data->id, 'small', [], true);
 		        },
 		        'format' => 'html'
 	        ],
