@@ -97,6 +97,7 @@ class SiteController extends BaseController
         $indexPartner = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
         $indexNews = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
         $indexArticle = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ArticleHeader']);
+	    $contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
 
 
         $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all();
@@ -116,6 +117,7 @@ class SiteController extends BaseController
             'indexPartner' => $indexPartner,
             'indexNews' => $indexNews,
             'indexArticle' => $indexArticle,
+            'contactPopup' => $contactPopup,
         ]);
     }
 
@@ -175,8 +177,10 @@ class SiteController extends BaseController
 
             return $this->refresh();
         } else {
+	        $contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
             return $this->render('contact', [
                 'model' => $model,
+	            'contactPopup' => $contactPopup,
             ]);
         }
     }

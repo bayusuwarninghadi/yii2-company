@@ -5,10 +5,12 @@
  * Date: 4/28/17
  * Time: 11:00 AM
  *
+ * @var $contactPopup \common\models\Pages
  * @var $model \frontend\models\ContactForm
  */
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 
 ?>
 <style>
@@ -30,7 +32,7 @@ $lng = $position[1];
             center: location
         });
         var infowindow = new google.maps.InfoWindow({
-            content: 'LOKASI KAMI'
+            content: '<?= HtmlPurifier::process($contactPopup->description) ?>'
         });
         var marker = new google.maps.Marker({
             position: location,
