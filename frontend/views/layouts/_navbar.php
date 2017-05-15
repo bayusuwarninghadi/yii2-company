@@ -1,6 +1,7 @@
 <?php
 
 use yii\bootstrap\NavBar;
+use common\modules\UploadHelper;
 
 /**
  * Created by PhpStorm.
@@ -23,7 +24,7 @@ use yii\bootstrap\NavBar;
     </style>
 <?php
 NavBar::begin([
-	'brandLabel' => Yii::$app->controller->settings['site_name'],
+	'brandLabel' => ($logo = UploadHelper::getHtml('setting/1', 'small', ['class' => 'main-logo'])) ? $logo : Yii::$app->controller->settings['site_name'],
 	'brandUrl' => (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index') ?
 		'#page-top' :
 		\Yii::$app->homeUrl,
