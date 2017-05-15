@@ -6,6 +6,9 @@ use yii\bootstrap\Carousel;
  * @var array $slider
  * @var $this \yii\web\View
  * @var $indexPage \common\models\Pages
+ * @var $indexPartner \common\models\Pages
+ * @var $indexNews \common\models\Pages
+ * @var $indexArticle \common\models\Pages
  * @var $pills \common\models\Pages[]
  * @var $newsFeeds \common\models\Pages[]
  * @var $articles \common\models\Pages[]
@@ -16,11 +19,6 @@ use yii\bootstrap\Carousel;
 $this->title = \Yii::t('app', 'Welcome');
 
 ?>
-<style>
-    section#contact{
-        background-image: url('/images/map-image.png');
-    }
-</style>
 <div style="margin-top: -20px;">
 	<?= Carousel::widget([
 		'items' => $slider,
@@ -42,14 +40,17 @@ $this->title = \Yii::t('app', 'Welcome');
 ]) ?>
 
 <?= $this->render('_indexPartner', [
-	'models' => $partners
+	'models' => $partners,
+	'indexPartner' => $indexPartner,
 ]) ?>
 
 <?= $this->render('_indexNews', [
-	'models' => $newsFeeds
+	'models' => $newsFeeds,
+	'indexNews' => $indexNews,
 ]) ?>
 <?= $this->render('_indexArticle', [
-	'models' => $articles
+	'models' => $articles,
+	'indexArticle' => $indexArticle,
 ]) ?>
 <?= $this->render('_contact', [
 	'model' => $contactForm

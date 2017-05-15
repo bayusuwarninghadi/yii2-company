@@ -5,12 +5,14 @@
  * Date: 5/1/17
  * Time: 18:02
  *
+ * @var $indexPartner \common\models\Pages
  * @var $models \common\models\Pages[]
  */
 
 use yii\helpers\Html;
 use common\modules\UploadHelper;
 use yii\helpers\Url;
+use yii\helpers\HtmlPurifier;
 
 ?>
 <section class="bg-light-gray" id="partner">
@@ -20,12 +22,12 @@ use yii\helpers\Url;
 				<?= Yii::t('app', 'Partners') ?>
             </h2>
             <h3 class="section-subheading text-muted">
-				<?= Yii::t('app', 'Kami bermitra dengan regulator dan seluruh ekosistem industri untuk mendorong masa depan keuangan berorientasi teknologi') ?>
+	            <?= HtmlPurifier::process($indexPartner->description) ?>
             </h3>
         </div>
         <div class="row">
             <?php foreach ($models as $model) :?>
-                <div class="col-sm-3 col-xs-12 hidden-xs">
+                <div class="col-sm-3 col-xs-12">
                     <div class="portfolio-item portfolio-item-fix-height">
                         <a href="<?=Url::to(['/partner/view', 'id' => $model->id])?>" class="portfolio-link">
                             <div class="portfolio-hover">

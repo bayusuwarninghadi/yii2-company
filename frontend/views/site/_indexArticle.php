@@ -5,6 +5,7 @@
  * Date: 5/1/17
  * Time: 18:03
  *
+ * @var $indexArticle \common\models\Pages
  * @var $models \common\models\Pages[]
  */
 
@@ -18,7 +19,9 @@ use yii\helpers\Url;
     <div class="container">
         <div class="text-center form-group">
             <h2 class="section-heading"><?= Yii::t('app', 'Article') ?></h2>
-            <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+            <h3 class="section-subheading text-muted">
+	            <?= HtmlPurifier::process($indexArticle->description) ?>
+            </h3>
         </div>
         <div class="row">
 			<?php foreach ($models as $model): ?>

@@ -34,10 +34,12 @@ class NewsController extends BaseController
         $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 	    $tags = Pages::getTags(Pages::TYPE_NEWS);
+	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'News']);
 
-        return $this->render('/article/index', [
+	    return $this->render('/article/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+		    'header' => $header,
             'type' => 'News',
 	        'tags' => $tags
 

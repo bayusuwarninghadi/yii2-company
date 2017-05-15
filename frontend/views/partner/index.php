@@ -4,10 +4,12 @@ use yii\widgets\Pjax;
 use yii\widgets\ListView;
 use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 
 /* @var $this yii\web\View */
 /* @var string $type */
 /* @var $tags array */
+/* @var $header \common\models\Pages */
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?= Yii::t('app', 'Partners') ?>
         </h1>
         <h3 class="section-subheading text-muted">
-			<?= Yii::t('app', 'Kami bermitra dengan regulator dan seluruh ekosistem industri untuk mendorong masa depan keuangan berorientasi teknologi') ?>
+	        <?= HtmlPurifier::process($header->description) ?>
         </h3>
     </div>
 </section>

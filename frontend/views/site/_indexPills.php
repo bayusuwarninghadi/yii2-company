@@ -22,7 +22,6 @@ use yii\helpers\HtmlPurifier;
 			</h2>
 			<h3 class="section-subheading text-muted">
 				<?= HtmlPurifier::process($indexPage->description) ?>
-
 			</h3>
 			<br>
 		</div>

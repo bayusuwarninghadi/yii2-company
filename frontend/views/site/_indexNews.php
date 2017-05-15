@@ -5,6 +5,7 @@
  * Date: 5/1/17
  * Time: 18:03
  *
+ * @var $indexNews \common\models\Pages
  * @var $models \common\models\Pages[]
  */
 
@@ -17,7 +18,9 @@ use yii\helpers\Html;
     <div class="container">
         <div class="text-center form-group">
             <h2 class="section-heading"><?= Yii::t('app', 'Latest News') ?></h2>
-            <h3 class="section-subheading text-muted"><?=Yii::t('app', 'Keep in touch in our story')?></h3>
+            <h3 class="section-subheading text-muted">
+	            <?= HtmlPurifier::process($indexNews->description) ?>
+            </h3>
         </div>
         <div class="row">
             <ul class="timeline">

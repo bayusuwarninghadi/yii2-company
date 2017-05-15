@@ -20,7 +20,7 @@
         font-size: 100%;
     }
     body {
-        padding-top: 70px;
+        padding-top: 50px;
     }
 }
 
@@ -68,9 +68,14 @@
 
 .portfolio-item-fix-height .portfolio-caption {
     height: 200px;
+    padding: 0;
+    border: 20px solid #fff;
     overflow: hidden;
 }
 
+.portfolio-item-fix-height .portfolio-caption p {
+    font-size: 14px;
+}
 .portfolio-item-fix-height .img {
     width: 100%;
 }
