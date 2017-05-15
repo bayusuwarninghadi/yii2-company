@@ -19,6 +19,11 @@ use yii\bootstrap\Carousel;
 $this->title = \Yii::t('app', 'Welcome');
 
 ?>
+<style>
+    section#contact{
+        background-image: url('/images/map-image.png');
+    }
+</style>
 <div style="margin-top: -20px;">
 	<?= Carousel::widget([
 		'items' => $slider,
