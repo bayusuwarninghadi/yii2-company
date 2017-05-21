@@ -52,7 +52,7 @@ class PasswordResetRequestForm extends Model
             if ($user->save()) {
 
                 /** @var Pages $content */
-                if ($content = Pages::findOne(['camel_case' => 'PasswordResetToken', 'type_id' => Pages::TYPE_MAIL])){
+                if ($content = Pages::findOne(['camel_case' => 'ResetPassword', 'type_id' => Pages::TYPE_MAIL])){
                     $params = [];
                     $replace = [];
                     foreach($user->toArray() as $k => $v){
@@ -66,9 +66,9 @@ class PasswordResetRequestForm extends Model
                     $html = str_replace($params, $replace, $content->description);
                     return \Yii::$app->mailer
                         ->compose()
-                        ->setFrom([Setting::findOne(['key' => 'no_reply_email'])->value => \Yii::$app->name . ' robot'])
-                        ->setTo($this->email)
-                        ->setSubject('Password reset for ' . \Yii::$app->name)
+	                    ->setFrom([Setting::findOne(['key' => 'no_reply_email'])->value => Setting::findOne(['key' => 'site_name'])->value . ' no-reply'])
+	                    ->setTo($this->email)
+                        ->setSubject('Password reset for ' . $user->username)
                         ->setHtmlBody($html)
                         ->send();
                 }
