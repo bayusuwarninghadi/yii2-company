@@ -59,7 +59,7 @@ $lng = $position[1];
                 </div>
             </div>
             <div class="col-sm-5">
-                <?php $form = ActiveForm::begin(['id' => 'contact-form', 'action' => ['/contact'],]); ?>
+                <?php $form = ActiveForm::begin(['id' => 'contact-form', 'action' => ['/site/contact'],]); ?>
                 <?php if (\Yii::$app->user->isGuest) : ?>
                     <div class="form-group">
                         <?= Html::activeTextInput($model, 'name', ['placeholder' => Yii::t('app', 'Name'), 'class' => 'form-control']) ?>

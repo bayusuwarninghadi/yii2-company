@@ -101,7 +101,33 @@ class User extends ActiveRecord implements IdentityInterface
 
     }
 
-    /**
+    public function afterSave($insert, $changedAttributes)
+    {
+    	if ($insert){
+		    /** @var Pages $content */
+		    if ($content = Pages::findOne(['camel_case' => 'Register', 'type_id' => Pages::TYPE_MAIL])){
+			    $params = [];
+			    $replace = [];
+			    foreach($this->toArray() as $k => $v){
+				    $params[] = "[[user.$k]]";
+				    $replace[] = $v;
+			    }
+
+			    $html = str_replace($params, $replace, $content->description);
+			    \Yii::$app->mailer
+				    ->compose()
+				    ->setFrom([Setting::findOne(['key' => 'no_reply_email'])->value => Setting::findOne(['key' => 'site_name'])->value . ' no-reply'])
+				    ->setTo($this->email)
+				    ->setHtmlBody($html)
+				    ->setSubject(\Yii::t('app', 'Register Success'))
+				    ->send();
+		    }
+
+	    }
+	    parent::afterSave($insert, $changedAttributes);
+    }
+
+	/**
      * beforeDelete
      * @return bool
      */

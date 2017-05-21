@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use common\models\Pages;
+use common\models\PagesLang;
 use common\models\PagesSearch;
 use yii\helpers\Inflector;
 use yii\web\Controller;
@@ -62,19 +63,42 @@ class EmailTemplateController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+	    $model = $this->findModel($id);
 
-        if ($model->load(\Yii::$app->request->post())) {
-            $model->type_id = Pages::TYPE_MAIL;
-            $model->camel_case = Inflector::camelize($model->title);
-            if ($model->save()) {
-                return $this->redirect(['index']);
-            }
-        }
-        return $this->render('update', [
-            'model' => $model,
-            'type' => 'Email Template'
-        ]);
+	    $modelEnglish = $this->findLangModel($model->id, 'en-US');
+	    $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
+
+	    $bodyData = \Yii::$app->request->post();
+
+	    if ($bodyData) {
+		    $model->type_id = Pages::TYPE_MAIL;
+		    $model->camel_case = Inflector::camelize($modelEnglish->title);
+		    $modelIndonesia->title = $modelEnglish->title;
+		    if ($model->save()) {
+			    /**
+			     * Save Pages Lang
+			     */
+
+			    $modelEnglish->page_id = $model->id;
+			    if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
+				    $modelEnglish->save();
+			    }
+
+			    $modelIndonesia->page_id = $model->id;
+			    if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
+				    $modelIndonesia->save();
+			    }
+
+			    \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
+			    return $this->redirect(['index']);
+		    }
+	    }
+	    return $this->render('update', [
+		    'model' => $model,
+		    'type' => 'Pages',
+		    'modelEnglish' => $modelEnglish,
+		    'modelIndonesia' => $modelIndonesia,
+	    ]);
     }
 
 
@@ -93,4 +117,21 @@ class EmailTemplateController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+	/**
+	 * Finds the PagesLang model based on its primary key value.
+	 * @param integer $articleId
+	 * @param string $language
+	 * @return PagesLang the loaded model
+	 */
+	protected function findLangModel($articleId, $language)
+	{
+		if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+			$model = new PagesLang();
+			$model->language = $language;
+			$model->page_id = $articleId;
+		}
+		return $model;
+	}
+
 }

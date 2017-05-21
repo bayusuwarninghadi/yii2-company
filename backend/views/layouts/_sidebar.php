@@ -62,6 +62,7 @@ use backend\widget\Sidebar;
                     'items' => [
                         ['label' => '<i class="fa fa-user-md fa-fw"></i> ' . \Yii::t('app', 'Manage User'), 'url' => ['/user/index']],
                         ['label' => '<i class="fa fa-comments fa-fw"></i> ' . \Yii::t('app', 'User Comment'), 'url' => ['/user-comment/index']],
+                        ['label' => '<i class="fa fa-inbox fa-fw"></i> ' . \Yii::t('app', 'Inbox'), 'url' => ['/inbox/index']],
                         ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/user/create']]
                     ]
                 ],
