@@ -3,6 +3,7 @@
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Url;
 
 /* @var string $this */
 /* @var $this yii\web\View */
@@ -40,16 +41,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="display: inline">
 					<?= HTMLPurifier::process($model->description) ?>
                 </div>
-                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="small-section bg-light-gray">
+    <div class="container-fluid">
+        <div class="row related-container" data-url="<?=Url::to(['/partner/related', 'id' => $model->id])?>">
+		    <?= $this->render('/layouts/_loading') ?>
+        </div>
+    </div>
+</section>
+<section class="small-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9">
                 <h4 class="page-header"><?= \Yii::t('app', 'User Comments') ?></h4>
                 <div class="user-comment-view list-group-item">
-					<?= Html::tag('div', $this->render('/layouts/_loading'), [
-						'class' => 'comment-container',
-						'data-id' => $model->id,
-						'data-key' => 'partner'
-					]) ?>
+				    <?= Html::tag('div', $this->render('/layouts/_loading'), [
+					    'class' => 'comment-container',
+					    'data-id' => $model->id,
+					    'data-key' => 'partner'
+				    ]) ?>
                 </div>
-
             </div>
         </div>
     </div>

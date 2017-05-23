@@ -6,6 +6,7 @@ use common\modules\RemoveAssetHelper;
 use common\modules\translator\TranslateBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "pages".
@@ -24,7 +25,7 @@ use yii\db\ActiveRecord;
  * @property integer $created_by
  *
  * @property PageAttribute $pageTags
- * @property PagesLang[] $articleLangs
+ * @property PagesLang[] $translations
  * @property User $user
  */
 class Pages extends ActiveRecord
@@ -90,6 +91,26 @@ class Pages extends ActiveRecord
 		return $this->hasMany(PagesLang::className(), ['page_id' => 'id']);
 	}
 
+	public function getModelTags()
+	{
+		$model = PageAttribute::find()
+			->joinWith(['page'])
+			->select(PageAttribute::tableName() . '.value')
+			->where([
+				PageAttribute::tableName() . '.key' => 'tags',
+				Pages::tableName() . '.page_id' => $this->id
+			])
+			->column();
+		$tags = [];
+		foreach ($model as $tag) {
+			foreach (explode(',', $tag) as $_tag) {
+				$_tag = trim(strtolower($_tag));
+				if (!in_array($_tag, $tags)) $tags[] = $_tag;
+			}
+		}
+		return $tags;
+	}
+
 	/**
 	 * @param $type
 	 * @return array
@@ -105,8 +126,8 @@ class Pages extends ActiveRecord
 			])
 			->column();
 		$tags = [];
-		foreach ($model as $tag){
-			foreach (explode(',', $tag) as $_tag){
+		foreach ($model as $tag) {
+			foreach (explode(',', $tag) as $_tag) {
 				$_tag = trim(strtolower($_tag));
 				if (!in_array($_tag, $tags)) $tags[] = $_tag;
 			}
@@ -157,6 +178,34 @@ class Pages extends ActiveRecord
 		} else {
 			return false;
 		}
+	}
+
+	public function getRelated($limit = 4)
+	{
+		$key = Html::encode($this->title . ' ' . $this->subtitle . ' ' . $this->description);
+		$related = Pages::find()
+			->joinWith(['translations'])
+			->where(
+				"(
+					MATCH (pages_lang.title) AGAINST (:string_1 IN BOOLEAN MODE) OR
+					MATCH (pages_lang.subtitle) AGAINST (:string_2 IN BOOLEAN MODE) OR
+					MATCH (pages_lang.description) AGAINST (:string_3 IN BOOLEAN MODE)
+				)",
+				[
+					':string_1' => $key,
+					':string_2' => $key,
+					':string_3' => $key,
+				]
+			)
+			->andWhere([
+				'pages.type_id' => $this->type_id
+			])
+			->andWhere(['<>', 'pages.id', $this->id])
+			->orderBy('pages.order asc, pages.updated_at desc')
+			->groupBy('pages.id')
+			->limit($limit)
+			->all();
+		return $related;
 	}
 
 	/**
