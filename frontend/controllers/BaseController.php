@@ -11,8 +11,6 @@ namespace frontend\controllers;
 
 use common\models\Request;
 use common\models\Setting;
-use common\models\UserAttribute;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 
@@ -51,8 +49,6 @@ class BaseController extends Controller
         parent::init();
 
         $this->loadSettings();
-        $this->loadUserAttribute();
-        $this->loadThemes();
         $this->loadLanguage();
     }
 
@@ -69,19 +65,6 @@ class BaseController extends Controller
         }
     }
 
-    /**
-     * Load Themes
-     */
-    protected function loadThemes()
-    {
-        if (isset($this->settings['theme'])) {
-            $this->getView()->theme = \Yii::createObject([
-                'class' => '\yii\base\Theme',
-                'pathMap' => ['@app/views' => '@app/themes/' . $this->settings['theme'] . '/views'],
-                'baseUrl' => '@app/themes/' . $this->settings['theme'] . '/web',
-            ]);
-        }
-    }
 
     /**
      * Load Language
@@ -97,33 +80,6 @@ class BaseController extends Controller
             \Yii::$app->session['lang'] = $this->settings['default_language'];
         }
         \Yii::$app->language = \Yii::$app->session['lang'];
-    }
-
-    /**
-     * Load User Attributes
-     * 1. Favorites
-     * 2. Comparison
-     */
-    protected function loadUserAttribute()
-    {
-        if (\Yii::$app->user->isGuest) return false;
-
-        $models = ArrayHelper::map(
-            UserAttribute::find()
-                ->where(['user_id' => \Yii::$app->user->getId()])
-                ->andWhere(['IN', 'key', ['favorites', 'comparison']])
-                ->groupBy('key')
-                ->all(),
-            'key',
-            'value'
-        );
-        if (isset($models['favorites'])) {
-            $this->favorites = Json::decode($models['favorites']);
-        }
-        if (isset($models['comparison'])) {
-            $this->comparison = Json::decode($models['comparison']);
-        }
-        return true;
     }
 
     /**
