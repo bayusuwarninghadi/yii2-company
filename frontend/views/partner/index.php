@@ -24,24 +24,29 @@ $this->params['breadcrumbs'][] = $this->title;
 			<?= Yii::t('app', 'Partners') ?>
         </h1>
         <h3 class="section-subheading text-muted">
-	        <?= HtmlPurifier::process($header->description) ?>
+			<?= HtmlPurifier::process($header->description) ?>
         </h3>
     </div>
 </section>
 <section class="small-section bg-light-gray">
     <div class="container-fluid">
-        <div class="hidden-xs form-group">
-		    <?php $form = ActiveForm::begin([
-			    'action' => ['index'],
-			    'method' => 'get',
-		    ]); ?>
-            <div class="text-center">
-			    <?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control text-capitalize', 'prompt' => 'All Topics', 'style' => 'width:300px;display:inline;']) ?>
-			    <?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search', 'style' => 'width:300px;display:inline;']) ?>
-			    <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+        <div class="form-group">
+			<?php $form = ActiveForm::begin([
+				'action' => ['index'],
+				'method' => 'get',
+			]); ?>
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-2 form-group">
+					<?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control text-capitalize', 'prompt' => 'All Topics']) ?>
+                </div>
+                <div class="col-sm-3 form-group">
+					<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search']) ?>
+                </div>
+                <div class="col-sm-2 form-group">
+					<?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-block']) ?>
+                </div>
             </div>
-            <div class="clearfix"></div>
-		    <?php ActiveForm::end(); ?>
+			<?php ActiveForm::end(); ?>
         </div>
 		<?php
 		Pjax::begin();

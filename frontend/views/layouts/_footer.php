@@ -12,7 +12,7 @@ use yii\helpers\Html;
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <span class="copyright"><?= \Yii::$app->controller->settings['site_name'] ?> <?= date('Y') ?></span>
+                <span class="copyright"><?= \Yii::$app->controller->settings['footer_text'] ?></span>
             </div>
             <div class="col-md-4">
                 <ul class="list-inline social-buttons">
