@@ -62,7 +62,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-
         $userDataProvider = new ActiveDataProvider([
             'query' => User::find()->where(['role' => User::ROLE_USER])->limit(5)->orderBy('created_at DESC'),
             'sort' => false,

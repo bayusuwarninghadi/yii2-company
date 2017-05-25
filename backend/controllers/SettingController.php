@@ -119,8 +119,8 @@ class SettingController extends Controller
                                     'format' => 'png'
                                 ],
                             ];
-                            UploadHelper::saveImage($_file, $_path, $sizes);
-                            $_param['value'] = $_FILES['Setting']['name'][$_key]['value'];
+                            $path = UploadHelper::saveImage($_file, $_path, $sizes);
+                            $_param['value'] = $path['small'];
                         } else {
                             $_param['value'] = UploadHelper::saveFile($_file, $_path);
                         }
