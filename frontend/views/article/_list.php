@@ -18,7 +18,7 @@ $types = Pages::getTypeAsArray()
 	<?= Html::a(
 		'<div class="portfolio-hover">
             <div class="portfolio-hover-content">
-                <i class="fa fa-plus fa-3x"></i>
+                '. Yii::t('app','see detail').'
             </div>
         </div>
         ' .
