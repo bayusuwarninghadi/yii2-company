@@ -16,30 +16,40 @@ $this->params['breadcrumbs'][] = $this->title;
 <section class="small-section">
     <div class="container">
         <div class="row">
-            <div class="col-sm-9">
-				<?php
-				if ($model->pageImages) {
-				    $images = [];
-					foreach ($model->pageImages as $image) {
-						$_arr = Json::decode($image->value);
-						$images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['large']);
-					}
+            <div class="col-sm-6">
+	            <?php
+	            if ($model->pageImages) {
+		            $images = [];
 
-					echo Carousel::widget([
-						'items' => $images,
-						'options' => [
-							'class' => 'slide'
-						],
-						'controls' => [
-							'<span class="glyphicon glyphicon-chevron-left"></span>',
-							'<span class="glyphicon glyphicon-chevron-right"></span>',
-						]
-					]);
-				} elseif ($model->pageImage){
-                    echo UploadHelper::getHtml($model->getImagePath(), 'large', ['class' => 'img-responsive']);
-                }
-				?>
-                <h1><?= Html::encode($this->title) ?></h1>
+		            $indicator = '';
+		            foreach ($model->pageImages as $image) {
+			            $_arr = Json::decode($image->value);
+			            $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
+			            $indicator .= Html::tag('div', Html::tag('div', Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']), [
+                            'class' => 'thumbnail'
+                        ]), ['class' => 'col-sm-3']);
+		            }
+
+		            echo Carousel::widget([
+			            'items' => $images,
+			            'options' => [
+				            'class' => 'slide'
+			            ],
+			            'controls' => [
+				            '<span class="glyphicon glyphicon-chevron-left"></span>',
+				            '<span class="glyphicon glyphicon-chevron-right"></span>',
+			            ]
+		            ]);
+                    echo Html::tag('br');
+		            echo Html::tag('div', $indicator, ['class' => 'row hidden-xs']);
+
+	            } elseif ($model->pageImage){
+		            echo UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive']);
+	            }
+	            ?>
+            </div>
+            <div class="col-sm-6">
+				<h1><?= Html::encode($this->title) ?></h1>
                 <h4 class="page-header">
                     <small>
                         <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
