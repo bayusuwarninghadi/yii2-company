@@ -17,10 +17,10 @@ $this->title = 'Update ' . $type . ': ' . ' ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->title;
 ?>
-<div class="article-update">
+<div class="product-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <div class="article-form">
+    <div class="product-form">
 		<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
         <div class="panel panel-yellow">
             <div class="panel-heading"><i

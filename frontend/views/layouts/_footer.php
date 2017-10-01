@@ -1,5 +1,6 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -13,6 +14,7 @@ use yii\helpers\Html;
         <div class="row">
             <div class="col-md-4">
                 <span class="copyright"><?= \Yii::$app->controller->settings['footer_text'] ?></span>
+
             </div>
             <div class="col-md-4">
                 <ul class="list-inline social-buttons">
@@ -30,6 +32,9 @@ use yii\helpers\Html;
                     <li><?= Html::a(\Yii::t('app', 'FAQ'), ['/site/faq']) ?></li>
                     <li><?= Html::a(\Yii::t('app', 'About Us'), ['/site/about']) ?></li>
                     <li><?= Html::a(\Yii::t('app', 'Contact Us'), ['/site/contact']) ?></li>
+                    <li>
+	                    <?=(Yii::$app->language == 'id-ID') ? Html::a('EN', Url::current(['lang' => 'en-US'])) : Html::a('ID', Url::current(['lang' => 'id-ID']));?>
+                    </li>
                 </ul>
             </div>
         </div>

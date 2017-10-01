@@ -15,9 +15,9 @@ use yii\web\UploadedFile;
 use common\modules\UploadHelper;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * ProductController implements the CRUD actions for Pages model.
  */
-class ArticleController extends Controller
+class ProductController extends Controller
 {
     /**
      * @return array
@@ -50,13 +50,13 @@ class ArticleController extends Controller
     public function actionIndex()
     {
         $searchModel = new PagesSearch();
-        $searchModel->type_id = Pages::TYPE_ARTICLE;
+        $searchModel->type_id = Pages::TYPE_PRODUCT;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/article/index', [
+        return $this->render('/product/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Article'
+            'type' => 'Product'
         ]);
     }
 
@@ -67,9 +67,9 @@ class ArticleController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/product/view', [
             'model' => $this->findModel($id),
-            'type' => 'Article'
+            'type' => 'Product'
         ]);
     }
 
@@ -91,13 +91,13 @@ class ArticleController extends Controller
         /**
          * Set Type
          */
-        $model->type_id = Pages::TYPE_ARTICLE;
+        $model->type_id = Pages::TYPE_PRODUCT;
 
         $bodyData = \Yii::$app->request->post();
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'article/' . $model->id);
+                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'product/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -123,13 +123,13 @@ class ArticleController extends Controller
                 }
                 
                 \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
-                return $this->redirect(['/article/view', 'id' => $model->id]);
+                return $this->redirect(['/product/view', 'id' => $model->id]);
             }
         }
 
-        return $this->render('/article/create', [
+        return $this->render('/product/create', [
             'model' => $model,
-            'type' => 'Article',
+            'type' => 'Product',
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);
@@ -152,9 +152,9 @@ class ArticleController extends Controller
 
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
-            $model->type_id = Pages::TYPE_ARTICLE;
+            $model->type_id = Pages::TYPE_PRODUCT;
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'article/' . $model->id);
+                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'product/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -180,12 +180,12 @@ class ArticleController extends Controller
                 }
 
                 \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
-                return $this->redirect(['/article/view', 'id' => $model->id]);
+                return $this->redirect(['/product/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/article/update', [
+        return $this->render('/product/update', [
             'model' => $model,
-            'type' => 'Article',
+            'type' => 'Product',
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);
@@ -201,7 +201,7 @@ class ArticleController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/article/index']);
+        return $this->redirect(['/product/index']);
     }
 
     /**
@@ -213,7 +213,7 @@ class ArticleController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_ARTICLE])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_PRODUCT])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -222,16 +222,16 @@ class ArticleController extends Controller
 
     /**
      * Finds the PagesLang model based on its primary key value.
-     * @param integer $articleId
+     * @param integer $productId
      * @param string $language
      * @return PagesLang the loaded model
      */
-    protected function findLangModel($articleId, $language)
+    protected function findLangModel($productId, $language)
     {
-        if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+        if (($model = PagesLang::findOne(['page_id' => $productId, 'language' => $language])) === null) {
             $model = new PagesLang();
             $model->language = $language;
-            $model->page_id = $articleId;
+            $model->page_id = $productId;
         }
         return $model;
     }

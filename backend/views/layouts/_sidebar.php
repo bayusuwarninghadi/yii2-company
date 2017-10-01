@@ -37,10 +37,10 @@ use backend\widget\Sidebar;
                     ]
                 ],
                 [
-                    'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Article'),
+                    'label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Product'),
                     'items' => [
-                        ['label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Manage Article'), 'url' => ['/article/index']],
-                        ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/article/create']]
+                        ['label' => '<i class="fa fa-table fa-fw"></i> ' . \Yii::t('app', 'Manage Product'), 'url' => ['/product/index']],
+                        ['label' => '<i class="fa fa-plus fa-fw"></i> ' . \Yii::t('app', 'Create New'), 'url' => ['/product/create']]
                     ]
                 ],
                 [

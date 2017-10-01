@@ -46,12 +46,12 @@ class UserCommentController extends BaseController
             switch ($key){
                 case UserComment::KEY_ARTICLE:
                     /**
-                     * @var $article Pages
+                     * @var $product Pages
                      */
-                    $article = Pages::findOne($id);
-                    switch($article->type_id){
-                        case (int) Pages::TYPE_ARTICLE:
-                            $redirect = '/article/view';
+                    $product = Pages::findOne($id);
+                    switch($product->type_id){
+                        case (int) Pages::TYPE_PRODUCT:
+                            $redirect = '/product/view';
                             break;
                         case (int) Pages::TYPE_NEWS:
                             $redirect = '/news/view';

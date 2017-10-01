@@ -34,7 +34,7 @@ class Pages extends ActiveRecord
 	/**
 	 * TYPE_ARTICLE
 	 */
-	const TYPE_ARTICLE = '1';
+	const TYPE_PRODUCT = '1';
 	/**
 	 * TYPE_NEWS
 	 */
@@ -146,7 +146,7 @@ class Pages extends ActiveRecord
 			 * remove image asset before deleting
 			 */
 			switch ($this->type_id) {
-				case (int)static::TYPE_ARTICLE:
+				case (int)static::TYPE_PRODUCT:
 					$folder = 'article';
 					break;
 				case (int)static::TYPE_NEWS:
@@ -232,7 +232,7 @@ class Pages extends ActiveRecord
 		$return = [
 			static::TYPE_CONTENT => 'Content',
 			static::TYPE_NEWS => 'News',
-			static::TYPE_ARTICLE => 'Article',
+			static::TYPE_PRODUCT => 'Article',
 			static::TYPE_MAIL => 'Mail',
 			static::TYPE_PAGES => 'Pages',
 			static::TYPE_SLIDER => 'Slider',

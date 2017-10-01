@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
 use common\modules\UploadHelper;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * ProductController implements the CRUD actions for Pages model.
  */
 class PartnerController extends Controller
 {
@@ -53,7 +53,7 @@ class PartnerController extends Controller
         $searchModel->type_id = Pages::TYPE_PARTNER;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/article/index', [
+        return $this->render('/product/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => 'Partner'
@@ -67,7 +67,7 @@ class PartnerController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/product/view', [
             'model' => $this->findModel($id),
             'type' => 'Partner'
         ]);
@@ -127,7 +127,7 @@ class PartnerController extends Controller
             }
         }
 
-        return $this->render('/article/create', [
+        return $this->render('/product/create', [
             'model' => $model,
             'type' => 'Partner',
             'modelEnglish' => $modelEnglish,
@@ -182,7 +182,7 @@ class PartnerController extends Controller
                 return $this->redirect(['/partner/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/article/update', [
+        return $this->render('/product/update', [
             'model' => $model,
             'type' => 'Partner',
             'modelEnglish' => $modelEnglish,
@@ -221,16 +221,16 @@ class PartnerController extends Controller
 
     /**
      * Finds the PagesLang model based on its primary key value.
-     * @param integer $articleId
+     * @param integer $productId
      * @param string $language
      * @return PagesLang the loaded model
      */
-    protected function findLangModel($articleId, $language)
+    protected function findLangModel($productId, $language)
     {
-        if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+        if (($model = PagesLang::findOne(['page_id' => $productId, 'language' => $language])) === null) {
             $model = new PagesLang();
             $model->language = $language;
-            $model->page_id = $articleId;
+            $model->page_id = $productId;
         }
         return $model;
     }

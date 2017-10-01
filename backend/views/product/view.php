@@ -14,7 +14,7 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-view">
+<div class="product-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

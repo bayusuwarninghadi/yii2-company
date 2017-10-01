@@ -12,7 +12,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * ProductController implements the CRUD actions for Pages model.
  */
 class PagesController extends Controller
 {
@@ -120,16 +120,16 @@ class PagesController extends Controller
 
     /**
      * Finds the PagesLang model based on its primary key value.
-     * @param integer $articleId
+     * @param integer $productId
      * @param string $language
      * @return PagesLang the loaded model
      */
-    protected function findLangModel($articleId, $language)
+    protected function findLangModel($productId, $language)
     {
-        if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+        if (($model = PagesLang::findOne(['page_id' => $productId, 'language' => $language])) === null) {
             $model = new PagesLang();
             $model->language = $language;
-            $model->page_id = $articleId;
+            $model->page_id = $productId;
         }
         return $model;
     }

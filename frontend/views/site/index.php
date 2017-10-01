@@ -8,11 +8,11 @@ use yii\bootstrap\Carousel;
  * @var $indexPage \common\models\Pages
  * @var $indexPartner \common\models\Pages
  * @var $indexNews \common\models\Pages
- * @var $indexArticle \common\models\Pages
+ * @var $indexProduct \common\models\Pages
  * @var $pills \common\models\Pages[]
  * @var $contactPopup \common\models\Pages[]
  * @var $newsFeeds \common\models\Pages[]
- * @var $articles \common\models\Pages[]
+ * @var $products \common\models\Pages[]
  * @var $partners \common\models\Pages[]
  * @var $contactForm \frontend\models\ContactForm;
  */
@@ -54,9 +54,9 @@ $this->title = \Yii::t('app', 'Welcome');
 	'models' => $newsFeeds,
 	'indexNews' => $indexNews,
 ]) ?>
-<?= $this->render('_indexArticle', [
-	'models' => $articles,
-	'indexArticle' => $indexArticle,
+<?= $this->render('_indexProduct', [
+	'models' => $products,
+	'indexProduct' => $indexProduct,
 ]) ?>
 <?= $this->render('_contact', [
 	'model' => $contactForm,

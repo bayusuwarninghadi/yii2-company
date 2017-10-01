@@ -36,7 +36,6 @@ NavBar::begin([
 	],
 ]);
 
-echo $this->render('/layouts/_language');
 echo $this->render('/layouts/_navigation');
 //echo $this->render('/layouts/_searchNav');
 //echo $this->render('/layouts/_categoryNavbar');

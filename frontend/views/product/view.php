@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
 					<?= Html::tag('div', $this->render('/layouts/_loading'), [
 						'class' => 'comment-container',
 						'data-id' => $model->id,
-						'data-key' => 'article'
+						'data-key' => 'product'
 					]) ?>
                 </div>
             </div>

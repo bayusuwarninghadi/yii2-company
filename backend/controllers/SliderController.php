@@ -14,7 +14,7 @@ use yii\filters\AccessControl;
 use yii\web\UploadedFile;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * ProductController implements the CRUD actions for Pages model.
  */
 class SliderController extends Controller
 {

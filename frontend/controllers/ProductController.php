@@ -8,9 +8,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * ProductController implements the CRUD actions for Pages model.
  */
-class ArticleController extends BaseController
+class ProductController extends BaseController
 {
     public function behaviors()
     {
@@ -31,15 +31,15 @@ class ArticleController extends BaseController
     public function actionIndex()
     {
         $searchModel = new PagesSearch();
-        $searchModel->type_id = Pages::TYPE_ARTICLE;
+        $searchModel->type_id = Pages::TYPE_PRODUCT;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-	    $tags = Pages::getTags(Pages::TYPE_ARTICLE);
-	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ArticleHeader']);
+	    $tags = Pages::getTags(Pages::TYPE_PRODUCT);
+	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ProductHeader']);
 
-	    return $this->render('/article/index', [
+	    return $this->render('/product/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Article',
+            'type' => 'Product',
             'header' => $header,
 		    'tags' => $tags
 	    ]);
@@ -52,9 +52,9 @@ class ArticleController extends BaseController
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/product/view', [
             'model' => $this->findModel($id),
-            'type' => 'Article'
+            'type' => 'Product'
         ]);
     }
 
@@ -67,7 +67,7 @@ class ArticleController extends BaseController
      */
     protected function findModel($id)
     {
-        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_ARTICLE])) !== null) {
+        if (($model = Pages::findOne(['id' => $id, 'type_id' => Pages::TYPE_PRODUCT])) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

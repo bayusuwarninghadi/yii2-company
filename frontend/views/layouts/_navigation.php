@@ -15,7 +15,6 @@ $navigation = [
 	'About' => ['/site/about'],
 	'Partner' => ['/partner/index'],
 	'News' => ['/news/index'],
-	'Article' => ['/article/index'],
 	'Contact' => ['/site/contact']
 ];
 if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index'){
@@ -35,28 +34,6 @@ if (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 
 			'url' => $url
 		];
 	}
-}
-if (\Yii::$app->user->isGuest) {
-    $menuItems[] = [
-        'label' => \Yii::t('app', 'Login'),
-        'url' => ['/site/login']
-    ];
-} else {
-    $menuItems[] = [
-        'label' => Yii::$app->user->identity['username'],
-        'items' => [
-            [
-                'label' => \Yii::t('app', 'Manage Profile'),
-                'url' => ['/user/index'],
-            ],
-            '<li class="divider"></li>',
-            [
-                'label' => \Yii::t('app', 'Logout'),
-                'url' => ['/site/logout'],
-                'linkOptions' => ['data-method' => 'post']
-            ],
-        ]
-    ];
 }
 
 echo Nav::widget([

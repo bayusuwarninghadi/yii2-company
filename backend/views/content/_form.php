@@ -15,7 +15,7 @@ use common\modules\UploadHelper;
 
 ?>
 
-<div class="article-form">
+<div class="product-form">
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?= $model->isNewRecord ? 'Create' : 'Update' ?>

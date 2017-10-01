@@ -12,7 +12,7 @@ $this->title = 'Update ' . $type . ': ' . ' ' . $model->title;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->id;
 ?>
-<div class="article-update">
+<div class="product-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

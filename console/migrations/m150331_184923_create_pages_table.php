@@ -150,7 +150,7 @@ class m150331_184923_create_pages_table extends Migration
          */
         $this->insert('pages', [
             'id' => 11,
-            'type_id' => Pages::TYPE_ARTICLE,
+            'type_id' => Pages::TYPE_PRODUCT,
             'camel_case' => 'Article',
         ]);
         $this->insert('pages_lang', [
@@ -161,7 +161,7 @@ class m150331_184923_create_pages_table extends Migration
 
         $this->insert('pages', [
             'id' => 12,
-            'type_id' => Pages::TYPE_ARTICLE,
+            'type_id' => Pages::TYPE_PRODUCT,
             'camel_case' => 'Article2',
         ]);
         $this->insert('pages_lang', [

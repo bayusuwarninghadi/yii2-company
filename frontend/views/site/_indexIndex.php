@@ -5,7 +5,7 @@
  * Date: 5/1/17
  * Time: 18:03
  *
- * @var $indexArticle \common\models\Pages
+ * @var $indexProduct \common\models\Pages
  * @var $models \common\models\Pages[]
  */
 
@@ -15,21 +15,21 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 ?>
-<section id="article" class="bg-light-gray">
+<section id="product" class="bg-light-gray">
     <div class="container">
         <div class="text-center form-group">
-            <h2 class="section-heading"><?= Yii::t('app', 'Article') ?></h2>
+            <h2 class="section-heading"><?= Yii::t('app', 'Product') ?></h2>
             <h3 class="section-subheading text-muted">
-	            <?= HtmlPurifier::process($indexArticle->description) ?>
+	            <?= HtmlPurifier::process($indexProduct->description) ?>
             </h3>
         </div>
         <div class="row">
 			<?php foreach ($models as $model): ?>
                 <div class="col-sm-4">
                     <div class="team-member">
-                        <a href="<?=Url::to(['/article/view', 'id' => $model->id])?>">
+                        <a href="<?=Url::to(['/product/view', 'id' => $model->id])?>">
                             <div class="square-fix-300 bg-cover img-circle img m-auto"
-                                 style="background-image: url(<?=UploadHelper::getImageUrl('article/' . $model->id, 'medium')?>)"></div>
+                                 style="background-image: url(<?=UploadHelper::getImageUrl('product/' . $model->id, 'medium')?>)"></div>
                         </a>
                         <h3>
 							<?= Html::encode($model->title) ?>
@@ -48,7 +48,7 @@ use yii\helpers\Url;
 			<?php endforeach; ?>
         </div>
         <div class="text-center">
-		    <?=Html::a('See More', ['/article'], ['class' => 'btn btn-primary btn-lg'])?>
+		    <?=Html::a('See More', ['/product'], ['class' => 'btn btn-primary btn-lg'])?>
         </div>
     </div>
 </section>

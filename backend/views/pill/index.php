@@ -12,7 +12,7 @@ use yii\widgets\Pjax;
 $this->title = $type;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index">
+<div class="product-index">
 
 	<?=Html::a('<i class="fa fa-plus fa-fw"></i> '.$type, ['create'], ['class' => 'btn btn-default pull-right'])?>
     <h1><?= Html::encode($this->title) ?></h1>

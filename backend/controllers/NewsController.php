@@ -50,7 +50,7 @@ class NewsController extends Controller
         $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/article/index', [
+        return $this->render('/product/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => 'News'
@@ -64,7 +64,7 @@ class NewsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/product/view', [
             'model' => $this->findModel($id),
             'type' => 'News'
         ]);
@@ -120,7 +120,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/article/create', [
+        return $this->render('/product/create', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,
@@ -176,7 +176,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/article/update', [
+        return $this->render('/product/update', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,
@@ -194,7 +194,7 @@ class NewsController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/article/index']);
+        return $this->redirect(['/product/index']);
     }
 
     /**
@@ -215,16 +215,16 @@ class NewsController extends Controller
 
     /**
      * Finds the PagesLang model based on its primary key value.
-     * @param integer $articleId
+     * @param integer $productId
      * @param string $language
      * @return PagesLang the loaded model
      */
-    protected function findLangModel($articleId, $language)
+    protected function findLangModel($productId, $language)
     {
-        if (($model = PagesLang::findOne(['page_id' => $articleId, 'language' => $language])) === null) {
+        if (($model = PagesLang::findOne(['page_id' => $productId, 'language' => $language])) === null) {
             $model = new PagesLang();
             $model->language = $language;
-            $model->page_id = $articleId;
+            $model->page_id = $productId;
         }
         return $model;
     }

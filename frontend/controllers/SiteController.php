@@ -96,13 +96,13 @@ class SiteController extends BaseController
 
         $indexPartner = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
         $indexNews = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
-        $indexArticle = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ArticleHeader']);
+        $indexProduct = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ProductHeader']);
 	    $contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
 
 
         $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(4)->orderBy('created_at desc')->all();
 
-        $articles = Pages::find()->where(['type_id' => Pages::TYPE_ARTICLE])->limit(3)->orderBy('created_at desc')->all();
+        $products = Pages::find()->where(['type_id' => Pages::TYPE_PRODUCT])->limit(3)->orderBy('created_at desc')->all();
 
         $partners = Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(4)->orderBy('created_at desc')->all();
 
@@ -110,13 +110,13 @@ class SiteController extends BaseController
             'contactForm' => $contactForm,
             'slider' => $slider,
             'newsFeeds' => $newsFeed,
-            'articles' => $articles,
+            'products' => $products,
             'partners' => $partners,
             'pills' => $pills,
             'indexPage' => $indexPage,
             'indexPartner' => $indexPartner,
             'indexNews' => $indexNews,
-            'indexArticle' => $indexArticle,
+            'indexProduct' => $indexProduct,
             'contactPopup' => $contactPopup,
         ]);
     }

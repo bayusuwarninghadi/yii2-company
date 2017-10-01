@@ -15,15 +15,15 @@ use backend\widget\category\CategoryWidget;
 $this->title = $type;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-index">
+<div class="product-index">
     <div class="row">
-        <div class="article-search col-md-3 hidden-xs">
+        <div class="product-search col-md-3 hidden-xs">
             <?php $form = ActiveForm::begin([
                 'action' => ['index'],
                 'method' => 'get',
             ]); ?>
 
-            <div class="panel panel-default" id="article-search">
+            <div class="panel panel-default" id="product-search">
                 <div class="panel-heading">
                     <h3 class="panel-title"><?= \Yii::t('app', 'Search') ?></h3>
                 </div>

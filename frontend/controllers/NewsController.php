@@ -8,7 +8,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * ArticleController implements the CRUD actions for Pages model.
+ * NewsController implements the CRUD actions for Pages model.
  */
 class NewsController extends BaseController
 {
@@ -36,7 +36,7 @@ class NewsController extends BaseController
 	    $tags = Pages::getTags(Pages::TYPE_NEWS);
 	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
 
-	    return $this->render('/article/index', [
+	    return $this->render('/product/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 		    'header' => $header,
@@ -53,7 +53,7 @@ class NewsController extends BaseController
      */
     public function actionView($id)
     {
-        return $this->render('/article/view', [
+        return $this->render('/product/view', [
             'model' => $this->findModel($id),
             'type' => 'News'
         ]);
