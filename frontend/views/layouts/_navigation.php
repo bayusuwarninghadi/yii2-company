@@ -14,6 +14,7 @@ $menuItems = [];
 $navigation = [
 	'About' => ['/site/about'],
 	'Partner' => ['/partner/index'],
+	'Product' => ['/product/index'],
 	'News' => ['/news/index'],
 	'Contact' => ['/site/contact']
 ];

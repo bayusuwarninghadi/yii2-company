@@ -80,20 +80,6 @@ class SliderController extends Controller
 	    if ($model->load($bodyData)) {
 		    $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
 		    if ($model->save()) {
-			    if ($image = UploadedFile::getInstance($model, 'image')) {
-				    $sizes = [
-					    'large' => [
-						    'width' => 1000,
-						    'format' => 'png'
-					    ],
-					    'small' => [
-						    'width' => 50,
-						    'format' => 'png'
-					    ],
-				    ];
-
-				    UploadHelper::saveImage($image, 'slider/' . $model->id, $sizes);
-			    }
 
 			    /**
 			     * Save Pages Lang
@@ -139,21 +125,6 @@ class SliderController extends Controller
 	    	$model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
 		    $model->type_id = Pages::TYPE_SLIDER;
 		    if ($model->save()) {
-			    if ($image = UploadedFile::getInstance($model, 'image')) {
-				    $sizes = [
-					    'large' => [
-						    'width' => 1000,
-						    'format' => 'png'
-					    ],
-					    'small' => [
-						    'width' => 50,
-						    'format' => 'png'
-					    ],
-				    ];
-
-				    UploadHelper::saveImage($image, 'slider/' . $model->id, $sizes);
-			    }
-
 			    /**
 			     * Save Pages Lang
 			     */

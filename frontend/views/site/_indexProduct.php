@@ -29,7 +29,7 @@ use yii\helpers\Url;
                     <div class="team-member">
                         <a href="<?=Url::to(['/product/view', 'id' => $model->id])?>">
                             <div class="square-fix-300 bg-cover img-circle img m-auto"
-                                 style="background-image: url(<?=UploadHelper::getImageUrl('product/' . $model->id, 'medium')?>)"></div>
+                                 style="background-image: url(<?=UploadHelper::getImageUrl($model->getImagePath(), 'medium')?>)"></div>
                         </a>
                         <h3>
 							<?= Html::encode($model->title) ?>

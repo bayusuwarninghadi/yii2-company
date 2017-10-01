@@ -14,9 +14,10 @@ $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-view">
+<div class="article-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
+
     <p>
         <?= Html::a('Update', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
         <?= Html::a('Delete', ['delete', 'id' => $model->id], [
@@ -32,13 +33,27 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= DetailView::widget([
             'model' => $model,
             'attributes' => [
-                'title',
                 [
-                    'label' => 'image',
-                    'value' => ($model->pageImage ? Html::tag('div', UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImage->id, 'small')) : ""),
+                    'label' => 'images',
+                    'value' => $model->pageImage ? UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImage->id, 'small') : "",
                     'format' => 'html'
                 ],
-                'category.title',
+                'title',
+                'subtitle',
+                [
+                    'label' => 'Tags',
+	                'value' => function($model){
+                        /** @var $model \common\models\Pages */
+                        $tags = '';
+                        if ($model->pageTags){
+                            foreach (explode(',', $model->pageTags->value) as $tag){
+                                $tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
+                            }
+                        }
+                        return $tags;
+                    },
+                    'format' => 'html'
+                ] ,
                 'created_at:datetime',
                 'updated_at:datetime',
             ],

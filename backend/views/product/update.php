@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 /* @var string $type */
 /* @var $this yii\web\View */

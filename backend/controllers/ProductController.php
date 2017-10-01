@@ -8,11 +8,14 @@ use common\models\PagesLang;
 use common\models\PagesSearch;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use common\modules\UploadHelper;
+use Yii;
 
 /**
  * ProductController implements the CRUD actions for Pages model.
@@ -51,7 +54,7 @@ class ProductController extends Controller
     {
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_PRODUCT;
-        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('/product/index', [
             'searchModel' => $searchModel,
@@ -60,6 +63,19 @@ class ProductController extends Controller
         ]);
     }
 
+	/**
+	 * Delete Product Attribute.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDeleteAttribute($id)
+	{
+		/** @var PageAttribute $model */
+		if (($model = PageAttribute::findOne($id)) !== null) {
+			$model->delete();
+		}
+	}
     /**
      * Displays a single Pages model.
      * @param integer $id
@@ -67,9 +83,18 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/product/view', [
-            'model' => $this->findModel($id),
-            'type' => 'Product'
+    	$model = $this->findModel($id);
+    	
+	    $images = [];
+	    foreach ($model->pageImages as $image) {
+		    $_arr = Json::decode($image->value);
+		    $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
+	    }
+
+	    return $this->render('/product/view', [
+            'model' => $model,
+            'type' => 'Product',
+            'images' => $images
         ]);
     }
 
@@ -93,11 +118,10 @@ class ProductController extends Controller
          */
         $model->type_id = Pages::TYPE_PRODUCT;
 
-        $bodyData = \Yii::$app->request->post();
+        $bodyData = Yii::$app->request->post();
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'product/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -121,8 +145,8 @@ class ProductController extends Controller
                 if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
                     $modelIndonesia->save();
                 }
-                
-                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Created'));
+
+	            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
                 return $this->redirect(['/product/view', 'id' => $model->id]);
             }
         }
@@ -148,13 +172,12 @@ class ProductController extends Controller
         $modelEnglish = $this->findLangModel($model->id, 'en-US');
         $modelIndonesia = $this->findLangModel($model->id, 'id-ID');
 
-        $bodyData = \Yii::$app->request->post();
+        $bodyData = Yii::$app->request->post();
 
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             $model->type_id = Pages::TYPE_PRODUCT;
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'product/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -179,7 +202,7 @@ class ProductController extends Controller
                     $modelIndonesia->save();
                 }
 
-                \Yii::$app->session->setFlash('success', \Yii::t('app', 'Item Updated'));
+	            Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
                 return $this->redirect(['/product/view', 'id' => $model->id]);
             }
         }

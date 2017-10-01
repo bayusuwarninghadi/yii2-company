@@ -19,7 +19,7 @@ use yii\helpers\Html;
             </div>
         </div>
         ' .
-		UploadHelper::getHtml( 'partner/' . $model->id, 'medium', ['class' => 'img-responsive']),
+		UploadHelper::getHtml( $model->getImagePath(), 'medium', ['class' => 'img-responsive']),
 		['/partner/view', 'id' => $model->id],
         [
             'class' => 'portfolio-link'

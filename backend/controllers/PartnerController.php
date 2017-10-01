@@ -53,7 +53,7 @@ class PartnerController extends Controller
         $searchModel->type_id = Pages::TYPE_PARTNER;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/product/index', [
+        return $this->render('/pages/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => 'Partner'
@@ -67,7 +67,7 @@ class PartnerController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/product/view', [
+        return $this->render('/pages/view', [
             'model' => $this->findModel($id),
             'type' => 'Partner'
         ]);
@@ -97,7 +97,6 @@ class PartnerController extends Controller
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'partner/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -127,7 +126,7 @@ class PartnerController extends Controller
             }
         }
 
-        return $this->render('/product/create', [
+        return $this->render('/pages/create', [
             'model' => $model,
             'type' => 'Partner',
             'modelEnglish' => $modelEnglish,
@@ -154,7 +153,6 @@ class PartnerController extends Controller
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             $model->type_id = Pages::TYPE_PARTNER;
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'partner/' . $model->id);
 
                 if (isset($bodyData['Pages']['pageTags'])){
                 	if (($tags = $model->pageTags) == null){
@@ -182,7 +180,7 @@ class PartnerController extends Controller
                 return $this->redirect(['/partner/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/product/update', [
+        return $this->render('/pages/update', [
             'model' => $model,
             'type' => 'Partner',
             'modelEnglish' => $modelEnglish,

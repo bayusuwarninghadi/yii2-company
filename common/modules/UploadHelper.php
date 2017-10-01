@@ -85,7 +85,7 @@ class UploadHelper extends BaseArrayHelper
         } else {
             $availableSizes = [
                 'large' => [
-                    'width' => 600,
+                    'width' => 1000,
                     'format' => 'jpeg'
                 ],
                 'medium' => [

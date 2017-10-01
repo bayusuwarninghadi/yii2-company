@@ -36,7 +36,7 @@ use yii\helpers\HtmlPurifier;
                                 </div>
                             </div>
                             <div class="square-fix-300 bg-cover img m-auto"
-                                 style="background-image: url('<?=UploadHelper::getImageUrl('partner/' . $model->id, 'medium', ['class' => 'img-responsive'])?>')">
+                                 style="background-image: url('<?=UploadHelper::getImageUrl($model->getImagePath(), 'medium', ['class' => 'img-responsive'])?>')">
                             </div>
                         </a>
                         <div class="portfolio-caption">

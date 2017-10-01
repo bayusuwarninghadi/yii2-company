@@ -89,9 +89,6 @@ class CategoryController extends Controller
                 $model->prependTo($root);
             }
 
-            if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'category/' . $model->id);
-            }
             /**
              * Save Pages Lang
              */
@@ -137,11 +134,6 @@ class CategoryController extends Controller
 
         $bodyData = \Yii::$app->request->post();
         if ($model->load($bodyData) && $model->save()) {
-
-            if ($image = UploadedFile::getInstance($model, 'image')){
-                UploadHelper::saveImage($image, 'category/' . $model->id);
-            }
-
             /**
              * Save Pages Lang
              */

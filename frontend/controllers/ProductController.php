@@ -54,7 +54,6 @@ class ProductController extends BaseController
     {
         return $this->render('/product/view', [
             'model' => $this->findModel($id),
-            'type' => 'Product'
         ]);
     }
 

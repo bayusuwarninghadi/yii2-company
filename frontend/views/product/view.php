@@ -3,11 +3,12 @@
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
+use yii\bootstrap\Carousel;
+use yii\helpers\Json;
 
 /* @var string $this */
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages|common\models\Category */
-/* @var string $type */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,10 +17,30 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="container">
         <div class="row">
             <div class="col-sm-9">
-				<?= UploadHelper::getHtml(strtolower($type) . '/' . $model->id, 'large', ['class' => 'img-responsive']) ?>
+				<?php
+				if ($model->pageImages) {
+				    $images = [];
+					foreach ($model->pageImages as $image) {
+						$_arr = Json::decode($image->value);
+						$images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['large']);
+					}
+
+					echo Carousel::widget([
+						'items' => $images,
+						'options' => [
+							'class' => 'slide'
+						],
+						'controls' => [
+							'<span class="glyphicon glyphicon-chevron-left"></span>',
+							'<span class="glyphicon glyphicon-chevron-right"></span>',
+						]
+					]);
+				} elseif ($model->pageImage){
+                    echo UploadHelper::getHtml($model->getImagePath(), 'large', ['class' => 'img-responsive']);
+                }
+				?>
                 <h1><?= Html::encode($this->title) ?></h1>
                 <h4 class="page-header">
-					<?= $model->user->username ?><br>
                     <small>
                         <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
                     </small>
@@ -40,15 +61,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div style="display: inline">
 					<?= HTMLPurifier::process($model->description) ?>
-                </div>
-                <div class="clearfix"></div>
-                <h4 class="page-header"><?= \Yii::t('app', 'User Comments') ?></h4>
-                <div class="user-comment-view list-group-item">
-					<?= Html::tag('div', $this->render('/layouts/_loading'), [
-						'class' => 'comment-container',
-						'data-id' => $model->id,
-						'data-key' => 'product'
-					]) ?>
                 </div>
             </div>
         </div>

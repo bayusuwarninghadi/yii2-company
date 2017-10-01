@@ -27,10 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
 	        [
 		        'label' => 'Image',
-		        'value' => function ($data) {
-                    /** @var $data \common\models\Pages */
-			        $types = Pages::getTypeAsArray();
-			        return UploadHelper::getHtml(strtolower($types[$data->type_id]) . '/' . $data->id, 'small', [], true);
+		        'value' => function ($model) {
+                    /** @var $model \common\models\Pages */
+                    if (!$model->pageImages) return '';
+			        return UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImages[0]->id, 'small');
 		        },
 		        'format' => 'html'
 	        ],

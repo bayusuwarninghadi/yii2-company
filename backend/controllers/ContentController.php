@@ -91,7 +91,6 @@ class ContentController extends Controller
             $model->type_id = Pages::TYPE_CONTENT;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()){
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'content/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -151,7 +150,6 @@ class ContentController extends Controller
             $model->type_id = Pages::TYPE_CONTENT;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'content/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){

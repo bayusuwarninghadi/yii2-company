@@ -75,7 +75,7 @@ class SiteController extends BaseController
          */
 	    $sliderModels = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all();
         foreach ($sliderModels as $sliderModel) {
-	        $content = UploadHelper::getHtml('slider/' . $sliderModel->id, 'large', [], true);
+	        $content = UploadHelper::getHtml($sliderModel->getImagePath(), 'large', [], true);
         	if ($sliderModel->subtitle){
 		        $content = Html::a($content, $sliderModel->subtitle);
 	        }

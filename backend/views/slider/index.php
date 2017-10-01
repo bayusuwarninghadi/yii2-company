@@ -24,8 +24,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             [
                 'label' => 'Image',
-                'value' => function ($data) {
-                    return UploadHelper::getHtml('slider/' . $data->id, 'small', [], true);
+                'value' => function ($model) {
+                    /** @var $model \common\models\Pages */
+	                return ($model->pageImage ? Html::tag('div', UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImage->id, 'small')) : "");
                 },
                 'format' => 'html'
             ],

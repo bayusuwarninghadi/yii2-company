@@ -41,7 +41,7 @@ $(document).ready(function () {
         container_.find('.gallery').html('<i class="fa fa-spin fa-spinner fa-pulse fa-5x fa-inverse"></i>');
         $.ajax({
             type: "POST",
-            url: '/product/delete-product-attribute?id=' + container_.data('id'),
+            url: this_.attr('href'),
             success: (function () {
                 container_.remove();
             }),

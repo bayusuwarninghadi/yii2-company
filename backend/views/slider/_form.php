@@ -20,7 +20,7 @@ use yii\bootstrap\Tabs;
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?=$model->isNewRecord ? 'Create' : 'Update'?></div>
         <div class="panel-body">
             <?= $form->field($model, 'image',[
-                'template' => Html::tag('div', UploadHelper::getHtml('slider/' . $model->id, 'small')) .
+                'template' => ($model->pageImage ? Html::tag('div', UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImage->id, 'small')) : "") .
                     "{label}\n{input}\n{hint}\n{error}"
             ])->fileInput(['class' => 'btn btn-default form-control', 'accept' => 'image/*']);?>
             <?php

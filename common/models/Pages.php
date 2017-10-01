@@ -2,11 +2,15 @@
 
 namespace common\models;
 
+use common\modules\UploadHelper;
+use Yii;
 use common\modules\RemoveAssetHelper;
 use common\modules\translator\TranslateBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "pages".
@@ -25,6 +29,8 @@ use yii\helpers\Html;
  * @property integer $created_by
  *
  * @property PageAttribute $pageTags
+ * @property PageAttribute[] $pageImages
+ * @property PageAttribute $pageImage
  * @property PagesLang[] $translations
  * @property User $user
  */
@@ -82,9 +88,10 @@ class Pages extends ActiveRecord
 	 * @var
 	 */
 	public $image;
+	public $images;
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getTranslations()
 	{
@@ -172,7 +179,7 @@ class Pages extends ActiveRecord
 					break;
 			}
 			if ($folder) {
-				RemoveAssetHelper::removeDirectory(\Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
+				RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
 			}
 			return true;
 		} else {
@@ -259,14 +266,53 @@ class Pages extends ActiveRecord
 		];
 	}
 
+	public function getImagePath(){
+		if ($this->pageImages){
+			$return = 'page/' . $this->id . '/' . $this->pageImages[0]->id;
+		} elseif ($this->pageImage) {
+			$return = 'page/' . $this->id . '/' . $this->pageImage->id;
+		} else {
+			$return = '';
+		}
+		return $return;
+	}
+
+	public function afterSave($insert, $changedAttributes)
+	{
+		parent::afterSave($insert, $changedAttributes);
+		if ($image = UploadedFile::getInstance($this, 'image')) {
+			if (($_model = $this->pageImage) == null){
+				$_model = new PageAttribute();
+				$_model->key = 'image';
+				$_model->page_id = $this->id;
+			}
+			if ($_model->save() && $upload = UploadHelper::saveImage($image, 'page/' . $this->id . '/' . $_model->id)) {
+				$_model->value = Json::encode($upload);
+				$_model->save();
+			}
+		}
+
+		if ($_images = UploadedFile::getInstances($this, 'images')) {
+			foreach ($_images as $image) {
+				$_model = new PageAttribute();
+				$_model->key = 'images';
+				$_model->page_id = $this->id;
+				if ($_model->save() && $upload = UploadHelper::saveImage($image, 'page/' . $this->id . '/' . $_model->id)) {
+					$_model->value = Json::encode($upload);
+					$_model->save();
+				}
+			}
+		}
+	}
+
 	/**
 	 * @inheritdoc
 	 */
 	public function afterFind()
 	{
 		parent::afterFind();
-		if (isset(\Yii::$app->session['lang'])) {
-			$this->language = \Yii::$app->session['lang'];
+		if (isset(Yii::$app->session['lang'])) {
+			$this->language = Yii::$app->session['lang'];
 		}
 	}
 
@@ -285,14 +331,23 @@ class Pages extends ActiveRecord
 	{
 		return [
 			[
+				'images',
+				'file',
+				'maxFiles' => 6,
+				'extensions' => 'gif, jpg, png',
+				'mimeTypes' => 'image/jpeg, image/png',
+				'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
+				'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
+			],
+			[
 				'image',
 				'file',
 				'extensions' => 'gif, jpg, png',
 				'mimeTypes' => 'image/jpeg, image/png',
-				'maxSize' => 1024 * 1024 * \Yii::$app->params['maxFileUploadSize'],
-				'tooBig' => \Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . \Yii::$app->params['maxFileUploadSize'] . ' Mb'
+				'maxSize' => 1024 * 1024 * Yii::$app->params['maxFileUploadSize'],
+				'tooBig' => Yii::t('app', 'The file "{file}" is too big. Its size cannot exceed') . ' ' . Yii::$app->params['maxFileUploadSize'] . ' Mb'
 			],
-			['created_by', 'default', 'value' => \Yii::$app->user->getId()],
+			['created_by', 'default', 'value' => Yii::$app->user->getId()],
 			[['type_id'], 'required'],
 			[['status', 'order', 'cat_id', 'type_id', 'created_at', 'updated_at'], 'integer'],
 			[['order'], 'default', 'value' => 0],
@@ -303,27 +358,28 @@ class Pages extends ActiveRecord
 		];
 	}
 
+
 	/**
 	 * @inheritdoc
 	 */
 	public function attributeLabels()
 	{
 		return [
-			'id' => \Yii::t('app', 'ID'),
-			'title' => \Yii::t('app', 'Title'),
-			'subtitle' => \Yii::t('app', 'Subtitle'),
-			'cat_id' => \Yii::t('app', 'Category'),
-			'description' => \Yii::t('app', 'Description'),
-			'status' => \Yii::t('app', 'Status'),
-			'order' => \Yii::t('app', 'Order'),
-			'type_id' => \Yii::t('app', 'Type ID'),
-			'created_at' => \Yii::t('app', 'Created At'),
-			'updated_at' => \Yii::t('app', 'Updated At'),
+			'id' => Yii::t('app', 'ID'),
+			'title' => Yii::t('app', 'Title'),
+			'subtitle' => Yii::t('app', 'Subtitle'),
+			'cat_id' => Yii::t('app', 'Category'),
+			'description' => Yii::t('app', 'Description'),
+			'status' => Yii::t('app', 'Status'),
+			'order' => Yii::t('app', 'Order'),
+			'type_id' => Yii::t('app', 'Type ID'),
+			'created_at' => Yii::t('app', 'Created At'),
+			'updated_at' => Yii::t('app', 'Updated At'),
 		];
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getPageAttributes()
 	{
@@ -331,7 +387,23 @@ class Pages extends ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
+	 */
+	public function getPageImages()
+	{
+		return $this->hasMany(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => 'images']);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
+	 */
+	public function getPageImage()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => 'image']);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getPageTags()
 	{
@@ -339,7 +411,7 @@ class Pages extends ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getCategory()
 	{
@@ -347,7 +419,7 @@ class Pages extends ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getUser()
 	{
@@ -355,7 +427,7 @@ class Pages extends ActiveRecord
 	}
 
 	/**
-	 * @return \yii\db\ActiveQuery
+	 * @return Yii\db\ActiveQuery
 	 */
 	public function getUserComments()
 	{

@@ -26,7 +26,8 @@ use yii\helpers\Html;
             <ul class="timeline">
 		        <?php foreach ($models as $key => $feed) :?>
                     <li class="<?=(($key % 2) == 0) ? 'timeline-inverted' : ''?>">
-                        <div class="timeline-image bg-cover" style="background-image: url('<?=UploadHelper::getImageUrl('news/' . $feed->id, 'medium', ['class' => 'img-circle img-responsive'])?>')">
+                        <div class="timeline-image bg-cover"
+                             style="background-image: url('<?=UploadHelper::getImageUrl($feed->getImagePath(), 'medium', ['class' => 'img-circle img-responsive'])?>')">
                         </div>
                         <div class="timeline-panel">
                             <div class="timeline-heading">

@@ -21,8 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <h4 class="page-header">
 					<?= $model->subtitle ?><br>
                 </h4>
-				<?= UploadHelper::getHtml($type . '/' . $model->id, 'large', ['class' => 'img-responsive']) ?>
-                <hr>
+				<?= ($model->pageImage ? Html::tag('div', UploadHelper::getHtml($model->getImagePath(), 'small')) : "") ?>
 
                 <div class="pull-left" style="width: 50px;">
                     <div class="form-group">

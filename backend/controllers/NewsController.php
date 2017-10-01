@@ -50,7 +50,7 @@ class NewsController extends Controller
         $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/product/index', [
+        return $this->render('/pages/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => 'News'
@@ -64,7 +64,7 @@ class NewsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/product/view', [
+        return $this->render('/pages/view', [
             'model' => $this->findModel($id),
             'type' => 'News'
         ]);
@@ -91,7 +91,6 @@ class NewsController extends Controller
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()){
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'news/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -120,7 +119,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/product/create', [
+        return $this->render('/pages/create', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,
@@ -147,7 +146,6 @@ class NewsController extends Controller
             $model->type_id = Pages::TYPE_NEWS;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-                if ($image = UploadedFile::getInstance($model, 'image')) UploadHelper::saveImage($image, 'news/' . $model->id);
 
 	            if (isset($bodyData['Pages']['pageTags'])){
 		            if (($tags = $model->pageTags) == null){
@@ -176,7 +174,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/product/update', [
+        return $this->render('/pages/update', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,
@@ -194,7 +192,7 @@ class NewsController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['/product/index']);
+        return $this->redirect(['index']);
     }
 
     /**

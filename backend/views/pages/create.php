@@ -9,12 +9,11 @@ use yii\helpers\Html;
 /* @var $modelIndonesia common\models\PagesLang */
 
 
-$this->title = 'Update ' . $type . ': ' . ' ' . $model->title;
+$this->title = 'Create ' . $type;
 $this->params['breadcrumbs'][] = ['label' => $type, 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="article-update">
+<div class="article-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

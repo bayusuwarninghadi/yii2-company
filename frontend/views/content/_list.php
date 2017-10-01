@@ -13,7 +13,7 @@ use yii\helpers\HtmlPurifier;
 
 ?>
 <?= Html::a(
-    UploadHelper::getHtml('content/' . $model->id, 'medium', ['style' => 'width: 200px;']),
+    UploadHelper::getHtml($model->getImagePath(), 'medium', ['style' => 'width: 200px;']),
     ['view', 'id' => $model->id],
     ['class' => 'media-left']
 ) ?>

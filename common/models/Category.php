@@ -3,9 +3,11 @@
 namespace common\models;
 
 use common\modules\translator\TranslateBehavior;
+use common\modules\UploadHelper;
 use creocoder\nestedsets\NestedSetsBehavior;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "category".
@@ -129,7 +131,17 @@ class Category extends ActiveRecord
         return $this->hasMany(CategoryLang::className(), ['cat_id' => 'id']);
     }
 
-    /**
+    public function afterSave($insert, $changedAttributes)
+    {
+	    parent::afterSave($insert, $changedAttributes);
+
+	    if ($image = UploadedFile::getInstance($this, 'image')){
+		    UploadHelper::saveImage($image, 'category/' . $this->id);
+	    }
+
+    }
+
+	/**
      * @inheritdoc
      */
     public function afterFind()
