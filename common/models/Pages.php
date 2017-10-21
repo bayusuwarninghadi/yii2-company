@@ -31,11 +31,22 @@ use yii\web\UploadedFile;
  * @property PageAttribute $pageTags
  * @property PageAttribute[] $pageImages
  * @property PageAttribute $pageImage
+ * @property PageAttribute $pageDetail
+ * @property PageAttribute $pageSize
+ * @property PageAttribute $pageColor
  * @property PagesLang[] $translations
  * @property User $user
  */
 class Pages extends ActiveRecord
 {
+
+	/**
+	 * PRODUCT_ATTRIBUTE_DETAILS
+	 */
+	const PAGE_ATTRIBUTE_DETAILS = 'detail';
+	const PAGE_ATTRIBUTE_COLOR = 'color';
+	const PAGE_ATTRIBUTE_SIZE = 'size';
+	const PAGE_ATTRIBUTE_TAGS = 'tags';
 
 	/**
 	 * TYPE_ARTICLE
@@ -71,6 +82,12 @@ class Pages extends ActiveRecord
 	 * TYPE_PARTNER
 	 */
 	const TYPE_PILL = '8';
+
+	/**
+	 * TYPE_BRAND
+	 */
+	const TYPE_BRAND = '9';
+
 	/**
 	 * STATUS_INACTIVE
 	 */
@@ -91,6 +108,14 @@ class Pages extends ActiveRecord
 	public $images;
 
 	/**
+	 * @var array
+	 */
+	public $detail = [];
+	public $color = [];
+	public $size = [];
+	public $tags = [];
+
+	/**
 	 * @return Yii\db\ActiveQuery
 	 */
 	public function getTranslations()
@@ -98,19 +123,18 @@ class Pages extends ActiveRecord
 		return $this->hasMany(PagesLang::className(), ['page_id' => 'id']);
 	}
 
-	public function getModelTags()
+	public static function getAvailableTags()
 	{
 		$model = PageAttribute::find()
 			->joinWith(['page'])
 			->select(PageAttribute::tableName() . '.value')
 			->where([
 				PageAttribute::tableName() . '.key' => 'tags',
-				Pages::tableName() . '.page_id' => $this->id
 			])
 			->column();
 		$tags = [];
 		foreach ($model as $tag) {
-			foreach (explode(',', $tag) as $_tag) {
+			foreach (Json::decode($tag) as $_tag) {
 				$_tag = trim(strtolower($_tag));
 				if (!in_array($_tag, $tags)) $tags[] = $_tag;
 			}
@@ -134,7 +158,7 @@ class Pages extends ActiveRecord
 			->column();
 		$tags = [];
 		foreach ($model as $tag) {
-			foreach (explode(',', $tag) as $_tag) {
+			foreach (Json::decode($tag) as $_tag) {
 				$_tag = trim(strtolower($_tag));
 				if (!in_array($_tag, $tags)) $tags[] = $_tag;
 			}
@@ -173,6 +197,9 @@ class Pages extends ActiveRecord
 					break;
 				case (int)static::TYPE_PILL:
 					$folder = 'pill';
+					break;
+				case (int)static::TYPE_BRAND:
+					$folder = 'brand';
 					break;
 				default:
 					$folder = false;
@@ -266,8 +293,9 @@ class Pages extends ActiveRecord
 		];
 	}
 
-	public function getImagePath(){
-		if ($this->pageImages){
+	public function getImagePath()
+	{
+		if ($this->pageImages) {
 			$return = 'page/' . $this->id . '/' . $this->pageImages[0]->id;
 		} elseif ($this->pageImage) {
 			$return = 'page/' . $this->id . '/' . $this->pageImage->id;
@@ -280,8 +308,9 @@ class Pages extends ActiveRecord
 	public function afterSave($insert, $changedAttributes)
 	{
 		parent::afterSave($insert, $changedAttributes);
+
 		if ($image = UploadedFile::getInstance($this, 'image')) {
-			if (($_model = $this->pageImage) == null){
+			if (($_model = $this->pageImage) == null) {
 				$_model = new PageAttribute();
 				$_model->key = 'image';
 				$_model->page_id = $this->id;
@@ -303,6 +332,57 @@ class Pages extends ActiveRecord
 				}
 			}
 		}
+
+		$_attr = [
+			'pageDetail' => self::PAGE_ATTRIBUTE_DETAILS,
+			'pageColor' => self::PAGE_ATTRIBUTE_COLOR,
+			'pageSize' => self::PAGE_ATTRIBUTE_SIZE,
+			'pageTags' => self::PAGE_ATTRIBUTE_TAGS,
+		];
+		foreach ($_attr as $key => $attr){
+			if (($model = $this->$key) === null) {
+				$model = new PageAttribute();
+				$model->key = $attr;
+				$model->page_id = $this->id;
+			}
+			$model->value = Json::encode($this->$attr);
+			$model->save();
+		}
+	}
+
+	public static function getColors()
+	{
+		return [
+			'red' => 'RED',
+			'green' => 'GREEN',
+			'blue' => 'BLUE',
+		];
+	}
+
+	public static function getSizes()
+	{
+		return [
+			'33' => '33',
+			'34' => '34',
+			'35' => '35',
+			'36' => '36',
+			'37' => '37',
+			'38' => '38',
+			'39' => '39',
+			'40' => '40',
+			'41' => '41',
+			'42' => '42',
+			'43' => '43',
+			'44' => '44',
+		];
+	}
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getPageDetail()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['page_attribute.key' => self::PAGE_ATTRIBUTE_DETAILS]);
 	}
 
 	/**
@@ -311,8 +391,25 @@ class Pages extends ActiveRecord
 	public function afterFind()
 	{
 		parent::afterFind();
+
 		if (isset(Yii::$app->session['lang'])) {
 			$this->language = Yii::$app->session['lang'];
+		}
+
+		if ($this->pageDetail) {
+			$this->detail = Json::decode($this->pageDetail->value);
+		}
+
+		if ($this->pageColor) {
+			$this->color = Json::decode($this->pageColor->value);
+		}
+
+		if ($this->pageSize) {
+			$this->size = Json::decode($this->pageSize->value);
+		}
+
+		if ($this->pageTags) {
+			$this->tags = Json::decode($this->pageTags->value);
 		}
 	}
 
@@ -354,7 +451,8 @@ class Pages extends ActiveRecord
 			['status', 'default', 'value' => static::STATUS_ACTIVE],
 			['type_id', 'in', 'range' => static::getTypeAsArray(false)],
 			['status', 'in', 'range' => static::getStatusAsArray(false)],
-			[['title', 'camel_case', 'subtitle'], 'string', 'max' => 255]
+			[['title', 'camel_case', 'subtitle'], 'string', 'max' => 255],
+			[['color', 'size', 'detail', 'tags'], 'each', 'rule' => ['string']]
 		];
 	}
 
@@ -405,9 +503,25 @@ class Pages extends ActiveRecord
 	/**
 	 * @return Yii\db\ActiveQuery
 	 */
+	public function getPageColor()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_COLOR]);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
+	 */
+	public function getPageSize()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_SIZE]);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
+	 */
 	public function getPageTags()
 	{
-		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => 'tags']);
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_TAGS]);
 	}
 
 	/**

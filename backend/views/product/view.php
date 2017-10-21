@@ -4,6 +4,8 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\HtmlPurifier;
 use yii\bootstrap\Carousel;
+use yii\helpers\Inflector;
+use yii\helpers\Json;
 
 
 /* @var string $this */
@@ -11,6 +13,7 @@ use yii\bootstrap\Carousel;
 /* @var $model common\models\Pages */
 /* @var $images array */
 /* @var string $type */
+
 
 
 $this->title = $model->title;
@@ -52,33 +55,71 @@ $this->params['breadcrumbs'][] = $this->title;
 				<?php endif ?>
 
                 <div class="col-sm-6">
-					<?= DetailView::widget([
-						'model' => $model,
-						'attributes' => [
-							'title',
-							'subtitle',
-							[
-                                'label' => 'Description',
-                                'format' => 'html',
-                                'value' => HtmlPurifier::process($model->description)
-                            ],
-							[
-								'label' => 'Tags',
-								'value' => function ($model) {
-									/** @var $model \common\models\Pages */
-									$tags = '';
-									if ($model->pageTags) {
-										foreach (explode(',', $model->pageTags->value) as $tag) {
-											$tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
-										}
-									}
-									return $tags;
-								},
-								'format' => 'html'
-							],
-							'created_at:datetime',
-							'updated_at:datetime',
+					<?php
+
+					$items = [
+						'title',
+						'subtitle',
+						[
+							'label' => 'Description',
+							'format' => 'html',
+							'value' => HtmlPurifier::process($model->description)
 						],
+						'created_at:datetime',
+						'updated_at:datetime',
+						[
+							'label' => 'Tags',
+							'value' => function ($model) {
+								/** @var $model \common\models\Pages */
+								$tags = '';
+								if ($model->pageTags) {
+									foreach (Json::decode($model->pageTags->value) as $tag) {
+										$tags .= Html::tag('span', $tag, ['class' => 'label label-default']) . ' ';
+									}
+								}
+								return $tags;
+							},
+							'format' => 'html'
+						],
+						[
+                            'label' => 'Color',
+	                        'value' => function ($model) {
+		                        /** @var $model \common\models\Pages */
+		                        $tags = '';
+		                        if ($model->pageColor) {
+			                        foreach (Json::decode($model->pageColor->value) as $tag) {
+				                        $tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
+			                        }
+		                        }
+		                        return $tags;
+	                        },
+	                        'format' => 'html'
+                        ],
+                        [
+                            'label' => 'Size',
+	                        'value' => function ($model) {
+		                        /** @var $model \common\models\Pages */
+		                        $tags = '';
+		                        if ($model->pageSize) {
+			                        foreach (Json::decode($model->pageSize->value) as $tag) {
+				                        $tags .= Html::tag('span', $tag, ['class' => 'label label-warning']) . ' ';
+			                        }
+		                        }
+		                        return $tags;
+	                        },
+	                        'format' => 'html'
+                        ]
+					];
+
+					foreach ($model->detail as $name => $detail) {
+						$items[] = [
+							'label' => Inflector::camel2words($name),
+							'value' => Html::decode($detail)
+						];
+					}
+					echo DetailView::widget([
+						'model' => $model,
+						'attributes' => $items,
 					]) ?>
                 </div>
             </div>

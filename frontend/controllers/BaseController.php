@@ -50,6 +50,7 @@ class BaseController extends Controller
 
         $this->loadSettings();
         $this->loadLanguage();
+
     }
 
     /**

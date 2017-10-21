@@ -52,7 +52,7 @@ $(document).ready(function () {
         return false;
     });
     $('.add-detail').click(function () {
-        var detail = prompt("Enter Detail Attribute\nSize, Ram size, Resolution etc");
+        var detail = prompt("Enter Detail Attribute\nSize, Color, Resolution etc");
 
         if (detail == null) {
             return false;
@@ -64,7 +64,7 @@ $(document).ready(function () {
         '<span class="input-group-addon">' +
         '<label class="control-label" for="product-detailValue-' + detail + '">' + detail + '</label>' +
         '</span>' +
-        '<input type="text" id="product-detailValue-' + detail + '" class="form-control" name="Product[detailValue][' + detail + ']">' +
+        '<input type="text" id="product-detailValue-' + detail + '" class="form-control" name="Pages[detail][' + detail + ']">' +
         '<span class="input-group-btn">' +
         '<a class="btn btn-danger btn-remove-detail"><i class="fa fa-trash-o"></i></a>' +
         '</span>' +

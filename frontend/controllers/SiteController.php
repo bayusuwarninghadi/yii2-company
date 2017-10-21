@@ -64,6 +64,60 @@ class SiteController extends BaseController
         ];
     }
 
+    public function actionTest(){
+    	$this->layout = 'universal/main';
+	    $slider = [];
+	    /**
+	     * @var $sliderModel Pages
+	     */
+	    $sliderModels = Pages::find()->where(['type_id' => Pages::TYPE_SLIDER])->orderBy('order ASC')->all();
+	    foreach ($sliderModels as $sliderModel) {
+		    $image = UploadHelper::getHtml($sliderModel->getImagePath(), 'large', ['class' => 'img-responsive'], true);
+		    $content = Html::tag('h1', $sliderModel->title) .
+			    Html::tag('p', HtmlPurifier::process($sliderModel->description));
+
+		    if ($sliderModel->subtitle){
+			    $content = Html::a($content, $sliderModel->subtitle);
+		    }
+
+		    $slider[] = Html::tag('div',
+			    Html::tag('div', $content, ['class' => 'col-sm-5 right'] ).
+			    Html::tag('div', $image, ['class' => 'col-sm-7']),
+			    ['class' => 'row']
+		    );
+	    }
+
+
+	    $contactForm = new ContactForm();
+	    if (!\Yii::$app->user->isGuest) {
+		    $contactForm->name = \Yii::$app->user->identity['username'];
+		    $contactForm->email = \Yii::$app->user->identity['email'];
+	    }
+
+	    $pills = Pages::find()->where(['type_id' => Pages::TYPE_PILL])->limit(3)->orderBy('created_at desc')->all();
+	    $indexPage = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'Index']);
+	    $indexPartner = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
+	    $indexNews = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
+	    $indexProduct = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ProductHeader']);
+	    $newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(8)->orderBy('created_at desc')->all();
+	    $products = Pages::find()->where(['type_id' => Pages::TYPE_PRODUCT])->limit(8)->orderBy('created_at desc')->all();
+	    $partners = Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all();
+	    $contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
+
+	    return $this->render('index/homepage', [
+		    'contactForm' => $contactForm,
+		    'slider' => $slider,
+		    'newsFeeds' => $newsFeed,
+		    'products' => $products,
+		    'partners' => $partners,
+		    'pills' => $pills,
+		    'indexPage' => $indexPage,
+		    'indexPartner' => $indexPartner,
+		    'indexProduct' => $indexProduct,
+		    'indexNews' => $indexNews,
+		    'contactPopup' => $contactPopup,
+	    ]);
+    }
     /**
      * @return string
      */

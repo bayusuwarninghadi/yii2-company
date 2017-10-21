@@ -27,7 +27,8 @@
     "tinymce/tinymce": "*",
     "creocoder/yii2-nested-sets": "*",
     "yiisoft/yii2-imagine": "*",
-    "phpoffice/phpexcel": "dev-master"
+    "phpoffice/phpexcel": "dev-master",
+    "kartik-v/yii2-widget-select2": "@dev"
   },
   "require-dev": {
     "yiisoft/yii2-debug": "~2.0.0",

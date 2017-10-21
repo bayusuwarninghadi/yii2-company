@@ -98,7 +98,21 @@ class ProductController extends Controller
         ]);
     }
 
-    /**
+	/**
+	 * Delete Product Attribute.
+	 * If update is successful, the browser will be redirected to the 'view' page.
+	 * @param integer $id
+	 * @return mixed
+	 */
+	public function actionDeleteProductAttribute($id)
+	{
+		/** @var PageAttribute $model */
+		if (($model = PageAttribute::findOne($id)) !== null) {
+			$model->delete();
+		}
+	}
+
+	/**
      * Creates a new Pages model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
@@ -119,19 +133,10 @@ class ProductController extends Controller
         $model->type_id = Pages::TYPE_PRODUCT;
 
         $bodyData = Yii::$app->request->post();
+
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
 
 	            /**
                  * Save Pages Lang
@@ -177,17 +182,8 @@ class ProductController extends Controller
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             $model->type_id = Pages::TYPE_PRODUCT;
-            if ($model->save()) {
 
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
+            if ($model->save()) {
 
 	            /**
                  * Save Pages Lang

@@ -7,7 +7,9 @@ use yii\widgets\ActiveForm;
 use common\modules\UploadHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
-
+use yii\helpers\Inflector;
+use common\models\Pages;
+use kartik\select2\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages */
@@ -20,7 +22,7 @@ use yii\helpers\Url;
 
 <div class="product-form">
 	<?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
-    <div class="panel panel-yellow">
+    <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-pencil fa-fw"></i> <?= $model->isNewRecord ? 'Create' : 'Update' ?>
         </div>
         <div class="panel-body">
@@ -72,8 +74,59 @@ use yii\helpers\Url;
 				'items' => $items
 			]);
 			?>
-			<?= $form->field($model, 'pageTags[value]')->textInput()->label(Yii::t('app', 'Tags, separate by comma')) ?>
-			<?= $form->field($model, 'order')->input('number') ?>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm-4">
+	                <?= $form->field($model, 'tags')->widget(Select2::classname(), [
+		                'data' => Pages::getAvailableTags(),
+		                'options' => ['multiple' => true],
+		                'pluginOptions' => [
+			                'tags' => true,
+			                'tokenSeparators' => [',', ' '],
+		                ],
+	                ])  ?>
+	                <?= $form->field($model, 'order')->input('number') ?>
+	                <?= $form->field($model, 'color')->widget(Select2::classname(), [
+		                'data' => Pages::getColors(),
+		                'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+		                'pluginOptions' => [
+			                'tags' => true,
+			                'tokenSeparators' => [',', ' '],
+		                ],
+	                ])  ?>
+	                <?= $form->field($model, 'size')->widget(Select2::classname(), [
+		                'data' => Pages::getSizes(),
+		                'options' => ['placeholder' => 'Select a size ...', 'multiple' => true],
+		                'pluginOptions' => [
+			                'tags' => true,
+			                'tokenSeparators' => [',', ' '],
+		                ],
+	                ])  ?>
+                </div>
+                <div class="attribute col-sm-8" id="custom-detail">
+                        <div class="list-group-item text-right">
+	                        <?= Html::a('Add New Specification', '#custom-detail', ['class' => 'btn btn-default btn-sm add-detail']) ?>
+                        </div>
+                        <div class="list-group-item">
+                            <div class="custom-detail">
+                                <?php foreach ($model->detail as $name => $detail) : ?>
+                                    <?= $form->field($model, 'detail[' . $name . ']', [
+                                        'template' => "
+                                                <div class='input-group'>
+                                                    <span class='input-group-addon'>{label}</span>
+                                                    {input}
+                                                    <span class='input-group-btn'>
+                                                        <a href='#' class='btn btn-danger btn-remove-detail'><i class='fa fa-trash-o'></i></a>
+                                                    </span>
+                                                </div>
+                                                \n{error}"
+                                    ])->textInput(['value' => $detail])->label(Inflector::camel2words($name)) ?>
+                                <?php endforeach ?>
+                            </div>
+                        </div>
+                </div>
+            </div>
         </div>
         <div class="panel-footer">
 			<?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
