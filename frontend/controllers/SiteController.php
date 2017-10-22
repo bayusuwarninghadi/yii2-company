@@ -115,7 +115,7 @@ class SiteController extends BaseController
 		    $content .= Html::tag('div', UploadHelper::getHtml($product->getImagePath(), 'medium', ['class' => 'img-responsive']), ['class' => 'image']);
 			$content .= Html::tag('div', '', ['class' => 'bg']);
 		    $content .= Html::beginTag('div', ['class' => 'text']);
-			$content .= Html::tag('p', Html::a('<i class="fa fa-link"></i> ' . Yii::t('app', 'Read More'), ['/partner/view', 'id' => $product->id], ['class' => 'btn btn-template-transparent-primary']), ['class' => 'button']);
+			$content .= Html::tag('p', Html::a('<i class="fa fa-link"></i> ' . Yii::t('app', 'Read More'), ['/product/view', 'id' => $product->id], ['class' => 'btn btn-template-transparent-primary']), ['class' => 'button']);
 			$content .= Html::endTag('div');
 			$content .= Html::endTag('div');
 
