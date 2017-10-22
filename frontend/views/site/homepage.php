@@ -10,7 +10,6 @@ use frontend\widgets\carousel\Owl;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
 use common\modules\UploadHelper;
-use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
 /**
@@ -22,8 +21,9 @@ use yii\widgets\ActiveForm;
  * @var $indexProduct \common\models\Pages
  * @var $pills \common\models\Pages[]
  * @var $newsFeeds \common\models\Pages[]
- * @var $products \common\models\Pages[]
- * @var $partners \common\models\Pages[]
+ * @var $contactPopup \common\models\Pages
+ * @var $productItems array
+ * @var $partnerItems array
  * @var $contactForm \frontend\models\ContactForm;
  */
 
@@ -103,44 +103,15 @@ $this->title = Yii::t('app', 'Welcome');
                 <div class="heading text-center">
                     <h2><?= Yii::t('app', 'Our Products') ?></h2>
                 </div>
-
-				<?php foreach ($products as $product) : ?>
-                    <div class="col-md-3 col-sm-6">
-                        <div class="box-image-text blog">
-                            <div class="top">
-                                <div class="image">
-									<?= UploadHelper::getHtml($product->getImagePath(), 'medium', ['class' => 'img-responsive']) ?>
-                                </div>
-                                <div class="bg"></div>
-                                <div class="text">
-                                    <p class="buttons">
-										<?= Html::a('<i class="fa fa-link"></i> ' . Yii::t('app', 'Read More'), ['/partner/view', 'id' => $product->id], ['class' => 'btn btn-template-transparent-primary']) ?>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="content">
-                                <h4>
-									<?= Html::a($product->title, ['/partner/view', 'id' => $product->id]) ?>
-                                </h4>
-                                <p class="author-category"><?= $product->subtitle ?></p>
-                                <p class="intro">
-									<?= HtmlPurifier::process($product->subtitle) ?>
-                                </p>
-                                <p class="read-more">
-									<?= Html::a('Continue Reading', ['/partner/view', 'id' => $product->id], ['class' => 'btn btn-template-main']) ?>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-				<?php endforeach ?>
+	            <?= Owl::widget(['items' => $productItems]) ?>
             </div>
 
         </div>
     </div>
 </section>
 
-<section class="no-mb padding-big">
-    <div class="home-carousel">
+<section class="no-mb">
+    <div class="home-carousel" style="padding: 60px 0">
     <div class="dark-mask"></div>
         <div class="container">
             <div class="row">
@@ -183,27 +154,6 @@ $this->title = Yii::t('app', 'Welcome');
             </div>
 
             <p class="lead text-center"><?= HtmlPurifier::process($indexProduct->description) ?></p>
-
-			<?php
-			$partnerItems = [];
-			foreach ($partners as $partner) {
-				$content = Html::beginTag('div', ['class' => 'testimonial same-height-always']);
-				$content .= Html::tag('div', $partner->description, ['class' => 'text']);
-
-				$content .= Html::beginTag('div', ['class' => 'bottom']);
-				$content .= Html::tag('div', '<i class="fa fa-quote-left"></i>', ['class' => 'icon']);
-				$content .= Html::tag('div',
-					UploadHelper::getHtml($partner->getImagePath(), 'small', ['class' => 'img-responsive']) .
-					Html::tag('h5', $partner->title) .
-					Html::tag('p', $partner->subtitle),
-					['class' => 'name-picture']
-				);
-
-				$content .= Html::endTag('div');
-
-				$content .= Html::endTag('div');
-				$partnerItems[] = $content;
-			} ?>
 
 			<?= Owl::widget(['items' => $partnerItems]) ?>
         </div>

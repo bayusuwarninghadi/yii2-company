@@ -9,6 +9,7 @@
 namespace frontend\controllers;
 
 
+use common\models\Pages;
 use common\models\Request;
 use common\models\Setting;
 use yii\helpers\Json;

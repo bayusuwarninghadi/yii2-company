@@ -12,7 +12,7 @@ use yii\data\ActiveDataProvider;
 class PagesSearch extends Pages
 {
 	public $key;
-	public $tag;
+	public $tags;
 
 	/**
 	 * @inheritdoc
@@ -21,7 +21,7 @@ class PagesSearch extends Pages
 	{
 		return [
 			[['id', 'status', 'order', 'type_id', 'created_at', 'updated_at', 'cat_id'], 'integer'],
-			[['title', 'description', 'subtitle', 'key', 'tag'], 'safe'],
+			[['title', 'description', 'subtitle', 'key', 'tags', 'category', 'size', 'color'], 'safe'],
 		];
 	}
 
@@ -45,8 +45,10 @@ class PagesSearch extends Pages
 	{
 		$query = Pages::find()
 			->joinWith(['translations'])
-			->leftJoin(PageAttribute::tableName(), sprintf('`%s`.`page_id` = `%s`.`id`', PageAttribute::tableName(), Pages::tableName()))
-		;
+			->leftJoin(PageAttribute::tableName() . ' p_tags', sprintf('`p_tags`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_category', sprintf('`p_category`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_color', sprintf('`p_color`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_size', sprintf('`p_size`.`page_id` = `%s`.`id`', Pages::tableName()));
 
 		$dataProvider = new ActiveDataProvider([
 			'query' => $query,
@@ -72,6 +74,13 @@ class PagesSearch extends Pages
 			'desc' => ['pages_lang.description' => SORT_DESC],
 		];
 
+		$query->where([
+			'p_tags.key' => Pages::PAGE_ATTRIBUTE_TAGS,
+			'p_category.key' => Pages::PAGE_ATTRIBUTE_CATEGORY,
+			'p_color.key' => Pages::PAGE_ATTRIBUTE_COLOR,
+			'p_size.key' => Pages::PAGE_ATTRIBUTE_SIZE,
+		]);
+
 		$query->andFilterWhere([
 			'id' => $this->id,
 			'status' => $this->status,
@@ -82,12 +91,16 @@ class PagesSearch extends Pages
 		])
 			->andFilterWhere(['like', 'pages_lang.title', $this->title])
 			->andFilterWhere(['like', 'pages_lang.subtitle', $this->subtitle])
-			->andFilterWhere(['like', 'page_attribute.value', $this->tag])
+			->andFilterWhere(['like', 'p_tags.value', $this->tags])
+			->andFilterWhere(['like', 'p_category.value', $this->category])
+			->andFilterWhere(['like', 'p_color.value', $this->color])
+			->andFilterWhere(['like', 'p_size.value', $this->size])
 			->andFilterWhere(['like', 'pages_lang.description', $this->description]);
 
 		if ($this->key) {
 			$query->andWhere("pages_lang.title like '%" . $this->key . "%' OR pages_lang.description like '%" . $this->key . "%'");
 		}
+
 		/** @var Category $category */
 		if ($this->cat_id && $category = Category::findOne($this->cat_id)) {
 			$cat_ids = Category::getCategoryChildIds($category);

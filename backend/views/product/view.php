@@ -68,6 +68,20 @@ $this->params['breadcrumbs'][] = $this->title;
 						'created_at:datetime',
 						'updated_at:datetime',
 						[
+							'label' => 'Category',
+							'value' => function ($model) {
+								/** @var $model \common\models\Pages */
+								$tags = '';
+								if ($model->pageCategory) {
+									foreach (Json::decode($model->pageCategory->value) as $tag) {
+										$tags .= Html::tag('span', $tag, ['class' => 'label label-default']) . ' ';
+									}
+								}
+								return $tags;
+							},
+							'format' => 'html'
+						],
+						[
 							'label' => 'Tags',
 							'value' => function ($model) {
 								/** @var $model \common\models\Pages */

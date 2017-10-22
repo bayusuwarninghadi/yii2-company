@@ -78,21 +78,32 @@ use kartik\select2\Select2;
             <br>
             <div class="row">
                 <div class="col-sm-4">
-	                <?= $form->field($model, 'tags')->widget(Select2::classname(), [
-		                'data' => Pages::getAvailableTags(),
-		                'options' => ['multiple' => true],
+                    <pre>
+                        <?php print_r($model->category)?>
+                        <?php print_r($model->tags)?>
+                        <?php print_r($model->color)?>
+                    </pre>
+	                <?= $form->field($model, 'order')->input('number') ?>
+	                <?= $form->field($model, 'category')->widget(Select2::classname(), [
+		                'data' => Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY),
+		                'options' => ['placeholder' => 'Select a category ...', 'multiple' => true],
 		                'pluginOptions' => [
 			                'tags' => true,
-			                'tokenSeparators' => [',', ' '],
 		                ],
 	                ])  ?>
-	                <?= $form->field($model, 'order')->input('number') ?>
-	                <?= $form->field($model, 'color')->widget(Select2::classname(), [
+	                <?= $form->field($model, 'tags')->widget(Select2::classname(), [
+//		                'data' => Pages::getAvailableTags(),
+		                'options' => ['placeholder' => 'Select a tags ...', 'multiple' => true],
+		                'pluginOptions' => [
+			                'tags' => true,
+		                ],
+	                ])  ?>
+
+                    <?= $form->field($model, 'color')->widget(Select2::classname(), [
 		                'data' => Pages::getColors(),
 		                'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
 		                'pluginOptions' => [
 			                'tags' => true,
-			                'tokenSeparators' => [',', ' '],
 		                ],
 	                ])  ?>
 	                <?= $form->field($model, 'size')->widget(Select2::classname(), [
@@ -100,7 +111,6 @@ use kartik\select2\Select2;
 		                'options' => ['placeholder' => 'Select a size ...', 'multiple' => true],
 		                'pluginOptions' => [
 			                'tags' => true,
-			                'tokenSeparators' => [',', ' '],
 		                ],
 	                ])  ?>
                 </div>

@@ -133,8 +133,6 @@ function sliders() {
 /* menu sliding */
 
 function menuSliding() {
-
-
     $('.dropdown').on('show.bs.dropdown', function (e) {
 
             if ($(window).width() > 750) {

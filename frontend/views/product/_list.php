@@ -1,4 +1,5 @@
 <?php
+
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
@@ -13,32 +14,28 @@ use common\models\Pages;
  */
 
 ?>
-<div class="portfolio-item">
-	<?= Html::a(
-		'<div class="portfolio-hover">
-            <div class="portfolio-hover-content">
-                '. Yii::t('app','see detail').'
-            </div>
-        </div>
-        ' .
-		UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive']),
-		['view', 'id' => $model->id],
-		[
-			'class' => 'portfolio-link'
-		]
-	) ?>
-    <div class="portfolio-caption">
-        <h3 class="m0">
-			<?= Html::encode($model->title) ?>
+<div class="product">
+    <div class="image">
+		<?= Html::a(
+			UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive image1']),
+			['view', 'id' => $model->id]
+		) ?>
+    </div>
+    <div class="text">
+        <h3>
+	        <?= Html::a( Html::encode($model->title), ['view', 'id' => $model->id]) ?>
         </h3>
-        <h4 class="text-thin m0"><?= Html::encode($model->subtitle) ?></h4>
-        <p class="text-muted">
-            <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
+        <p class="price"><?= Html::encode($model->subtitle) ?></p>
+        <p>
+	        <?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
         </p>
-        <hr>
-        <p class="text-muted">
-            <small><?= HtmlPurifier::process(substr($model->description, 0, 200)) ?> ...</small>
-        </p>
-
+    </div>
+    <div class="ribbon sale">
+        <div class="theribbon">SALE</div>
+        <div class="ribbon-background"></div>
+    </div>
+    <div class="ribbon new">
+        <div class="theribbon">NEW</div>
+        <div class="ribbon-background"></div>
     </div>
 </div>

@@ -1,42 +1,54 @@
 <?php
 
 use yii\bootstrap\NavBar;
+use frontend\widgets\navigation\Nav;
+use yii\helpers\Html;
+use common\models\Pages;
 
 /**
  * Created by PhpStorm.
  * User: bay_oz
- * Date: 4/17/15
- * Time: 17:47
- *
+ * Date: 5/3/15
+ * Time: 23:16
  * @var $this \yii\web\View
  */
+
 ?>
-    <style>
-        #mainNav .navbar-nav > .open > a {
-            background: transparent;
-            color: #fff;
-        }
+<header>
+    <div class="navbar-affixed-top" data-spy="affix" data-offset-top="200">
 
-        #mainNav .dropdown-menu li a {
-            color: #fed136;
+		<?php
+		NavBar::begin([
+			'brandLabel' => Html::img(Yii::$app->controller->settings['site_image']),
+			'brandUrl' => Yii::$app->homeUrl,
+			'options' => [
+				'class' => 'navbar navbar-default yamm',
+				'id' => 'navbar',
+				'data-spy' => 'affix',
+				'data-offset-top' => 200
+			],
+		]);
+		$categories = [];
+		foreach (Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY) as $category){
+			$categories[] = ['label' => $category, 'url' => ['/product', 'PagesSearch[category]' => $category]];
         }
-    </style>
-<?php
-NavBar::begin([
-	'brandLabel' => Yii::$app->controller->settings['site_name'],
-	'brandUrl' => (Yii::$app->controller->id == 'site' && Yii::$app->controller->action->id == 'index') ?
-		'#page-top' :
-		\Yii::$app->homeUrl,
-	'brandOptions' => [
-		'class' => 'page-scroll',
-	],
-	'options' => [
-		'class' => 'navbar navbar-default navbar-fixed-top',
-		'id' => 'mainNav'
-	],
-]);
+		echo Nav::widget([
+			'options' => ['class' => 'navbar-nav navbar-right'],
+			'items' => [
+				['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+				['label' => Yii::t('app', 'Partner'), 'url' => ['/partner/about']],
+				[
+					'label' => Yii::t('app', 'Product'),
+					'leftContent' => Html::img('/universal/img/template-easy-customize.png', ['class' => 'img-responsive hidden-xs']),
+					'items' => $categories
+				],
+				['label' => Yii::t('app', 'News'), 'url' => ['/news/about']],
+				['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
+			],
+			'encodeLabels' => false
+		]);
 
-echo $this->render('/layouts/_navigation');
-//echo $this->render('/layouts/_searchNav');
-//echo $this->render('/layouts/_categoryNavbar');
-NavBar::end();
+		NavBar::end();
+		?>
+    </div>
+</header>

@@ -34,86 +34,40 @@ use yii\web\UploadedFile;
  * @property PageAttribute $pageDetail
  * @property PageAttribute $pageSize
  * @property PageAttribute $pageColor
+ * @property PageAttribute $pageCategory
  * @property PagesLang[] $translations
  * @property User $user
  */
 class Pages extends ActiveRecord
 {
 
-	/**
-	 * PRODUCT_ATTRIBUTE_DETAILS
-	 */
 	const PAGE_ATTRIBUTE_DETAILS = 'detail';
 	const PAGE_ATTRIBUTE_COLOR = 'color';
 	const PAGE_ATTRIBUTE_SIZE = 'size';
 	const PAGE_ATTRIBUTE_TAGS = 'tags';
+	const PAGE_ATTRIBUTE_CATEGORY = 'category';
 
-	/**
-	 * TYPE_ARTICLE
-	 */
 	const TYPE_PRODUCT = '1';
-	/**
-	 * TYPE_NEWS
-	 */
 	const TYPE_NEWS = '2';
-	/**
-	 * TYPE_PAGES
-	 */
 	const TYPE_PAGES = '3';
-	/**
-	 * TYPE_SLIDER
-	 */
 	const TYPE_SLIDER = '4';
-	/**
-	 * TYPE_MAIL
-	 */
 	const TYPE_MAIL = '5';
-	/**
-	 * TYPE_CONTENT
-	 */
 	const TYPE_CONTENT = '6';
-
-	/**
-	 * TYPE_PARTNER
-	 */
 	const TYPE_PARTNER = '7';
-
-	/**
-	 * TYPE_PARTNER
-	 */
 	const TYPE_PILL = '8';
-
-	/**
-	 * TYPE_BRAND
-	 */
 	const TYPE_BRAND = '9';
 
-	/**
-	 * STATUS_INACTIVE
-	 */
 	const STATUS_INACTIVE = 0;
-	/**
-	 * STATUS_ACTIVE
-	 */
 	const STATUS_ACTIVE = 10;
 
-	/**
-	 * @var string $language
-	 */
 	public $language = 'en-US';
-	/**
-	 * @var
-	 */
 	public $image;
 	public $images;
-
-	/**
-	 * @var array
-	 */
 	public $detail = [];
 	public $color = [];
 	public $size = [];
 	public $tags = [];
+	public $category = [];
 
 	/**
 	 * @return Yii\db\ActiveQuery
@@ -123,20 +77,19 @@ class Pages extends ActiveRecord
 		return $this->hasMany(PagesLang::className(), ['page_id' => 'id']);
 	}
 
-	public static function getAvailableTags()
+	public static function getAvailableTags($tags = self::PAGE_ATTRIBUTE_TAGS)
 	{
 		$model = PageAttribute::find()
 			->joinWith(['page'])
 			->select(PageAttribute::tableName() . '.value')
 			->where([
-				PageAttribute::tableName() . '.key' => 'tags',
+				PageAttribute::tableName() . '.key' => $tags,
 			])
 			->column();
 		$tags = [];
 		foreach ($model as $tag) {
 			foreach (Json::decode($tag) as $_tag) {
-				$_tag = trim(strtolower($_tag));
-				if (!in_array($_tag, $tags)) $tags[] = $_tag;
+				if (!in_array($_tag, $tags)) $tags[$_tag] = $_tag;
 			}
 		}
 		return $tags;
@@ -152,7 +105,7 @@ class Pages extends ActiveRecord
 			->joinWith(['page'])
 			->select(PageAttribute::tableName() . '.value')
 			->where([
-				PageAttribute::tableName() . '.key' => 'tags',
+				PageAttribute::tableName() . '.key' => self::PAGE_ATTRIBUTE_TAGS,
 				Pages::tableName() . '.type_id' => $type
 			])
 			->column();
@@ -338,6 +291,7 @@ class Pages extends ActiveRecord
 			'pageColor' => self::PAGE_ATTRIBUTE_COLOR,
 			'pageSize' => self::PAGE_ATTRIBUTE_SIZE,
 			'pageTags' => self::PAGE_ATTRIBUTE_TAGS,
+			'pageCategory' => self::PAGE_ATTRIBUTE_CATEGORY,
 		];
 		foreach ($_attr as $key => $attr){
 			if (($model = $this->$key) === null) {
@@ -345,7 +299,7 @@ class Pages extends ActiveRecord
 				$model->key = $attr;
 				$model->page_id = $this->id;
 			}
-			$model->value = Json::encode($this->$attr);
+			$model->value = $this->$attr ? Json::encode($this->$attr) : '[]';
 			$model->save();
 		}
 	}
@@ -411,6 +365,9 @@ class Pages extends ActiveRecord
 		if ($this->pageTags) {
 			$this->tags = Json::decode($this->pageTags->value);
 		}
+		if ($this->pageCategory) {
+			$this->category = Json::decode($this->pageCategory->value);
+		}
 	}
 
 	/**
@@ -452,7 +409,7 @@ class Pages extends ActiveRecord
 			['type_id', 'in', 'range' => static::getTypeAsArray(false)],
 			['status', 'in', 'range' => static::getStatusAsArray(false)],
 			[['title', 'camel_case', 'subtitle'], 'string', 'max' => 255],
-			[['color', 'size', 'detail', 'tags'], 'each', 'rule' => ['string']]
+			[['color', 'size', 'detail', 'category', 'tags'], 'each', 'rule' => ['string']]
 		];
 	}
 
@@ -506,6 +463,14 @@ class Pages extends ActiveRecord
 	public function getPageColor()
 	{
 		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_COLOR]);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
+	 */
+	public function getPageCategory()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_CATEGORY]);
 	}
 
 	/**
