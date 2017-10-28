@@ -22,7 +22,8 @@ use yii\widgets\ActiveForm;
  * @var $newsFeeds \common\models\Pages[]
  * @var $contactPopup \common\models\Pages
  * @var $productItems array
- * @var $partnerItems array
+ * @var $productItems array
+ * @var $brandItems array
  * @var $contactForm \frontend\models\ContactForm;
  */
 
@@ -108,7 +109,6 @@ $this->title = Yii::t('app', 'Welcome');
         </div>
     </div>
 </section>
-
 <section class="no-mb">
     <div class="home-carousel" style="padding: 60px 0">
     <div class="dark-mask"></div>
@@ -119,14 +119,8 @@ $this->title = Yii::t('app', 'Welcome');
                         <h2>Our Brand</h2>
                     </div>
                     <?php
-                    $items = [];
-                    for ($i = 1; $i <= 6; $i++) {
-                        $items[] = '<li class="item">
-                            <img src="/universal/img/customer-' . $i . '.png" alt="" class="img-responsive">
-                        </li>';
-                    }
                     echo Owl::widget([
-                        'items' => $items,
+                        'items' => $brandItems,
                         'options' => ['class' => 'customers owl-carousel'],
                         'configs' => [
                             'items' => 6,

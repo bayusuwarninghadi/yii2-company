@@ -28,20 +28,26 @@ use common\models\Pages;
 				'data-offset-top' => 200
 			],
 		]);
+		$menuCategory = [
+			'label' => Yii::t('app', 'Product'),
+			'leftContent' => Html::img('/universal/img/template-easy-customize.png', ['class' => 'img-responsive hidden-xs']),
+            'url' => ['/products']
+		];
+
 		$categories = [];
 		foreach (Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY) as $category){
 			$categories[] = ['label' => $category, 'url' => ['/product', 'PagesSearch[category]' => $category]];
+		}
+
+        if (isset($category)){
+			$menuCategory['items'] = $category;
         }
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav navbar-right'],
 			'items' => [
 				['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
+				$menuCategory,
 				['label' => Yii::t('app', 'Partner'), 'url' => ['/partner/about']],
-				[
-					'label' => Yii::t('app', 'Product'),
-					'leftContent' => Html::img('/universal/img/template-easy-customize.png', ['class' => 'img-responsive hidden-xs']),
-					'items' => $categories
-				],
 				['label' => Yii::t('app', 'News'), 'url' => ['/news/about']],
 				['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
 			],

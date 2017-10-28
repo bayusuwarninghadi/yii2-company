@@ -108,18 +108,18 @@ class SiteController extends BaseController
 		$productItems = [];
 
 		foreach ($products as $product) {
-		    $content = Html::beginTag('div', ['class' => 'box-image-text blog']);
+			$content = Html::beginTag('div', ['class' => 'box-image-text blog']);
 
-		    $content .= Html::beginTag('div', ['class' => 'top']);
-		    $content .= Html::tag('div', UploadHelper::getHtml($product->getImagePath(), 'medium', ['class' => 'img-responsive']), ['class' => 'image']);
+			$content .= Html::beginTag('div', ['class' => 'top']);
+			$content .= Html::tag('div', UploadHelper::getHtml($product->getImagePath(), 'medium', ['class' => 'img-responsive']), ['class' => 'image']);
 			$content .= Html::tag('div', '', ['class' => 'bg']);
-		    $content .= Html::beginTag('div', ['class' => 'text']);
+			$content .= Html::beginTag('div', ['class' => 'text']);
 			$content .= Html::tag('p', Html::a('<i class="fa fa-link"></i> ' . Yii::t('app', 'Read More'), ['/product/view', 'id' => $product->id], ['class' => 'btn btn-template-transparent-primary']), ['class' => 'button']);
 			$content .= Html::endTag('div');
 			$content .= Html::endTag('div');
 
 
-		    $content .= Html::beginTag('div', ['class' => 'content']);
+			$content .= Html::beginTag('div', ['class' => 'content']);
 			$content .= Html::tag('h4', Html::a($product->title, ['/product/view', 'id' => $product->id]), ['class' => 'bg']);
 			$content .= Html::tag('p', $product->subtitle, ['class' => 'author-category']);
 			$content .= Html::tag('p', HtmlPurifier::process($product->subtitle), ['class' => 'intro']);
@@ -128,46 +128,59 @@ class SiteController extends BaseController
 
 			$content .= Html::endTag('div');
 			$productItems[] = $content;
-        }
+		}
 
-	    /** @var $partners Pages[] */
-	    $partners = Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all();
-	    $partnerItems = [];
-	    foreach ($partners as $partner) {
-		    $content = Html::beginTag('div', ['class' => 'testimonial same-height-always']);
-		    $content .= Html::tag('div', $partner->description, ['class' => 'text']);
+		/** @var $partners Pages[] */
+		$partners = Pages::find()->where(['type_id' => Pages::TYPE_PARTNER])->limit(8)->orderBy('created_at desc')->all();
+		$partnerItems = [];
+		foreach ($partners as $partner) {
+			$content = Html::beginTag('div', ['class' => 'testimonial same-height-always']);
+			$content .= Html::tag('div', $partner->description, ['class' => 'text']);
 
-		    $content .= Html::beginTag('div', ['class' => 'bottom']);
-		    $content .= Html::tag('div', '<i class="fa fa-quote-left"></i>', ['class' => 'icon']);
-		    $content .= Html::tag('div',
-			    UploadHelper::getHtml($partner->getImagePath(), 'small', ['class' => 'img-responsive']) .
-			    Html::tag('h5', $partner->title) .
-			    Html::tag('p', $partner->subtitle),
-			    ['class' => 'name-picture']
-		    );
+			$content .= Html::beginTag('div', ['class' => 'bottom']);
+			$content .= Html::tag('div', '<i class="fa fa-quote-left"></i>', ['class' => 'icon']);
+			$content .= Html::tag('div',
+				UploadHelper::getHtml($partner->getImagePath(), 'small', ['class' => 'img-responsive']) .
+				Html::tag('h5', $partner->title) .
+				Html::tag('p', $partner->subtitle),
+				['class' => 'name-picture']
+			);
 
-		    $content .= Html::endTag('div');
+			$content .= Html::endTag('div');
 
-		    $content .= Html::endTag('div');
-		    $partnerItems[] = $content;
-	    }
+			$content .= Html::endTag('div');
+			$partnerItems[] = $content;
+		}
 
-	    $contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
+		/** @var $brands Pages[] */
+		$brands = Pages::find()->where(['type_id' => Pages::TYPE_BRAND])->limit(8)->orderBy('created_at desc')->all();
+		$brandItems = [];
+		foreach ($brands as $brand) {
+			if (!$brand->pageImage) continue;
+			$content = Html::tag('li',
+				UploadHelper::getHtml('page/' . $brand->id . '/' . $brand->pageImage->id, 'medium', ['class' => 'img-responsive']),
+				['class' => 'item']
+			);
+			$brandItems[] = $content;
+		}
 
-	    return $this->render('homepage', [
-		    'contactForm' => $contactForm,
-		    'slider' => $slider,
-		    'newsFeeds' => $newsFeed,
-		    'productItems' => $productItems,
-		    'partnerItems' => $partnerItems,
-		    'pills' => $pills,
-		    'indexPage' => $indexPage,
-		    'indexPartner' => $indexPartner,
-		    'indexProduct' => $indexProduct,
-		    'indexNews' => $indexNews,
-		    'contactPopup' => $contactPopup,
-	    ]);
-    }
+		$contactPopup = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'AddressMap']);
+
+		return $this->render('homepage', [
+			'contactForm' => $contactForm,
+			'slider' => $slider,
+			'newsFeeds' => $newsFeed,
+			'productItems' => $productItems,
+			'partnerItems' => $partnerItems,
+			'brandItems' => $brandItems,
+			'pills' => $pills,
+			'indexPage' => $indexPage,
+			'indexPartner' => $indexPartner,
+			'indexProduct' => $indexProduct,
+			'indexNews' => $indexNews,
+			'contactPopup' => $contactPopup,
+		]);
+	}
 
 	/**
 	 * @return string
