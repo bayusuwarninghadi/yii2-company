@@ -32,7 +32,7 @@ $this->title = Yii::t('app', 'Welcome');
 
 
 <section class="no-mb">
-    <div class="home-carousel">
+    <div class="home-carousel" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_1'])?>)">
         <div class="dark-mask"></div>
         <div class="container">
 			<?php
@@ -79,7 +79,7 @@ $this->title = Yii::t('app', 'Welcome');
         </div>
     </div>
 </section>
-<section class="bar background-image-fixed-2 no-mb color-white text-center">
+<section class="bar background-image-fixed-2 no-mb color-white text-center" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_2'])?>)">
     <div class="dark-mask"></div>
     <div class="container">
         <div class="row">
@@ -110,7 +110,7 @@ $this->title = Yii::t('app', 'Welcome');
     </div>
 </section>
 <section class="no-mb">
-    <div class="home-carousel" style="padding: 60px 0">
+    <div class="home-carousel" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_1'])?>); padding: 60px 0;">
     <div class="dark-mask"></div>
         <div class="container">
             <div class="row">
@@ -137,7 +137,7 @@ $this->title = Yii::t('app', 'Welcome');
     </div>
 </section>
 
-<section class="bar background-pentagon no-mb">
+<section class="bar background-pentagon no-mb" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_3'])?>)">
     <div class="container">
 
         <div class="col-md-12">

@@ -62,6 +62,7 @@ class Pages extends ActiveRecord
 	const TYPE_PARTNER = '7';
 	const TYPE_PILL = '8';
 	const TYPE_BRAND = '9';
+	const TYPE_INDEX_BACKGROUND = '10';
 
 	const STATUS_INACTIVE = 0;
 	const STATUS_ACTIVE = 10;

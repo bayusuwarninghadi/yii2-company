@@ -31,7 +31,6 @@ use common\models\Pages;
 		$menuCategory = [
 			'label' => Yii::t('app', 'Product'),
 			'leftContent' => Html::img('/universal/img/template-easy-customize.png', ['class' => 'img-responsive hidden-xs']),
-            'url' => ['/products']
 		];
 
 		$categories = [];
@@ -39,8 +38,8 @@ use common\models\Pages;
 			$categories[] = ['label' => $category, 'url' => ['/product', 'PagesSearch[category]' => $category]];
 		}
 
-        if (isset($category)){
-			$menuCategory['items'] = $category;
+        if (isset($categories)){
+			$menuCategory['items'] = $categories;
         }
 		echo Nav::widget([
 			'options' => ['class' => 'navbar-nav navbar-right'],

@@ -111,11 +111,11 @@ class SettingController extends Controller
                         if (getimagesize($_file->tempName)) {
                             $sizes = [
                                 'large' => [
-                                    'width' => 600,
+                                    'width' => 1200,
                                     'format' => 'png'
                                 ],
                                 'small' => [
-                                    'width' => 50,
+                                    'width' => 200,
                                     'format' => 'png'
                                 ],
                             ];
