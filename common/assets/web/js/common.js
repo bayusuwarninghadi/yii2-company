@@ -33,4 +33,14 @@ $(document).on("change", "[data-dynamic='true']", function (ev) {
             }
         });
     }
+    $('[data-toggle="checkbox"]').click(function(ev){
+        var _this = $(ev.currentTarget);
+        var _target = _this.attr('data-container-target');
+        var _value = (_this.attr('data-value') === 'true');
+        if (_target){
+            $(_target).find(':checkbox').prop('checked', !_value);
+            _this.attr('data-value', !_value);
+        }
+    });
+
 });

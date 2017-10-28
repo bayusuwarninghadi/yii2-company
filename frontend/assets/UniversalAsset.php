@@ -20,6 +20,7 @@ class UniversalAsset extends AssetBundle
     public $css = [
         'universal/css/animate.min.css',
         'universal/css/style.default.min.css',
+        'universal/css/overide.css',
     ];
     public $js = [
         'universal/js/jquery.parallax-1.1.3.min.js',

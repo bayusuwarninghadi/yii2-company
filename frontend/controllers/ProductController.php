@@ -30,6 +30,7 @@ class ProductController extends BaseController
      */
     public function actionIndex()
     {
+
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_PRODUCT;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
@@ -52,8 +53,9 @@ class ProductController extends BaseController
      */
     public function actionView($id)
     {
+    	$model = $this->findModel($id);
         return $this->render('/product/view', [
-            'model' => $this->findModel($id),
+            'model' => $model ,
         ]);
     }
 

@@ -3,7 +3,6 @@
 namespace backend\controllers;
 
 use Yii;
-use common\models\PageAttribute;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
@@ -50,7 +49,7 @@ class BrandController extends Controller
         $searchModel->type_id = Pages::TYPE_BRAND;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('/pages/index', [
+        return $this->render('/brand/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'type' => 'Brand'
@@ -64,7 +63,7 @@ class BrandController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/pages/view', [
+        return $this->render('/brand/view', [
             'model' => $this->findModel($id),
             'type' => 'Brand'
         ]);
@@ -91,17 +90,6 @@ class BrandController extends Controller
         if ($model->load($bodyData)) {
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()){
-
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
-
 	            /**
                  * Save Pages Lang
                  */
@@ -116,10 +104,11 @@ class BrandController extends Controller
                 }
 
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Created'));
-                return $this->redirect(['/news/view', 'id' => $model->id]);
+                return $this->redirect(['/brand/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/pages/create', [
+
+	    return $this->render('/brand/create', [
             'model' => $model,
             'type' => 'Brand',
             'modelEnglish' => $modelEnglish,
@@ -146,17 +135,6 @@ class BrandController extends Controller
             $model->type_id = Pages::TYPE_BRAND;
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
-
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
-
 	            /**
                  * Save Pages Lang
                  */
@@ -171,10 +149,11 @@ class BrandController extends Controller
                 }
 
                 Yii::$app->session->setFlash('success', Yii::t('app', 'Item Updated'));
-                return $this->redirect(['/news/view', 'id' => $model->id]);
+                return $this->redirect(['/brand/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/pages/update', [
+
+        return $this->render('/brand/update', [
             'model' => $model,
             'type' => 'Brand',
             'modelEnglish' => $modelEnglish,

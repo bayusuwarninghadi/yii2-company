@@ -52,7 +52,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PagesSearch();
+	    $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_PRODUCT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

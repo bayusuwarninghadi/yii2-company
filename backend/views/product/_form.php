@@ -10,6 +10,7 @@ use yii\helpers\Url;
 use yii\helpers\Inflector;
 use common\models\Pages;
 use kartik\select2\Select2;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages */
@@ -34,12 +35,13 @@ use kartik\select2\Select2;
                              data-url="<?= $availableImages['medium'] ?>"
                              data-product="<?= $model->id ?>"
                              data-id="<?= $image->id ?>">
-                            <div class="gallery-container active" >
+                            <div class="gallery-container active">
                                 <div class="gallery"
                                      style="background-image: url(<?= UploadHelper::getImageUrl('page/' . $model->id . '/' . $image->id, 'medium') ?>)">
                                 </div>
                             </div>
-                            <a href="<?=Url::to(['delete-attribute', 'id' => $image->id ])?>" class="btn btn-danger btn-sm">
+                            <a href="<?= Url::to(['delete-attribute', 'id' => $image->id]) ?>"
+                               class="btn btn-danger btn-sm">
                                 <i class="fa fa-trash-o"></i> Delete
                             </a>
                         </div>
@@ -77,64 +79,67 @@ use kartik\select2\Select2;
             <br>
             <br>
             <div class="row">
-                <div class="col-sm-4">
-                    <pre>
-                        <?php print_r($model->category)?>
-                        <?php print_r($model->tags)?>
-                        <?php print_r($model->color)?>
-                    </pre>
-	                <?= $form->field($model, 'order')->input('number') ?>
-	                <?= $form->field($model, 'category')->widget(Select2::classname(), [
-		                'data' => Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY),
-		                'options' => ['placeholder' => 'Select a category ...', 'multiple' => true],
-		                'pluginOptions' => [
-			                'tags' => true,
-		                ],
-	                ])  ?>
-	                <?= $form->field($model, 'tags')->widget(Select2::classname(), [
-//		                'data' => Pages::getAvailableTags(),
-		                'options' => ['placeholder' => 'Select a tags ...', 'multiple' => true],
-		                'pluginOptions' => [
-			                'tags' => true,
-		                ],
-	                ])  ?>
-
-                    <?= $form->field($model, 'color')->widget(Select2::classname(), [
-		                'data' => Pages::getColors(),
-		                'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
-		                'pluginOptions' => [
-			                'tags' => true,
-		                ],
-	                ])  ?>
-	                <?= $form->field($model, 'size')->widget(Select2::classname(), [
-		                'data' => Pages::getSizes(),
-		                'options' => ['placeholder' => 'Select a size ...', 'multiple' => true],
-		                'pluginOptions' => [
-			                'tags' => true,
-		                ],
-	                ])  ?>
+                <div class="col-sm-3">
+					<?= $form->field($model, 'brand_id')->dropDownList(
+						ArrayHelper::map(Pages::findAll(['type_id' => Pages::TYPE_BRAND]), 'id', 'title')
+					) ?>
+					<?= $form->field($model, 'order')->input('number') ?>
+					<?= $form->field($model, 'discount')->input('number') ?>
                 </div>
-                <div class="attribute col-sm-8" id="custom-detail">
-                        <div class="list-group-item text-right">
-	                        <?= Html::a('Add New Specification', '#custom-detail', ['class' => 'btn btn-default btn-sm add-detail']) ?>
-                        </div>
-                        <div class="list-group-item">
-                            <div class="custom-detail">
-                                <?php foreach ($model->detail as $name => $detail) : ?>
-                                    <?= $form->field($model, 'detail[' . $name . ']', [
-                                        'template' => "
-                                                <div class='input-group'>
-                                                    <span class='input-group-addon'>{label}</span>
-                                                    {input}
-                                                    <span class='input-group-btn'>
-                                                        <a href='#' class='btn btn-danger btn-remove-detail'><i class='fa fa-trash-o'></i></a>
-                                                    </span>
-                                                </div>
-                                                \n{error}"
-                                    ])->textInput(['value' => $detail])->label(Inflector::camel2words($name)) ?>
-                                <?php endforeach ?>
-                            </div>
-                        </div>
+                <div class="col-sm-4">
+					<?= $form->field($model, 'category')->widget(Select2::classname(), [
+						'data' => Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY),
+						'options' => ['placeholder' => 'Select a category ...', 'multiple' => true],
+						'pluginOptions' => [
+							'tags' => true,
+							'tokenSeparators' => [','],
+						],
+					]) ?>
+					<?= $form->field($model, 'tags')->widget(Select2::classname(), [
+						'data' => Pages::getAvailableTags(),
+						'options' => ['placeholder' => 'Select a tags ...', 'multiple' => true],
+						'pluginOptions' => [
+							'tags' => true,
+							'tokenSeparators' => [','],
+						],
+					]) ?>
+
+					<?= $form->field($model, 'color')->widget(Select2::classname(), [
+						'data' => Pages::getColors(),
+						'options' => ['placeholder' => 'Select a color ...', 'multiple' => true],
+						'pluginOptions' => [
+							'tags' => true,
+							'tokenSeparators' => [','],
+						],
+					]) ?>
+					<?= $form->field($model, 'size')->widget(Select2::classname(), [
+						'data' => Pages::getSizes(),
+						'options' => ['placeholder' => 'Select a size ...', 'multiple' => true],
+						'pluginOptions' => [
+							'tags' => true,
+							'tokenSeparators' => [','],
+						],
+					]) ?>
+                </div>
+                <div class="attribute col-sm-5" id="custom-detail">
+                    <div class="text-right">
+						<?= Html::a('Add New Specification', '#custom-detail', ['class' => 'btn btn-default btn-sm add-detail']) ?>
+                    </div>
+                    <div class="custom-detail">
+						<?php foreach ($model->detail as $name => $detail) : ?>
+							<?= $form->field($model, 'detail[' . $name . ']', [
+								'template' => "
+                                            <div class='input-group'>
+                                                <span class='input-group-addon'>{label}</span>
+                                                {input}
+                                                <span class='input-group-btn'>
+                                                    <a href='#' class='btn btn-danger btn-remove-detail'><i class='fa fa-trash-o'></i></a>
+                                                </span>
+                                            </div>
+                                            \n{error}"
+							])->textInput(['value' => $detail])->label(Inflector::camel2words($name)) ?>
+						<?php endforeach ?>
+                    </div>
                 </div>
             </div>
         </div>

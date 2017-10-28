@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use Codeception\PHPUnit\Constraint\Page;
 use common\models\Pages;
 use common\models\Inbox;
 use common\models\LoginForm;
@@ -105,7 +104,7 @@ class SiteController extends BaseController
 		$newsFeed = Pages::find()->where(['type_id' => Pages::TYPE_NEWS])->limit(8)->orderBy('created_at desc')->all();
 
 		/** @var $products Pages[] */
-		$products = Pages::find()->where(['type_id' => Pages::TYPE_PRODUCT])->limit(8)->orderBy('created_at desc')->all();
+		$products = Pages::find()->where(['type_id' => Pages::TYPE_PRODUCT, 'order' => '0'])->orderBy('created_at desc')->all();
 		$productItems = [];
 
 		foreach ($products as $product) {
@@ -121,10 +120,10 @@ class SiteController extends BaseController
 
 
 		    $content .= Html::beginTag('div', ['class' => 'content']);
-			$content .= Html::tag('h4', Html::a($product->title, ['/partner/view', 'id' => $product->id]), ['class' => 'bg']);
+			$content .= Html::tag('h4', Html::a($product->title, ['/product/view', 'id' => $product->id]), ['class' => 'bg']);
 			$content .= Html::tag('p', $product->subtitle, ['class' => 'author-category']);
 			$content .= Html::tag('p', HtmlPurifier::process($product->subtitle), ['class' => 'intro']);
-			$content .= Html::tag('p', Html::a('Continue Reading', ['/partner/view', 'id' => $product->id], ['class' => 'btn btn-template-main']), ['class' => 'read-more']);
+			$content .= Html::tag('p', Html::a('Continue Reading', ['/product/view', 'id' => $product->id], ['class' => 'btn btn-template-main']), ['class' => 'read-more']);
 			$content .= Html::endTag('div');
 
 			$content .= Html::endTag('div');

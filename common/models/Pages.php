@@ -31,11 +31,15 @@ use yii\web\UploadedFile;
  * @property PageAttribute $pageTags
  * @property PageAttribute[] $pageImages
  * @property PageAttribute $pageImage
+ * @property PageAttribute $pageDiscount
+ * @property PageAttribute $pageBrand
  * @property PageAttribute $pageDetail
  * @property PageAttribute $pageSize
  * @property PageAttribute $pageColor
  * @property PageAttribute $pageCategory
  * @property PagesLang[] $translations
+ * @property Pages[] $products
+ * @property Pages $brand
  * @property User $user
  */
 class Pages extends ActiveRecord
@@ -46,6 +50,8 @@ class Pages extends ActiveRecord
 	const PAGE_ATTRIBUTE_SIZE = 'size';
 	const PAGE_ATTRIBUTE_TAGS = 'tags';
 	const PAGE_ATTRIBUTE_CATEGORY = 'category';
+	const PAGE_ATTRIBUTE_DISCOUNT = 'discount';
+	const PAGE_ATTRIBUTE_BRAND = 'brand';
 
 	const TYPE_PRODUCT = '1';
 	const TYPE_NEWS = '2';
@@ -68,6 +74,8 @@ class Pages extends ActiveRecord
 	public $size = [];
 	public $tags = [];
 	public $category = [];
+	public $discount;
+	public $brand_id;
 
 	/**
 	 * @return Yii\db\ActiveQuery
@@ -225,6 +233,7 @@ class Pages extends ActiveRecord
 			static::TYPE_SLIDER => 'Slider',
 			static::TYPE_PARTNER => 'Partner',
 			static::TYPE_PILL => 'Pill',
+			static::TYPE_BRAND => 'Brand',
 		];
 
 		return $with_key ? $return : array_keys($return);
@@ -240,7 +249,7 @@ class Pages extends ActiveRecord
 			'trans' => [
 				'class' => TranslateBehavior::className(),
 				'translationAttributes' => [
-					'title', 'subtitle', 'description',
+					'title', 'subtitle', 'description'
 				]
 			],
 		];
@@ -293,15 +302,36 @@ class Pages extends ActiveRecord
 			'pageTags' => self::PAGE_ATTRIBUTE_TAGS,
 			'pageCategory' => self::PAGE_ATTRIBUTE_CATEGORY,
 		];
-		foreach ($_attr as $key => $attr){
-			if (($model = $this->$key) === null) {
-				$model = new PageAttribute();
-				$model->key = $attr;
-				$model->page_id = $this->id;
+
+		foreach ($_attr as $key => $attr) {
+			if ($this->$attr) {
+				if (($model = $this->$key) === null) {
+					$model = new PageAttribute();
+					$model->key = $attr;
+					$model->page_id = $this->id;
+				}
+				$model->value = $this->$attr ? Json::encode($this->$attr) : '[]';
+				$model->save();
 			}
-			$model->value = $this->$attr ? Json::encode($this->$attr) : '[]';
-			$model->save();
 		}
+
+		// save discount
+		if (($discount = $this->pageDiscount) == null) {
+			$discount = new PageAttribute();
+			$discount->key = self::PAGE_ATTRIBUTE_DISCOUNT;
+			$discount->page_id = $this->id;
+		}
+		$discount->int_value = $this->discount;
+		$discount->save();
+
+		// save brand
+		if (($brand = $this->pageBrand) == null) {
+			$brand = new PageAttribute();
+			$brand->key = self::PAGE_ATTRIBUTE_BRAND;
+			$brand->page_id = $this->id;
+		}
+		$brand->int_value = $this->brand_id;
+		$brand->save();
 	}
 
 	public static function getColors()
@@ -368,6 +398,16 @@ class Pages extends ActiveRecord
 		if ($this->pageCategory) {
 			$this->category = Json::decode($this->pageCategory->value);
 		}
+		if (!$this->discount) {
+			if ($this->pageDiscount) {
+				$this->discount = $this->pageDiscount->int_value;
+			}
+		}
+		if (!$this->brand_id) {
+			if ($this->pageBrand) {
+				$this->brand_id = $this->pageBrand->int_value;
+			}
+		}
 	}
 
 	/**
@@ -403,12 +443,13 @@ class Pages extends ActiveRecord
 			],
 			['created_by', 'default', 'value' => Yii::$app->user->getId()],
 			[['type_id'], 'required'],
-			[['status', 'order', 'cat_id', 'type_id', 'created_at', 'updated_at'], 'integer'],
-			[['order'], 'default', 'value' => 0],
+			[['status', 'order', 'cat_id', 'type_id', 'created_at', 'updated_at', 'discount', 'brand_id'], 'integer'],
+			[['order'], 'default', 'value' => 1],
+			[['discount'], 'default', 'value' => '0'],
 			['status', 'default', 'value' => static::STATUS_ACTIVE],
 			['type_id', 'in', 'range' => static::getTypeAsArray(false)],
 			['status', 'in', 'range' => static::getStatusAsArray(false)],
-			[['title', 'camel_case', 'subtitle'], 'string', 'max' => 255],
+			[['camel_case'], 'string', 'max' => 255],
 			[['color', 'size', 'detail', 'category', 'tags'], 'each', 'rule' => ['string']]
 		];
 	}
@@ -476,10 +517,19 @@ class Pages extends ActiveRecord
 	/**
 	 * @return Yii\db\ActiveQuery
 	 */
+	public function getPageDiscount()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_DISCOUNT]);
+	}
+
+	/**
+	 * @return Yii\db\ActiveQuery
+	 */
 	public function getPageSize()
 	{
 		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_SIZE]);
 	}
+
 
 	/**
 	 * @return Yii\db\ActiveQuery
@@ -513,5 +563,26 @@ class Pages extends ActiveRecord
 		return $this->hasMany(UserComment::className(), ['table_id' => 'id'])->andWhere(['table_key' => static::tableName()]);
 	}
 
+	public function getPageProducts()
+	{
+		return $this->hasMany(PageAttribute::className(), ['int_value' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_BRAND]);
+	}
 
+	public function getProducts()
+	{
+		return $this->hasMany(Pages::className(), ['id' => 'page_id'])
+			->via('pageProducts');
+	}
+
+
+	public function getPageBrand()
+	{
+		return $this->hasOne(PageAttribute::className(), ['page_id' => 'id'])->where(['key' => self::PAGE_ATTRIBUTE_BRAND]);
+	}
+
+	public function getBrand()
+	{
+		return $this->hasOne(Pages::className(), ['id' => 'int_value'])
+			->via('pageBrand');
+	}
 }

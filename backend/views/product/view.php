@@ -6,14 +6,13 @@ use yii\helpers\HtmlPurifier;
 use yii\bootstrap\Carousel;
 use yii\helpers\Inflector;
 use yii\helpers\Json;
-
+use common\modules\UploadHelper;
 
 /* @var string $this */
 /* @var $this yii\web\View */
 /* @var $model common\models\Pages */
 /* @var $images array */
 /* @var string $type */
-
 
 
 $this->title = $model->title;
@@ -60,13 +59,14 @@ $this->params['breadcrumbs'][] = $this->title;
 					$items = [
 						'title',
 						'subtitle',
-						[
-							'label' => 'Description',
-							'format' => 'html',
-							'value' => HtmlPurifier::process($model->description)
-						],
 						'created_at:datetime',
 						'updated_at:datetime',
+						[
+							'label' => 'Discount',
+							'value' => function ($model) {
+								return intval($model->discount) . '%';
+							}
+						],
 						[
 							'label' => 'Category',
 							'value' => function ($model) {
@@ -80,6 +80,19 @@ $this->params['breadcrumbs'][] = $this->title;
 								return $tags;
 							},
 							'format' => 'html'
+						],
+						[
+							'attribute' => 'Brand',
+							'format' => 'html',
+							'value' => function ($model) {
+								/** @var $model \common\models\Pages */
+								if ($model->brand) {
+									return Html::tag('div', $model->brand->title) .
+										($model->brand->pageImage ?
+											Html::tag('div', UploadHelper::getHtml('page/' . $model->brand->id . '/' . $model->brand->pageImage->id, 'small')) :
+											"");
+								}
+							}
 						],
 						[
 							'label' => 'Tags',
@@ -96,33 +109,33 @@ $this->params['breadcrumbs'][] = $this->title;
 							'format' => 'html'
 						],
 						[
-                            'label' => 'Color',
-	                        'value' => function ($model) {
-		                        /** @var $model \common\models\Pages */
-		                        $tags = '';
-		                        if ($model->pageColor) {
-			                        foreach (Json::decode($model->pageColor->value) as $tag) {
-				                        $tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
-			                        }
-		                        }
-		                        return $tags;
-	                        },
-	                        'format' => 'html'
-                        ],
-                        [
-                            'label' => 'Size',
-	                        'value' => function ($model) {
-		                        /** @var $model \common\models\Pages */
-		                        $tags = '';
-		                        if ($model->pageSize) {
-			                        foreach (Json::decode($model->pageSize->value) as $tag) {
-				                        $tags .= Html::tag('span', $tag, ['class' => 'label label-warning']) . ' ';
-			                        }
-		                        }
-		                        return $tags;
-	                        },
-	                        'format' => 'html'
-                        ]
+							'label' => 'Color',
+							'value' => function ($model) {
+								/** @var $model \common\models\Pages */
+								$tags = '';
+								if ($model->pageColor) {
+									foreach (Json::decode($model->pageColor->value) as $tag) {
+										$tags .= Html::tag('span', $tag, ['class' => 'label label-primary']) . ' ';
+									}
+								}
+								return $tags;
+							},
+							'format' => 'html'
+						],
+						[
+							'label' => 'Size',
+							'value' => function ($model) {
+								/** @var $model \common\models\Pages */
+								$tags = '';
+								if ($model->pageSize) {
+									foreach (Json::decode($model->pageSize->value) as $tag) {
+										$tags .= Html::tag('span', $tag, ['class' => 'label label-warning']) . ' ';
+									}
+								}
+								return $tags;
+							},
+							'format' => 'html'
+						]
 					];
 
 					foreach ($model->detail as $name => $detail) {
@@ -138,7 +151,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
-
+        <div class="panel-body">
+			<?= HtmlPurifier::process($model->description) ?>
+        </div>
 
     </div>
 

@@ -23,124 +23,123 @@ foreach ($model->category as $category) {
 	];
 }
 ?>
-<div id="heading-breadcrumbs">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-7">
-                <h1><?= Html::encode($this->title) ?></h1>
-            </div>
-            <div class="col-md-5">
-				<?= Breadcrumbs::widget([
-					'links' => $this->params['breadcrumbs'],
-				]); ?>
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1><?= Html::encode($this->title) ?></h1>
+                </div>
+                <div class="col-md-5">
+					<?= Breadcrumbs::widget([
+						'links' => $this->params['breadcrumbs'],
+					]); ?>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="content">
-    <div class="container">
+    <div id="content">
+        <div class="container">
 
-        <div class="row">
-            <div class="col-md-9">
+            <div class="row">
+                <div class="col-md-9">
 
-                <p class="lead">
-					<?= HTMLPurifier::process($model->subtitle) ?>
-                </p>
-                <p class="goToDescription">
-                    <a href="#details" class="scroll-to text-uppercase">
-                        Scroll to product details, material & care and sizing
-                    </a>
-                </p>
-
-                <div class="row" id="productMain">
-                    <div class="col-sm-6">
-                        <div id="mainImage">
-                            <?=UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive'])?>
-                        </div>
-
-                        <div class="ribbon sale">
-                            <div class="theribbon">SALE</div>
-                            <div class="ribbon-background"></div>
-                        </div>
-                        <!-- /.ribbon -->
-
-                        <div class="ribbon new">
-                            <div class="theribbon">NEW</div>
-                            <div class="ribbon-background"></div>
-                        </div>
-                        <!-- /.ribbon -->
-
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="box">
-                            <div class="sizes">
-                                <h3>Available sizes</h3>
-								<?php foreach ($model->size as $size) : ?>
-                                    <a href="#"><?= $size ?></a>
-								<?php endforeach; ?>
-                            </div>
-                            <br>
-                            <div class="sizes">
-                                <h3>Available Color</h3>
-								<?php foreach ($model->color as $color) : ?>
-                                    <a href="#" style="background: <?= $color ?>"></a>
-								<?php endforeach; ?>
-                            </div>
-                        </div>
-
-                        <?php if ($model->pageImages) : ?>
-                        <div class="row" id="thumbs">
-							<?php
-							$images = [];
-
-							$indicator = '';
-							foreach ($model->pageImages as $image) {
-								$_arr = Json::decode($image->value);
-								$content = Html::a(
-									Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium'], ['style' => 'max-width: 100px;']),
-									Yii::$app->components['frontendSiteUrl'] . $_arr['large'],
-									['class' => 'thumb']
-                                );
-								$images[] = $content;
-							}
-							echo Owl::widget([
-								'items' => $images,
-								'options' => ['class' => 'customers owl-carousel'],
-								'configs' => [
-									'items' => 3,
-								]
-							])
-							?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-
-                </div>
-
-
-                <div class="box" id="details">
-                    <di>
-                        <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
-                    </di>
-
-					<?= HTMLPurifier::process($model->description) ?>
-                </div>
-
-                <div class="box social" id="product-social">
-                    <h4>Show it to your friends</h4>
-                    <p>
-						<?= Html::a('<i class="fa fa-facebook"></i>', 'http://www.facebook.com/sharer.php?u=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external facebook', 'data-animate-hover' => 'pulse']) ?>
-						<?= Html::a('<i class="fa fa-twitter"></i>', 'http://twitter.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external twitter', 'data-animate-hover' => 'pulse']) ?>
-						<?= Html::a('<i class="fa fa-google-plus"></i>', 'https://plus.google.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external gplus', 'data-animate-hover' => 'pulse']) ?>
-						<?= Html::a('<i class="fa fa-envelope"></i>', 'mailto:?Subject=' . Html::decode($model->title) . '&body=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'email', 'data-animate-hover' => 'pulse']) ?>
+                    <p class="lead">
+						<?= HTMLPurifier::process($model->subtitle) ?>
                     </p>
+                    <p class="goToDescription">
+                        <a href="#details" class="scroll-to text-uppercase">
+                            Scroll to product details, material & care and sizing
+                        </a>
+                    </p>
+
+                    <div class="row" id="productMain">
+                        <div class="col-sm-6">
+                            <div id="mainImage">
+								<?= UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive']) ?>
+                            </div>
+                            <div class="ribbon">
+								<?php if ($model->discount > 0) : ?>
+                                    <div class="sale">
+                                        <div class="theribbon">SALE</div>
+                                    </div>
+								<?php endif; ?>
+								<?php if ($model->order == 0) : ?>
+                                    <div class="new">
+                                        <div class="theribbon">NEW</div>
+                                    </div>
+								<?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="box">
+                                <div class="sizes">
+                                    <h3>Available sizes</h3>
+									<?php foreach ($model->size as $size) : ?>
+                                        <a href="#"><?= $size ?></a>
+									<?php endforeach; ?>
+                                </div>
+                                <br>
+                                <div class="sizes">
+                                    <h3>Available Color</h3>
+									<?php foreach ($model->color as $color) : ?>
+                                        <a style="background: <?= $color ?>" title="<?= $color ?>"></a>
+									<?php endforeach; ?>
+                                </div>
+                            </div>
+
+							<?php if ($model->pageImages) : ?>
+                                <div class="row" id="thumbs">
+									<?php
+									$images = [];
+
+									$indicator = '';
+									foreach ($model->pageImages as $image) {
+										$_arr = Json::decode($image->value);
+										$content = Html::a(
+											Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium'], ['style' => 'max-width: 100px;']),
+											Yii::$app->components['frontendSiteUrl'] . $_arr['large'],
+											['class' => 'thumb']
+										);
+										$images[] = $content;
+									}
+									echo Owl::widget([
+										'items' => $images,
+										'options' => ['class' => 'customers owl-carousel'],
+										'configs' => [
+											'items' => 3,
+										]
+									])
+									?>
+                                </div>
+							<?php endif; ?>
+                        </div>
+
+                    </div>
+
+
+                    <div class="" id="details">
+                        <di>
+                            <i class="fa fa-fw fa-calendar"></i> <?= \Yii::$app->formatter->asDate($model->updated_at) ?>
+                        </di>
+
+						<?= HTMLPurifier::process($model->description) ?>
+                    </div>
+
+                    <div class="box social" id="product-social">
+                        <h4>Show it to your friends</h4>
+                        <p>
+							<?= Html::a('<i class="fa fa-facebook"></i>', 'http://www.facebook.com/sharer.php?u=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external facebook', 'data-animate-hover' => 'pulse']) ?>
+							<?= Html::a('<i class="fa fa-twitter"></i>', 'http://twitter.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external twitter', 'data-animate-hover' => 'pulse']) ?>
+							<?= Html::a('<i class="fa fa-google-plus"></i>', 'https://plus.google.com/share?url=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'external gplus', 'data-animate-hover' => 'pulse']) ?>
+							<?= Html::a('<i class="fa fa-envelope"></i>', 'mailto:?Subject=' . Html::decode($model->title) . '&body=' . \Yii::$app->request->getAbsoluteUrl(), ['class' => 'email', 'data-animate-hover' => 'pulse']) ?>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<?=$this->registerJs("
+<?= $this->registerJs("
 function productDetailGallery(confDetailSwitch) {
     $('.thumb:first').addClass('active');
     timer = setInterval(autoSwitch, confDetailSwitch);
@@ -176,4 +175,4 @@ $(document).ready(function(ev){
     productDetailGallery(4000);
 })
 
-", \yii\web\View::POS_END)?>
+", \yii\web\View::POS_END) ?>

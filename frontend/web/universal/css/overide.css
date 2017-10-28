@@ -1,0 +1,11 @@
+.ribbon{
+    top:0;
+}
+.product {
+    height: 550px;
+    overflow: auto;
+}
+.product .description {
+    height: 150px;
+    overflow: auto;
+}

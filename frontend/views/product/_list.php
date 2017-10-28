@@ -3,7 +3,6 @@
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
-use common\models\Pages;
 
 /**
  * Created by PhpStorm.
@@ -15,6 +14,19 @@ use common\models\Pages;
 
 ?>
 <div class="product">
+    <div class="ribbon">
+		<?php if ($model->discount > 0) : ?>
+            <div class="sale">
+                <div class="theribbon">SALE <?=$model->discount?>%</div>
+            </div>
+		<?php endif; ?>
+		<?php if ($model->order == 0) : ?>
+            <div class="new">
+                <div class="theribbon">NEW</div>
+            </div>
+		<?php endif; ?>
+    </div>
+
     <div class="image">
 		<?= Html::a(
 			UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive image1']),
@@ -23,19 +35,11 @@ use common\models\Pages;
     </div>
     <div class="text">
         <h3>
-	        <?= Html::a( Html::encode($model->title), ['view', 'id' => $model->id]) ?>
+			<?= Html::a(Html::encode($model->title), ['view', 'id' => $model->id]) ?>
+            <br>
         </h3>
-        <p class="price"><?= Html::encode($model->subtitle) ?></p>
-        <p>
-	        <?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
-        </p>
-    </div>
-    <div class="ribbon sale">
-        <div class="theribbon">SALE</div>
-        <div class="ribbon-background"></div>
-    </div>
-    <div class="ribbon new">
-        <div class="theribbon">NEW</div>
-        <div class="ribbon-background"></div>
+        <div class="description">
+			<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
+        </div>
     </div>
 </div>

@@ -9,7 +9,6 @@
 use frontend\widgets\carousel\Owl;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Html;
-use common\modules\UploadHelper;
 use yii\widgets\ActiveForm;
 
 /**
@@ -119,7 +118,6 @@ $this->title = Yii::t('app', 'Welcome');
                     <div class="text-center">
                         <h2>Our Brand</h2>
                     </div>
-
                     <?php
                     $items = [];
                     for ($i = 1; $i <= 6; $i++) {
