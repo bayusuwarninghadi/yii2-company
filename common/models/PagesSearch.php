@@ -45,14 +45,16 @@ class PagesSearch extends Pages
 	 */
 	public function search($params)
 	{
+//		var_dump($params);
+//		die();
 		$query = Pages::find()
 			->joinWith(['translations'])
-			->leftJoin(PageAttribute::tableName() . ' p_tags', sprintf('`p_tags`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->leftJoin(PageAttribute::tableName() . ' p_category', sprintf('`p_category`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->leftJoin(PageAttribute::tableName() . ' p_color', sprintf('`p_color`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->leftJoin(PageAttribute::tableName() . ' p_size', sprintf('`p_size`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->leftJoin(PageAttribute::tableName() . ' p_brand', sprintf('`p_brand`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->leftJoin(PageAttribute::tableName() . ' p_discount', sprintf('`p_discount`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_tags', sprintf('`p_tags`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_category', sprintf('`p_category`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_color', sprintf('`p_color`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_size', sprintf('`p_size`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_brand', sprintf('`p_brand`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->rightJoin(PageAttribute::tableName() . ' p_discount', sprintf('`p_discount`.`page_id` = `%s`.`id`', Pages::tableName()))
 		;
 
 		$dataProvider = new ActiveDataProvider([
@@ -112,9 +114,11 @@ class PagesSearch extends Pages
 			->andFilterWhere(['like', 'pages_lang.title', $this->title])
 			->andFilterWhere(['like', 'pages_lang.subtitle', $this->subtitle])
 			->andFilterWhere(['like', 'p_tags.value', $this->tags])
-			->andFilterWhere(['>', 'p_discount.int_value', $this->has_discount])
 			->andFilterWhere(['like', 'pages_lang.description', $this->description]);
 
+		if ($this->has_discount){
+			$query->andWhere('p_discount.int_value > 0');
+		}
 
 		// size
 		$this->size = is_array($this->size) ? $this->size : [$this->size];

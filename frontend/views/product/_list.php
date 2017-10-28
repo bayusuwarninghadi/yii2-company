@@ -14,19 +14,6 @@ use yii\helpers\HtmlPurifier;
 
 ?>
 <div class="product">
-    <div class="ribbon">
-		<?php if ($model->discount > 0) : ?>
-            <div class="sale">
-                <div class="theribbon">SALE <?=$model->discount?>%</div>
-            </div>
-		<?php endif; ?>
-		<?php if ($model->order == 0) : ?>
-            <div class="new">
-                <div class="theribbon">NEW</div>
-            </div>
-		<?php endif; ?>
-    </div>
-
     <div class="image">
 		<?= Html::a(
 			UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive image1']),
@@ -41,5 +28,17 @@ use yii\helpers\HtmlPurifier;
         <div class="description">
 			<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
         </div>
+    </div>
+    <div class="ribbon">
+		<?php if ($model->discount > 0) : ?>
+            <div class="sale">
+                <div class="theribbon">SALE <?=$model->discount?>%</div>
+            </div>
+		<?php endif; ?>
+		<?php if ($model->order == 0) : ?>
+            <div class="new">
+                <div class="theribbon">NEW</div>
+            </div>
+		<?php endif; ?>
     </div>
 </div>
