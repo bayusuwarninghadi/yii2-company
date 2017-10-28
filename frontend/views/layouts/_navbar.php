@@ -46,8 +46,8 @@ use common\models\Pages;
 			'items' => [
 				['label' => Yii::t('app', 'About'), 'url' => ['/site/about']],
 				$menuCategory,
-				['label' => Yii::t('app', 'Partner'), 'url' => ['/partner/about']],
-				['label' => Yii::t('app', 'News'), 'url' => ['/news/about']],
+				['label' => Yii::t('app', 'Partner'), 'url' => ['/partner']],
+				['label' => Yii::t('app', 'News'), 'url' => ['/news']],
 				['label' => Yii::t('app', 'Contact'), 'url' => ['/site/contact']],
 			],
 			'encodeLabels' => false

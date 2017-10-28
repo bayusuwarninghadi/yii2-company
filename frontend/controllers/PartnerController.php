@@ -35,14 +35,11 @@ class PartnerController extends BaseController
 		$dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
 		$header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
-		$tags = Pages::getTags(Pages::TYPE_PARTNER);
 
 		return $this->render('index', [
 			'searchModel' => $searchModel,
 			'dataProvider' => $dataProvider,
 			'header' => $header,
-			'type' => 'Partner',
-			'tags' => $tags
 		]);
 	}
 
@@ -55,18 +52,15 @@ class PartnerController extends BaseController
 	{
 		return $this->render('view', [
 			'model' => $this->findModel($id),
-			'type' => 'Partner'
 		]);
 	}
 
 	public function actionRelated($id)
 	{
 		$model = $this->findModel($id);
-		$this->layout = false;
-		return $this->render('_related', [
+		return $this->renderPartial('_related', [
 			'models' => $model->getRelated()
 		]);
-
 	}
 
 	/**

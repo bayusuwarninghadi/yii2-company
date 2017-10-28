@@ -45,16 +45,14 @@ class PagesSearch extends Pages
 	 */
 	public function search($params)
 	{
-//		var_dump($params);
-//		die();
 		$query = Pages::find()
 			->joinWith(['translations'])
-			->rightJoin(PageAttribute::tableName() . ' p_tags', sprintf('`p_tags`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->rightJoin(PageAttribute::tableName() . ' p_category', sprintf('`p_category`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->rightJoin(PageAttribute::tableName() . ' p_color', sprintf('`p_color`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->rightJoin(PageAttribute::tableName() . ' p_size', sprintf('`p_size`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->rightJoin(PageAttribute::tableName() . ' p_brand', sprintf('`p_brand`.`page_id` = `%s`.`id`', Pages::tableName()))
-			->rightJoin(PageAttribute::tableName() . ' p_discount', sprintf('`p_discount`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_tags', sprintf('`p_tags`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_category', sprintf('`p_category`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_color', sprintf('`p_color`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_size', sprintf('`p_size`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_brand', sprintf('`p_brand`.`page_id` = `%s`.`id`', Pages::tableName()))
+			->leftJoin(PageAttribute::tableName() . ' p_discount', sprintf('`p_discount`.`page_id` = `%s`.`id`', Pages::tableName()))
 		;
 
 		$dataProvider = new ActiveDataProvider([

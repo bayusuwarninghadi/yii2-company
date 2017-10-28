@@ -1,6 +1,8 @@
 <?php
+
 use common\modules\UploadHelper;
 use yii\helpers\Html;
+use yii\helpers\HtmlPurifier;
 
 /**
  * Created by PhpStorm.
@@ -11,22 +13,20 @@ use yii\helpers\Html;
  */
 
 ?>
-<div class="portfolio-item">
-	<?= Html::a(
-        '<div class="portfolio-hover">
-            <div class="portfolio-hover-content">
-                '. Yii::t('app','see detail').'
-            </div>
+<div class="product">
+    <div class="image">
+		<?= Html::a(
+			UploadHelper::getHtml($model->getImagePath(), 'medium', ['class' => 'img-responsive image1']),
+			['view', 'id' => $model->id]
+		) ?>
+    </div>
+    <div class="text">
+        <h3>
+			<?= Html::a(Html::encode($model->title), ['view', 'id' => $model->id]) ?>
+            <br>
+        </h3>
+        <div class="description">
+			<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
         </div>
-        ' .
-		UploadHelper::getHtml( $model->getImagePath(), 'medium', ['class' => 'img-responsive']),
-		['/partner/view', 'id' => $model->id],
-        [
-            'class' => 'portfolio-link'
-        ]
-) ?>
-	<div class="portfolio-caption">
-		<h4><?=$model->title?></h4>
-        <p class="text-muted"><?=$model->subtitle?></p>
-	</div>
+    </div>
 </div>

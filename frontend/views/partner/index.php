@@ -1,64 +1,53 @@
 <?php
 
 use yii\widgets\Pjax;
-use yii\widgets\ListView;
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
+use yii\widgets\ListView;
 use yii\helpers\HtmlPurifier;
+use yii\widgets\Breadcrumbs;
+use common\models\Pages;
 
 /* @var $this yii\web\View */
-/* @var string $type */
-/* @var $tags array */
+/* @var array $tags */
 /* @var $header \common\models\Pages */
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $type;
+$this->title = 'Partner';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<section class="small-section">
-    <div class="text-center">
-
-        <h1 class="section-heading">
-			<?= Yii::t('app', 'Partners') ?>
-        </h1>
-        <h3 class="section-subheading text-muted">
-			<?= HtmlPurifier::process($header->description) ?>
-        </h3>
-    </div>
-</section>
-<section class="small-section bg-light-gray">
-    <div class="container-fluid">
-        <div class="form-group">
-			<?php $form = ActiveForm::begin([
-				'action' => ['index'],
-				'method' => 'get',
-			]); ?>
-            <div class="row">
-                <div class="col-sm-3 col-sm-offset-2 form-group">
-					<?= Html::activeDropDownList($searchModel, 'tag', array_combine($tags, $tags), ['class' => 'form-control text-capitalize', 'prompt' => 'All Topics']) ?>
-                </div>
-                <div class="col-sm-3 form-group">
-					<?= Html::activeTextInput($searchModel, 'key', ['class' => 'form-control', 'placeholder' => 'search']) ?>
-                </div>
-                <div class="col-sm-2 form-group">
-					<?= Html::submitButton('Search', ['class' => 'btn btn-primary btn-block']) ?>
-                </div>
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <h1>Our Partner</h1>
             </div>
-			<?php ActiveForm::end(); ?>
+            <div class="col-md-5">
+				<?= Breadcrumbs::widget([
+					'links' => $this->params['breadcrumbs'],
+				]); ?>
+            </div>
         </div>
-		<?php
-		Pjax::begin();
-		echo ListView::widget([
-			'dataProvider' => $dataProvider,
-			'itemView' => '_list',
-			'layout' => "<div class='grid'>{items}</div>{pager}",
-			'itemOptions' => [
-				'class' => 'grid-item col-sm-3'
-			]
-		]);
-		Pjax::end();
-		?>
     </div>
-</section>
+</div>
+
+<div id="content" class="container">
+    <p class="text-muted lead">
+		<?= HtmlPurifier::process($header->description) ?>
+    </p>
+
+	<?php
+	Pjax::begin();
+	echo ListView::widget([
+		'dataProvider' => $dataProvider,
+		'itemView' => '_list',
+		'layout' => "<div class='row products'>{items}</div>{pager}",
+		'itemOptions' => [
+			'class' => 'col-md-3 col-sm-4'
+		]
+	]);
+	Pjax::end();
+	?>
+</div>

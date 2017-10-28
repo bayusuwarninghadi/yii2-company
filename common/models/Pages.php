@@ -305,15 +305,13 @@ class Pages extends ActiveRecord
 		];
 
 		foreach ($_attr as $key => $attr) {
-			if ($this->$attr) {
-				if (($model = $this->$key) === null) {
-					$model = new PageAttribute();
-					$model->key = $attr;
-					$model->page_id = $this->id;
-				}
-				$model->value = $this->$attr ? Json::encode($this->$attr) : '[]';
-				$model->save();
+			if (($model = $this->$key) === null) {
+				$model = new PageAttribute();
+				$model->key = $attr;
+				$model->page_id = $this->id;
 			}
+			$model->value = $this->$attr ? Json::encode($this->$attr) : '[]';
+			$model->save();
 		}
 
 		// save discount
