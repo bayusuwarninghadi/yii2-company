@@ -86,15 +86,15 @@ class UploadHelper extends BaseArrayHelper
             $availableSizes = [
                 'large' => [
                     'width' => 1000,
-                    'format' => 'jpeg'
+                    'format' => 'png'
                 ],
                 'medium' => [
                     'width' => 400,
-                    'format' => 'jpeg'
+                    'format' => 'png'
                 ],
                 'small' => [
                     'width' => 50,
-                    'format' => 'jpeg'
+                    'format' => 'png'
                 ],
             ];
         }
