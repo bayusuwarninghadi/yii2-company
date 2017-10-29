@@ -91,7 +91,7 @@ $this->title = Yii::t('app', 'Welcome');
                 <h3 class="text-uppercase">Do you want to see more?</h3>
                 <p class="lead"><?= HtmlPurifier::process($indexProduct->description) ?></p>
                 <p class="text-center">
-					<?= Html::a('See More', ['/products'], ['class' => 'btn btn-template-transparent-black btn-lg']) ?>
+					<?= Html::a('See More', ['/product'], ['class' => 'btn btn-template-transparent-black btn-lg']) ?>
                 </p>
             </div>
 
@@ -149,7 +149,7 @@ $this->title = Yii::t('app', 'Welcome');
                 <h2><?= Yii::t('app', 'Our Partners') ?></h2>
             </div>
 
-            <p class="lead text-center"><?= HtmlPurifier::process($indexProduct->description) ?></p>
+            <p class="lead text-center"><?= HtmlPurifier::process($indexPartner->description) ?></p>
 
 			<?= Owl::widget(['items' => $partnerItems]) ?>
         </div>
