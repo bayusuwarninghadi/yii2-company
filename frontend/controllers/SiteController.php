@@ -122,7 +122,6 @@ class SiteController extends BaseController
 			$content .= Html::beginTag('div', ['class' => 'content']);
 			$content .= Html::tag('h4', Html::a($product->title, ['/product/view', 'id' => $product->id]), ['class' => 'bg']);
 			$content .= Html::tag('p', $product->subtitle, ['class' => 'author-category']);
-			$content .= Html::tag('p', HtmlPurifier::process($product->subtitle), ['class' => 'intro']);
 			$content .= Html::tag('p', Html::a('Continue Reading', ['/product/view', 'id' => $product->id], ['class' => 'btn btn-template-main']), ['class' => 'read-more']);
 			$content .= Html::endTag('div');
 
