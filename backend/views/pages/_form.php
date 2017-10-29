@@ -34,16 +34,12 @@ use common\modules\UploadHelper;
             $items[] = [
                 'label' => 'English',
                 'content' =>
-                    $form->field($modelEnglish, 'title')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[title]']) .
-                    $form->field($modelEnglish, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelEnglish[subtitle]']) .
                     $form->field($modelEnglish, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
             $tinyMceConfig['options']['name'] = 'modelIndonesia[description]';
             $items[] = [
                 'label' => 'Indonesia',
                 'content' =>
-                    $form->field($modelIndonesia, 'title')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[title]']) .
-                    $form->field($modelIndonesia, 'subtitle')->textInput(['maxlength' => 255, 'name' => 'modelIndonesia[subtitle]']) .
                     $form->field($modelIndonesia, 'description')->widget(TinyMce::className(), $tinyMceConfig),
             ];
 
@@ -52,8 +48,6 @@ use common\modules\UploadHelper;
                 'items' => $items
             ]);
             ?>
-            <?= $form->field($model, 'pageTags[value]')->textInput()->label(Yii::t('app', 'Tags, separate by comma')) ?>
-            <?= $form->field($model, 'order')->input('number') ?>
         </div>
         <div class="panel-footer">
             <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

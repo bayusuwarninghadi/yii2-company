@@ -15,7 +15,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="article-index">
 
-    <?=Html::a('<i class="fa fa-plus fa-fw"></i> '.$type, ['create'], ['class' => 'btn btn-default pull-right'])?>
     <h1><?= Html::encode($this->title) ?></h1>
     <?php
     Pjax::begin();  
@@ -46,7 +45,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'format' => 'date'
             ],
-            ['class' => 'backend\widget\ActionColumn'],
+            [
+                'class' => 'backend\widget\ActionColumn',
+	            'template' => '<div class="text-center"><div class="btn-group" role="group">{update}</div></div>'
+            ],
         ],
     ]); 
     Pjax::end();
