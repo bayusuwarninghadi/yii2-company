@@ -15,3 +15,10 @@
     height: 150px;
     overflow: auto;
 }
+
+#productMain .sizes a{
+    line-height: 26px;
+    width: 26px;
+    height: 26px;
+    font-size: 11px;
+}

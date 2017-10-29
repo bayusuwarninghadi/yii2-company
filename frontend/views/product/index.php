@@ -7,6 +7,7 @@ use yii\widgets\ListView;
 use yii\helpers\HtmlPurifier;
 use yii\widgets\Breadcrumbs;
 use common\models\Pages;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var string $type */
@@ -106,6 +107,21 @@ if ($searchModel->category) {
                                     </li>
 								<?php endforeach ?>
                             </ul>
+                        </div>
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Brand</h3>
+                            <button type='button'
+                                    class='btn btn-xs btn-danger pull-right'
+                                    data-container-target='#brand-container'
+                                    data-toggle='checkbox'>
+                                <i class="fa fa-times-circle"></i>
+                                <span class="hidden-sm">Clear</span>
+                            </button>
+                        </div>
+                        <div class="panel-body" id="brand-container">
+		                    <?= $form->field($searchModel, 'brand_id', [
+			                    'template' => "<div class='checkbox-input'>{input}</div>{hint}\n{error}",
+		                    ])->checkboxList(ArrayHelper::map(Pages::findAll(['type_id' => Pages::TYPE_BRAND]), 'id', 'title')) ?>
                         </div>
                         <div class="panel-heading">
                             <h3 class="panel-title">Tags</h3>
