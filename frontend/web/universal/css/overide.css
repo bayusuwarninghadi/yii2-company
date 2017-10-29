@@ -31,3 +31,10 @@
 .ribbon .theribbon{
     width: auto;
 }
+.tag-cloud li.active a {
+    background: #38a7bb !important;
+    color: #fff !important;
+}
+.category-menu li.active a{
+    background: #38a7bb;
+}

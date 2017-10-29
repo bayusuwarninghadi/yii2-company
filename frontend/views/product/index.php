@@ -8,6 +8,7 @@ use yii\helpers\HtmlPurifier;
 use yii\widgets\Breadcrumbs;
 use common\models\Pages;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Inflector;
 
 /* @var $this yii\web\View */
 /* @var string $type */
@@ -99,9 +100,9 @@ if ($searchModel->category) {
                         <div class="panel-body">
                             <ul class="nav nav-stacked category-menu">
 								<?php foreach (Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_CATEGORY) as $category) : ?>
-                                    <li class="<?php if (in_array($category, $searchModel->category)) echo 'active bg-primary' ?>">
-                                        <a href="">
-                                            <input type="checkbox" name="PagesSearch[category][]" value="<?=$category?>" <?php if (in_array($category, $searchModel->category)) echo 'checked="checked"' ?>>
+                                    <li class="<?php if (in_array($category, $searchModel->category)) echo 'active' ?>">
+                                        <a href="#">
+                                            <input type="checkbox" class="hidden" name="PagesSearch[category][]" value="<?=$category?>" <?php if (in_array($category, $searchModel->category)) echo 'checked="checked"' ?>>
                                             <?= $category ?>
                                         </a>
                                     </li>
@@ -134,9 +135,16 @@ if ($searchModel->category) {
                             </button>
                         </div>
                         <div class="panel-body" id="tags-container">
-		                    <?= $form->field($searchModel, 'tags', [
-			                    'template' => "<div class='checkbox-input'>{input}</div>{hint}\n{error}",
-		                    ])->checkboxList(Pages::getAvailableTags()) ?>
+                            <ul class="tag-cloud category-menu">
+	                            <?php foreach (Pages::getAvailableTags() as $tag) : ?>
+                                    <li class="<?php if (in_array($tag, $searchModel->tags)) echo 'active' ?>">
+                                        <a href="#">
+                                            <input type="checkbox" class="hidden" name="PagesSearch[tags][]" value="<?=$tag?>" <?php if (in_array($tag, $searchModel->tags)) echo 'checked="checked"' ?>>
+                                            <i class="fa fa-tags"></i> <?= Inflector::camel2words($tag) ?>
+                                        </a>
+                                    </li>
+	                            <?php endforeach ?>
+                            </ul>
                         </div>
                         <div class="panel-body">
 		                    <?= $form->field($searchModel, 'has_discount', [
@@ -187,7 +195,7 @@ if ($searchModel->category) {
 <?=$this->registerJs("
         $('.category-menu a').click(function (ev) {
             var _parent = $(this).closest('li');
-            _parent.toggleClass('active bg-primary');
+            _parent.toggleClass('active');
             _parent.find('input[type=\"checkbox\"]').prop(\"checked\", _parent.hasClass('active'));
             return false;
         })
