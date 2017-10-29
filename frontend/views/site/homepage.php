@@ -32,7 +32,8 @@ $this->title = Yii::t('app', 'Welcome');
 
 
 <section class="no-mb">
-    <div class="home-carousel" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_1'])?>)">
+    <div class="home-carousel"
+         style="background-image: url(<?= str_replace('small', 'large', Yii::$app->controller->settings['background_1']) ?>)">
         <div class="dark-mask"></div>
         <div class="container">
 			<?php
@@ -79,7 +80,8 @@ $this->title = Yii::t('app', 'Welcome');
         </div>
     </div>
 </section>
-<section class="bar background-image-fixed-2 no-mb color-white text-center" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_2'])?>)">
+<section class="bar background-image-fixed-2 no-mb color-white text-center"
+         style="background-image: url(<?= str_replace('small', 'large', Yii::$app->controller->settings['background_2']) ?>)">
     <div class="dark-mask"></div>
     <div class="container">
         <div class="row">
@@ -103,32 +105,33 @@ $this->title = Yii::t('app', 'Welcome');
                 <div class="heading text-center">
                     <h2><?= Yii::t('app', 'Our Products') ?></h2>
                 </div>
-	            <?= Owl::widget(['items' => $productItems]) ?>
+				<?= Owl::widget(['items' => $productItems]) ?>
             </div>
 
         </div>
     </div>
 </section>
 <section class="no-mb">
-    <div class="home-carousel" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_1'])?>); padding: 60px 0;">
-    <div class="dark-mask"></div>
+    <div class="home-carousel white-mask"
+         style="background-image: url(<?= str_replace('small', 'large', Yii::$app->controller->settings['background_4']) ?>); padding: 60px 0;">
+        <div class="dark-mask"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="text-center">
+                    <div class="heading text-center">
                         <h2>Our Brand</h2>
                     </div>
-                    <?php
-                    echo Owl::widget([
-                        'items' => $brandItems,
-                        'options' => ['class' => 'customers owl-carousel'],
-                        'configs' => [
-                            'items' => 6,
-                            'itemsDesktopSmall' => [990, 4],
-                            'itemsTablet' => [768, 2],
-                            'itemsMobile' => [480, 1]
-                        ]
-                    ]) ?>
+					<?php
+					echo Owl::widget([
+						'items' => $brandItems,
+						'options' => ['class' => 'customers owl-carousel'],
+						'configs' => [
+							'items' => 6,
+							'itemsDesktopSmall' => [990, 4],
+							'itemsTablet' => [768, 2],
+							'itemsMobile' => [480, 1]
+						]
+					]) ?>
 
                 </div>
 
@@ -137,7 +140,8 @@ $this->title = Yii::t('app', 'Welcome');
     </div>
 </section>
 
-<section class="bar background-pentagon no-mb" style="background-image: url(<?=str_replace('small','large', Yii::$app->controller->settings['background_3'])?>)">
+<section class="bar background-pentagon no-mb"
+         style="background-image: url(<?= str_replace('small', 'large', Yii::$app->controller->settings['background_3']) ?>)">
     <div class="container">
 
         <div class="col-md-12">

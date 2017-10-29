@@ -22,3 +22,9 @@
     height: 26px;
     font-size: 11px;
 }
+.home-carousel.white-mask .dark-mask{
+    background: #e0e0e0;
+}
+.home-carousel.white-mask h2 {
+    color: #333;
+}
