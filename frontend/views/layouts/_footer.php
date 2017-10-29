@@ -6,7 +6,6 @@
  * Time: 13:37
  */
 use yii\helpers\Html;
-use yii\helpers\Url;
 ?>
 <footer id="footer">
 	<div class="container">
@@ -28,9 +27,6 @@ use yii\helpers\Url;
                 <li><?= Html::a(\Yii::t('app', 'FAQ'), ['/site/faq']) ?></li>
                 <li><?= Html::a(\Yii::t('app', 'About Us'), ['/site/about']) ?></li>
                 <li><?= Html::a(\Yii::t('app', 'Contact Us'), ['/site/contact']) ?></li>
-                <li>
-                    <?=(Yii::$app->language == 'id-ID') ? Html::a('EN', Url::current(['lang' => 'en-US'])) : Html::a('ID', Url::current(['lang' => 'id-ID']));?>
-                </li>
             </ul>
 			<hr class="hidden-md hidden-lg">
 
@@ -53,9 +49,6 @@ use yii\helpers\Url;
 			<hr class="hidden-md hidden-lg hidden-sm">
 
 		</div>
-		<!-- /.col-md-3 -->
-
-
 
 		<div class="col-md-3 col-sm-6">
 
@@ -72,14 +65,6 @@ use yii\helpers\Url;
                     <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
                 </span>
             </a>
-
-			<div class="photostream">
-				<div>
-				</div>
-                <div>
-                </div>
-			</div>
-
 		</div>
 		<!-- /.col-md-3 -->
 	</div>
