@@ -4,7 +4,6 @@ use yii\helpers\Html;
 use backend\widget\GridView;
 use yii\widgets\Pjax;
 use common\modules\UploadHelper;
-use common\models\Pages;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\PagesSearch */

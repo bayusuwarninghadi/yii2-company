@@ -105,6 +105,7 @@ class Pages extends ActiveRecord
 		return $tags;
 	}
 
+
 	/**
 	 * beforeDelete
 	 * @return bool
@@ -112,41 +113,7 @@ class Pages extends ActiveRecord
 	public function beforeDelete()
 	{
 		if (parent::beforeDelete()) {
-			/*
-			 * remove image asset before deleting
-			 */
-			switch ($this->type_id) {
-				case (int)static::TYPE_PRODUCT:
-					$folder = 'article';
-					break;
-				case (int)static::TYPE_NEWS:
-					$folder = 'news';
-					break;
-				case (int)static::TYPE_PAGES:
-					$folder = 'slider';
-					break;
-				case (int)static::TYPE_SLIDER:
-					$folder = 'slider';
-					break;
-				case (int)static::TYPE_MAIL:
-					$folder = 'mail';
-					break;
-				case (int)static::TYPE_PARTNER:
-					$folder = 'partner';
-					break;
-				case (int)static::TYPE_PILL:
-					$folder = 'pill';
-					break;
-				case (int)static::TYPE_BRAND:
-					$folder = 'brand';
-					break;
-				default:
-					$folder = false;
-					break;
-			}
-			if ($folder) {
-				RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/' . $folder . '/' . $this->id . '/');
-			}
+			RemoveAssetHelper::removeDirectory(Yii::$app->getBasePath() . '/../frontend/web/images/page/' . $this->id . '/');
 			return true;
 		} else {
 			return false;

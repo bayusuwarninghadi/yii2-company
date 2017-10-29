@@ -12,13 +12,13 @@ use frontend\widgets\carousel\Owl;
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = [
-	'label' => 'Products',
-	'url' => ['/product'],
+	'label' => 'News',
+	'url' => ['/news'],
 ];
 foreach ($model->category as $category) {
 	$this->params['breadcrumbs'][] = [
 		'label' => $category,
-		'url' => ['/product', 'PagesSearch[category]' => $category],
+		'url' => ['/news', 'PagesSearch[category]' => $category],
 	];
 }
 ?>

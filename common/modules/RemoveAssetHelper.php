@@ -38,7 +38,9 @@ class RemoveAssetHelper extends BaseArrayHelper
                 rmdir($f);
             } else {
             	try{
-		            unlink($f);
+            		if (file_exists($f)){
+		                unlink($f);
+		            }
 	            } catch (Exception $e){
 
 	            }

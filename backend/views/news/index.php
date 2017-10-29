@@ -6,16 +6,15 @@ use yii\widgets\Pjax;
 use common\modules\UploadHelper;
 
 /* @var $this yii\web\View */
-/* @var string $type */
 /* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = $type;
+$this->title = 'News';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="article-index">
 
-    <?=Html::a('<i class="fa fa-plus fa-fw"></i> '.$type, ['create'], ['class' => 'btn btn-default pull-right'])?>
+    <?=Html::a('<i class="fa fa-plus fa-fw"></i> News', ['create'], ['class' => 'btn btn-default pull-right'])?>
     <h1><?= Html::encode($this->title) ?></h1>
     <?php
     Pjax::begin();  
@@ -27,12 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
 	        [
 		        'label' => 'Image',
 		        'value' => function ($model) {
-                    /** @var $model \common\models\Pages */
-			        return ($model->pageImage ? Html::tag('div', UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImage->id, 'small')) : "");
+			        /** @var $model \common\models\Pages */
+			        if (!$model->pageImages) return '';
+			        return UploadHelper::getHtml('page/' . $model->id . '/' . $model->pageImages[0]->id, 'small');
 		        },
 		        'format' => 'html'
 	        ],
-
 	        [
                 'attribute' => 'order',
                 'options' => [

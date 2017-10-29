@@ -2,17 +2,17 @@
 
 namespace backend\controllers;
 
-use common\models\PageAttribute;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use common\modules\UploadHelper;
-use yii\web\UploadedFile;
+use Yii;
 
 /**
  * NewsController implements the CRUD actions for Pages model.
@@ -50,10 +50,9 @@ class NewsController extends Controller
         $searchModel->type_id = Pages::TYPE_NEWS;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/pages/index', [
+        return $this->render('/news/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'News'
         ]);
     }
 
@@ -64,10 +63,19 @@ class NewsController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/pages/view', [
-            'model' => $this->findModel($id),
-            'type' => 'News'
-        ]);
+	    $model = $this->findModel($id);
+
+	    $images = [];
+	    foreach ($model->pageImages as $image) {
+		    $_arr = Json::decode($image->value);
+		    $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
+	    }
+
+	    return $this->render('/NEWS/view', [
+		    'model' => $model,
+		    'images' => $images,
+	    ]);
+
     }
 
     /**
@@ -92,16 +100,6 @@ class NewsController extends Controller
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()){
 
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
-
 	            /**
                  * Save Pages Lang
                  */
@@ -119,7 +117,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/pages/create', [
+        return $this->render('/news/create', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,
@@ -147,16 +145,6 @@ class NewsController extends Controller
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
 
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
-
 	            /**
                  * Save Pages Lang
                  */
@@ -174,7 +162,7 @@ class NewsController extends Controller
                 return $this->redirect(['/news/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/pages/update', [
+        return $this->render('/news/update', [
             'model' => $model,
             'type' => 'News',
             'modelEnglish' => $modelEnglish,

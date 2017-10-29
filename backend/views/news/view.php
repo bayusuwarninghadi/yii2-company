@@ -13,7 +13,7 @@ use yii\bootstrap\Carousel;
 /* @var $model common\models\Pages */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Partner', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'News', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="article-view">
