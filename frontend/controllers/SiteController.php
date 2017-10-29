@@ -139,8 +139,8 @@ class SiteController extends BaseController
 			$content .= Html::beginTag('div', ['class' => 'bottom']);
 			$content .= Html::tag('div', '<i class="fa fa-quote-left"></i>', ['class' => 'icon']);
 			$content .= Html::tag('div',
-				UploadHelper::getHtml($partner->getImagePath(), 'small', ['class' => 'img-responsive']) .
-				Html::tag('h5', $partner->title) .
+				Html::a(UploadHelper::getHtml($partner->getImagePath(), 'small', ['class' => 'img-responsive']), ['/partner/view', 'id' => $partner->id]) .
+				Html::a(Html::tag('h5', $partner->title), ['/partner/view', 'id' => $partner->id]) .
 				Html::tag('p', $partner->subtitle),
 				['class' => 'name-picture']
 			);

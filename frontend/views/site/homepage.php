@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
  * @var $newsFeeds \common\models\Pages[]
  * @var $contactPopup \common\models\Pages
  * @var $productItems array
- * @var $productItems array
+ * @var $partnerItems array
  * @var $brandItems array
  * @var $contactForm \frontend\models\ContactForm;
  */

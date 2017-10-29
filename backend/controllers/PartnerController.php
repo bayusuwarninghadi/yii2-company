@@ -8,11 +8,14 @@ use common\models\PagesLang;
 use common\models\PagesSearch;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Html;
 use yii\helpers\Inflector;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\web\UploadedFile;
 use common\modules\UploadHelper;
+use Yii;
 
 /**
  * ProductController implements the CRUD actions for Pages model.
@@ -53,10 +56,9 @@ class PartnerController extends Controller
         $searchModel->type_id = Pages::TYPE_PARTNER;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
-        return $this->render('/pages/index', [
+        return $this->render('/partner/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'type' => 'Partner'
         ]);
     }
 
@@ -67,9 +69,17 @@ class PartnerController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('/pages/view', [
-            'model' => $this->findModel($id),
-            'type' => 'Partner'
+	    $model = $this->findModel($id);
+
+	    $images = [];
+	    foreach ($model->pageImages as $image) {
+		    $_arr = Json::decode($image->value);
+		    $images[] = Html::img(Yii::$app->components['frontendSiteUrl'] . $_arr['medium']);
+	    }
+
+	    return $this->render('/partner/view', [
+            'model' => $model,
+            'images' => $images,
         ]);
     }
 
@@ -98,16 +108,6 @@ class PartnerController extends Controller
             $model->camel_case = Inflector::camelize($bodyData['modelEnglish']['title']);
             if ($model->save()) {
 
-	            if (isset($bodyData['Pages']['pageTags'])){
-		            if (($tags = $model->pageTags) == null){
-			            $tags = new PageAttribute();
-			            $tags->page_id = $model->id;
-			            $tags->key = 'tags';
-		            }
-		            $tags->value = $bodyData['Pages']['pageTags']['value'];
-		            $tags->save();
-	            }
-
 	            /**
                  * Save Pages Lang
                  */
@@ -126,9 +126,8 @@ class PartnerController extends Controller
             }
         }
 
-        return $this->render('/pages/create', [
+        return $this->render('/partner/create', [
             'model' => $model,
-            'type' => 'Partner',
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);
@@ -154,15 +153,6 @@ class PartnerController extends Controller
             $model->type_id = Pages::TYPE_PARTNER;
             if ($model->save()) {
 
-                if (isset($bodyData['Pages']['pageTags'])){
-                	if (($tags = $model->pageTags) == null){
-		                $tags = new PageAttribute();
-		                $tags->page_id = $model->id;
-		                $tags->key = 'tags';
-	                }
-	                $tags->value = $bodyData['Pages']['pageTags']['value'];
-	                $tags->save();
-                }
                 /**
                  * Save Pages Lang
                  */
@@ -180,9 +170,8 @@ class PartnerController extends Controller
                 return $this->redirect(['/partner/view', 'id' => $model->id]);
             }
         }
-        return $this->render('/pages/update', [
+        return $this->render('/partner/update', [
             'model' => $model,
-            'type' => 'Partner',
             'modelEnglish' => $modelEnglish,
             'modelIndonesia' => $modelIndonesia,
         ]);

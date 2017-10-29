@@ -34,7 +34,7 @@ class ProductController extends BaseController
         $searchModel = new PagesSearch();
         $searchModel->type_id = Pages::TYPE_PRODUCT;
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-	    $tags = Pages::getTags(Pages::TYPE_PRODUCT);
+	    $tags = Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_TAGS, Pages::TYPE_PRODUCT);
 	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'ProductHeader']);
 
 	    return $this->render('/product/index', [

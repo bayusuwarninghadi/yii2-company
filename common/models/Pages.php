@@ -86,7 +86,7 @@ class Pages extends ActiveRecord
 		return $this->hasMany(PagesLang::className(), ['page_id' => 'id']);
 	}
 
-	public static function getAvailableTags($tags = self::PAGE_ATTRIBUTE_TAGS)
+	public static function getAvailableTags($tags = self::PAGE_ATTRIBUTE_TAGS, $type = self::TYPE_PRODUCT)
 	{
 		$model = PageAttribute::find()
 			->joinWith(['page'])
@@ -94,35 +94,12 @@ class Pages extends ActiveRecord
 			->where([
 				PageAttribute::tableName() . '.key' => $tags,
 			])
+			->andFilterWhere([Pages::tableName() . '.type_id' => $type])
 			->column();
 		$tags = [];
 		foreach ($model as $tag) {
 			foreach (Json::decode($tag) as $_tag) {
 				if (!in_array($_tag, $tags)) $tags[$_tag] = $_tag;
-			}
-		}
-		return $tags;
-	}
-
-	/**
-	 * @param $type
-	 * @return array
-	 */
-	public static function getTags($type)
-	{
-		$model = PageAttribute::find()
-			->joinWith(['page'])
-			->select(PageAttribute::tableName() . '.value')
-			->where([
-				PageAttribute::tableName() . '.key' => self::PAGE_ATTRIBUTE_TAGS,
-				Pages::tableName() . '.type_id' => $type
-			])
-			->column();
-		$tags = [];
-		foreach ($model as $tag) {
-			foreach (Json::decode($tag) as $_tag) {
-				$_tag = trim(strtolower($_tag));
-				if (!in_array($_tag, $tags)) $tags[] = $_tag;
 			}
 		}
 		return $tags;
