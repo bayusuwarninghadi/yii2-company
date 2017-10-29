@@ -12,7 +12,7 @@ use yii\widgets\Breadcrumbs;
 /* @var $searchModel common\models\PagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Partner';
+$this->title = 'News';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div id="heading-breadcrumbs">
@@ -40,10 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	echo ListView::widget([
 		'dataProvider' => $dataProvider,
 		'itemView' => '_list',
-		'layout' => "<div class='row products'>{items}</div>{pager}",
-		'itemOptions' => [
-			'class' => 'col-md-3 col-sm-4'
-		]
+		'layout' => "<div id='blog-listing-medium'>{items}</div>{pager}",
 	]);
 	Pjax::end();
 	?>

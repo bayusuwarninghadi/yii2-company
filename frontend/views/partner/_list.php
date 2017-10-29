@@ -3,6 +3,7 @@
 use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
+use yii\helpers\Json;
 
 /**
  * Created by PhpStorm.
@@ -29,4 +30,14 @@ use yii\helpers\HtmlPurifier;
 			<?= HtmlPurifier::process(substr($model->description, 0, 200)) ?>
         </div>
     </div>
+    <div class="ribbon">
+	    <?php foreach (Json::decode($model->pageTags->value) as $index => $tag) :?>
+            <div class="new">
+                <div class="theribbon" style="font-weight: 100"><?=$tag?></div>
+            </div>
+            <?php if ($index == 0) break;?>
+	    <?php endforeach; ?>
+
+    </div>
+
 </div>

@@ -36,7 +36,7 @@ class NewsController extends BaseController
 	    $tags = Pages::getAvailableTags(Pages::PAGE_ATTRIBUTE_TAGS, Pages::TYPE_NEWS);
 	    $header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'NewsHeader']);
 
-	    return $this->render('/product/index', [
+	    return $this->render('/news/index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
 		    'header' => $header,
@@ -53,7 +53,7 @@ class NewsController extends BaseController
      */
     public function actionView($id)
     {
-        return $this->render('/product/view', [
+        return $this->render('/news/view', [
             'model' => $this->findModel($id),
             'type' => 'News'
         ]);
