@@ -30,7 +30,8 @@ use common\models\Pages;
 		]);
 		$menuCategory = [
 			'label' => Yii::t('app', 'Product'),
-			'leftContent' => Html::img('/universal/img/template-easy-customize.png', ['class' => 'img-responsive hidden-xs']),
+			'leftContent' =>
+				Html::img(str_replace('small', 'medium', Yii::$app->controller->settings['product_category']), ['class' => 'img-responsive hidden-xs'])
 		];
 
 		$categories = [];

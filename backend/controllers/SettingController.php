@@ -114,6 +114,10 @@ class SettingController extends Controller
                                     'width' => 1200,
                                     'format' => 'png'
                                 ],
+                                'medium' => [
+                                    'width' => 600,
+                                    'format' => 'png'
+                                ],
                                 'small' => [
                                     'width' => 200,
                                     'format' => 'png'

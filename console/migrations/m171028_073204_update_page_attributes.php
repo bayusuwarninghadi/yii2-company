@@ -24,7 +24,11 @@ class m171028_073204_update_page_attributes extends Migration
 	    $this->insert('setting',[
 		    'key' => 'background_3',
 		    'type' => \common\models\Setting::TYPE_IMAGE_INPUT,
-		    ''
+	    ]);
+
+	    $this->insert('setting',[
+		    'key' => 'product_category',
+		    'type' => \common\models\Setting::TYPE_IMAGE_INPUT,
 	    ]);
 
     }

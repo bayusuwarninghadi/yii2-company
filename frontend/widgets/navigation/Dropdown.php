@@ -79,8 +79,8 @@ class Dropdown extends BaseDropdown
 		$innerContent = implode("\n", $lines);
 
 		if ($this->leftContent != null){
-			$left_content = Html::tag('div', $this->leftContent, ['class' => 'col-sm-6']);
-			$right_content = Html::tag('div', Html::tag('ul', $innerContent), ['class' => 'col-sm-6']);
+			$left_content = Html::tag('div', $this->leftContent, ['class' => 'col-sm-5']);
+			$right_content = Html::tag('div', Html::tag('ul', $innerContent), ['class' => 'col-sm-7']);
 
 			$content = Html::tag('row', $left_content . $right_content, ['class' => 'row']);
 

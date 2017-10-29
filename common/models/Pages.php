@@ -344,9 +344,8 @@ class Pages extends ActiveRecord
 
 	public static function getSizes()
 	{
+
 		return [
-			'33' => '33',
-			'34' => '34',
 			'35' => '35',
 			'36' => '36',
 			'37' => '37',
@@ -354,9 +353,6 @@ class Pages extends ActiveRecord
 			'39' => '39',
 			'40' => '40',
 			'41' => '41',
-			'42' => '42',
-			'43' => '43',
-			'44' => '44',
 		];
 	}
 
