@@ -13,8 +13,6 @@ use yii\helpers\Inflector;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\UploadedFile;
-use common\modules\UploadHelper;
 use Yii;
 
 /**
@@ -62,7 +60,15 @@ class PartnerController extends Controller
         ]);
     }
 
-    /**
+	public function actionDeleteAttribute($id)
+	{
+		/** @var PageAttribute $model */
+		if (($model = PageAttribute::findOne($id)) !== null) {
+			$model->delete();
+		}
+	}
+
+	/**
      * Displays a single Pages model.
      * @param integer $id
      * @return mixed

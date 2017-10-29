@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\PageAttribute;
 use common\models\Pages;
 use common\models\PagesLang;
 use common\models\PagesSearch;
@@ -56,7 +57,16 @@ class NewsController extends Controller
         ]);
     }
 
-    /**
+	public function actionDeleteAttribute($id)
+	{
+		/** @var PageAttribute $model */
+		if (($model = PageAttribute::findOne($id)) !== null) {
+			$model->delete();
+		}
+	}
+
+
+	/**
      * Displays a single Pages model.
      * @param integer $id
      * @return mixed
