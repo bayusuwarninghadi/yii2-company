@@ -12,7 +12,6 @@ use yii\data\ActiveDataProvider;
 class PagesSearch extends Pages
 {
 	public $key;
-	public $tags;
 
 	public $has_discount;
 
@@ -111,7 +110,6 @@ class PagesSearch extends Pages
 		])
 			->andFilterWhere(['like', 'pages_lang.title', $this->title])
 			->andFilterWhere(['like', 'pages_lang.subtitle', $this->subtitle])
-			->andFilterWhere(['like', 'p_tags.value', $this->tags])
 			->andFilterWhere(['like', 'pages_lang.description', $this->description]);
 
 		if ($this->has_discount){
@@ -141,6 +139,14 @@ class PagesSearch extends Pages
 			if ($category != "") $category_query[] = sprintf("(p_category.value like '%%\"%s\"%%')", $category);
 		}
 		if (!empty($category_query)) $query = $query->andWhere(sprintf('(%s)', implode(' OR ', $category_query)));
+
+		// Category
+		$this->tags = is_array($this->tags) ? $this->tags : [$this->tags];
+		$tags_query = [];
+		foreach ($this->tags as $tags){
+			if ($tags != "") $tags_query[] = sprintf("(p_tags.value like '%%\"%s\"%%')", $tags);
+		}
+		if (!empty($tags_query)) $query = $query->andWhere(sprintf('(%s)', implode(' OR ', $tags_query)));
 
 		if ($this->key) {
 			$query->andWhere("pages_lang.title like '%" . $this->key . "%' OR pages_lang.description like '%" . $this->key . "%'");

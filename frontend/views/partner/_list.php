@@ -4,6 +4,7 @@ use common\modules\UploadHelper;
 use yii\helpers\Html;
 use yii\helpers\HtmlPurifier;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 /**
  * Created by PhpStorm.
@@ -32,9 +33,10 @@ use yii\helpers\Json;
     </div>
     <div class="ribbon">
 	    <?php foreach (Json::decode($model->pageTags->value) as $index => $tag) :?>
-            <div class="new">
+
+            <a href="<?=Url::to(['/partner', 'PagesSearch[tags]' => $tag])?>" class="new">
                 <div class="theribbon" style="font-weight: 100"><?=$tag?></div>
-            </div>
+            </a>
             <?php if ($index == 0) break;?>
 	    <?php endforeach; ?>
 

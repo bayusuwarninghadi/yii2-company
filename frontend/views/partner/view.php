@@ -15,12 +15,6 @@ $this->params['breadcrumbs'][] = [
 	'label' => 'Products',
 	'url' => ['/product'],
 ];
-foreach ($model->category as $category) {
-	$this->params['breadcrumbs'][] = [
-		'label' => $category,
-		'url' => ['/product', 'PagesSearch[category]' => $category],
-	];
-}
 ?>
 <div id="heading-breadcrumbs">
     <div class="container">

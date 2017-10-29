@@ -14,6 +14,14 @@ use yii\widgets\Breadcrumbs;
 
 $this->title = 'Partner';
 $this->params['breadcrumbs'][] = $this->title;
+if ($searchModel->tags) {
+	foreach ($searchModel->tags as $tag){
+		$this->params['breadcrumbs'][] = [
+			'label' => $tag,
+			'url' => ['/partner', 'PagesSearch[tags]' => $tag],
+		];
+	}
+}
 ?>
 <div id="heading-breadcrumbs">
     <div class="container">

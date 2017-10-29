@@ -30,7 +30,7 @@ use yii\helpers\Json;
                 <p class="author-category">
                     Tags
 					<?php foreach (Json::decode($model->pageTags->value) as $index => $tag) : ?>
-                        <span class="text-primary"><?= $tag ?></span>
+						<?= Html::a($tag, ['news', 'PagesSearch[tags]' => $tag], ['class' => 'text-primary']) ?>
 					<?php endforeach; ?>
                 </p>
                 <p class="date-comments">
@@ -39,7 +39,7 @@ use yii\helpers\Json;
             </div>
             <p class="intro"><?= HtmlPurifier::process(substr($model->description, 0, 500)) ?></p>
             <p class="read-more">
-	            <?= Html::a( 'Continue reading', ['view', 'id' => $model->id], ['class' => 'btn btn-template-main'] ) ?>
+				<?= Html::a('Continue reading', ['view', 'id' => $model->id], ['class' => 'btn btn-template-main']) ?>
             </p>
         </div>
     </div>

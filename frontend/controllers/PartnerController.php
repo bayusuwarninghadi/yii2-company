@@ -33,6 +33,7 @@ class PartnerController extends BaseController
 		$searchModel = new PagesSearch();
 		$searchModel->type_id = Pages::TYPE_PARTNER;
 		$dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
+		$dataProvider->setSort(['defaultOrder' => ['order'=>SORT_DESC]]);
 
 		$header = Pages::findOne(['type_id' => Pages::TYPE_PAGES, 'camel_case' => 'PartnerHeader']);
 
