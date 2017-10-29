@@ -81,13 +81,12 @@ class PillController extends Controller
                  */
                 $modelEnglish->page_id = $model->id;
                 if ($modelEnglish->load($bodyData, 'modelEnglish') && $modelEnglish->validate()) {
-                	$modelEnglish->subtitle = $model->subtitle;
                     $modelEnglish->save();
                 }
 
                 $modelIndonesia->page_id = $model->id;
                 if ($modelIndonesia->load($bodyData, 'modelIndonesia') && $modelIndonesia->validate()) {
-	                $modelIndonesia->subtitle = $model->subtitle;
+	                $modelIndonesia->subtitle = $modelEnglish->subtitle;
                     $modelIndonesia->save();
                 }
 

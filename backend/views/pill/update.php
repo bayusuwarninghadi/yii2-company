@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $model->title;
                             <i id="drop-icon" class="fa fa-lg <?= $model->subtitle ?>"
                                data-current="<?= $model->subtitle ?>"></i>
                         </div>
-						<?= Html::activeTextInput($model, 'subtitle', ['value' => $model->subtitle, 'class' => 'form-control', 'readonly' => 'readonly']) ?>
+						<?= Html::activeTextInput($modelEnglish, 'subtitle', ['class' => 'form-control', 'readonly' => 'readonly', 'name' => 'modelEnglish[subtitle]']) ?>
                         <div class="input-group-btn">
                             <a href="#" class="btn btn-default" data-toggle="modal"
                                data-target="#selectorModal">Change</a>
@@ -97,7 +97,7 @@ $this->params['breadcrumbs'][] = $model->title;
 							<?php foreach (FontAwesomeAsset::listFont() as $icon) : ?>
                                 <div class="col-xs-3 col-sm-2 icon" data-toggle="tooltip" data-title="<?= $icon ?>">
                                     <button class="selector btn btn-default btn-block"
-                                            data-target-input="#pages-subtitle"
+                                            data-target-input="#pageslang-subtitle"
                                             data-target-icon="#drop-icon"
                                     >
                                         <i class="fa fa-3x <?= $icon ?>"></i>
